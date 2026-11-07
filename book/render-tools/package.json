@@ -1,0 +1,10 @@
+{
+  "name": "substrate-book-render-tools",
+  "private": true,
+  "description": "Local-only diagram and PDF rendering dependencies for the manuscript",
+  "dependencies": {
+    "@mermaid-js/mermaid-cli": "11.12.0",
+    "mermaid": "11.17.2",
+    "puppeteer": "23.11.1"
+  }
+}

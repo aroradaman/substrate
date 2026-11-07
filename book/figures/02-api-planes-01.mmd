@@ -1,0 +1,27 @@
+classDiagram
+    class Installation
+    class Atespace
+    class ActorTemplate
+    class Actor
+    class EgressPolicy
+    class Tag
+    class Worker
+    class ActorAssignment
+    class AccessPolicy
+    class WorkerPool
+    class SandboxConfig
+    class WorkerPod
+    Installation "1" o-- "*" Atespace
+    Installation "1" o-- "*" Worker
+    Installation "1" o-- "0..1" AccessPolicy : global
+    Atespace "1" o-- "0..1" AccessPolicy : scoped
+    Atespace "1" o-- "*" ActorTemplate
+    Atespace "1" o-- "*" Actor
+    Atespace "1" o-- "*" Tag
+    Actor "1" *-- "0..1" EgressPolicy
+    Actor "*" --> "1" ActorTemplate
+    Worker "1" *-- "*" ActorAssignment
+    ActorAssignment --> Actor
+    Worker --> WorkerPod
+    WorkerPool --> WorkerPod : reconciles capacity
+    WorkerPool --> SandboxConfig : selects runtime assets

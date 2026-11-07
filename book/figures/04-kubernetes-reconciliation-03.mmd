@@ -1,0 +1,19 @@
+sequenceDiagram
+    participant R as WorkerPool reconciler
+    participant K as Kubernetes API
+    participant P as Protection reconciler
+    R->>K: Add protection finalizer with resourceVersion
+    R->>K: Write pendingConfigRef
+    R->>K: Live read of candidate config
+    alt Candidate exists and is not deleting
+        R->>K: Promote pending reference to configRef
+    else Candidate is gone or deleting
+        R->>K: Keep prior configRef and report condition
+    end
+    P->>K: Observe deleting SandboxConfig
+    P->>K: Live list of pool references if cache has no user
+    alt Any active or pending reference exists
+        P-->>K: Keep finalizer
+    else No references exist
+        P->>K: Remove finalizer with resourceVersion
+    end

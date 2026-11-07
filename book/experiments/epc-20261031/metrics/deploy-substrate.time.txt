@@ -1,0 +1,23 @@
+	Command being timed: "ate-setup deploy ate-system --kind --kind-cluster-name=substrate-lifecycle --ko-docker-repo=localhost:5002 --sandbox-classes=gvisor --credential-provider={"name":"k8s.io"} --ingress-allowed-spiffe-ids=spiffe://cluster.local/ns/ate-system/sa/atenet-client"
+	User time (seconds): 727.17
+	System time (seconds): 133.02
+	Percent of CPU this job got: 341%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 4:11.54
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 1699200
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 1580
+	Minor (reclaiming a frame) page faults: 35674251
+	Voluntary context switches: 1109244
+	Involuntary context switches: 1460235
+	Swaps: 0
+	File system inputs: 242240
+	File system outputs: 13328824
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

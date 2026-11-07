@@ -1,0 +1,95 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "kind": "ServiceAccount",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:49:20Z",
+        "name": "default",
+        "namespace": "podcertificate-controller-system",
+        "resourceVersion": "917",
+        "uid": "128f2166-eb4b-4a0b-b938-59cd2f10fd6a"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ServiceAccount",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:49:47Z",
+        "name": "podcertificate-controller",
+        "namespace": "podcertificate-controller-system",
+        "resourceVersion": "963",
+        "uid": "e9fc3e02-9158-4696-9a83-4eebbcbc8736"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "binaryData": {},
+      "data": {
+        "ca.crt": "<redacted>"
+      },
+      "kind": "ConfigMap",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:49:20Z",
+        "name": "kube-root-ca.crt",
+        "namespace": "podcertificate-controller-system",
+        "resourceVersion": "918",
+        "uid": "57157e82-dc5e-446e-8303-0870644453bc"
+      }
+    },
+    {
+      "apiVersion": "rbac.authorization.k8s.io/v1",
+      "kind": "Role",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:49:47Z",
+        "name": "coordinator",
+        "namespace": "podcertificate-controller-system",
+        "resourceVersion": "966",
+        "uid": "8fad4559-7a82-46eb-8d9c-44fddd97c988"
+      },
+      "rules": [
+        {
+          "apiGroups": [
+            "coordination.k8s.io"
+          ],
+          "resources": [
+            "leases"
+          ],
+          "verbs": [
+            "create",
+            "get",
+            "list",
+            "watch",
+            "update",
+            "delete"
+          ]
+        }
+      ]
+    },
+    {
+      "apiVersion": "rbac.authorization.k8s.io/v1",
+      "kind": "RoleBinding",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:49:47Z",
+        "name": "podcertificate-controller-is-a-coordinator",
+        "namespace": "podcertificate-controller-system",
+        "resourceVersion": "967",
+        "uid": "67667934-dbae-42c1-be81-8c0b3002331d"
+      },
+      "roleRef": {
+        "apiGroup": "rbac.authorization.k8s.io",
+        "kind": "Role",
+        "name": "coordinator"
+      },
+      "subjects": [
+        {
+          "kind": "ServiceAccount",
+          "name": "podcertificate-controller",
+          "namespace": "podcertificate-controller-system"
+        }
+      ]
+    }
+  ],
+  "kind": "List"
+}

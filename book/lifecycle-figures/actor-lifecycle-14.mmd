@@ -1,0 +1,14 @@
+flowchart TB
+    S[Audited source revision and pinned dependencies] --> B[Native CLI builds]
+    S --> K[ko Go image builds]
+    S --> E[buildx Envoy and Rust module]
+    K --> R[Registry localhost:5002 and immutable digests]
+    E --> R
+    S --> T[Templates and kind Kustomize overlays]
+    T --> I[Resolve image references and installer settings]
+    R --> I
+    I --> A[Dynamic client server-side apply]
+    A --> D[Kubernetes admission and defaulting]
+    D --> W[Controllers generate worker Deployments and Pods]
+    D --> C[Redacted applied-object capture]
+    W --> C

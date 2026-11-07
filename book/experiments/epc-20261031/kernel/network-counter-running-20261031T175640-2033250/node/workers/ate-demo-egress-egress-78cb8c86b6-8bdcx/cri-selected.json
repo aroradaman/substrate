@@ -1,0 +1,19 @@
+{
+  "status": {
+    "id": "1d7c4139be2fb3b53f8973a34332af13ebd93bc97c4007c2815996b4059e74a6",
+    "metadata": {
+      "attempt": 0,
+      "name": "worker"
+    },
+    "state": "CONTAINER_RUNNING",
+    "labels": {
+      "io.kubernetes.container.name": "worker",
+      "io.kubernetes.pod.name": "egress-78cb8c86b6-8bdcx",
+      "io.kubernetes.pod.namespace": "ate-demo-egress",
+      "io.kubernetes.pod.uid": "1aa9dcee-c8e3-41c4-8613-4d835c0c299a"
+    },
+    "imageRef": "localhost:5002/ateworker-gvisor@sha256:9a116289631c3172ae951af57f241cdcc0f5fffd12a9ac76170f496ad83cbe44"
+  },
+  "pid": 8888,
+  "runtimeType": "io.containerd.runc.v2"
+}

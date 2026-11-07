@@ -1,0 +1,15 @@
+flowchart TB
+    K[Deploy Substrate on Kubernetes] --> P[Create WorkerPool and template]
+    P --> G[Build template golden snapshot]
+    G --> A[Create suspended Actor record]
+    A --> R[First request selects worker]
+    R --> E[Restore and serve through gVisor]
+    E --> S[Explicit suspend request]
+    S --> C[Capture files and stop execution]
+    C --> L[Retain checkpoint on node]
+    L --> U[Publish durable objects and manifest]
+    L --> N[Resume using local state]
+    U --> X[Resume after remote download]
+    N --> E
+    X --> E
+    U --> D[Optional detach of local state]

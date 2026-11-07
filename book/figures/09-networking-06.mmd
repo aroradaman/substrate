@@ -1,0 +1,14 @@
+sequenceDiagram
+    participant K as Kubelet
+    participant R as Router process
+    participant E as Envoy
+    participant S as Service endpoints
+    K->>R: SIGTERM
+    R->>R: Mark readiness false
+    R-->>S: Readiness propagation
+    Note over R,S: Drain delay
+    R->>E: Admin drain request
+    Note over R,E: Existing streams complete within budget
+    R->>R: Gracefully stop ext_proc
+    R->>E: Write drain-complete marker
+    E-->>K: Sidecar preStop released

@@ -1,0 +1,14 @@
+flowchart TB
+    Live[Running guest and host shares] --> Pause[Pause VM]
+    Pause --> VM[Cloud Hypervisor snapshot]
+    Pause --> FS[Archive durable directories and rootfs uppers]
+    VM --> Mode{Previous restore mode}
+    Mode -->|Cold or eager Copy| Complete[Self-contained memory image]
+    Mode -->|OnDemand| Delta[Faulted-page sparse image]
+    Base[Retained restore source] --> Merge[Overlay populated delta extents]
+    Delta --> Merge
+    Merge --> Complete
+    Complete --> Files[Complete file set plus base-id]
+    FS --> Files
+    Files --> End[Teardown VM, virtiofsd, mounts, network]
+    End --> Node[atelet locality and persistence]

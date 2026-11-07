@@ -1,0 +1,13 @@
+flowchart TB
+    A[Resume suspended actor] --> S{Recorded node locality?}
+    S -->|Yes| N[Constrain placement to its node]
+    N --> C{Compatible worker has room?}
+    C -->|Yes| V[Atelet validates local capture]
+    V --> L{Local capture usable?}
+    L -->|Yes| R[Restore through worker]
+    L -->|No| F[Fetch committed manifest and files]
+    C -->|No| D[Ensure durability and detach if workflow permits]
+    S -->|No| O[Select compatible destination]
+    D --> O
+    O --> V
+    F --> R

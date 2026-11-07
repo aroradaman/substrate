@@ -1,0 +1,15 @@
+sequenceDiagram
+    participant N as atelet
+    participant W as Worker
+    participant R as runsc and Sentry
+    participant A as Application
+    N->>W: RestoreWorkload with prepared files
+    W->>W: Rebuild network and activate egress
+    W->>R: Create sandbox with filesystem bundles
+    W->>R: Restore MEMORY or start lower fidelity
+    W->>R: Create applications and restore or start
+    R->>A: Execution becomes available
+    W->>A: Check wakeup probe
+    W->>W: Activate ingress
+    W-->>N: Return worker epoch
+    Note over W,R: Background loading and file cleanup may continue

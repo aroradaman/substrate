@@ -1,0 +1,1 @@
+inode=4026537855 device=4 type=regular empty file

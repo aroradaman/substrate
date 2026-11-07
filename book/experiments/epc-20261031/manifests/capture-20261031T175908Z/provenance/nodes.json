@@ -1,0 +1,27 @@
+[
+  {
+    "allocatable": {
+      "cpu": "16",
+      "ephemeral-storage": "268315004928",
+      "hugepages-1Gi": "0",
+      "hugepages-2Mi": "0",
+      "memory": "65843740Ki",
+      "pods": "110"
+    },
+    "architecture": "amd64",
+    "capacity": {
+      "cpu": "16",
+      "ephemeral-storage": "268315004928",
+      "hugepages-1Gi": "0",
+      "hugepages-2Mi": "0",
+      "memory": "65843740Ki",
+      "pods": "110"
+    },
+    "containerRuntimeVersion": "containerd://2.3.4",
+    "kernelVersion": "6.8.0-138-generic",
+    "kubeletVersion": "v1.37.0",
+    "name": "substrate-lifecycle-control-plane",
+    "osImage": "Debian GNU/Linux 13 (trixie)",
+    "uid": "27dde45f-b960-4158-a449-bc7e58792943"
+  }
+]

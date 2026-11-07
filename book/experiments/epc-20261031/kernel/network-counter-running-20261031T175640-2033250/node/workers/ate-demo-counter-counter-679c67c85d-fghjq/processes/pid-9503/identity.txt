@@ -1,0 +1,26 @@
+pid=9503
+exe
+/var/lib/ate/actors/92c54efa-a098-47c4-93f1-f17bd3730c1a/sandbox-assets/gvisor/runsc
+net net:[4026537519]
+mnt mnt:[4026537515]
+pid pid:[4026537518]
+user user:[4026537514]
+cgroup cgroup:[4026537236]
+ipc ipc:[4026537517]
+uts uts:[4026537516]
+Name:	exe
+State:	S (sleeping)
+Pid:	9503
+PPid:	8020
+Uid:	0	0	0	0
+Gid:	0	0	0	0
+NStgid:	9503	68	1
+NSpid:	9503	68	1
+Threads:	6
+CapInh:	000000000004001f
+CapPrm:	000000000004001f
+CapEff:	000000000004001f
+CapBnd:	000000000004001f
+NoNewPrivs:	1
+Seccomp:	2
+0::/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-burstable.slice/kubelet-kubepods-burstable-pod21575f0d_c359_4d45_8079_11f74894bac5.slice/cri-containerd-b65a1c04a6644d7e84eeb04b84d7e87027bb98a720066cb0043333f82f23e82d.scope/92c54efa-a098-47c4-93f1-f17bd3730c1a-_sandbox

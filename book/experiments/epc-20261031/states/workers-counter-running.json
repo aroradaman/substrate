@@ -1,0 +1,289 @@
+{
+  "workers": [
+    {
+      "labels": {
+        "workload": "counter"
+      },
+      "metadata": {
+        "createTime": "2026-10-31T17:53:22.661374284Z",
+        "name": "2a3f0bf1-e705-47b9-a943-0142a581fc76",
+        "uid": "2f986c79-bb6d-47a0-b63a-1c7e51a40c96",
+        "updateTime": "2026-10-31T17:53:24.353622480Z",
+        "version": "6"
+      },
+      "nodeName": "substrate-lifecycle-control-plane",
+      "status": {
+        "capacity": {
+          "actors": 1000,
+          "cpuMillicores": "1000",
+          "memoryBytes": "1006632960"
+        },
+        "ips": [
+          "10.244.0.23"
+        ],
+        "issuedEpoch": "1",
+        "observedEpoch": "1",
+        "registeredEpoch": "1",
+        "sandboxClasses": [
+          {
+            "defaultRuntime": {
+              "version": {
+                "attributes": [
+                  {
+                    "key": "architecture",
+                    "value": "amd64"
+                  },
+                  {
+                    "key": "cpu_features",
+                    "value": "bc0004102c100800000001210000000f00401f5ef19f27eb0f8bfbfffffa3203"
+                  },
+                  {
+                    "key": "sandbox_bundle_hash",
+                    "value": "sha256:807de8c088dd96082750dafdd3f8fed2aae65132a4156742969be1703368e20c"
+                  }
+                ],
+                "schemaVersion": "v1"
+              }
+            },
+            "sandboxClass": "gvisor"
+          }
+        ],
+        "state": "WORKER_STATE_ACTIVE"
+      },
+      "workerNamespace": "ate-demo-counter",
+      "workerPod": "counter-679c67c85d-db5m4",
+      "workerPodUid": "2a3f0bf1-e705-47b9-a943-0142a581fc76",
+      "workerPool": "counter",
+      "workerSpiffeId": "spiffe://cluster.local/ns/ate-demo-counter/sa/ateworker"
+    },
+    {
+      "labels": {
+        "workload": "counter"
+      },
+      "metadata": {
+        "createTime": "2026-10-31T17:53:22.664502662Z",
+        "name": "21575f0d-c359-4d45-8079-11f74894bac5",
+        "uid": "aeb45502-4314-48be-af9d-9d9dea3c024f",
+        "updateTime": "2026-10-31T17:54:30.261305906Z",
+        "version": "7"
+      },
+      "nodeName": "substrate-lifecycle-control-plane",
+      "status": {
+        "allocated": {
+          "actors": 1,
+          "cpuMillicores": "1000",
+          "memoryBytes": "536870912"
+        },
+        "capacity": {
+          "actors": 1000,
+          "cpuMillicores": "1000",
+          "memoryBytes": "1006632960"
+        },
+        "ips": [
+          "10.244.0.25"
+        ],
+        "issuedEpoch": "1",
+        "observedEpoch": "1",
+        "registeredEpoch": "1",
+        "sandboxClasses": [
+          {
+            "defaultRuntime": {
+              "version": {
+                "attributes": [
+                  {
+                    "key": "architecture",
+                    "value": "amd64"
+                  },
+                  {
+                    "key": "cpu_features",
+                    "value": "bc0004102c100800000001210000000f00401f5ef19f27eb0f8bfbfffffa3203"
+                  },
+                  {
+                    "key": "sandbox_bundle_hash",
+                    "value": "sha256:807de8c088dd96082750dafdd3f8fed2aae65132a4156742969be1703368e20c"
+                  }
+                ],
+                "schemaVersion": "v1"
+              }
+            },
+            "sandboxClass": "gvisor"
+          }
+        ],
+        "state": "WORKER_STATE_ACTIVE"
+      },
+      "workerNamespace": "ate-demo-counter",
+      "workerPod": "counter-679c67c85d-fghjq",
+      "workerPodUid": "21575f0d-c359-4d45-8079-11f74894bac5",
+      "workerPool": "counter",
+      "workerSpiffeId": "spiffe://cluster.local/ns/ate-demo-counter/sa/ateworker"
+    },
+    {
+      "labels": {
+        "workload": "counter"
+      },
+      "metadata": {
+        "createTime": "2026-10-31T17:53:22.669237315Z",
+        "name": "f8a965ec-cc06-4bd0-b79c-fd16947807cd",
+        "uid": "7decd454-c089-4f2a-ab8a-97b601780f7e",
+        "updateTime": "2026-10-31T17:53:51.843370762Z",
+        "version": "8"
+      },
+      "nodeName": "substrate-lifecycle-control-plane",
+      "status": {
+        "capacity": {
+          "actors": 1000,
+          "cpuMillicores": "1000",
+          "memoryBytes": "1006632960"
+        },
+        "ips": [
+          "10.244.0.24"
+        ],
+        "issuedEpoch": "1",
+        "observedEpoch": "1",
+        "registeredEpoch": "1",
+        "sandboxClasses": [
+          {
+            "defaultRuntime": {
+              "version": {
+                "attributes": [
+                  {
+                    "key": "architecture",
+                    "value": "amd64"
+                  },
+                  {
+                    "key": "cpu_features",
+                    "value": "bc0004102c100800000001210000000f00401f5ef19f27eb0f8bfbfffffa3203"
+                  },
+                  {
+                    "key": "sandbox_bundle_hash",
+                    "value": "sha256:807de8c088dd96082750dafdd3f8fed2aae65132a4156742969be1703368e20c"
+                  }
+                ],
+                "schemaVersion": "v1"
+              }
+            },
+            "sandboxClass": "gvisor"
+          }
+        ],
+        "state": "WORKER_STATE_ACTIVE"
+      },
+      "workerNamespace": "ate-demo-counter",
+      "workerPod": "counter-679c67c85d-xmkp6",
+      "workerPodUid": "f8a965ec-cc06-4bd0-b79c-fd16947807cd",
+      "workerPool": "counter",
+      "workerSpiffeId": "spiffe://cluster.local/ns/ate-demo-counter/sa/ateworker"
+    },
+    {
+      "labels": {
+        "workload": "egress"
+      },
+      "metadata": {
+        "createTime": "2026-10-31T17:53:56.038386087Z",
+        "name": "1aa9dcee-c8e3-41c4-8613-4d835c0c299a",
+        "uid": "1852f0db-df90-4d75-a9dc-805ed62cf5a4",
+        "updateTime": "2026-10-31T17:53:57.455182150Z",
+        "version": "6"
+      },
+      "nodeName": "substrate-lifecycle-control-plane",
+      "status": {
+        "capacity": {
+          "actors": 1000,
+          "cpuMillicores": "16000",
+          "memoryBytes": "67356880896"
+        },
+        "ips": [
+          "10.244.0.27"
+        ],
+        "issuedEpoch": "1",
+        "observedEpoch": "1",
+        "registeredEpoch": "1",
+        "sandboxClasses": [
+          {
+            "defaultRuntime": {
+              "version": {
+                "attributes": [
+                  {
+                    "key": "architecture",
+                    "value": "amd64"
+                  },
+                  {
+                    "key": "cpu_features",
+                    "value": "bc0004102c100800000001210000000f00401f5ef19f27eb0f8bfbfffffa3203"
+                  },
+                  {
+                    "key": "sandbox_bundle_hash",
+                    "value": "sha256:807de8c088dd96082750dafdd3f8fed2aae65132a4156742969be1703368e20c"
+                  }
+                ],
+                "schemaVersion": "v1"
+              }
+            },
+            "sandboxClass": "gvisor"
+          }
+        ],
+        "state": "WORKER_STATE_ACTIVE"
+      },
+      "workerNamespace": "ate-demo-egress",
+      "workerPod": "egress-78cb8c86b6-8bdcx",
+      "workerPodUid": "1aa9dcee-c8e3-41c4-8613-4d835c0c299a",
+      "workerPool": "egress",
+      "workerSpiffeId": "spiffe://cluster.local/ns/ate-demo-egress/sa/ateworker"
+    },
+    {
+      "labels": {
+        "workload": "egress"
+      },
+      "metadata": {
+        "createTime": "2026-10-31T17:53:56.032827129Z",
+        "name": "046447c4-3c24-4c3f-8632-9d639a266bde",
+        "uid": "0801fdd3-3c19-468a-9a72-ebd3c60c19c9",
+        "updateTime": "2026-10-31T17:54:11.727745626Z",
+        "version": "8"
+      },
+      "nodeName": "substrate-lifecycle-control-plane",
+      "status": {
+        "capacity": {
+          "actors": 1000,
+          "cpuMillicores": "16000",
+          "memoryBytes": "67356880896"
+        },
+        "ips": [
+          "10.244.0.26"
+        ],
+        "issuedEpoch": "1",
+        "observedEpoch": "1",
+        "registeredEpoch": "1",
+        "sandboxClasses": [
+          {
+            "defaultRuntime": {
+              "version": {
+                "attributes": [
+                  {
+                    "key": "architecture",
+                    "value": "amd64"
+                  },
+                  {
+                    "key": "cpu_features",
+                    "value": "bc0004102c100800000001210000000f00401f5ef19f27eb0f8bfbfffffa3203"
+                  },
+                  {
+                    "key": "sandbox_bundle_hash",
+                    "value": "sha256:807de8c088dd96082750dafdd3f8fed2aae65132a4156742969be1703368e20c"
+                  }
+                ],
+                "schemaVersion": "v1"
+              }
+            },
+            "sandboxClass": "gvisor"
+          }
+        ],
+        "state": "WORKER_STATE_ACTIVE"
+      },
+      "workerNamespace": "ate-demo-egress",
+      "workerPod": "egress-78cb8c86b6-l8b67",
+      "workerPodUid": "046447c4-3c24-4c3f-8632-9d639a266bde",
+      "workerPool": "egress",
+      "workerSpiffeId": "spiffe://cluster.local/ns/ate-demo-egress/sa/ateworker"
+    }
+  ]
+}

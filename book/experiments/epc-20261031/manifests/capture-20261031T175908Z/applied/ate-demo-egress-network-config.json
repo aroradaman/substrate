@@ -1,0 +1,96 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "networking.k8s.io/v1",
+      "kind": "NetworkPolicy",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:53:55Z",
+        "generation": 1,
+        "labels": {
+          "ate.dev/worker-pool": "egress"
+        },
+        "name": "substrate-egress",
+        "namespace": "ate-demo-egress",
+        "ownerReferences": [
+          {
+            "apiVersion": "ate.dev/v1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "WorkerPool",
+            "name": "egress",
+            "uid": "03041976-34ce-419f-85d8-e252833a360a"
+          }
+        ],
+        "resourceVersion": "2029",
+        "uid": "b24330b3-3560-4307-8506-4321bf804852"
+      },
+      "spec": {
+        "ingress": [
+          {
+            "from": [
+              {
+                "namespaceSelector": {
+                  "matchLabels": {
+                    "kubernetes.io/metadata.name": "ate-system"
+                  }
+                },
+                "podSelector": {
+                  "matchLabels": {
+                    "app": "atenet-router"
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "podSelector": {
+          "matchLabels": {
+            "ate.dev/worker-pool": "egress"
+          }
+        },
+        "policyTypes": [
+          "Ingress"
+        ]
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ServiceAccount",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:53:55Z",
+        "name": "ateworker",
+        "namespace": "ate-demo-egress",
+        "resourceVersion": "2032",
+        "uid": "39820363-b6eb-4fd0-87d3-4dbbfa4a5669"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ServiceAccount",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:53:55Z",
+        "name": "default",
+        "namespace": "ate-demo-egress",
+        "resourceVersion": "2026",
+        "uid": "ff566a35-39c4-4962-90e9-ef660cb8490a"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "binaryData": {},
+      "data": {
+        "ca.crt": "<redacted>"
+      },
+      "kind": "ConfigMap",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:53:55Z",
+        "name": "kube-root-ca.crt",
+        "namespace": "ate-demo-egress",
+        "resourceVersion": "2025",
+        "uid": "2c1a2630-665e-4f1d-b7ed-2715dcea4b79"
+      }
+    }
+  ],
+  "kind": "List"
+}

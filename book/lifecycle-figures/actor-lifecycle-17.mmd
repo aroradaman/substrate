@@ -1,0 +1,11 @@
+flowchart TB
+    H[Kubernetes node cgroup root] --> K[Kubelet and Burstable QoS slices]
+    K --> P[Worker Pod cgroup: memory.max 1 GiB]
+    P --> C[CRI worker container scope: memory.max 1 GiB]
+    C --> W[worker leaf]
+    C --> S[Actor UID-_sandbox leaf]
+    C --> M[Actor UID-counter marker leaf]
+    C -. during checkpoint .-> T[Actor UID-_ckpt sibling]
+    W --> WP[Worker daemon and fd-parking process]
+    S --> SP[Sentry, helper processes and gofer]
+    S -. Sentry PID moved for checkpoint .-> T

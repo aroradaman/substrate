@@ -1,0 +1,4 @@
+node=substrate-lifecycle-control-plane
+actor_uid=92c54efa-a098-47c4-93f1-f17bd3730c1a
+worker_pod=counter-679c67c85d-db5m4
+worker_pid_in_node=8010

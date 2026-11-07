@@ -1,0 +1,267 @@
+{
+  "captured_at": "2026-10-31T18:04:04.331872+00:00",
+  "service": "ate-system/rustfs",
+  "operation": "ListObjectsV2",
+  "objects": [
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/actors/92c54efa-a098-47c4-93f1-f17bd3730c1a/snapshots/79ade422-1ec9-4857-9e67-d9f1a9f74c97/checkpoint.img.zstd",
+      "size": 63361
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/actors/92c54efa-a098-47c4-93f1-f17bd3730c1a/snapshots/79ade422-1ec9-4857-9e67-d9f1a9f74c97/fs/fscheckpoint.pb.zstd",
+      "size": 110
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/actors/92c54efa-a098-47c4-93f1-f17bd3730c1a/snapshots/79ade422-1ec9-4857-9e67-d9f1a9f74c97/fs/multitar.img.zstd",
+      "size": 165
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/actors/92c54efa-a098-47c4-93f1-f17bd3730c1a/snapshots/79ade422-1ec9-4857-9e67-d9f1a9f74c97/fs/pages.img.zstd",
+      "size": 55
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/actors/92c54efa-a098-47c4-93f1-f17bd3730c1a/snapshots/79ade422-1ec9-4857-9e67-d9f1a9f74c97/fs/pages_meta.img.zstd",
+      "size": 93
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/actors/92c54efa-a098-47c4-93f1-f17bd3730c1a/snapshots/79ade422-1ec9-4857-9e67-d9f1a9f74c97/manifest.json",
+      "size": 723
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/actors/92c54efa-a098-47c4-93f1-f17bd3730c1a/snapshots/79ade422-1ec9-4857-9e67-d9f1a9f74c97/pages.img.zstd",
+      "size": 1510808
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/actors/92c54efa-a098-47c4-93f1-f17bd3730c1a/snapshots/79ade422-1ec9-4857-9e67-d9f1a9f74c97/pages_meta.img.zstd",
+      "size": 1115
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/actors/92c54efa-a098-47c4-93f1-f17bd3730c1a/snapshots/79ade422-1ec9-4857-9e67-d9f1a9f74c97/rootfs/fscheckpoint.pb.zstd",
+      "size": 102
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/actors/92c54efa-a098-47c4-93f1-f17bd3730c1a/snapshots/79ade422-1ec9-4857-9e67-d9f1a9f74c97/rootfs/multitar.img.zstd",
+      "size": 225
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/actors/92c54efa-a098-47c4-93f1-f17bd3730c1a/snapshots/79ade422-1ec9-4857-9e67-d9f1a9f74c97/rootfs/pages.img.zstd",
+      "size": 1048696
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/actors/92c54efa-a098-47c4-93f1-f17bd3730c1a/snapshots/79ade422-1ec9-4857-9e67-d9f1a9f74c97/rootfs/pages_meta.img.zstd",
+      "size": 96
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/tags/48abb3b2-88ff-442f-ae67-3860b9b26867/checkpoint.img.zstd",
+      "size": 63264
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/tags/48abb3b2-88ff-442f-ae67-3860b9b26867/fs/fscheckpoint.pb.zstd",
+      "size": 110
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/tags/48abb3b2-88ff-442f-ae67-3860b9b26867/fs/multitar.img.zstd",
+      "size": 166
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/tags/48abb3b2-88ff-442f-ae67-3860b9b26867/fs/pages.img.zstd",
+      "size": 53
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/tags/48abb3b2-88ff-442f-ae67-3860b9b26867/fs/pages_meta.img.zstd",
+      "size": 93
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/tags/48abb3b2-88ff-442f-ae67-3860b9b26867/manifest.json",
+      "size": 723
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/tags/48abb3b2-88ff-442f-ae67-3860b9b26867/pages.img.zstd",
+      "size": 2079029
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/tags/48abb3b2-88ff-442f-ae67-3860b9b26867/pages_meta.img.zstd",
+      "size": 1186
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/tags/48abb3b2-88ff-442f-ae67-3860b9b26867/rootfs/fscheckpoint.pb.zstd",
+      "size": 102
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/tags/48abb3b2-88ff-442f-ae67-3860b9b26867/rootfs/multitar.img.zstd",
+      "size": 227
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/tags/48abb3b2-88ff-442f-ae67-3860b9b26867/rootfs/pages.img.zstd",
+      "size": 1048695
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/tags/48abb3b2-88ff-442f-ae67-3860b9b26867/rootfs/pages_meta.img.zstd",
+      "size": 96
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/tags/9d10cdd3-4d52-4a09-b94f-a0227f6bebf5/checkpoint.img.zstd",
+      "size": 62403
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/tags/9d10cdd3-4d52-4a09-b94f-a0227f6bebf5/fs/fscheckpoint.pb.zstd",
+      "size": 110
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/tags/9d10cdd3-4d52-4a09-b94f-a0227f6bebf5/fs/multitar.img.zstd",
+      "size": 117
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/tags/9d10cdd3-4d52-4a09-b94f-a0227f6bebf5/fs/pages.img.zstd",
+      "size": 41
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/tags/9d10cdd3-4d52-4a09-b94f-a0227f6bebf5/fs/pages_meta.img.zstd",
+      "size": 66
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/tags/9d10cdd3-4d52-4a09-b94f-a0227f6bebf5/manifest.json",
+      "size": 742
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/tags/9d10cdd3-4d52-4a09-b94f-a0227f6bebf5/pages.img.zstd",
+      "size": 1486245
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/tags/9d10cdd3-4d52-4a09-b94f-a0227f6bebf5/pages_meta.img.zstd",
+      "size": 864
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/tags/9d10cdd3-4d52-4a09-b94f-a0227f6bebf5/rootfs/fscheckpoint.pb.zstd",
+      "size": 102
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/tags/9d10cdd3-4d52-4a09-b94f-a0227f6bebf5/rootfs/multitar.img.zstd",
+      "size": 174
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/tags/9d10cdd3-4d52-4a09-b94f-a0227f6bebf5/rootfs/pages.img.zstd",
+      "size": 1048694
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-counter/tags/9d10cdd3-4d52-4a09-b94f-a0227f6bebf5/rootfs/pages_meta.img.zstd",
+      "size": 96
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-egress/actors/8fe5de26-cc8a-40e4-aa86-770a6bd8c43e/snapshots/7a91badb-26b4-437b-915b-3d2ada473b50/checkpoint.img.zstd",
+      "size": 62696
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-egress/actors/8fe5de26-cc8a-40e4-aa86-770a6bd8c43e/snapshots/7a91badb-26b4-437b-915b-3d2ada473b50/manifest.json",
+      "size": 549
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-egress/actors/8fe5de26-cc8a-40e4-aa86-770a6bd8c43e/snapshots/7a91badb-26b4-437b-915b-3d2ada473b50/pages.img.zstd",
+      "size": 395283
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-egress/actors/8fe5de26-cc8a-40e4-aa86-770a6bd8c43e/snapshots/7a91badb-26b4-437b-915b-3d2ada473b50/pages_meta.img.zstd",
+      "size": 1210
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-egress/actors/8fe5de26-cc8a-40e4-aa86-770a6bd8c43e/snapshots/7a91badb-26b4-437b-915b-3d2ada473b50/rootfs/fscheckpoint.pb.zstd",
+      "size": 101
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-egress/actors/8fe5de26-cc8a-40e4-aa86-770a6bd8c43e/snapshots/7a91badb-26b4-437b-915b-3d2ada473b50/rootfs/multitar.img.zstd",
+      "size": 114
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-egress/actors/8fe5de26-cc8a-40e4-aa86-770a6bd8c43e/snapshots/7a91badb-26b4-437b-915b-3d2ada473b50/rootfs/pages.img.zstd",
+      "size": 41
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-egress/actors/8fe5de26-cc8a-40e4-aa86-770a6bd8c43e/snapshots/7a91badb-26b4-437b-915b-3d2ada473b50/rootfs/pages_meta.img.zstd",
+      "size": 66
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-egress/tags/11c4465b-dd9c-4b29-ad27-6ade7a0a994a/checkpoint.img.zstd",
+      "size": 60794
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-egress/tags/11c4465b-dd9c-4b29-ad27-6ade7a0a994a/manifest.json",
+      "size": 569
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-egress/tags/11c4465b-dd9c-4b29-ad27-6ade7a0a994a/pages.img.zstd",
+      "size": 303786
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-egress/tags/11c4465b-dd9c-4b29-ad27-6ade7a0a994a/pages_meta.img.zstd",
+      "size": 929
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-egress/tags/11c4465b-dd9c-4b29-ad27-6ade7a0a994a/rootfs/fscheckpoint.pb.zstd",
+      "size": 101
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-egress/tags/11c4465b-dd9c-4b29-ad27-6ade7a0a994a/rootfs/multitar.img.zstd",
+      "size": 114
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-egress/tags/11c4465b-dd9c-4b29-ad27-6ade7a0a994a/rootfs/pages.img.zstd",
+      "size": 41
+    },
+    {
+      "bucket": "ate-snapshots",
+      "key": "atespaces/ate-demo-egress/tags/11c4465b-dd9c-4b29-ad27-6ade7a0a994a/rootfs/pages_meta.img.zstd",
+      "size": 66
+    }
+  ]
+}

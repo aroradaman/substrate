@@ -1,0 +1,24 @@
+sequenceDiagram
+    participant C as Client
+    participant R as Ingress router
+    participant A as ateapi
+    participant P as PostgreSQL
+    participant L as atelet
+    participant W as Worker
+    participant S as Storage sidecar
+    C->>R: HTTP with ate-target-actor
+    R->>A: ResumeActor
+    A->>P: Read actor and acquire lease if needed
+    A->>P: Admit worker assignment under row lock
+    A->>L: Run or Restore
+    opt Snapshot is not usable locally
+        L->>S: FetchSnapshot
+        S-->>L: Verified snapshot files
+    end
+    L->>W: RunWorkload or RestoreWorkload
+    W-->>L: Ready and worker epoch
+    L-->>A: Activation result
+    A->>P: Finalize RUNNING
+    A-->>R: Worker assignment
+    R->>W: Authenticated atunnel connection
+    W-->>C: Application response through router

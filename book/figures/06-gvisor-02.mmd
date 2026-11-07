@@ -1,0 +1,22 @@
+sequenceDiagram
+    participant A as atelet
+    participant W as gVisor worker
+    participant T as atunnel
+    participant R as runsc
+    participant P as Application containers
+    A->>W: RunWorkload(spec, assets, directories)
+    W->>W: Validate, lock actor, clear stale runtime state
+    W->>T: Prepare egress and private network
+    W->>W: Wait for conflicting snapshot loans
+    W->>T: Activate egress
+    W->>R: create _sandbox with no root container
+    W->>W: Pin Sentry and install memory guard
+    W->>R: start _sandbox
+    loop Each application container
+      W->>W: Compose cached OCI rootfs
+      W->>R: create and start container
+      R->>P: Begin application execution
+    end
+    W->>P: Wait for configured wakeup probes
+    W->>T: Activate ingress
+    W-->>A: Worker epoch

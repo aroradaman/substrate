@@ -1,0 +1,323 @@
+apiVersion: v1
+items:
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    creationTimestamp: "2026-10-31T17:53:22Z"
+    generation: 1
+    labels:
+      ate.dev/worker-pool: counter
+    name: substrate-counter
+    namespace: ate-demo-counter
+    ownerReferences:
+    - apiVersion: ate.dev/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: WorkerPool
+      name: counter
+      uid: a6337c57-2158-4fa0-a67a-bf7faa1721e1
+    resourceVersion: "1900"
+    uid: 9886c45e-f601-41b4-9868-89c6df54a006
+  spec:
+    ingress:
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: ate-system
+        podSelector:
+          matchLabels:
+            app: atenet-router
+    podSelector:
+      matchLabels:
+        ate.dev/worker-pool: counter
+    policyTypes:
+    - Ingress
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    creationTimestamp: "2026-10-31T17:53:55Z"
+    generation: 1
+    labels:
+      ate.dev/worker-pool: egress
+    name: substrate-egress
+    namespace: ate-demo-egress
+    ownerReferences:
+    - apiVersion: ate.dev/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: WorkerPool
+      name: egress
+      uid: 03041976-34ce-419f-85d8-e252833a360a
+    resourceVersion: "2029"
+    uid: b24330b3-3560-4307-8506-4321bf804852
+  spec:
+    ingress:
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: ate-system
+        podSelector:
+          matchLabels:
+            app: atenet-router
+    podSelector:
+      matchLabels:
+        ate.dev/worker-pool: egress
+    policyTypes:
+    - Ingress
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    creationTimestamp: "2026-10-31T17:52:51Z"
+    generation: 1
+    name: ate-api-server
+    namespace: ate-system
+    resourceVersion: "1537"
+    uid: 57e05147-e9d3-4d29-8d7b-05cadb3c484f
+  spec:
+    ingress:
+    - from:
+      - podSelector:
+          matchExpressions:
+          - key: app
+            operator: In
+            values:
+            - ate-controller
+            - atelet
+            - atenet-egress
+            - atenet-router
+      - namespaceSelector:
+          matchLabels:
+            ate.dev/api-access: "true"
+        podSelector:
+          matchExpressions:
+          - key: ate.dev/worker-pool
+            operator: DoesNotExist
+      ports:
+      - port: 443
+        protocol: TCP
+    - from:
+      - podSelector:
+          matchLabels:
+            app: atelet
+      ports:
+      - port: 8445
+        protocol: TCP
+    podSelector:
+      matchLabels:
+        app: ate-api-server
+    policyTypes:
+    - Ingress
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    creationTimestamp: "2026-10-31T17:52:52Z"
+    generation: 1
+    name: ate-idp-server
+    namespace: ate-system
+    resourceVersion: "1546"
+    uid: ba6526f4-52bb-4024-a12d-e7727148e295
+  spec:
+    ingress:
+    - ports:
+      - port: https
+        protocol: TCP
+    podSelector:
+      matchLabels:
+        app: ate-idp-server
+    policyTypes:
+    - Ingress
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    creationTimestamp: "2026-10-31T17:52:52Z"
+    generation: 1
+    name: ate-system-observability
+    namespace: ate-system
+    resourceVersion: "1554"
+    uid: 70dec5cc-a3fd-45d6-9a7f-56d967022aff
+  spec:
+    ingress:
+    - ports:
+      - port: metrics
+        protocol: TCP
+      - port: prometheus
+        protocol: TCP
+      - port: envoy-metrics
+        protocol: TCP
+      - port: health
+        protocol: TCP
+      - port: healthz
+        protocol: TCP
+      - port: stats
+        protocol: TCP
+      - port: readiness
+        protocol: TCP
+    podSelector:
+      matchExpressions:
+      - key: app
+        operator: NotIn
+        values:
+        - k8s-credential-provider
+    policyTypes:
+    - Ingress
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    creationTimestamp: "2026-10-31T17:52:51Z"
+    generation: 1
+    name: atelet
+    namespace: ate-system
+    resourceVersion: "1541"
+    uid: 944c88b8-542f-42e7-8362-6673c71cdbc2
+  spec:
+    ingress:
+    - from:
+      - podSelector:
+          matchLabels:
+            app: ate-api-server
+      ports:
+      - port: grpc
+        protocol: TCP
+    podSelector:
+      matchLabels:
+        app: atelet
+    policyTypes:
+    - Ingress
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    creationTimestamp: "2026-10-31T17:52:52Z"
+    generation: 1
+    name: atenet-egress
+    namespace: ate-system
+    resourceVersion: "1552"
+    uid: 77518884-7ca9-41bf-b1db-5f09b81f31fb
+  spec:
+    ingress:
+    - from:
+      - namespaceSelector: {}
+        podSelector:
+          matchExpressions:
+          - key: ate.dev/worker-pool
+            operator: Exists
+      ports:
+      - port: https
+        protocol: TCP
+    podSelector:
+      matchLabels:
+        app: atenet-egress
+    policyTypes:
+    - Ingress
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    creationTimestamp: "2026-10-31T17:52:52Z"
+    generation: 1
+    name: atenet-router
+    namespace: ate-system
+    resourceVersion: "1543"
+    uid: 8e52f9f3-a1eb-4ea0-9f95-6827d333dbf7
+  spec:
+    ingress:
+    - ports:
+      - port: https
+        protocol: TCP
+      - port: connect-tls
+        protocol: TCP
+    podSelector:
+      matchLabels:
+        app: atenet-router
+    policyTypes:
+    - Ingress
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    creationTimestamp: "2026-10-31T17:52:51Z"
+    generation: 1
+    name: default-deny-ingress
+    namespace: ate-system
+    resourceVersion: "1536"
+    uid: b51eb628-9ad3-45de-9520-44fb955bbe1d
+  spec:
+    podSelector: {}
+    policyTypes:
+    - Ingress
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    creationTimestamp: "2026-10-31T17:53:03Z"
+    generation: 1
+    name: k8s-credential-provider
+    namespace: ate-system
+    resourceVersion: "1783"
+    uid: 9269379a-f894-4f5e-9840-e30718c3ca34
+  spec:
+    ingress:
+    - from:
+      - podSelector:
+          matchLabels:
+            app: atenet-egress
+      ports:
+      - port: 50051
+        protocol: TCP
+    podSelector:
+      matchLabels:
+        app: k8s-credential-provider
+    policyTypes:
+    - Ingress
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    creationTimestamp: "2026-10-31T17:52:51Z"
+    generation: 1
+    name: postgres
+    namespace: ate-system
+    resourceVersion: "1540"
+    uid: 1a2eb9df-f2cf-480a-ba4e-f8a0a56afe12
+  spec:
+    ingress:
+    - from:
+      - podSelector:
+          matchLabels:
+            app: ate-api-server
+      ports:
+      - port: postgres
+        protocol: TCP
+    podSelector:
+      matchLabels:
+        app: postgres
+    policyTypes:
+    - Ingress
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    creationTimestamp: "2026-10-31T17:52:53Z"
+    generation: 1
+    name: rustfs
+    namespace: ate-system
+    resourceVersion: "1595"
+    uid: c5985d6b-8d56-454b-b128-72ddac5f4cbf
+  spec:
+    ingress:
+    - from:
+      - podSelector:
+          matchExpressions:
+          - key: app
+            operator: In
+            values:
+            - ate-api-server
+            - atelet
+      - podSelector:
+          matchLabels:
+            batch.kubernetes.io/job-name: rustfs-bucket-init
+      ports:
+      - port: api
+        protocol: TCP
+    podSelector:
+      matchLabels:
+        app: rustfs
+    policyTypes:
+    - Ingress
+kind: List
+metadata:
+  resourceVersion: ""

@@ -1,0 +1,24 @@
+{
+  "metadata": {
+    "atespace": "ate-demo-egress",
+    "createTime": "2026-10-31T17:56:43.006293478Z",
+    "name": "default",
+    "uid": "4be12b67-272d-4c87-9107-8b8c0a5efbd4",
+    "updateTime": "2026-10-31T17:56:43.006293478Z",
+    "version": "1"
+  },
+  "rules": [
+    {
+      "http": {
+        "hostnames": [
+          "origin.lifecycle-target.svc.cluster.local"
+        ],
+        "ports": {
+          "numbers": [
+            80
+          ]
+        }
+      }
+    }
+  ]
+}

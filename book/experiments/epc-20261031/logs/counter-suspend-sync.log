@@ -1,0 +1,56 @@
+Warning: no --token-file given; acting as the shared identity system:serviceaccount:ate-system:ate-client rather than as yourself. Pass --token-file to act as yourself.
+{
+  "actorTemplate": {
+    "atespace": "ate-demo-counter",
+    "name": "counter"
+  },
+  "metadata": {
+    "atespace": "ate-demo-counter",
+    "createTime": "2026-10-31T17:54:30.184040220Z",
+    "name": "lifecycle-counter",
+    "uid": "92c54efa-a098-47c4-93f1-f17bd3730c1a",
+    "updateTime": "2026-10-31T17:56:59.039928459Z",
+    "version": "9"
+  },
+  "status": {
+    "assignedNode": "substrate-lifecycle-control-plane",
+    "lastAssignedGeneration": 3,
+    "snapshots": [
+      {
+        "actorTemplateUid": "0306f965-08ac-47c5-97a0-099daac7da54",
+        "durableSnapshot": {
+          "object": {
+            "snapshotUri": "gs://ate-snapshots/atespaces/ate-demo-counter/actors/92c54efa-a098-47c4-93f1-f17bd3730c1a/snapshots/e9b8028d-7c90-4c0a-849e-1dd45c4681c3"
+          },
+          "state": "SNAPSHOT_STORAGE_STATE_COMPLETED"
+        },
+        "fidelity": "SNAPSHOT_FIDELITY_MEMORY",
+        "generation": 3,
+        "locality": "substrate-lifecycle-control-plane",
+        "owner": "SNAPSHOT_OWNER_ACTOR",
+        "sandboxRuntime": {
+          "sandboxClass": "gvisor",
+          "version": {
+            "attributes": [
+              {
+                "key": "architecture",
+                "value": "amd64"
+              },
+              {
+                "key": "cpu_features",
+                "value": "bc0004102c100800000001210000000f00401f5ef19f27eb0f8bfbfffffa3203"
+              },
+              {
+                "key": "sandbox_bundle_hash",
+                "value": "sha256:807de8c088dd96082750dafdd3f8fed2aae65132a4156742969be1703368e20c"
+              }
+            ],
+            "schemaVersion": "v1"
+          }
+        },
+        "uuid": "e9b8028d-7c90-4c0a-849e-1dd45c4681c3"
+      }
+    ],
+    "state": "ACTOR_STATE_SUSPENDED"
+  }
+}

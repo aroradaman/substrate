@@ -1,0 +1,13 @@
+sequenceDiagram
+    participant T1 as Transaction 100
+    participant T2 as Transaction 101
+    participant DB as PostgreSQL outbox
+    participant W as Replica watcher
+    T1->>DB: Obtain xid and remain open
+    T2->>DB: Write Worker and event
+    T2->>DB: Commit
+    W->>DB: Poll below current xmin
+    DB-->>W: Later event withheld
+    T1->>DB: Write event and commit
+    W->>DB: Poll after xmin advances
+    DB-->>W: Events 100 then 101

@@ -1,0 +1,769 @@
+{
+  "items": [
+    {
+      "namespace": "ate-demo-counter",
+      "name": "counter-679c67c85d-db5m4",
+      "uid": "2a3f0bf1-e705-47b9-a943-0142a581fc76",
+      "labels": {
+        "ate.dev/worker-pool": "counter",
+        "pod-template-hash": "679c67c85d"
+      },
+      "node": "substrate-lifecycle-control-plane",
+      "phase": "Running",
+      "podIPs": [
+        {
+          "ip": "10.244.0.23"
+        }
+      ],
+      "containers": [
+        {
+          "name": "worker",
+          "containerID": "containerd://611a58221ba89ac45167e6a5c52bb84dfac1ab7e4328cb19508c7f4ecd3789b2",
+          "imageID": "localhost:5002/ateworker-gvisor@sha256:9a116289631c3172ae951af57f241cdcc0f5fffd12a9ac76170f496ad83cbe44",
+          "ready": true
+        }
+      ]
+    },
+    {
+      "namespace": "ate-demo-counter",
+      "name": "counter-679c67c85d-fghjq",
+      "uid": "21575f0d-c359-4d45-8079-11f74894bac5",
+      "labels": {
+        "ate.dev/worker-pool": "counter",
+        "pod-template-hash": "679c67c85d"
+      },
+      "node": "substrate-lifecycle-control-plane",
+      "phase": "Running",
+      "podIPs": [
+        {
+          "ip": "10.244.0.25"
+        }
+      ],
+      "containers": [
+        {
+          "name": "worker",
+          "containerID": "containerd://b65a1c04a6644d7e84eeb04b84d7e87027bb98a720066cb0043333f82f23e82d",
+          "imageID": "localhost:5002/ateworker-gvisor@sha256:9a116289631c3172ae951af57f241cdcc0f5fffd12a9ac76170f496ad83cbe44",
+          "ready": true
+        }
+      ]
+    },
+    {
+      "namespace": "ate-demo-counter",
+      "name": "counter-679c67c85d-xmkp6",
+      "uid": "f8a965ec-cc06-4bd0-b79c-fd16947807cd",
+      "labels": {
+        "ate.dev/worker-pool": "counter",
+        "pod-template-hash": "679c67c85d"
+      },
+      "node": "substrate-lifecycle-control-plane",
+      "phase": "Running",
+      "podIPs": [
+        {
+          "ip": "10.244.0.24"
+        }
+      ],
+      "containers": [
+        {
+          "name": "worker",
+          "containerID": "containerd://8fc1d5d3b23f9983a87b6160aca03328351d2a8be2c62fa0d828d35a64bbcb7f",
+          "imageID": "localhost:5002/ateworker-gvisor@sha256:9a116289631c3172ae951af57f241cdcc0f5fffd12a9ac76170f496ad83cbe44",
+          "ready": true
+        }
+      ]
+    },
+    {
+      "namespace": "ate-demo-egress",
+      "name": "egress-78cb8c86b6-8bdcx",
+      "uid": "1aa9dcee-c8e3-41c4-8613-4d835c0c299a",
+      "labels": {
+        "ate.dev/worker-pool": "egress",
+        "pod-template-hash": "78cb8c86b6"
+      },
+      "node": "substrate-lifecycle-control-plane",
+      "phase": "Running",
+      "podIPs": [
+        {
+          "ip": "10.244.0.27"
+        }
+      ],
+      "containers": [
+        {
+          "name": "worker",
+          "containerID": "containerd://1d7c4139be2fb3b53f8973a34332af13ebd93bc97c4007c2815996b4059e74a6",
+          "imageID": "localhost:5002/ateworker-gvisor@sha256:9a116289631c3172ae951af57f241cdcc0f5fffd12a9ac76170f496ad83cbe44",
+          "ready": true
+        }
+      ]
+    },
+    {
+      "namespace": "ate-demo-egress",
+      "name": "egress-78cb8c86b6-l8b67",
+      "uid": "046447c4-3c24-4c3f-8632-9d639a266bde",
+      "labels": {
+        "ate.dev/worker-pool": "egress",
+        "pod-template-hash": "78cb8c86b6"
+      },
+      "node": "substrate-lifecycle-control-plane",
+      "phase": "Running",
+      "podIPs": [
+        {
+          "ip": "10.244.0.26"
+        }
+      ],
+      "containers": [
+        {
+          "name": "worker",
+          "containerID": "containerd://96a4963c21a98a49baf0fe71aa1ded89843c29346ca3c3ae18391cb81b2aa276",
+          "imageID": "localhost:5002/ateworker-gvisor@sha256:9a116289631c3172ae951af57f241cdcc0f5fffd12a9ac76170f496ad83cbe44",
+          "ready": true
+        }
+      ]
+    },
+    {
+      "namespace": "ate-system",
+      "name": "ate-api-server-6548f95b7c-jc6m4",
+      "uid": "f0af4cdc-b12f-4969-bf24-859d681481b3",
+      "labels": {
+        "app": "ate-api-server",
+        "pod-template-hash": "6548f95b7c"
+      },
+      "node": "substrate-lifecycle-control-plane",
+      "phase": "Running",
+      "podIPs": [
+        {
+          "ip": "10.244.0.8"
+        }
+      ],
+      "containers": [
+        {
+          "name": "ate-api-server",
+          "containerID": "containerd://ed93c214f27b0c8b6aa1c3ad69df70fa9382d1985f53421c833a096d1352ee68",
+          "imageID": "localhost:5002/ateapi@sha256:bbc3a1f5e7b78b657d9630e7eb82efad2771fc2b9a7c146b0493e9229f3e5b5b",
+          "ready": true
+        }
+      ]
+    },
+    {
+      "namespace": "ate-system",
+      "name": "ate-api-server-6548f95b7c-lgnfq",
+      "uid": "222bfec9-f2d1-405a-aac9-7502edcb48cd",
+      "labels": {
+        "app": "ate-api-server",
+        "pod-template-hash": "6548f95b7c"
+      },
+      "node": "substrate-lifecycle-control-plane",
+      "phase": "Running",
+      "podIPs": [
+        {
+          "ip": "10.244.0.10"
+        }
+      ],
+      "containers": [
+        {
+          "name": "ate-api-server",
+          "containerID": "containerd://176972b62f7b8d9aac441f5eb97ed9faab8f88f6e0b3e100366722d1b4c4bcb0",
+          "imageID": "localhost:5002/ateapi@sha256:bbc3a1f5e7b78b657d9630e7eb82efad2771fc2b9a7c146b0493e9229f3e5b5b",
+          "ready": true
+        }
+      ]
+    },
+    {
+      "namespace": "ate-system",
+      "name": "ate-controller-57f77ccc8b-thz5d",
+      "uid": "765315d7-83a3-4eba-959b-bf2a58fc45dc",
+      "labels": {
+        "app": "ate-controller",
+        "pod-template-hash": "57f77ccc8b"
+      },
+      "node": "substrate-lifecycle-control-plane",
+      "phase": "Running",
+      "podIPs": [
+        {
+          "ip": "10.244.0.9"
+        }
+      ],
+      "containers": [
+        {
+          "name": "ate-controller",
+          "containerID": "containerd://387de2bc1f639fa3b44d928e520229cc0819268b4441579faecf2ebdcb5fb0a0",
+          "imageID": "localhost:5002/atecontroller@sha256:c40384558ece84906fd926901bf1c4a8d31ba8690836083227c92f467c227198",
+          "ready": true
+        }
+      ]
+    },
+    {
+      "namespace": "ate-system",
+      "name": "ate-idp-server-548dc8b57d-l9974",
+      "uid": "f300cf32-ac2c-4fe8-853a-44f4a8c6c006",
+      "labels": {
+        "app": "ate-idp-server",
+        "pod-template-hash": "548dc8b57d"
+      },
+      "node": "substrate-lifecycle-control-plane",
+      "phase": "Running",
+      "podIPs": [
+        {
+          "ip": "10.244.0.12"
+        }
+      ],
+      "containers": [
+        {
+          "name": "ate-idp-server",
+          "containerID": "containerd://812246b18bf37910f0cd9d331599bb0439670aa58d51a883ca5c7d26331cc349",
+          "imageID": "localhost:5002/ate-idp-server@sha256:f110a8508ab50df289e9256346d463def44bd480b4d88673ad3ee67be0d143fa",
+          "ready": true
+        }
+      ]
+    },
+    {
+      "namespace": "ate-system",
+      "name": "ate-idp-server-548dc8b57d-wgkqq",
+      "uid": "02434767-d849-49e1-8d97-9875cdd35379",
+      "labels": {
+        "app": "ate-idp-server",
+        "pod-template-hash": "548dc8b57d"
+      },
+      "node": "substrate-lifecycle-control-plane",
+      "phase": "Running",
+      "podIPs": [
+        {
+          "ip": "10.244.0.13"
+        }
+      ],
+      "containers": [
+        {
+          "name": "ate-idp-server",
+          "containerID": "containerd://357126c8448f0c137af2ccc4c60fdffb910887f6f54907ebca5d67ebfa649124",
+          "imageID": "localhost:5002/ate-idp-server@sha256:f110a8508ab50df289e9256346d463def44bd480b4d88673ad3ee67be0d143fa",
+          "ready": true
+        }
+      ]
+    },
+    {
+      "namespace": "ate-system",
+      "name": "atelet-bkhcr",
+      "uid": "9ac08b03-3d16-4b0f-8a16-1b31d2fc3008",
+      "labels": {
+        "app": "atelet",
+        "controller-revision-hash": "56f9d8cfcb",
+        "pod-template-generation": "1"
+      },
+      "node": "substrate-lifecycle-control-plane",
+      "phase": "Running",
+      "podIPs": [
+        {
+          "ip": "10.244.0.11"
+        }
+      ],
+      "containers": [
+        {
+          "name": "atelet",
+          "containerID": "containerd://fe6de0bd2e354ec8e58ce44ef4c8142b37b40777e299e828c7b6c72ad1bd88b1",
+          "imageID": "localhost:5002/atelet@sha256:54df0f45bb570914dfb7753ea49c265d404e2620ee2d8dad48ff9c695191c3fd",
+          "ready": true
+        }
+      ]
+    },
+    {
+      "namespace": "ate-system",
+      "name": "atenet-egress-867b49b5cb-ltsqh",
+      "uid": "5e87a9c7-e948-4b76-99cf-5ea6787a54c1",
+      "labels": {
+        "app": "atenet-egress",
+        "pod-template-hash": "867b49b5cb"
+      },
+      "node": "substrate-lifecycle-control-plane",
+      "phase": "Running",
+      "podIPs": [
+        {
+          "ip": "10.244.0.22"
+        }
+      ],
+      "containers": [
+        {
+          "name": "envoy",
+          "containerID": "containerd://a4085ac8f16426ee591e0ec6c1fbe2dfd4bf51439c142b3752e0088c83bd00e7",
+          "imageID": "localhost:5002/envoy-dataplane@sha256:8256ea4f5d5380fcfb02c2f79205f3d99ebfda3762f05e9a69f244645e5dd898",
+          "ready": true
+        },
+        {
+          "name": "ext-proc",
+          "containerID": "containerd://6359017eef70a46b245bf4440fbe7bdadeee165e4478bf0147e37d275ff4b956",
+          "imageID": "localhost:5002/atenet@sha256:0b8a1c1515ed0ae74cb69e53666bef08a37e0e81d1c357fbd916cd744cca4f81",
+          "ready": true
+        }
+      ]
+    },
+    {
+      "namespace": "ate-system",
+      "name": "atenet-router-599d645d96-crwdw",
+      "uid": "df1c2ee8-8d01-4770-9da0-7ce66431de1b",
+      "labels": {
+        "app": "atenet-router",
+        "pod-template-hash": "599d645d96"
+      },
+      "node": "substrate-lifecycle-control-plane",
+      "phase": "Running",
+      "podIPs": [
+        {
+          "ip": "10.244.0.16"
+        }
+      ],
+      "containers": [
+        {
+          "name": "atenet-router",
+          "containerID": "containerd://a4c2288d48fee70785481d1a8454d4c866bf52f23cef006914b661d7467e45ff",
+          "imageID": "localhost:5002/atenet@sha256:0b8a1c1515ed0ae74cb69e53666bef08a37e0e81d1c357fbd916cd744cca4f81",
+          "ready": true
+        },
+        {
+          "name": "envoy",
+          "containerID": "containerd://4fdac2584aa5f3051d529c0fc109fbae26287b1808a52f690f508f0de7635e45",
+          "imageID": "localhost:5002/envoy-dataplane@sha256:8256ea4f5d5380fcfb02c2f79205f3d99ebfda3762f05e9a69f244645e5dd898",
+          "ready": true
+        }
+      ]
+    },
+    {
+      "namespace": "ate-system",
+      "name": "k8s-credential-provider-6cf6fbcdcc-sjnq6",
+      "uid": "7991adc1-f4c4-45d5-a304-68b4b358c48c",
+      "labels": {
+        "app": "k8s-credential-provider",
+        "pod-template-hash": "6cf6fbcdcc"
+      },
+      "node": "substrate-lifecycle-control-plane",
+      "phase": "Running",
+      "podIPs": [
+        {
+          "ip": "10.244.0.21"
+        }
+      ],
+      "containers": [
+        {
+          "name": "k8s-credential-provider",
+          "containerID": "containerd://ee67f3a37008206c65eca39d88e10a6b5e52001b0ca751cd66209182e3940c09",
+          "imageID": "localhost:5002/kubernetes-secrets@sha256:2faf674fa3c135e0531fdab07c7cd4a9ca9beddebefdd74c7d78c70d2bdb8d41",
+          "ready": true
+        }
+      ]
+    },
+    {
+      "namespace": "ate-system",
+      "name": "postgres-0",
+      "uid": "fff3b864-af55-4e0d-94c3-42d21e7267b9",
+      "labels": {
+        "app": "postgres",
+        "apps.kubernetes.io/pod-index": "0",
+        "controller-revision-hash": "postgres-598bfc9856",
+        "statefulset.kubernetes.io/pod-name": "postgres-0"
+      },
+      "node": "substrate-lifecycle-control-plane",
+      "phase": "Running",
+      "podIPs": [
+        {
+          "ip": "10.244.0.7"
+        }
+      ],
+      "containers": [
+        {
+          "name": "postgres",
+          "containerID": "containerd://50aa17f262d33fdbd212e275342283b469d2609088b4876e2865f01d120ff09b",
+          "imageID": "docker.io/library/postgres@sha256:9a8afca54e7861fd90fab5fdf4c42477a6b1cb7d293595148e674e0a3181de15",
+          "ready": true
+        }
+      ]
+    },
+    {
+      "namespace": "ate-system",
+      "name": "rustfs-54c86945fb-m2wrb",
+      "uid": "a2bb1000-930e-4714-a736-925468449556",
+      "labels": {
+        "app": "rustfs",
+        "pod-template-hash": "54c86945fb"
+      },
+      "node": "substrate-lifecycle-control-plane",
+      "phase": "Running",
+      "podIPs": [
+        {
+          "ip": "10.244.0.20"
+        }
+      ],
+      "containers": [
+        {
+          "name": "rustfs",
+          "containerID": "containerd://c696343b8bc494037e9a63fc25d51f61d80d9a39cc0716349722fecba09a04e3",
+          "imageID": "docker.io/rustfs/rustfs@sha256:9ca9559533b537d10482fe923288b676ad08f92a7069d9a17327fbae3cab688b",
+          "ready": true
+        }
+      ]
+    },
+    {
+      "namespace": "ate-system",
+      "name": "rustfs-bucket-init-q2j8g",
+      "uid": "118510bd-7091-4c55-8f70-be7d5ac7ffb2",
+      "labels": {
+        "batch.kubernetes.io/controller-uid": "e75981ee-dd44-401b-b3d7-b119b5a61569",
+        "batch.kubernetes.io/job-name": "rustfs-bucket-init",
+        "controller-uid": "e75981ee-dd44-401b-b3d7-b119b5a61569",
+        "job-name": "rustfs-bucket-init"
+      },
+      "node": "substrate-lifecycle-control-plane",
+      "phase": "Succeeded",
+      "podIPs": [
+        {
+          "ip": "10.244.0.15"
+        }
+      ],
+      "containers": [
+        {
+          "name": "create-bucket",
+          "containerID": "containerd://e149cc1d3b5136b0dd4f8bad782e7b00c5bfa25523b2527032ef3008ca169233",
+          "imageID": "docker.io/amazon/aws-cli@sha256:c8156a0e74e13929a42d7e60f0d4e14e7d28d980cd21822505d4bff80e5460c1",
+          "ready": false
+        }
+      ]
+    },
+    {
+      "namespace": "kube-system",
+      "name": "coredns-559f6c778d-ndnrr",
+      "uid": "785db53c-89c5-4866-ac8e-8eba13e6a8ae",
+      "labels": {
+        "k8s-app": "kube-dns",
+        "pod-template-hash": "559f6c778d"
+      },
+      "node": "substrate-lifecycle-control-plane",
+      "phase": "Running",
+      "podIPs": [
+        {
+          "ip": "10.244.0.4"
+        }
+      ],
+      "containers": [
+        {
+          "name": "coredns",
+          "containerID": "containerd://1512cb32c0f2e0d96d1a5f8effb2efb268d2835ffcbfe124efd1e84802619c6f",
+          "imageID": "sha256:520212b8b0fcd9309d7362d592f513b72880fa5a4e9e8b91442e7ee3b622c6a9",
+          "ready": true
+        }
+      ]
+    },
+    {
+      "namespace": "kube-system",
+      "name": "coredns-559f6c778d-pc5qn",
+      "uid": "123976b8-63f7-45d8-8945-1b808bf96cf1",
+      "labels": {
+        "k8s-app": "kube-dns",
+        "pod-template-hash": "559f6c778d"
+      },
+      "node": "substrate-lifecycle-control-plane",
+      "phase": "Running",
+      "podIPs": [
+        {
+          "ip": "10.244.0.3"
+        }
+      ],
+      "containers": [
+        {
+          "name": "coredns",
+          "containerID": "containerd://0292b7296f12f79b37fbb8fd2596c6daa206697ce4f0724a3cbf50bb1d8d2e8c",
+          "imageID": "sha256:520212b8b0fcd9309d7362d592f513b72880fa5a4e9e8b91442e7ee3b622c6a9",
+          "ready": true
+        }
+      ]
+    },
+    {
+      "namespace": "kube-system",
+      "name": "etcd-substrate-lifecycle-control-plane",
+      "uid": "19ebdf37-14f3-4ccd-9127-98e5199f9baa",
+      "labels": {
+        "component": "etcd",
+        "tier": "control-plane"
+      },
+      "node": "substrate-lifecycle-control-plane",
+      "phase": "Running",
+      "podIPs": [
+        {
+          "ip": "172.19.0.7"
+        }
+      ],
+      "containers": [
+        {
+          "name": "etcd",
+          "containerID": "containerd://b9bc408a8ce365cacc4ba669b73a4b3a9082e37a674945307988c9dda5bb67ab",
+          "imageID": "sha256:270fbeb69717150d82de2f31e6d6a93a6a60f8843d63df68cebe33c4b59c5f78",
+          "ready": true
+        }
+      ]
+    },
+    {
+      "namespace": "kube-system",
+      "name": "kindnet-j4rmw",
+      "uid": "786a4426-a6d1-4f3c-9f6e-5e9eff6afadf",
+      "labels": {
+        "app": "kindnet",
+        "controller-revision-hash": "77585bc5b5",
+        "k8s-app": "kindnet",
+        "pod-template-generation": "1",
+        "tier": "node"
+      },
+      "node": "substrate-lifecycle-control-plane",
+      "phase": "Running",
+      "podIPs": [
+        {
+          "ip": "172.19.0.7"
+        }
+      ],
+      "containers": [
+        {
+          "name": "kindnet-cni",
+          "containerID": "containerd://78dc46759b940234d3243e633b331df56f683b45c7814d983651f9c68d59884f",
+          "imageID": "sha256:4626fe10df5b930638e6e1662143ee1c7a698de6174fdb61a8ce658e688be2cd",
+          "ready": true
+        }
+      ]
+    },
+    {
+      "namespace": "kube-system",
+      "name": "kube-apiserver-substrate-lifecycle-control-plane",
+      "uid": "6218a20b-b79b-478a-a445-589fbf27d9cd",
+      "labels": {
+        "component": "kube-apiserver",
+        "tier": "control-plane"
+      },
+      "node": "substrate-lifecycle-control-plane",
+      "phase": "Running",
+      "podIPs": [
+        {
+          "ip": "172.19.0.7"
+        }
+      ],
+      "containers": [
+        {
+          "name": "kube-apiserver",
+          "containerID": "containerd://60aba6d5a920fe16dc5c8e9f915da46ef937ea635bce57eba70fa2f205d72467",
+          "imageID": "docker.io/library/import-2026-08-26@sha256:eff360f86083f21c9ceaa64cbaa2e4d439d9e7e1d6834c21d25daac35e58015b",
+          "ready": true
+        }
+      ]
+    },
+    {
+      "namespace": "kube-system",
+      "name": "kube-controller-manager-substrate-lifecycle-control-plane",
+      "uid": "0f2e937c-4ca5-4f48-87ff-a9e8804c0648",
+      "labels": {
+        "component": "kube-controller-manager",
+        "tier": "control-plane"
+      },
+      "node": "substrate-lifecycle-control-plane",
+      "phase": "Running",
+      "podIPs": [
+        {
+          "ip": "172.19.0.7"
+        }
+      ],
+      "containers": [
+        {
+          "name": "kube-controller-manager",
+          "containerID": "containerd://c37e51e555b0aba715ebf57abbaf9dd4e0d47ffb8c5d5bf9dd44576ff228e905",
+          "imageID": "docker.io/library/import-2026-08-26@sha256:79bd77de40aa3294690796f94cdc8a08c4cf6a51a6a3500425c56c9e13622cc7",
+          "ready": true
+        }
+      ]
+    },
+    {
+      "namespace": "kube-system",
+      "name": "kube-proxy-96m2x",
+      "uid": "be578d6f-4d2d-4d8d-b26e-4adc6505987b",
+      "labels": {
+        "controller-revision-hash": "6f6bf99bf5",
+        "k8s-app": "kube-proxy",
+        "pod-template-generation": "1"
+      },
+      "node": "substrate-lifecycle-control-plane",
+      "phase": "Running",
+      "podIPs": [
+        {
+          "ip": "172.19.0.7"
+        }
+      ],
+      "containers": [
+        {
+          "name": "kube-proxy",
+          "containerID": "containerd://418768f71004b40a44a9fd72c96865eda3b630f7066191f310f1b01f30a92959",
+          "imageID": "docker.io/library/import-2026-08-26@sha256:1aa5cce2a7d436c309f705cf2a32a50f8378a2b6f2e5dd4bb26f81c714dd0b86",
+          "ready": true
+        }
+      ]
+    },
+    {
+      "namespace": "kube-system",
+      "name": "kube-scheduler-substrate-lifecycle-control-plane",
+      "uid": "50d1e011-fb40-47dc-b785-d94f53c1a5e5",
+      "labels": {
+        "component": "kube-scheduler",
+        "tier": "control-plane"
+      },
+      "node": "substrate-lifecycle-control-plane",
+      "phase": "Running",
+      "podIPs": [
+        {
+          "ip": "172.19.0.7"
+        }
+      ],
+      "containers": [
+        {
+          "name": "kube-scheduler",
+          "containerID": "containerd://2ae3963d3dbcb895b9bc95f53a3fd403473bf38015480fd612080bc054df2317",
+          "imageID": "docker.io/library/import-2026-08-26@sha256:213e68034d4be2f89076d1d446501434d1bfdff862916392708f095f5fecb6e1",
+          "ready": true
+        }
+      ]
+    },
+    {
+      "namespace": "lifecycle-target",
+      "name": "origin-6f4df5b78f-lqkr8",
+      "uid": "d2fdf76d-f36d-47e4-bc19-60699d1e9ab9",
+      "labels": {
+        "app": "lifecycle-origin",
+        "pod-template-hash": "6f4df5b78f"
+      },
+      "node": "substrate-lifecycle-control-plane",
+      "phase": "Running",
+      "podIPs": [
+        {
+          "ip": "10.244.0.28"
+        }
+      ],
+      "containers": [
+        {
+          "name": "origin",
+          "containerID": "containerd://8d9b30bba0de990a41c709bc3f83c4e625c1522cf0f510cbdef47acda6ffddfa",
+          "imageID": "localhost:5002/testserver-1c83b80ce58e2008bb42365908c84c50@sha256:77708dfd20b6eeb25beb64d864f0c8cfd847b138d46cc7b18fc508b17a2ee631",
+          "ready": true
+        }
+      ]
+    },
+    {
+      "namespace": "local-path-storage",
+      "name": "local-path-provisioner-75f7fc7dc5-j6ncm",
+      "uid": "c0146de9-3e4a-4fee-a45b-fa933e8799cc",
+      "labels": {
+        "app": "local-path-provisioner",
+        "pod-template-hash": "75f7fc7dc5"
+      },
+      "node": "substrate-lifecycle-control-plane",
+      "phase": "Running",
+      "podIPs": [
+        {
+          "ip": "10.244.0.2"
+        }
+      ],
+      "containers": [
+        {
+          "name": "local-path-provisioner",
+          "containerID": "containerd://f2ad3a730ca09bf16c8c330b31c833b3782ba27b94e029c681a7a8010f0b9911",
+          "imageID": "sha256:c82008e2cd0186ef96bfd05d6b49d3286768fae5bd7a961f70bd485a3785c006",
+          "ready": true
+        }
+      ]
+    },
+    {
+      "namespace": "otel-system",
+      "name": "jaeger-fb9948ddf-2sd9f",
+      "uid": "0d99448d-960e-4172-bed2-a04db6065e7b",
+      "labels": {
+        "app": "jaeger",
+        "pod-template-hash": "fb9948ddf"
+      },
+      "node": "substrate-lifecycle-control-plane",
+      "phase": "Running",
+      "podIPs": [
+        {
+          "ip": "10.244.0.18"
+        }
+      ],
+      "containers": [
+        {
+          "name": "jaeger",
+          "containerID": "containerd://f8903a64cafbd77479f691de1d127447ee14a9cdd73bc554380d54d7a00dbc46",
+          "imageID": "docker.io/jaegertracing/jaeger@sha256:836b967b5abcf1f7758066aa6b348619267a2f1459f72d472840570f9bd88a17",
+          "ready": true
+        }
+      ]
+    },
+    {
+      "namespace": "otel-system",
+      "name": "opentelemetry-collector-6f5b87f5dd-bmvck",
+      "uid": "40e96f40-9f76-45d3-8d94-f1387283dd2e",
+      "labels": {
+        "app": "opentelemetry-collector",
+        "pod-template-hash": "6f5b87f5dd"
+      },
+      "node": "substrate-lifecycle-control-plane",
+      "phase": "Running",
+      "podIPs": [
+        {
+          "ip": "10.244.0.17"
+        }
+      ],
+      "containers": [
+        {
+          "name": "otel-collector",
+          "containerID": "containerd://921403a2133f60db21b1bb65973fde1336a17c1778400e8ceb5aaef0479efa9f",
+          "imageID": "docker.io/otel/opentelemetry-collector-contrib@sha256:7f22d2a6748110ffb6a59bc0df448bccbf501cdb667d610ede4c61d3863d5849",
+          "ready": true
+        }
+      ]
+    },
+    {
+      "namespace": "otel-system",
+      "name": "prometheus-5b5fb67d57-qpv82",
+      "uid": "d80c73a5-6ae1-49a9-aa3d-58310141a4e8",
+      "labels": {
+        "app": "prometheus",
+        "pod-template-hash": "5b5fb67d57"
+      },
+      "node": "substrate-lifecycle-control-plane",
+      "phase": "Running",
+      "podIPs": [
+        {
+          "ip": "10.244.0.19"
+        }
+      ],
+      "containers": [
+        {
+          "name": "prometheus",
+          "containerID": "containerd://e4aa491104e87a08d6e0bd8e662505b2ae7ffd2da483ef4d86e49541488ecacd",
+          "imageID": "docker.io/prom/prometheus@sha256:fa3302279710be2f21a8301ec17a8b4f2301fd829bd113839b3b6b02b6f191a2",
+          "ready": true
+        }
+      ]
+    },
+    {
+      "namespace": "podcertificate-controller-system",
+      "name": "podcertificate-controller-74bcb5cdfc-tb7nn",
+      "uid": "93a3aca8-e11a-4050-b45d-686022fc7fb6",
+      "labels": {
+        "app": "podcertificate-controller",
+        "pod-template-hash": "74bcb5cdfc"
+      },
+      "node": "substrate-lifecycle-control-plane",
+      "phase": "Running",
+      "podIPs": [
+        {
+          "ip": "10.244.0.5"
+        }
+      ],
+      "containers": [
+        {
+          "name": "controller",
+          "containerID": "containerd://8a682dfecdb5ae6de2f680b62140d448d3a82c5f32d14dfaa31ed3aa20fd6f62",
+          "imageID": "localhost:5002/podcertcontroller@sha256:9b1ca8bd548e10dd758357b2ce1dcd3231c10b8fb609f3af4f3fb3e2f32ec848",
+          "ready": true
+        }
+      ]
+    }
+  ]
+}

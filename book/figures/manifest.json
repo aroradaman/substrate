@@ -1,0 +1,401 @@
+[
+  {
+    "id": "01-architecture-01",
+    "chapter": "01-architecture.md",
+    "input": "figures/01-architecture-01.mmd",
+    "output": "figures/01-architecture-01.svg",
+    "sha256": "e8c29a3d0329aec16beb8b957602be43a8433d65e0004f32cc14feb45bbc3979"
+  },
+  {
+    "id": "01-architecture-02",
+    "chapter": "01-architecture.md",
+    "input": "figures/01-architecture-02.mmd",
+    "output": "figures/01-architecture-02.svg",
+    "sha256": "cd5aaa8c86bb26198b531c6365d4b8892368e5675514e7595b99dcdbe5293635"
+  },
+  {
+    "id": "01-architecture-03",
+    "chapter": "01-architecture.md",
+    "input": "figures/01-architecture-03.mmd",
+    "output": "figures/01-architecture-03.svg",
+    "sha256": "6f0c11574a858d2024ce6aed2473aaf0f2cd0be91da3035aeb2f905453cddc7b"
+  },
+  {
+    "id": "01-architecture-04",
+    "chapter": "01-architecture.md",
+    "input": "figures/01-architecture-04.mmd",
+    "output": "figures/01-architecture-04.svg",
+    "sha256": "ba73c77c4fc5eb80cdccf6c5ec537621987482c069134044284f5bc24d7eab93"
+  },
+  {
+    "id": "01-architecture-05",
+    "chapter": "01-architecture.md",
+    "input": "figures/01-architecture-05.mmd",
+    "output": "figures/01-architecture-05.svg",
+    "sha256": "2ed3cdfded1e2f0bccf0c18052229d7806f46931d94129e8b4a3df49abf616b3"
+  },
+  {
+    "id": "02-api-planes-01",
+    "chapter": "02-api-planes.md",
+    "input": "figures/02-api-planes-01.mmd",
+    "output": "figures/02-api-planes-01.svg",
+    "sha256": "fea5e3e716f3ece948e429d15021bdd68362290f5645a9186a9c6acaa4a1feb2"
+  },
+  {
+    "id": "02-api-planes-02",
+    "chapter": "02-api-planes.md",
+    "input": "figures/02-api-planes-02.mmd",
+    "output": "figures/02-api-planes-02.svg",
+    "sha256": "cd946436515af25c885638220c1b91bf5c3069289f88aac314063929911fc13d"
+  },
+  {
+    "id": "02-api-planes-03",
+    "chapter": "02-api-planes.md",
+    "input": "figures/02-api-planes-03.mmd",
+    "output": "figures/02-api-planes-03.svg",
+    "sha256": "2385e2d4e388c245cd3367209205b261780fc7f5db1d007f04829a1749d99c17"
+  },
+  {
+    "id": "02-api-planes-04",
+    "chapter": "02-api-planes.md",
+    "input": "figures/02-api-planes-04.mmd",
+    "output": "figures/02-api-planes-04.svg",
+    "sha256": "b35446a9d8ae9bde7d0fc74225213081269e0b2cc79ea00c5864cfe888527bd5"
+  },
+  {
+    "id": "02-api-planes-05",
+    "chapter": "02-api-planes.md",
+    "input": "figures/02-api-planes-05.mmd",
+    "output": "figures/02-api-planes-05.svg",
+    "sha256": "871896ebe1fbfc64c6d6801a2b0f00a4884bafc527506a1720e7234deb70b793"
+  },
+  {
+    "id": "03-placement-consistency-01",
+    "chapter": "03-placement-consistency.md",
+    "input": "figures/03-placement-consistency-01.mmd",
+    "output": "figures/03-placement-consistency-01.svg",
+    "sha256": "7c10952c379dc91c2c8f54ab162ce46510a126b16f989f0e9a27e2f2e7630116"
+  },
+  {
+    "id": "03-placement-consistency-02",
+    "chapter": "03-placement-consistency.md",
+    "input": "figures/03-placement-consistency-02.mmd",
+    "output": "figures/03-placement-consistency-02.svg",
+    "sha256": "965a34f09fce897920bc4b617b69473a5c6c8a535d9ecf73d07901bee63fefd9"
+  },
+  {
+    "id": "03-placement-consistency-03",
+    "chapter": "03-placement-consistency.md",
+    "input": "figures/03-placement-consistency-03.mmd",
+    "output": "figures/03-placement-consistency-03.svg",
+    "sha256": "2ef163d915344f2fbf9c1725f0ccdf92a2d76e36b34ca6b2569d22a6f49af4fd"
+  },
+  {
+    "id": "03-placement-consistency-04",
+    "chapter": "03-placement-consistency.md",
+    "input": "figures/03-placement-consistency-04.mmd",
+    "output": "figures/03-placement-consistency-04.svg",
+    "sha256": "eac43acb2183b7428e21c898ac66d795a60cb753044516d8cb84eaed5bbeb421"
+  },
+  {
+    "id": "03-placement-consistency-05",
+    "chapter": "03-placement-consistency.md",
+    "input": "figures/03-placement-consistency-05.mmd",
+    "output": "figures/03-placement-consistency-05.svg",
+    "sha256": "4bba2e131b42926ddd171c5bd53bec1f17731735ba2a2ca6900a42052a6151e9"
+  },
+  {
+    "id": "04-kubernetes-reconciliation-01",
+    "chapter": "04-kubernetes-reconciliation.md",
+    "input": "figures/04-kubernetes-reconciliation-01.mmd",
+    "output": "figures/04-kubernetes-reconciliation-01.svg",
+    "sha256": "c6419f0d67e635c9353df88605966bcb2583ee4a0dfed14172525e4bcec039f8"
+  },
+  {
+    "id": "04-kubernetes-reconciliation-02",
+    "chapter": "04-kubernetes-reconciliation.md",
+    "input": "figures/04-kubernetes-reconciliation-02.mmd",
+    "output": "figures/04-kubernetes-reconciliation-02.svg",
+    "sha256": "69964e3034d5b6fdf7968975bb3b6e4df84b0ccc5f5ea251bd4d85a460e9aee1"
+  },
+  {
+    "id": "04-kubernetes-reconciliation-03",
+    "chapter": "04-kubernetes-reconciliation.md",
+    "input": "figures/04-kubernetes-reconciliation-03.mmd",
+    "output": "figures/04-kubernetes-reconciliation-03.svg",
+    "sha256": "b3d639599f353981c8cc735d0fbb376caa1daed124ffeacb7ae0f79fd0d6d449"
+  },
+  {
+    "id": "04-kubernetes-reconciliation-04",
+    "chapter": "04-kubernetes-reconciliation.md",
+    "input": "figures/04-kubernetes-reconciliation-04.mmd",
+    "output": "figures/04-kubernetes-reconciliation-04.svg",
+    "sha256": "8994f98b90623cc191525c9d8674dcf67e8233c03c8176053f73bbf612b84632"
+  },
+  {
+    "id": "04-kubernetes-reconciliation-05",
+    "chapter": "04-kubernetes-reconciliation.md",
+    "input": "figures/04-kubernetes-reconciliation-05.mmd",
+    "output": "figures/04-kubernetes-reconciliation-05.svg",
+    "sha256": "abe5d02cfbb2c26755b74e46bd71d203f89b96fbfeed97ade80500b95d795365"
+  },
+  {
+    "id": "05-node-supervision-01",
+    "chapter": "05-node-supervision.md",
+    "input": "figures/05-node-supervision-01.mmd",
+    "output": "figures/05-node-supervision-01.svg",
+    "sha256": "c7e3e4e3841f0092a6cb877be25632c9971de62d7eeaa7591de1aaa3f547d2e2"
+  },
+  {
+    "id": "05-node-supervision-02",
+    "chapter": "05-node-supervision.md",
+    "input": "figures/05-node-supervision-02.mmd",
+    "output": "figures/05-node-supervision-02.svg",
+    "sha256": "94987f5ea5315098f209240fc09af3c922c43e70c39ccfc3eb9d78323b19274a"
+  },
+  {
+    "id": "05-node-supervision-03",
+    "chapter": "05-node-supervision.md",
+    "input": "figures/05-node-supervision-03.mmd",
+    "output": "figures/05-node-supervision-03.svg",
+    "sha256": "c96d23a131ef039fa6a3c3cda69e0cb1e20f0461c506abc825e783d7b2f317db"
+  },
+  {
+    "id": "05-node-supervision-04",
+    "chapter": "05-node-supervision.md",
+    "input": "figures/05-node-supervision-04.mmd",
+    "output": "figures/05-node-supervision-04.svg",
+    "sha256": "65070f013b5bdf6dce9e5f68e1f43f81ddd5f29a7f177e1207005d753d7fed56"
+  },
+  {
+    "id": "06-gvisor-01",
+    "chapter": "06-gvisor.md",
+    "input": "figures/06-gvisor-01.mmd",
+    "output": "figures/06-gvisor-01.svg",
+    "sha256": "ea0e99965fed433739b7d2832bb80bac15d777eb21c51f53819b019aa4a50318"
+  },
+  {
+    "id": "06-gvisor-02",
+    "chapter": "06-gvisor.md",
+    "input": "figures/06-gvisor-02.mmd",
+    "output": "figures/06-gvisor-02.svg",
+    "sha256": "eb50624aef3b0e76ff9d9e528f202fb62eb75d0f6fea49734b4deed124f15f25"
+  },
+  {
+    "id": "06-gvisor-03",
+    "chapter": "06-gvisor.md",
+    "input": "figures/06-gvisor-03.mmd",
+    "output": "figures/06-gvisor-03.svg",
+    "sha256": "b2bb988acbfa24d5b9a63f2d97afaf9235dd511db536d50efecfe056488157d8"
+  },
+  {
+    "id": "06-gvisor-04",
+    "chapter": "06-gvisor.md",
+    "input": "figures/06-gvisor-04.mmd",
+    "output": "figures/06-gvisor-04.svg",
+    "sha256": "f58636b467f922bedfdec84be86f21ebd9742c97a5da8872e87dc3cf46eb765d"
+  },
+  {
+    "id": "07-microvm-01",
+    "chapter": "07-microvm.md",
+    "input": "figures/07-microvm-01.mmd",
+    "output": "figures/07-microvm-01.svg",
+    "sha256": "85566a499dcc5df9aca6ae360c689175b45d2712cd8df2dec1b6482eb2771910"
+  },
+  {
+    "id": "07-microvm-02",
+    "chapter": "07-microvm.md",
+    "input": "figures/07-microvm-02.mmd",
+    "output": "figures/07-microvm-02.svg",
+    "sha256": "06cda4c5340c9596dd53a383422953561f1497f1587d218348de0ab647ffd4c5"
+  },
+  {
+    "id": "07-microvm-03",
+    "chapter": "07-microvm.md",
+    "input": "figures/07-microvm-03.mmd",
+    "output": "figures/07-microvm-03.svg",
+    "sha256": "10a3bb936672f08a03db17b06ea98e008836e9c7bcf7d626c7bbd366cfc11de6"
+  },
+  {
+    "id": "07-microvm-04",
+    "chapter": "07-microvm.md",
+    "input": "figures/07-microvm-04.mmd",
+    "output": "figures/07-microvm-04.svg",
+    "sha256": "a4d56ff213e3b27e7153e097f249489b2c6f5d2b8c5b9536620e59f906625596"
+  },
+  {
+    "id": "08-snapshots-storage-01",
+    "chapter": "08-snapshots-storage.md",
+    "input": "figures/08-snapshots-storage-01.mmd",
+    "output": "figures/08-snapshots-storage-01.svg",
+    "sha256": "8055b02421e6d089669b7436d1492ada23b118e59a790b50f7d563e771b61d6a"
+  },
+  {
+    "id": "08-snapshots-storage-02",
+    "chapter": "08-snapshots-storage.md",
+    "input": "figures/08-snapshots-storage-02.mmd",
+    "output": "figures/08-snapshots-storage-02.svg",
+    "sha256": "9919934395b864a8dcda37ef5364bf4180d53a6cd99619c7c61055d5994a5ddc"
+  },
+  {
+    "id": "08-snapshots-storage-03",
+    "chapter": "08-snapshots-storage.md",
+    "input": "figures/08-snapshots-storage-03.mmd",
+    "output": "figures/08-snapshots-storage-03.svg",
+    "sha256": "ac8a5bd125d96824fdf8ea68fb69a95439312fff0631002338e88112b6bdbfc1"
+  },
+  {
+    "id": "08-snapshots-storage-04",
+    "chapter": "08-snapshots-storage.md",
+    "input": "figures/08-snapshots-storage-04.mmd",
+    "output": "figures/08-snapshots-storage-04.svg",
+    "sha256": "e0d878f87a3d049c990cde776282d21b63bc092ce4b5c0fd5b48a286f644ca7f"
+  },
+  {
+    "id": "09-networking-01",
+    "chapter": "09-networking.md",
+    "input": "figures/09-networking-01.mmd",
+    "output": "figures/09-networking-01.svg",
+    "sha256": "5f7e0e43add3508424c13e20a91819a01c4c5693ee96df83660a27682dd37e1c"
+  },
+  {
+    "id": "09-networking-02",
+    "chapter": "09-networking.md",
+    "input": "figures/09-networking-02.mmd",
+    "output": "figures/09-networking-02.svg",
+    "sha256": "75176cb617a6e014bcba8f4f3ed047efd206c2dba1f13feeba0aa7cf58328d67"
+  },
+  {
+    "id": "09-networking-03",
+    "chapter": "09-networking.md",
+    "input": "figures/09-networking-03.mmd",
+    "output": "figures/09-networking-03.svg",
+    "sha256": "34b056239dc7d8ab9bbdb89b345106559858f4d9bf030d56023db8ec76bc9179"
+  },
+  {
+    "id": "09-networking-04",
+    "chapter": "09-networking.md",
+    "input": "figures/09-networking-04.mmd",
+    "output": "figures/09-networking-04.svg",
+    "sha256": "0a085c12a1a44e192c7b8e7fb964c9d21808b568ede199d4fcc20e72ee98cbb5"
+  },
+  {
+    "id": "09-networking-05",
+    "chapter": "09-networking.md",
+    "input": "figures/09-networking-05.mmd",
+    "output": "figures/09-networking-05.svg",
+    "sha256": "76005b7e6351960b97a5246c2a1d7165fd011dffcb7c1c97535ca7bb49475d0b"
+  },
+  {
+    "id": "09-networking-06",
+    "chapter": "09-networking.md",
+    "input": "figures/09-networking-06.mmd",
+    "output": "figures/09-networking-06.svg",
+    "sha256": "98293c31914d0a36da6a9ac7b7bc1caef986fe56676f831232b69f653cb12a8f"
+  },
+  {
+    "id": "10-security-identity-01",
+    "chapter": "10-security-identity.md",
+    "input": "figures/10-security-identity-01.mmd",
+    "output": "figures/10-security-identity-01.svg",
+    "sha256": "fc837ad05fd42d91bcf3f9e43916898b9f913bf64740acbc16d8eecc12a6fef0"
+  },
+  {
+    "id": "10-security-identity-02",
+    "chapter": "10-security-identity.md",
+    "input": "figures/10-security-identity-02.mmd",
+    "output": "figures/10-security-identity-02.svg",
+    "sha256": "6d2ea29ebc99003ec0f3e6c1c6113282c2a3d951e192b6b4c87906c51f4b099a"
+  },
+  {
+    "id": "10-security-identity-03",
+    "chapter": "10-security-identity.md",
+    "input": "figures/10-security-identity-03.mmd",
+    "output": "figures/10-security-identity-03.svg",
+    "sha256": "0e768475b9e988b1251f08d2815671ab2229b046d7319bdc48dd3b405795e6bf"
+  },
+  {
+    "id": "10-security-identity-04",
+    "chapter": "10-security-identity.md",
+    "input": "figures/10-security-identity-04.mmd",
+    "output": "figures/10-security-identity-04.svg",
+    "sha256": "2445d49d700a9ed859243d42eef0511a4ba5f76980b36e521803327d456a09df"
+  },
+  {
+    "id": "10-security-identity-05",
+    "chapter": "10-security-identity.md",
+    "input": "figures/10-security-identity-05.mmd",
+    "output": "figures/10-security-identity-05.svg",
+    "sha256": "10d2029de44c371358e31a89d729cea135e5c879e67f283bcf4dc9714ccbcfe2"
+  },
+  {
+    "id": "11-operations-01",
+    "chapter": "11-operations.md",
+    "input": "figures/11-operations-01.mmd",
+    "output": "figures/11-operations-01.svg",
+    "sha256": "a9cfd6e52023fc5a6fb49cc23230a9a4044957436d33d8f25c75c33e33f7b6f4"
+  },
+  {
+    "id": "11-operations-02",
+    "chapter": "11-operations.md",
+    "input": "figures/11-operations-02.mmd",
+    "output": "figures/11-operations-02.svg",
+    "sha256": "05b0c134b539b7c6335826b2598cd1554dd44f0fdedbb3b4a1ab3ed32729d8d8"
+  },
+  {
+    "id": "11-operations-03",
+    "chapter": "11-operations.md",
+    "input": "figures/11-operations-03.mmd",
+    "output": "figures/11-operations-03.svg",
+    "sha256": "5886a84903dcb6ee960e672312fb6864ef20302200d1f528214022bcceb24eb1"
+  },
+  {
+    "id": "11-operations-04",
+    "chapter": "11-operations.md",
+    "input": "figures/11-operations-04.mmd",
+    "output": "figures/11-operations-04.svg",
+    "sha256": "97a880739324efae4463998728a3fa7621559844db8b3b89df0781fed86a30e8"
+  },
+  {
+    "id": "11-operations-05",
+    "chapter": "11-operations.md",
+    "input": "figures/11-operations-05.mmd",
+    "output": "figures/11-operations-05.svg",
+    "sha256": "26ac2de8b69189bd82010abbb6f721049987bdd8ad175346798eebdc7890b9d4"
+  },
+  {
+    "id": "12-extension-contracts-01",
+    "chapter": "12-extension-contracts.md",
+    "input": "figures/12-extension-contracts-01.mmd",
+    "output": "figures/12-extension-contracts-01.svg",
+    "sha256": "9ed96e89bbb6e3d4f78f12495ea37b4f8f6216ae8cfa1427a29ee5a4cd81562e"
+  },
+  {
+    "id": "12-extension-contracts-02",
+    "chapter": "12-extension-contracts.md",
+    "input": "figures/12-extension-contracts-02.mmd",
+    "output": "figures/12-extension-contracts-02.svg",
+    "sha256": "93c214b676160071b9e74ccf34b08bb93b2e6e5c71e21197e981d1493f8d7191"
+  },
+  {
+    "id": "12-extension-contracts-03",
+    "chapter": "12-extension-contracts.md",
+    "input": "figures/12-extension-contracts-03.mmd",
+    "output": "figures/12-extension-contracts-03.svg",
+    "sha256": "9cf2319775ed215296ff7894cda1776cb282e60f8022717f7e62d31041c8f16f"
+  },
+  {
+    "id": "12-extension-contracts-04",
+    "chapter": "12-extension-contracts.md",
+    "input": "figures/12-extension-contracts-04.mmd",
+    "output": "figures/12-extension-contracts-04.svg",
+    "sha256": "51875ef2f16507c6bf1499c6be869db36fad137d40a3b74c311fe7418a23b80c"
+  },
+  {
+    "id": "12-extension-contracts-05",
+    "chapter": "12-extension-contracts.md",
+    "input": "figures/12-extension-contracts-05.mmd",
+    "output": "figures/12-extension-contracts-05.svg",
+    "sha256": "847287e5ac229db4acfeeb737ddace1ba999208016308a5ef009ca44efbaf74d"
+  }
+]

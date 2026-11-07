@@ -1,0 +1,12 @@
+flowchart TB
+    DB[PostgreSQL actor proto: generation 9] --> U[Snapshot UUID 79ade422...]
+    U --> URI[durableSnapshot.object.snapshotUri]
+    URI --> BK[Parse bucket and object prefix]
+    CFG[Plugin backend s3 and RustFS endpoint] --> STORE[RustFS bucket ate-snapshots]
+    BK --> STORE
+    STORE --> MF[manifest.json commit marker]
+    MF --> MEM[checkpoint and process-memory files]
+    MF --> ROOT[rootfs checkpoint files]
+    MF --> VOL[durable-dir fs checkpoint files]
+    TAG[Tag UID 48abb3b2...] --> COPY[Independent tag-owned copied prefix]
+    COPY --> TM[Manifest still names original capture actor]

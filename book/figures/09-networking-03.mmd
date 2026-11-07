@@ -1,0 +1,13 @@
+flowchart TB
+    T[Worker process with atunnel]
+    I[mTLS ingress socket]
+    T --- I
+    subgraph VMN[MicroVM host netns]
+        G[DNS and TCP redirect sockets]
+        TAP[TAP device]
+        G --- TAP
+    end
+    K[Guest kernel network stack]
+    T --> G
+    TAP --- K
+    I --> K

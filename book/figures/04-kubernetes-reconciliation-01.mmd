@@ -1,0 +1,10 @@
+flowchart TB
+    WP[WorkerPool CRD] --> D[Deployment]
+    D --> RS[ReplicaSet]
+    RS --> P[Worker Pod]
+    WP --> NP[Owned NetworkPolicy]
+    WP -. resolved configuration .-> SC[SandboxConfig]
+    P --> Sync[WorkerPoolSyncer]
+    Sync --> W[Substrate Worker record]
+    W --> Assign[Actor assignments]
+    SC --> Protection[Protection finalizer controller]

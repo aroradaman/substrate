@@ -1,0 +1,5 @@
+NAME                          READY   STATUS    RESTARTS   AGE   IP            NODE                                NOMINATED NODE   READINESS GATES
+pod/origin-6f4df5b78f-lqkr8   1/1     Running   0          83s   10.244.0.28   substrate-lifecycle-control-plane   <none>           <none>
+
+NAME             TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE   SELECTOR
+service/origin   ClusterIP   10.96.249.148   <none>        80/TCP    83s   app=lifecycle-origin

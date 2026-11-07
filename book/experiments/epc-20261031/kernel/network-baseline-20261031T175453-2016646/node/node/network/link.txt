@@ -1,0 +1,181 @@
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00 promiscuity 0 allmulti 0 minmtu 0 maxmtu 0 addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 tso_max_size 524280 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536 
+    RX:  bytes packets errors dropped  missed   mcast           
+      57285007  169195      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+      57285007  169195      0       0       0       0 
+2: tunl0@NONE: <NOARP> mtu 1480 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+    link/ipip 0.0.0.0 brd 0.0.0.0 promiscuity 0 allmulti 0 minmtu 0 maxmtu 0 
+    ipip any remote any local any ttl inherit nopmtudisc numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 tso_max_size 65536 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536 
+    RX:  bytes packets errors dropped  missed   mcast           
+             0       0      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+             0       0      0       0       0       0 
+3: eth0@if494: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default 
+    link/ether b6:0e:92:5f:16:af brd ff:ff:ff:ff:ff:ff link-netnsid 0 promiscuity 0 allmulti 0 minmtu 68 maxmtu 65535 
+    veth addrgenmode eui64 numtxqueues 16 numrxqueues 16 gso_max_size 65536 gso_max_segs 65535 tso_max_size 524280 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536 
+    RX:  bytes packets errors dropped  missed   mcast           
+    1177261056   56170      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+       5623423   26208      0       0       0       0 
+4: vethc062d0c3@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default 
+    link/ether f2:ec:06:b0:8c:d1 brd ff:ff:ff:ff:ff:ff link-netns cni-4eb6b34c-363f-e594-78f7-f04093448c32 promiscuity 0 allmulti 0 minmtu 68 maxmtu 65535 
+    veth addrgenmode eui64 numtxqueues 16 numrxqueues 16 gso_max_size 65536 gso_max_segs 65535 tso_max_size 524280 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536 
+    RX:  bytes packets errors dropped  missed   mcast           
+         27633     199      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+        109127     185      0       0       0       0 
+5: vethf1ba911f@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default 
+    link/ether ce:c6:5e:ae:8e:ed brd ff:ff:ff:ff:ff:ff link-netns cni-c0477dee-6129-578e-a2db-79bb69a71aa3 promiscuity 0 allmulti 0 minmtu 68 maxmtu 65535 
+    veth addrgenmode eui64 numtxqueues 16 numrxqueues 16 gso_max_size 65536 gso_max_segs 65535 tso_max_size 524280 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536 
+    RX:  bytes packets errors dropped  missed   mcast           
+        141106    1049      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+        154910    1086      0       0       0       0 
+6: vethe739fae7@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default 
+    link/ether 06:3c:38:0e:e1:b9 brd ff:ff:ff:ff:ff:ff link-netns cni-14598a02-ec30-d55e-7f11-7699077d1a48 promiscuity 0 allmulti 0 minmtu 68 maxmtu 65535 
+    veth addrgenmode eui64 numtxqueues 16 numrxqueues 16 gso_max_size 65536 gso_max_segs 65535 tso_max_size 524280 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536 
+    RX:  bytes packets errors dropped  missed   mcast           
+        146499    1075      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+        168186    1099      0       0       0       0 
+7: vethe69468a4@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default 
+    link/ether 96:cb:0f:e6:18:b1 brd ff:ff:ff:ff:ff:ff link-netns cni-0f3ef23a-8768-10d5-078d-4e6ede1cee57 promiscuity 0 allmulti 0 minmtu 68 maxmtu 65535 
+    veth addrgenmode eui64 numtxqueues 16 numrxqueues 16 gso_max_size 65536 gso_max_segs 65535 tso_max_size 524280 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536 
+    RX:  bytes packets errors dropped  missed   mcast           
+        171216     950      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+       1019621     965      0       0       0       0 
+9: vethc6320c3c@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default 
+    link/ether 0a:04:77:e9:a8:65 brd ff:ff:ff:ff:ff:ff link-netns cni-3da3fcf2-5250-79fd-8309-8940fedb5797 promiscuity 0 allmulti 0 minmtu 68 maxmtu 65535 
+    veth addrgenmode eui64 numtxqueues 16 numrxqueues 16 gso_max_size 65536 gso_max_segs 65535 tso_max_size 524280 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536 
+    RX:  bytes packets errors dropped  missed   mcast           
+       1448194    7864      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+       2679571   14517      0       0       0       0 
+10: vethaf42f965@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default 
+    link/ether 02:af:c1:ee:ac:44 brd ff:ff:ff:ff:ff:ff link-netns cni-367a87d9-4a1b-4721-dc01-2ad111e4668a promiscuity 0 allmulti 0 minmtu 68 maxmtu 65535 
+    veth addrgenmode eui64 numtxqueues 16 numrxqueues 16 gso_max_size 65536 gso_max_segs 65535 tso_max_size 524280 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536 
+    RX:  bytes packets errors dropped  missed   mcast           
+       2175825    9115      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+       1058127    5909      0       0       0       0 
+11: vethbc5f495b@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default 
+    link/ether 9a:db:c4:89:fb:9e brd ff:ff:ff:ff:ff:ff link-netns cni-6d74f8b4-e8ff-9587-523d-ab1a4715ed5b promiscuity 0 allmulti 0 minmtu 68 maxmtu 65535 
+    veth addrgenmode eui64 numtxqueues 16 numrxqueues 16 gso_max_size 65536 gso_max_segs 65535 tso_max_size 524280 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536 
+    RX:  bytes packets errors dropped  missed   mcast           
+        860442    1016      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+        669787     936      0       0       0       0 
+12: veth2835c7d6@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default 
+    link/ether 6a:a8:18:5e:51:9f brd ff:ff:ff:ff:ff:ff link-netns cni-36fb09dc-73f1-ef60-af3d-ca81b704d108 promiscuity 0 allmulti 0 minmtu 68 maxmtu 65535 
+    veth addrgenmode eui64 numtxqueues 16 numrxqueues 16 gso_max_size 65536 gso_max_segs 65535 tso_max_size 524280 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536 
+    RX:  bytes packets errors dropped  missed   mcast           
+       1598382    8175      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+        889110    5163      0       0       0       0 
+13: veth4dbe14a9@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default 
+    link/ether 7e:44:40:a9:44:90 brd ff:ff:ff:ff:ff:ff link-netns cni-4df62c5a-9b08-2540-d0d8-2fdf3eb92f95 promiscuity 0 allmulti 0 minmtu 68 maxmtu 65535 
+    veth addrgenmode eui64 numtxqueues 16 numrxqueues 16 gso_max_size 65536 gso_max_segs 65535 tso_max_size 524280 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536 
+    RX:  bytes packets errors dropped  missed   mcast           
+       3742157    5579      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+      79934313    8709      0       0       0       0 
+14: veth2bea192a@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default 
+    link/ether c6:75:00:20:25:69 brd ff:ff:ff:ff:ff:ff link-netns cni-d44f819e-67e5-3f33-e8fe-8eb7afdb557b promiscuity 0 allmulti 0 minmtu 68 maxmtu 65535 
+    veth addrgenmode eui64 numtxqueues 16 numrxqueues 16 gso_max_size 65536 gso_max_segs 65535 tso_max_size 524280 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536 
+    RX:  bytes packets errors dropped  missed   mcast           
+         99616     347      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+         96721     472      0       0       0       0 
+15: veth03417377@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default 
+    link/ether 92:6f:5f:2a:74:4f brd ff:ff:ff:ff:ff:ff link-netns cni-f4387e92-5a6b-aa14-22d2-549547592926 promiscuity 0 allmulti 0 minmtu 68 maxmtu 65535 
+    veth addrgenmode eui64 numtxqueues 16 numrxqueues 16 gso_max_size 65536 gso_max_segs 65535 tso_max_size 524280 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536 
+    RX:  bytes packets errors dropped  missed   mcast           
+         99902     351      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+         96853     474      0       0       0       0 
+18: veth133ad53c@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default 
+    link/ether 96:4e:fc:a2:66:fd brd ff:ff:ff:ff:ff:ff link-netns cni-afee23cb-a107-b500-8f1d-2602f3806134 promiscuity 0 allmulti 0 minmtu 68 maxmtu 65535 
+    veth addrgenmode eui64 numtxqueues 16 numrxqueues 16 gso_max_size 65536 gso_max_segs 65535 tso_max_size 524280 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536 
+    RX:  bytes packets errors dropped  missed   mcast           
+        291525    1863      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+        284492    1636      0       0       0       0 
+19: veth0b1e42e2@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default 
+    link/ether 92:7b:bb:4f:f4:a3 brd ff:ff:ff:ff:ff:ff link-netns cni-0edc486c-d12e-3785-276f-03eb09ac25db promiscuity 0 allmulti 0 minmtu 68 maxmtu 65535 
+    veth addrgenmode eui64 numtxqueues 16 numrxqueues 16 gso_max_size 65536 gso_max_segs 65535 tso_max_size 524280 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536 
+    RX:  bytes packets errors dropped  missed   mcast           
+        350836    1179      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+       1581479    1322      0       0       0       0 
+20: veth3a7a3177@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default 
+    link/ether 7a:18:40:93:bc:20 brd ff:ff:ff:ff:ff:ff link-netns cni-21c5f42a-bc2b-3915-b315-f130872e3621 promiscuity 0 allmulti 0 minmtu 68 maxmtu 65535 
+    veth addrgenmode eui64 numtxqueues 16 numrxqueues 16 gso_max_size 65536 gso_max_segs 65535 tso_max_size 524280 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536 
+    RX:  bytes packets errors dropped  missed   mcast           
+         17860     192      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+        111339     278      0       0       0       0 
+21: veth6fa732d1@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default 
+    link/ether fe:1d:41:05:91:ae brd ff:ff:ff:ff:ff:ff link-netns cni-4e7cd0dd-0c3a-1ada-9fba-5efc968ec197 promiscuity 0 allmulti 0 minmtu 68 maxmtu 65535 
+    veth addrgenmode eui64 numtxqueues 16 numrxqueues 16 gso_max_size 65536 gso_max_segs 65535 tso_max_size 524280 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536 
+    RX:  bytes packets errors dropped  missed   mcast           
+         53477     388      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+        452611     334      0       0       0       0 
+22: vethfbe90053@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default 
+    link/ether 2e:1b:f9:ff:ab:c2 brd ff:ff:ff:ff:ff:ff link-netns cni-75c676ec-f973-e8e9-a401-c4648511974c promiscuity 0 allmulti 0 minmtu 68 maxmtu 65535 
+    veth addrgenmode eui64 numtxqueues 16 numrxqueues 16 gso_max_size 65536 gso_max_segs 65535 tso_max_size 524280 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536 
+    RX:  bytes packets errors dropped  missed   mcast           
+       2673803     417      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+       3094733     427      0       0       0       0 
+23: vethce51b758@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default 
+    link/ether 2e:87:75:40:7f:ce brd ff:ff:ff:ff:ff:ff link-netns cni-81dd0c53-daa5-3449-b519-0536a1850fbe promiscuity 0 allmulti 0 minmtu 68 maxmtu 65535 
+    veth addrgenmode eui64 numtxqueues 16 numrxqueues 16 gso_max_size 65536 gso_max_segs 65535 tso_max_size 524280 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536 
+    RX:  bytes packets errors dropped  missed   mcast           
+          6707      71      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+          7531      80      0       0       0       0 
+24: vethd2b1e7d4@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default 
+    link/ether ea:d5:24:dc:a9:13 brd ff:ff:ff:ff:ff:ff link-netns cni-dc3479a2-033a-55bd-a81f-a18e76839ada promiscuity 0 allmulti 0 minmtu 68 maxmtu 65535 
+    veth addrgenmode eui64 numtxqueues 16 numrxqueues 16 gso_max_size 65536 gso_max_segs 65535 tso_max_size 524280 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536 
+    RX:  bytes packets errors dropped  missed   mcast           
+        114316     945      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+        108216     748      0       0       0       0 
+25: vethd4335de8@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default 
+    link/ether fe:a3:4e:de:10:c2 brd ff:ff:ff:ff:ff:ff link-netns cni-3b5b8056-5dc8-1b67-d084-b66132347eaf promiscuity 0 allmulti 0 minmtu 68 maxmtu 65535 
+    veth addrgenmode eui64 numtxqueues 16 numrxqueues 16 gso_max_size 65536 gso_max_segs 65535 tso_max_size 524280 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536 
+    RX:  bytes packets errors dropped  missed   mcast           
+          5439      60      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+          4991      55      0       0       0       0 
+26: veth0c0250d6@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default 
+    link/ether e2:b2:5e:48:9c:36 brd ff:ff:ff:ff:ff:ff link-netns cni-641ad513-a2c8-fd7e-42b0-b9522e552fa7 promiscuity 0 allmulti 0 minmtu 68 maxmtu 65535 
+    veth addrgenmode eui64 numtxqueues 16 numrxqueues 16 gso_max_size 65536 gso_max_segs 65535 tso_max_size 524280 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536 
+    RX:  bytes packets errors dropped  missed   mcast           
+          5126      58      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+          4386      51      0       0       0       0 
+27: veth26f1d552@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default 
+    link/ether ee:9f:c0:52:72:51 brd ff:ff:ff:ff:ff:ff link-netns cni-8cad15bb-b26d-47a3-aa3e-044fe9555ff2 promiscuity 0 allmulti 0 minmtu 68 maxmtu 65535 
+    veth addrgenmode eui64 numtxqueues 16 numrxqueues 16 gso_max_size 65536 gso_max_segs 65535 tso_max_size 524280 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536 
+    RX:  bytes packets errors dropped  missed   mcast           
+         14237      89      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+         13336      90      0       0       0       0 
+28: veth65777b88@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default 
+    link/ether 5e:f7:29:1c:8a:b0 brd ff:ff:ff:ff:ff:ff link-netns cni-bcabfee0-9786-4433-5246-acfdd71843ed promiscuity 0 allmulti 0 minmtu 68 maxmtu 65535 
+    veth addrgenmode eui64 numtxqueues 16 numrxqueues 16 gso_max_size 65536 gso_max_segs 65535 tso_max_size 524280 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536 
+    RX:  bytes packets errors dropped  missed   mcast           
+          3944      44      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+          3650      40      0       0       0       0 
+29: vethc8e843f4@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default 
+    link/ether d2:99:3a:56:35:86 brd ff:ff:ff:ff:ff:ff link-netns cni-8cb20878-8aa1-2276-af3e-2d7e9da73592 promiscuity 0 allmulti 0 minmtu 68 maxmtu 65535 
+    veth addrgenmode eui64 numtxqueues 16 numrxqueues 16 gso_max_size 65536 gso_max_segs 65535 tso_max_size 524280 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536 
+    RX:  bytes packets errors dropped  missed   mcast           
+          4080      46      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+          3650      40      0       0       0       0 

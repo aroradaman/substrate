@@ -1,0 +1,14 @@
+sequenceDiagram
+    participant R as Router
+    participant A as Actor workflow
+    participant DB as PostgreSQL
+    participant N as atelet
+    R->>A: ResumeActor
+    A->>DB: Acquire lease and read actor
+    A->>A: Filter workers and select candidate
+    A->>DB: Lock worker and commit assignment booking
+    A->>DB: Separate update records RESUMING
+    A->>N: Run or Restore on assigned worker
+    N-->>A: Successful readiness and worker epoch
+    A->>DB: Validate epoch and commit RUNNING
+    A-->>R: Return assignment

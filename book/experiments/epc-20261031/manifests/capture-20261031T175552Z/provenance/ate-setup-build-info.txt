@@ -1,0 +1,101 @@
+/home/daman/substrate-lifecycle-evidence-20261031/bin/ate-setup: go1.27.3
+	path	go.ate.dev/substrate/cmd/ate-setup
+	mod	go.ate.dev/substrate	v0.0.0-20261031054818-0ddbf78d54bb	
+	dep	cloud.google.com/go/compute/metadata	v0.9.0	
+	dep	github.com/blang/semver/v4	v4.0.0	
+	dep	github.com/cespare/xxhash/v2	v2.3.0	
+	dep	github.com/davecgh/go-spew	v1.1.2-0.20180830191138-d8f796af33cc	
+	dep	github.com/distribution/reference	v0.6.0	
+	dep	github.com/docker/cli	v29.5.3+incompatible	
+	dep	github.com/docker/docker-credential-helpers	v0.9.3	
+	dep	github.com/emicklei/go-restful/v3	v3.13.0	
+	dep	github.com/fxamacker/cbor/v2	v2.9.1	
+	dep	github.com/go-errors/errors	v1.4.2	
+	dep	github.com/go-logr/logr	v1.4.4	
+	dep	github.com/go-logr/stdr	v1.2.2	
+	dep	github.com/go-openapi/jsonpointer	v1.0.0	
+	dep	github.com/go-openapi/jsonreference	v1.0.0	
+	dep	github.com/go-openapi/swag	v0.28.0	
+	dep	github.com/go-openapi/swag/cmdutils	v0.28.0	
+	dep	github.com/go-openapi/swag/conv	v0.28.0	
+	dep	github.com/go-openapi/swag/fileutils	v0.28.0	
+	dep	github.com/go-openapi/swag/jsonutils	v0.28.0	
+	dep	github.com/go-openapi/swag/loading	v0.28.0	
+	dep	github.com/go-openapi/swag/mangling	v0.28.0	
+	dep	github.com/go-openapi/swag/netutils	v0.28.0	
+	dep	github.com/go-openapi/swag/pools	v0.28.0	
+	dep	github.com/go-openapi/swag/stringutils	v0.28.0	
+	dep	github.com/go-openapi/swag/typeutils	v0.28.0	
+	dep	github.com/go-openapi/swag/yamlutils	v0.28.0	
+	dep	github.com/google/gnostic-models	v0.7.0	
+	dep	github.com/google/go-containerregistry	v0.21.7	
+	dep	github.com/google/uuid	v1.6.0	
+	dep	github.com/gorilla/websocket	v1.5.4-0.20250319132907-e064f32e3674	
+	dep	github.com/json-iterator/go	v1.1.12	
+	dep	github.com/klauspost/compress	v1.19.1	
+	dep	github.com/moby/spdystream	v0.5.1	
+	dep	github.com/modern-go/concurrent	v0.0.0-20180306012644-bacd9c7ef1dd	
+	dep	github.com/modern-go/reflect2	v1.0.3-0.20250322232337-35a7c28c31ee	
+	dep	github.com/monochromegane/go-gitignore	v0.0.0-20200626010858-205db1a8cc00	
+	dep	github.com/munnerz/goautoneg	v0.0.0-20191010083416-a7dc8b61c822	
+	dep	github.com/opencontainers/go-digest	v1.0.0	
+	dep	github.com/opencontainers/image-spec	v1.1.1	
+	dep	github.com/pmezard/go-difflib	v1.0.1-0.20181226105442-5d4384ee4fb2	
+	dep	github.com/sirupsen/logrus	v1.9.4	
+	dep	github.com/spf13/cobra	v1.10.2	
+	dep	github.com/spf13/pflag	v1.0.10	
+	dep	github.com/spiffe/go-spiffe/v2	v2.7.0	
+	dep	github.com/x448/float16	v0.8.4	
+	dep	github.com/xlab/treeprint	v1.2.0	
+	dep	go.opentelemetry.io/auto/sdk	v1.2.1	
+	dep	go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc	v0.70.0	
+	dep	go.opentelemetry.io/otel	v1.45.0	
+	dep	go.opentelemetry.io/otel/metric	v1.45.0	
+	dep	go.opentelemetry.io/otel/sdk	v1.45.0	
+	dep	go.opentelemetry.io/otel/trace	v1.45.0	
+	dep	go.yaml.in/yaml/v2	v2.4.4	
+	dep	go.yaml.in/yaml/v3	v3.0.5	
+	dep	golang.org/x/net	v0.60.0	
+	dep	golang.org/x/oauth2	v0.36.0	
+	dep	golang.org/x/sync	v0.23.0	
+	dep	golang.org/x/sys	v0.48.0	
+	dep	golang.org/x/term	v0.46.0	
+	dep	golang.org/x/text	v0.42.0	
+	dep	golang.org/x/time	v0.15.0	
+	dep	google.golang.org/genproto/googleapis/rpc	v0.0.0-20260803160001-6ac0973c030d	
+	dep	google.golang.org/grpc	v1.83.2	
+	dep	google.golang.org/protobuf	v1.36.12	
+	dep	gopkg.in/evanphx/json-patch.v4	v4.13.0	
+	dep	gopkg.in/inf.v0	v0.9.1	
+	dep	gopkg.in/yaml.v3	v3.0.1	
+	dep	k8s.io/api	v0.37.0	
+	dep	k8s.io/apimachinery	v0.37.0
+	=>	k8s.io/apimachinery	v0.36.0-alpha.2.0.20260904094813-f8600edbddc8	
+	
+	dep	k8s.io/client-go	v0.37.0	
+	dep	k8s.io/klog/v2	v2.140.0	
+	dep	k8s.io/kube-openapi	v0.0.0-20260721132016-d427ff9ee9ad	
+	dep	k8s.io/metrics	v0.36.1	
+	dep	k8s.io/streaming	v0.37.0	
+	dep	k8s.io/utils	v0.0.0-20260626114624-be93311217bd	
+	dep	sigs.k8s.io/controller-runtime	v0.24.1	
+	dep	sigs.k8s.io/json	v0.0.0-20250730193827-2d320260d730	
+	dep	sigs.k8s.io/kustomize/api	v0.21.1	
+	dep	sigs.k8s.io/kustomize/kyaml	v0.21.1	
+	dep	sigs.k8s.io/randfill	v1.0.0	
+	dep	sigs.k8s.io/structured-merge-diff/v6	v6.4.2	
+	dep	sigs.k8s.io/yaml	v1.6.0	
+	build	-buildmode=exe
+	build	-compiler=gc
+	build	CGO_ENABLED=1
+	build	CGO_CFLAGS=
+	build	CGO_CPPFLAGS=
+	build	CGO_CXXFLAGS=
+	build	CGO_LDFLAGS=
+	build	GOARCH=amd64
+	build	GOOS=linux
+	build	GOAMD64=v1
+	build	vcs=git
+	build	vcs.revision=0ddbf78d54bb6da2ccb01125b7e085aa14d555a6
+	build	vcs.time=2026-10-31T05:48:18Z
+	build	vcs.modified=false

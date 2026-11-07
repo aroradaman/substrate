@@ -1,0 +1,11 @@
+flowchart TB
+    Request[Validated lifecycle request] --> Lease[Actor lease]
+    Lease --> Workflow[ActorWorkflow]
+    Workflow --> Cache[Worker cache]
+    Cache --> Pick[Scheduler candidate]
+    Pick --> Admit[Row-locked admission]
+    Admit --> Reserve[Unique actor reservation]
+    Reserve --> State[Actor RESUMING write]
+    State --> Node[Atelet and worker execution]
+    Node --> Epoch[Validate returned worker epoch]
+    Epoch --> Running[Actor RUNNING write]

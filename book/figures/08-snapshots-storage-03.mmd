@@ -1,0 +1,9 @@
+flowchart TB
+  File["Sparse local file"] --> Extents["SEEK_DATA / SEEK_HOLE"]
+  Extents --> Encode["Logical size + extents"]
+  Encode --> Zstd["Ordered zstd frames"]
+  Zstd --> Put["Streaming upload"]
+  Put --> Object["Object bytes"]
+  Object --> Get["Parallel range fetch"]
+  Get --> Decode["Ordered decode"]
+  Decode --> Sparse["Seek and truncate\nlocal sparse file"]

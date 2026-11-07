@@ -1,0 +1,16 @@
+sequenceDiagram
+    participant L as atelet
+    participant N as NodeProvider
+    participant B as Backend
+    L->>N: UploadSnapshot(data files)
+    N->>B: Store every named data file
+    B-->>N: Durable completion
+    N-->>L: Success
+    L->>N: UploadSnapshot(manifest only)
+    N->>B: Publish manifest
+    N-->>L: Success
+    Note over L,B: Manifest visibility is the caller's commit boundary
+    L->>N: FetchSnapshot(manifest)
+    N-->>L: Manifest bytes
+    L->>N: FetchSnapshot(listed files)
+    N-->>L: Exact original bytes

@@ -1,0 +1,28 @@
+flowchart TB
+    subgraph N[Host boundary: Kubernetes node]
+      subgraph P[Worker Pod network namespace]
+        PE[Pod eth0 10.244.0.25]
+        W[Worker: ingress, atunnel and DNS code]
+      end
+      subgraph G[Actor gateway network namespace: UID-at]
+        GV[atside 169.254.17.1/30]
+        NF[nftables REDIRECT TCP to 15001]
+        DS[DNS TCP and UDP 53]
+        TS[atunnel socket 15001]
+        GV --> NF --> TS
+        GV --> DS
+      end
+      subgraph R[Actor runtime network namespace: UID]
+        RV[eth0 veth peer]
+        US[gVisor userspace network stack]
+        APP[Counter or egress application]
+        APP --> US --> RV
+      end
+      RV <--> GV
+      W -. owns sockets .-> DS
+      W -. owns sockets .-> TS
+      TS -. worker opens outbound tunnel .-> PE
+      PE <--> CNI[Node CNI veth peer]
+      CNI --> EG[atenet-egress Pod]
+    end
+    EG --> O[Allowed origin]

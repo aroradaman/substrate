@@ -1,0 +1,9 @@
+flowchart TB
+    WP[WorkerPool spec] --> Resolve[Resolve explicit or class-default config]
+    SC[SandboxConfig versions and assets] --> Resolve
+    Resolve --> Protect[Protect referenced configuration]
+    Protect --> Status[WorkerPool resolved status]
+    Status --> Let[atelet observes runtime configuration]
+    Let --> Verify[Fetch and verify content digests]
+    Verify --> Worker[Worker advertises usable runtime versions]
+    Worker --> Placement[Actor placement and restore compatibility]

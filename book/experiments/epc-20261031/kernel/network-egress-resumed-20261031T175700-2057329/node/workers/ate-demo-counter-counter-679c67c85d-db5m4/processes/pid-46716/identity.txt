@@ -1,0 +1,26 @@
+pid=46716
+runsc-fd-parkin
+/var/lib/ate/actors/92c54efa-a098-47c4-93f1-f17bd3730c1a/sandbox-assets/gvisor/gvisor-bin/runsc-fd-parking
+net net:[4026537021]
+mnt mnt:[4026537228]
+pid pid:[4026537229]
+user user:[4026531837]
+cgroup cgroup:[4026537230]
+ipc ipc:[4026537218]
+uts uts:[4026537217]
+Name:	runsc-fd-parkin
+State:	S (sleeping)
+Pid:	46716
+PPid:	8010
+Uid:	0	0	0	0
+Gid:	0	0	0	0
+NStgid:	46716	339
+NSpid:	46716	339
+Threads:	1
+CapInh:	0000000000000000
+CapPrm:	00000000882c31cb
+CapEff:	00000000882c31cb
+CapBnd:	00000000882c31cb
+NoNewPrivs:	0
+Seccomp:	0
+0::/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-burstable.slice/kubelet-kubepods-burstable-pod2a3f0bf1_e705_47b9_a943_0142a581fc76.slice/cri-containerd-611a58221ba89ac45167e6a5c52bb84dfac1ab7e4328cb19508c7f4ecd3789b2.scope/worker

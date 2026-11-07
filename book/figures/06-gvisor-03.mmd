@@ -1,0 +1,13 @@
+flowchart TB
+    A[Actor in Sentry] --> Choice{Requested fidelity}
+    Choice -->|VOLUMES| V[runsc fscheckpoint durable targets]
+    Choice -->|ROOTFS| F[runsc fscheckpoint rootfs and durable targets]
+    Choice -->|MEMORY| M[runsc checkpoint sandbox plus split filesystem targets]
+    V --> VD[fs bundle]
+    F --> FD[rootfs and fs bundles]
+    M --> MD[Process checkpoint plus rootfs and fs bundles]
+    VD --> T[Terminate runtime and detach mounts]
+    FD --> T
+    MD --> T
+    T --> L[List actual output files]
+    L --> R[Return manifest inputs to atelet]

@@ -1,0 +1,9 @@
+flowchart TB
+    A[Application processes] -->|Linux syscall ABI| S[Sentry userspace kernel]
+    S --> H[Host Linux services]
+    W[Trusted worker process] -->|runsc commands| S
+    W --> N[Network namespaces and mounts]
+    W --> C[Cgroup accounting and limits]
+    S --> F[Runtime filesystem helpers]
+    F --> O[Host OCI image content]
+    H --> K[Host CPU memory and descriptors]

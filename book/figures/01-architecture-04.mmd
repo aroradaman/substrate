@@ -1,0 +1,19 @@
+flowchart TB
+    subgraph Pod[MicroVM worker Pod]
+        W[Trusted worker]
+        T[atunnel]
+        subgraph Guest[Actor VM]
+            A[Application]
+            K[Guest Linux]
+            A --> K
+        end
+        CH[Cloud Hypervisor]
+        VF[virtiofsd]
+        W --> CH
+        W --> VF
+        T --> A
+        K --> CH
+        K --> VF
+    end
+    CH --> Host[Host Linux<br/>KVM, cgroups, TAP<br/>filesystems and page cache]
+    VF --> Host

@@ -1,0 +1,5 @@
+stage=baseline
+actor_uid=
+node=substrate-lifecycle-control-plane
+utc=2026-10-31T17:54:53Z
+trace_seconds=0

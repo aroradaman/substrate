@@ -1,0 +1,122 @@
+node_relative_path=/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-burstable.slice/kubelet-kubepods-burstable-podf8a965ec_cc06_4bd0_b79c_fd16947807cd.slice/cri-containerd-8fc1d5d3b23f9983a87b6160aca03328351d2a8be2c62fa0d828d35a64bbcb7f.scope/worker
+[cgroup.type]
+domain
+[cgroup.controllers]
+cpuset cpu io memory hugetlb pids rdma misc
+[cgroup.subtree_control]
+[cgroup.procs]
+8017
+8088
+[cgroup.threads]
+8017
+8072
+8073
+8074
+8084
+8085
+8086
+8088
+8092
+8093
+8094
+8159
+8160
+8161
+[memory.max]
+max
+[memory.high]
+max
+[memory.current]
+4423680
+[memory.events]
+low 0
+high 0
+max 0
+oom 0
+oom_kill 0
+oom_group_kill 0
+[memory.events.local]
+low 0
+high 0
+max 0
+oom 0
+oom_kill 0
+oom_group_kill 0
+[memory.stat]
+anon 4169728
+file 73728
+kernel 180224
+kernel_stack 49152
+pagetables 8192
+sec_pagetables 0
+percpu 0
+sock 0
+vmalloc 0
+shmem 0
+zswap 0
+zswapped 0
+file_mapped 0
+file_dirty 4096
+file_writeback 0
+swapcached 0
+anon_thp 0
+file_thp 0
+shmem_thp 0
+inactive_anon 0
+active_anon 4169728
+inactive_file 73728
+active_file 0
+unevictable 0
+slab_reclaimable 54800
+slab_unreclaimable 61312
+slab 116112
+workingset_refault_anon 0
+workingset_refault_file 0
+workingset_activate_anon 0
+workingset_activate_file 0
+workingset_restore_anon 0
+workingset_restore_file 0
+workingset_nodereclaim 0
+pgscan 0
+pgsteal 0
+pgscan_kswapd 0
+pgscan_direct 0
+pgscan_khugepaged 0
+pgsteal_kswapd 0
+pgsteal_direct 0
+pgsteal_khugepaged 0
+pgfault 9934
+pgmajfault 0
+pgrefill 0
+pgactivate 0
+pgdeactivate 0
+pglazyfree 0
+pglazyfreed 0
+zswpin 0
+zswpout 0
+zswpwb 0
+thp_fault_alloc 0
+thp_collapse_alloc 0
+thp_swpout 0
+thp_swpout_fallback 0
+[memory.pressure]
+some avg10=0.00 avg60=0.00 avg300=0.00 total=0
+full avg10=0.00 avg60=0.00 avg300=0.00 total=0
+[cpu.max]
+max 100000
+[cpu.weight]
+100
+[cpu.stat]
+usage_usec 310911
+user_usec 155972
+system_usec 154938
+core_sched.force_idle_usec 0
+nr_periods 0
+nr_throttled 0
+throttled_usec 0
+nr_bursts 0
+burst_usec 0
+[pids.max]
+max
+[pids.current]
+14

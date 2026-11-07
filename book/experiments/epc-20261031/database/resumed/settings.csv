@@ -1,0 +1,9 @@
+BEGIN
+name,setting
+data_directory,/var/lib/postgresql/data/pgdata
+fsync,on
+full_page_writes,on
+server_version,18.4
+synchronous_commit,on
+wal_level,replica
+COMMIT

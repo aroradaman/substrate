@@ -1,0 +1,1 @@
+PASS: no-policy denial, hostname allow, same-origin IP denial, synchronous suspend/resume, and policy deletion denial observed.

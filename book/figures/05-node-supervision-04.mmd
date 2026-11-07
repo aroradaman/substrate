@@ -1,0 +1,10 @@
+flowchart TB
+    Registry[OCI registry] -->|digest-verified streams| Layers[Shared unpacked layers]
+    Manifest[Image manifest and config] --> Spec[Per-actor OverlaySpec]
+    Layers --> Mount[Worker overlay composition]
+    Spec --> Mount
+    Mount --> Root[Actor-specific rootfs view]
+    Assets[SandboxConfig assets] --> Verify[Plugin fetch and hash verification]
+    Verify --> Cache[Shared immutable asset cache]
+    Cache -->|hard links| Worker[Worker default-runtime directory]
+    Cache -->|hard links| Actor[Actor runtime directory]

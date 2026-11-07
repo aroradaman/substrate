@@ -1,0 +1,14 @@
+sequenceDiagram
+    participant N as atelet
+    participant W as Worker
+    participant R as runsc and Sentry
+    participant F as Node files
+    N->>W: CheckpointWorkload
+    W->>W: Lock actor and deactivate tunnel
+    W->>W: Acquire checkpoint slot and memory loan
+    W->>R: Checkpoint memory and filesystem targets
+    R->>F: Write complete runtime capture
+    R-->>W: Sandbox stops
+    W->>W: Observe exit and tear down execution
+    W->>F: Enumerate files and record completion marker
+    W-->>N: Exact snapshot and durable-data file lists

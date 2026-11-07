@@ -1,0 +1,15 @@
+flowchart LR
+    subgraph Logical[Persistent application population]
+        A1[Actor alpha]
+        A2[Actor beta]
+        A3[Actor gamma]
+        A4[Actor delta]
+    end
+    subgraph Capacity[Existing worker Pods]
+        W1[Worker one]
+        W2[Worker two]
+    end
+    A1 -->|active assignment| W1
+    A2 -->|active assignment| W1
+    A3 -->|active assignment| W2
+    A4 -->|suspended state| S[Snapshot storage]

@@ -1,0 +1,6 @@
+169.254.17.0/30 dev atside proto kernel scope link src 169.254.17.1 
+local 127.0.0.0/8 dev lo table local proto kernel scope host src 127.0.0.1 
+local 127.0.0.1 dev lo table local proto kernel scope host src 127.0.0.1 
+broadcast 127.255.255.255 dev lo table local proto kernel scope link src 127.0.0.1 
+local 169.254.17.1 dev atside table local proto kernel scope host src 169.254.17.1 
+broadcast 169.254.17.3 dev atside table local proto kernel scope link src 169.254.17.1 

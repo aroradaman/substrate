@@ -1,0 +1,7 @@
+8010  1793469453.865435 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=367, si_uid=0, si_status=0, si_utime=0, si_stime=1 /* 0.01 s */} ---
+8060  1793469453.865704 wait4(-1, [{WIFEXITED(s) && WEXITSTATUS(s) == 0}], WNOHANG, NULL) = 367 <0.000085>
+8060  1793469453.865858 wait4(-1, 0xa4e03a5fbac, WNOHANG, NULL) = 0 <0.000017>
+8010  1793469453.867831 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=338, si_uid=0, si_status=0, si_utime=6 /* 0.06 s */, si_stime=4 /* 0.04 s */} ---
+8060  1793469453.868053 wait4(-1, [{WIFEXITED(s) && WEXITSTATUS(s) == 0}], WNOHANG, NULL) = 338 <0.000099>
+8060  1793469453.868186 wait4(-1, [{WIFEXITED(s) && WEXITSTATUS(s) == 0}], WNOHANG, NULL) = 339 <0.000040>
+8060  1793469453.868254 wait4(-1, 0xa4e03a5fbac, WNOHANG, NULL) = 0 <0.000017>

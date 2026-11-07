@@ -1,0 +1,10 @@
+flowchart TB
+    P[Authenticated principal] --> R[RPC permission registry]
+    R --> C1[Create actor in target atespace]
+    R --> C2[Use referenced template]
+    R --> C3[Use source tag if supplied]
+    C1 --> ALL[All required checks pass]
+    C2 --> ALL
+    C3 --> ALL
+    ALL --> H[Handler validates state and compatibility]
+    H --> T[Transactional lifecycle work]

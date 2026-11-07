@@ -1,0 +1,7 @@
+flowchart TB
+    Secret[Namespaced egress CA-pool Secret] --> Parse[Parse and validate CA roots]
+    Parse --> Bundle[ClusterTrustBundle]
+    Bundle --> Projection[Projected trust in consumers]
+    Gone[Secret deleted or terminating] --> Delete[Explicitly delete trust bundle]
+    Delete --> Bundle
+    Note[No cross-scope owner reference] -. explains .-> Delete

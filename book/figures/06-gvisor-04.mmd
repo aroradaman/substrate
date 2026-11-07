@@ -1,0 +1,18 @@
+sequenceDiagram
+    participant W as gVisor worker
+    participant R as runsc and Sentry
+    participant F as Restore files and page cache
+    participant T as atunnel
+    W->>R: restore with background page loading
+    R->>F: Load required checkpoint pages
+    R-->>W: Restore command returns
+    W->>R: Application wakeup probes
+    W->>T: Activate ingress after probes
+    par Actor executes
+      R->>R: Handle application work
+    and Restore finishes
+      R->>F: Continue background loading
+      W->>R: wait -restore and applicable -fsrestore
+      R-->>W: Source page loading complete
+      W->>F: Unlink temporary files or evict preserved cache
+    end

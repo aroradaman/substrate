@@ -1,0 +1,1262 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:52:46Z",
+        "name": "api",
+        "namespace": "ate-system",
+        "resourceVersion": "1355",
+        "uid": "3c79876e-5633-45ba-808d-d396f650ad8f"
+      },
+      "spec": {
+        "clusterIP": "None",
+        "clusterIPs": [
+          "None"
+        ],
+        "internalTrafficPolicy": "Cluster",
+        "ipFamilies": [
+          "IPv4"
+        ],
+        "ipFamilyPolicy": "PreferDualStack",
+        "ports": [
+          {
+            "name": "grpc",
+            "port": 443,
+            "protocol": "TCP",
+            "targetPort": 443
+          },
+          {
+            "name": "exchange",
+            "port": 8445,
+            "protocol": "TCP",
+            "targetPort": 8445
+          }
+        ],
+        "selector": {
+          "app": "ate-api-server"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:52:48Z",
+        "labels": {
+          "app": "ate-controller"
+        },
+        "name": "ate-controller",
+        "namespace": "ate-system",
+        "resourceVersion": "1406",
+        "uid": "342b7b6a-7317-4fb3-8fe1-6462bd5adfe8"
+      },
+      "spec": {
+        "clusterIP": "10.96.18.24",
+        "clusterIPs": [
+          "10.96.18.24"
+        ],
+        "internalTrafficPolicy": "Cluster",
+        "ipFamilies": [
+          "IPv4"
+        ],
+        "ipFamilyPolicy": "SingleStack",
+        "ports": [
+          {
+            "name": "metrics",
+            "port": 8080,
+            "protocol": "TCP",
+            "targetPort": "metrics"
+          }
+        ],
+        "selector": {
+          "app": "ate-controller"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:53:09Z",
+        "name": "atenet-egress",
+        "namespace": "ate-system",
+        "resourceVersion": "1838",
+        "uid": "0e5674bc-0757-4d48-bf68-e5d8e56ce009"
+      },
+      "spec": {
+        "clusterIP": "10.96.178.104",
+        "clusterIPs": [
+          "10.96.178.104"
+        ],
+        "internalTrafficPolicy": "Cluster",
+        "ipFamilies": [
+          "IPv4"
+        ],
+        "ipFamilyPolicy": "PreferDualStack",
+        "ports": [
+          {
+            "name": "https",
+            "port": 443,
+            "protocol": "TCP",
+            "targetPort": "https"
+          }
+        ],
+        "selector": {
+          "app": "atenet-egress"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:52:51Z",
+        "name": "atenet-router",
+        "namespace": "ate-system",
+        "resourceVersion": "1510",
+        "uid": "81dde610-4333-4141-952a-92b5e2a5abd9"
+      },
+      "spec": {
+        "clusterIP": "10.96.237.104",
+        "clusterIPs": [
+          "10.96.237.104"
+        ],
+        "internalTrafficPolicy": "Cluster",
+        "ipFamilies": [
+          "IPv4"
+        ],
+        "ipFamilyPolicy": "PreferDualStack",
+        "ports": [
+          {
+            "name": "https",
+            "port": 443,
+            "protocol": "TCP",
+            "targetPort": 8443
+          },
+          {
+            "name": "connect-tls",
+            "port": 8444,
+            "protocol": "TCP",
+            "targetPort": 8444
+          }
+        ],
+        "selector": {
+          "app": "atenet-router"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:52:47Z",
+        "name": "idp",
+        "namespace": "ate-system",
+        "resourceVersion": "1391",
+        "uid": "258173f6-4533-44b0-aec4-db04efcda0de"
+      },
+      "spec": {
+        "clusterIP": "10.96.83.79",
+        "clusterIPs": [
+          "10.96.83.79"
+        ],
+        "internalTrafficPolicy": "Cluster",
+        "ipFamilies": [
+          "IPv4"
+        ],
+        "ipFamilyPolicy": "SingleStack",
+        "ports": [
+          {
+            "appProtocol": "https",
+            "name": "https",
+            "port": 443,
+            "protocol": "TCP",
+            "targetPort": "https"
+          }
+        ],
+        "selector": {
+          "app": "ate-idp-server"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:53:03Z",
+        "name": "k8s-credential-provider",
+        "namespace": "ate-system",
+        "resourceVersion": "1778",
+        "uid": "208c0aac-0155-4d8f-9627-97e0338d5253"
+      },
+      "spec": {
+        "clusterIP": "10.96.31.0",
+        "clusterIPs": [
+          "10.96.31.0"
+        ],
+        "internalTrafficPolicy": "Cluster",
+        "ipFamilies": [
+          "IPv4"
+        ],
+        "ipFamilyPolicy": "SingleStack",
+        "ports": [
+          {
+            "name": "grpc",
+            "port": 50051,
+            "protocol": "TCP",
+            "targetPort": "grpc"
+          }
+        ],
+        "selector": {
+          "app": "k8s-credential-provider"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:49:59Z",
+        "name": "postgres",
+        "namespace": "ate-system",
+        "resourceVersion": "1012",
+        "uid": "f7c27d7d-f58b-472a-b9da-8c5a576f02a7"
+      },
+      "spec": {
+        "clusterIP": "None",
+        "clusterIPs": [
+          "None"
+        ],
+        "internalTrafficPolicy": "Cluster",
+        "ipFamilies": [
+          "IPv4"
+        ],
+        "ipFamilyPolicy": "SingleStack",
+        "ports": [
+          {
+            "name": "postgres",
+            "port": 5432,
+            "protocol": "TCP",
+            "targetPort": 5432
+          }
+        ],
+        "selector": {
+          "app": "postgres"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:52:53Z",
+        "name": "rustfs",
+        "namespace": "ate-system",
+        "resourceVersion": "1565",
+        "uid": "4aa8c98d-4b1e-46ce-ad3e-8535c0b10bc7"
+      },
+      "spec": {
+        "clusterIP": "10.96.128.135",
+        "clusterIPs": [
+          "10.96.128.135"
+        ],
+        "internalTrafficPolicy": "Cluster",
+        "ipFamilies": [
+          "IPv4"
+        ],
+        "ipFamilyPolicy": "SingleStack",
+        "ports": [
+          {
+            "name": "api",
+            "port": 9000,
+            "protocol": "TCP",
+            "targetPort": 9000
+          },
+          {
+            "name": "console",
+            "port": 9001,
+            "protocol": "TCP",
+            "targetPort": 9001
+          }
+        ],
+        "selector": {
+          "app": "rustfs"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      }
+    },
+    {
+      "apiVersion": "networking.k8s.io/v1",
+      "kind": "NetworkPolicy",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:52:51Z",
+        "generation": 1,
+        "name": "ate-api-server",
+        "namespace": "ate-system",
+        "resourceVersion": "1537",
+        "uid": "57e05147-e9d3-4d29-8d7b-05cadb3c484f"
+      },
+      "spec": {
+        "ingress": [
+          {
+            "from": [
+              {
+                "podSelector": {
+                  "matchExpressions": [
+                    {
+                      "key": "app",
+                      "operator": "In",
+                      "values": [
+                        "ate-controller",
+                        "atelet",
+                        "atenet-egress",
+                        "atenet-router"
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "namespaceSelector": {
+                  "matchLabels": {
+                    "ate.dev/api-access": "true"
+                  }
+                },
+                "podSelector": {
+                  "matchExpressions": [
+                    {
+                      "key": "ate.dev/worker-pool",
+                      "operator": "DoesNotExist"
+                    }
+                  ]
+                }
+              }
+            ],
+            "ports": [
+              {
+                "port": 443,
+                "protocol": "TCP"
+              }
+            ]
+          },
+          {
+            "from": [
+              {
+                "podSelector": {
+                  "matchLabels": {
+                    "app": "atelet"
+                  }
+                }
+              }
+            ],
+            "ports": [
+              {
+                "port": 8445,
+                "protocol": "TCP"
+              }
+            ]
+          }
+        ],
+        "podSelector": {
+          "matchLabels": {
+            "app": "ate-api-server"
+          }
+        },
+        "policyTypes": [
+          "Ingress"
+        ]
+      }
+    },
+    {
+      "apiVersion": "networking.k8s.io/v1",
+      "kind": "NetworkPolicy",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:52:52Z",
+        "generation": 1,
+        "name": "ate-idp-server",
+        "namespace": "ate-system",
+        "resourceVersion": "1546",
+        "uid": "ba6526f4-52bb-4024-a12d-e7727148e295"
+      },
+      "spec": {
+        "ingress": [
+          {
+            "ports": [
+              {
+                "port": "https",
+                "protocol": "TCP"
+              }
+            ]
+          }
+        ],
+        "podSelector": {
+          "matchLabels": {
+            "app": "ate-idp-server"
+          }
+        },
+        "policyTypes": [
+          "Ingress"
+        ]
+      }
+    },
+    {
+      "apiVersion": "networking.k8s.io/v1",
+      "kind": "NetworkPolicy",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:52:52Z",
+        "generation": 1,
+        "name": "ate-system-observability",
+        "namespace": "ate-system",
+        "resourceVersion": "1554",
+        "uid": "70dec5cc-a3fd-45d6-9a7f-56d967022aff"
+      },
+      "spec": {
+        "ingress": [
+          {
+            "ports": [
+              {
+                "port": "metrics",
+                "protocol": "TCP"
+              },
+              {
+                "port": "prometheus",
+                "protocol": "TCP"
+              },
+              {
+                "port": "envoy-metrics",
+                "protocol": "TCP"
+              },
+              {
+                "port": "health",
+                "protocol": "TCP"
+              },
+              {
+                "port": "healthz",
+                "protocol": "TCP"
+              },
+              {
+                "port": "stats",
+                "protocol": "TCP"
+              },
+              {
+                "port": "readiness",
+                "protocol": "TCP"
+              }
+            ]
+          }
+        ],
+        "podSelector": {
+          "matchExpressions": [
+            {
+              "key": "app",
+              "operator": "NotIn",
+              "values": [
+                "k8s-credential-provider"
+              ]
+            }
+          ]
+        },
+        "policyTypes": [
+          "Ingress"
+        ]
+      }
+    },
+    {
+      "apiVersion": "networking.k8s.io/v1",
+      "kind": "NetworkPolicy",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:52:51Z",
+        "generation": 1,
+        "name": "atelet",
+        "namespace": "ate-system",
+        "resourceVersion": "1541",
+        "uid": "944c88b8-542f-42e7-8362-6673c71cdbc2"
+      },
+      "spec": {
+        "ingress": [
+          {
+            "from": [
+              {
+                "podSelector": {
+                  "matchLabels": {
+                    "app": "ate-api-server"
+                  }
+                }
+              }
+            ],
+            "ports": [
+              {
+                "port": "grpc",
+                "protocol": "TCP"
+              }
+            ]
+          }
+        ],
+        "podSelector": {
+          "matchLabels": {
+            "app": "atelet"
+          }
+        },
+        "policyTypes": [
+          "Ingress"
+        ]
+      }
+    },
+    {
+      "apiVersion": "networking.k8s.io/v1",
+      "kind": "NetworkPolicy",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:52:52Z",
+        "generation": 1,
+        "name": "atenet-egress",
+        "namespace": "ate-system",
+        "resourceVersion": "1552",
+        "uid": "77518884-7ca9-41bf-b1db-5f09b81f31fb"
+      },
+      "spec": {
+        "ingress": [
+          {
+            "from": [
+              {
+                "namespaceSelector": {},
+                "podSelector": {
+                  "matchExpressions": [
+                    {
+                      "key": "ate.dev/worker-pool",
+                      "operator": "Exists"
+                    }
+                  ]
+                }
+              }
+            ],
+            "ports": [
+              {
+                "port": "https",
+                "protocol": "TCP"
+              }
+            ]
+          }
+        ],
+        "podSelector": {
+          "matchLabels": {
+            "app": "atenet-egress"
+          }
+        },
+        "policyTypes": [
+          "Ingress"
+        ]
+      }
+    },
+    {
+      "apiVersion": "networking.k8s.io/v1",
+      "kind": "NetworkPolicy",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:52:52Z",
+        "generation": 1,
+        "name": "atenet-router",
+        "namespace": "ate-system",
+        "resourceVersion": "1543",
+        "uid": "8e52f9f3-a1eb-4ea0-9f95-6827d333dbf7"
+      },
+      "spec": {
+        "ingress": [
+          {
+            "ports": [
+              {
+                "port": "https",
+                "protocol": "TCP"
+              },
+              {
+                "port": "connect-tls",
+                "protocol": "TCP"
+              }
+            ]
+          }
+        ],
+        "podSelector": {
+          "matchLabels": {
+            "app": "atenet-router"
+          }
+        },
+        "policyTypes": [
+          "Ingress"
+        ]
+      }
+    },
+    {
+      "apiVersion": "networking.k8s.io/v1",
+      "kind": "NetworkPolicy",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:52:51Z",
+        "generation": 1,
+        "name": "default-deny-ingress",
+        "namespace": "ate-system",
+        "resourceVersion": "1536",
+        "uid": "b51eb628-9ad3-45de-9520-44fb955bbe1d"
+      },
+      "spec": {
+        "podSelector": {},
+        "policyTypes": [
+          "Ingress"
+        ]
+      }
+    },
+    {
+      "apiVersion": "networking.k8s.io/v1",
+      "kind": "NetworkPolicy",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:53:03Z",
+        "generation": 1,
+        "name": "k8s-credential-provider",
+        "namespace": "ate-system",
+        "resourceVersion": "1783",
+        "uid": "9269379a-f894-4f5e-9840-e30718c3ca34"
+      },
+      "spec": {
+        "ingress": [
+          {
+            "from": [
+              {
+                "podSelector": {
+                  "matchLabels": {
+                    "app": "atenet-egress"
+                  }
+                }
+              }
+            ],
+            "ports": [
+              {
+                "port": 50051,
+                "protocol": "TCP"
+              }
+            ]
+          }
+        ],
+        "podSelector": {
+          "matchLabels": {
+            "app": "k8s-credential-provider"
+          }
+        },
+        "policyTypes": [
+          "Ingress"
+        ]
+      }
+    },
+    {
+      "apiVersion": "networking.k8s.io/v1",
+      "kind": "NetworkPolicy",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:52:51Z",
+        "generation": 1,
+        "name": "postgres",
+        "namespace": "ate-system",
+        "resourceVersion": "1540",
+        "uid": "1a2eb9df-f2cf-480a-ba4e-f8a0a56afe12"
+      },
+      "spec": {
+        "ingress": [
+          {
+            "from": [
+              {
+                "podSelector": {
+                  "matchLabels": {
+                    "app": "ate-api-server"
+                  }
+                }
+              }
+            ],
+            "ports": [
+              {
+                "port": "postgres",
+                "protocol": "TCP"
+              }
+            ]
+          }
+        ],
+        "podSelector": {
+          "matchLabels": {
+            "app": "postgres"
+          }
+        },
+        "policyTypes": [
+          "Ingress"
+        ]
+      }
+    },
+    {
+      "apiVersion": "networking.k8s.io/v1",
+      "kind": "NetworkPolicy",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:52:53Z",
+        "generation": 1,
+        "name": "rustfs",
+        "namespace": "ate-system",
+        "resourceVersion": "1595",
+        "uid": "c5985d6b-8d56-454b-b128-72ddac5f4cbf"
+      },
+      "spec": {
+        "ingress": [
+          {
+            "from": [
+              {
+                "podSelector": {
+                  "matchExpressions": [
+                    {
+                      "key": "app",
+                      "operator": "In",
+                      "values": [
+                        "ate-api-server",
+                        "atelet"
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "podSelector": {
+                  "matchLabels": {
+                    "batch.kubernetes.io/job-name": "rustfs-bucket-init"
+                  }
+                }
+              }
+            ],
+            "ports": [
+              {
+                "port": "api",
+                "protocol": "TCP"
+              }
+            ]
+          }
+        ],
+        "podSelector": {
+          "matchLabels": {
+            "app": "rustfs"
+          }
+        },
+        "policyTypes": [
+          "Ingress"
+        ]
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ServiceAccount",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:52:45Z",
+        "name": "ate-api-server",
+        "namespace": "ate-system",
+        "resourceVersion": "1316",
+        "uid": "877fa792-c06e-478f-b1fc-052817b6404d"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ServiceAccount",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:52:47Z",
+        "labels": {
+          "apps": "ate-client"
+        },
+        "name": "ate-client",
+        "namespace": "ate-system",
+        "resourceVersion": "1396",
+        "uid": "8c907749-c213-439c-a2fb-c66adebf8ba0"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ServiceAccount",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:52:47Z",
+        "labels": {
+          "apps": "ate-controller"
+        },
+        "name": "ate-controller",
+        "namespace": "ate-system",
+        "resourceVersion": "1399",
+        "uid": "7046916b-743b-4d8b-9449-6951e9f2d2bb"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "automountServiceAccountToken": false,
+      "kind": "ServiceAccount",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:52:46Z",
+        "name": "ate-idp-server",
+        "namespace": "ate-system",
+        "resourceVersion": "1359",
+        "uid": "8004f883-8f17-4401-a6ec-a83cc7241945"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ServiceAccount",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:52:48Z",
+        "name": "atelet",
+        "namespace": "ate-system",
+        "resourceVersion": "1433",
+        "uid": "7d8fa841-26f8-4471-94df-a6004645075e"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ServiceAccount",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:53:09Z",
+        "name": "atenet-egress",
+        "namespace": "ate-system",
+        "resourceVersion": "1833",
+        "uid": "3f99374a-91e9-47ec-911e-095ce0b04456"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ServiceAccount",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:52:50Z",
+        "labels": {
+          "app": "atenet-router"
+        },
+        "name": "atenet-router",
+        "namespace": "ate-system",
+        "resourceVersion": "1467",
+        "uid": "bfe69c44-9af9-4aea-9a7b-27173b564a5c"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ServiceAccount",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:49:04Z",
+        "name": "default",
+        "namespace": "ate-system",
+        "resourceVersion": "868",
+        "uid": "b579888c-8ae5-4dcf-bf07-c606232cafeb"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ServiceAccount",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:53:03Z",
+        "name": "k8s-credential-provider",
+        "namespace": "ate-system",
+        "resourceVersion": "1771",
+        "uid": "89917bc4-ddba-4cce-9595-6267a4263237"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "binaryData": {},
+      "data": {
+        "authentication.yaml": "<redacted>"
+      },
+      "kind": "ConfigMap",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:49:19Z",
+        "name": "ate-api-authentication",
+        "namespace": "ate-system",
+        "resourceVersion": "914",
+        "uid": "4813d0d3-4150-4103-bb6e-1722ea028aa1"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "binaryData": {},
+      "data": {
+        "apiconfig.textproto": "<redacted>"
+      },
+      "kind": "ConfigMap",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:49:19Z",
+        "name": "ate-api-config",
+        "namespace": "ate-system",
+        "resourceVersion": "913",
+        "uid": "cf984826-9974-4a90-8f94-199e6cabfe7a"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "binaryData": {},
+      "data": {
+        "ATE_API_ACTOR_JWT_ISSUER": "<redacted>",
+        "ATE_API_POSTGRES_OWNER_ROLE": "<redacted>",
+        "ATE_API_POSTGRES_READ_WRITE_ROLE": "<redacted>",
+        "ATE_API_SNAPSHOT_LOCATION": "<redacted>",
+        "ATE_API_SNAPSHOT_TRANSFER_SERVICE_ACCOUNT": "<redacted>"
+      },
+      "kind": "ConfigMap",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:49:18Z",
+        "name": "ate-api-server-envvars",
+        "namespace": "ate-system",
+        "resourceVersion": "910",
+        "uid": "a6a61ec0-34b8-4225-a777-d1899830de4f"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "binaryData": {},
+      "data": {
+        "ATE_WORKER_OTEL_LOGS_EXPORTER": "<redacted>",
+        "OTEL_EXPORTER_OTLP_ENDPOINT": "<redacted>",
+        "OTEL_LOGS_EXPORTER": "<redacted>",
+        "OTEL_METRIC_EXPORT_INTERVAL": "<redacted>",
+        "OTEL_METRIC_EXPORT_TIMEOUT": "<redacted>"
+      },
+      "kind": "ConfigMap",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:49:59Z",
+        "name": "ate-otel-config",
+        "namespace": "ate-system",
+        "resourceVersion": "1010",
+        "uid": "106bd827-5cc3-4baf-9b5b-26b1680ba6f1"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "binaryData": {},
+      "data": {
+        "envoy.yaml": "<redacted>",
+        "sds-actor-identity-validation.yaml": "<redacted>",
+        "sds-podidentity-cert.yaml": "<redacted>",
+        "sds-servicedns-cert.yaml": "<redacted>",
+        "sds-servicedns-validation.yaml": "<redacted>"
+      },
+      "kind": "ConfigMap",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:53:09Z",
+        "name": "atenet-egress",
+        "namespace": "ate-system",
+        "resourceVersion": "1834",
+        "uid": "d814ff9a-75a9-4b30-8311-3560a3c02cba"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "binaryData": {},
+      "data": {
+        "envoy.yaml": "<redacted>"
+      },
+      "kind": "ConfigMap",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:52:50Z",
+        "name": "atenet-router-envoy-config",
+        "namespace": "ate-system",
+        "resourceVersion": "1481",
+        "uid": "eb3bc79b-13df-4706-88e8-efa576cf003c"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "binaryData": {},
+      "data": {
+        "namespace-policy.yaml": "<redacted>"
+      },
+      "kind": "ConfigMap",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:52:56Z",
+        "name": "k8s-credential-provider-namespace-policy",
+        "namespace": "ate-system",
+        "resourceVersion": "1690",
+        "uid": "f43cf6f7-30e6-4d50-9576-02b431ebaa08"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "binaryData": {},
+      "data": {
+        "ca.crt": "<redacted>"
+      },
+      "kind": "ConfigMap",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:49:04Z",
+        "name": "kube-root-ca.crt",
+        "namespace": "ate-system",
+        "resourceVersion": "869",
+        "uid": "68e04890-84ac-49d9-9088-2a5c80b835cf"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "binaryData": {},
+      "data": {
+        "pg_hba.conf": "<redacted>",
+        "postgresql.conf": "<redacted>",
+        "reload-tls.sh": "<redacted>"
+      },
+      "kind": "ConfigMap",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:49:59Z",
+        "name": "postgres-config",
+        "namespace": "ate-system",
+        "resourceVersion": "1011",
+        "uid": "4747e746-f2cb-4db8-af99-aac243cde90b"
+      }
+    },
+    {
+      "apiVersion": "rbac.authorization.k8s.io/v1",
+      "kind": "Role",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:49:17Z",
+        "name": "ate-controller",
+        "namespace": "ate-system",
+        "resourceVersion": "899",
+        "uid": "6d9bb160-1919-4749-a7c3-f2e882d53429"
+      },
+      "rules": [
+        {
+          "apiGroups": [
+            ""
+          ],
+          "resourceNames": [
+            "egress-mitm-ca-pool"
+          ],
+          "resources": [
+            "secrets"
+          ],
+          "verbs": [
+            "get",
+            "list",
+            "watch"
+          ]
+        },
+        {
+          "apiGroups": [
+            "discovery.k8s.io"
+          ],
+          "resources": [
+            "endpointslices"
+          ],
+          "verbs": [
+            "get",
+            "list",
+            "watch"
+          ]
+        }
+      ]
+    },
+    {
+      "apiVersion": "rbac.authorization.k8s.io/v1",
+      "kind": "Role",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:52:49Z",
+        "name": "atelet-endpointslices",
+        "namespace": "ate-system",
+        "resourceVersion": "1440",
+        "uid": "8c228775-1ccf-4161-93f7-a7d0131a7488"
+      },
+      "rules": [
+        {
+          "apiGroups": [
+            "discovery.k8s.io"
+          ],
+          "resources": [
+            "endpointslices"
+          ],
+          "verbs": [
+            "get",
+            "list",
+            "watch"
+          ]
+        }
+      ]
+    },
+    {
+      "apiVersion": "rbac.authorization.k8s.io/v1",
+      "kind": "Role",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:52:50Z",
+        "name": "atenet-router-endpointslices",
+        "namespace": "ate-system",
+        "resourceVersion": "1473",
+        "uid": "a449eaad-526a-4c07-8bfb-9c66e7f2711a"
+      },
+      "rules": [
+        {
+          "apiGroups": [
+            "discovery.k8s.io"
+          ],
+          "resources": [
+            "endpointslices"
+          ],
+          "verbs": [
+            "get",
+            "watch",
+            "list"
+          ]
+        }
+      ]
+    },
+    {
+      "apiVersion": "rbac.authorization.k8s.io/v1",
+      "kind": "RoleBinding",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:52:48Z",
+        "name": "ate-controller",
+        "namespace": "ate-system",
+        "resourceVersion": "1404",
+        "uid": "217d6514-d50b-43f6-94fc-447afdafd3c5"
+      },
+      "roleRef": {
+        "apiGroup": "rbac.authorization.k8s.io",
+        "kind": "Role",
+        "name": "ate-controller"
+      },
+      "subjects": [
+        {
+          "kind": "ServiceAccount",
+          "name": "ate-controller",
+          "namespace": "ate-system"
+        }
+      ]
+    },
+    {
+      "apiVersion": "rbac.authorization.k8s.io/v1",
+      "kind": "RoleBinding",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:52:55Z",
+        "name": "ate-prometheus",
+        "namespace": "ate-system",
+        "resourceVersion": "1656",
+        "uid": "dcace8df-8adf-49a0-90c2-1362ab651c84"
+      },
+      "roleRef": {
+        "apiGroup": "rbac.authorization.k8s.io",
+        "kind": "ClusterRole",
+        "name": "ate-prometheus"
+      },
+      "subjects": [
+        {
+          "kind": "ServiceAccount",
+          "name": "prometheus",
+          "namespace": "otel-system"
+        }
+      ]
+    },
+    {
+      "apiVersion": "rbac.authorization.k8s.io/v1",
+      "kind": "RoleBinding",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:52:49Z",
+        "name": "atelet-endpointslices",
+        "namespace": "ate-system",
+        "resourceVersion": "1441",
+        "uid": "2e17563d-c7ac-46bd-a027-16682ab485b9"
+      },
+      "roleRef": {
+        "apiGroup": "rbac.authorization.k8s.io",
+        "kind": "Role",
+        "name": "atelet-endpointslices"
+      },
+      "subjects": [
+        {
+          "kind": "ServiceAccount",
+          "name": "atelet",
+          "namespace": "ate-system"
+        }
+      ]
+    },
+    {
+      "apiVersion": "rbac.authorization.k8s.io/v1",
+      "kind": "RoleBinding",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:52:50Z",
+        "name": "atenet-router-endpointslices",
+        "namespace": "ate-system",
+        "resourceVersion": "1479",
+        "uid": "d6c0ad51-fc6a-4bfc-a4a0-ad24d35003a0"
+      },
+      "roleRef": {
+        "apiGroup": "rbac.authorization.k8s.io",
+        "kind": "Role",
+        "name": "atenet-router-endpointslices"
+      },
+      "subjects": [
+        {
+          "kind": "ServiceAccount",
+          "name": "atenet-router",
+          "namespace": "ate-system"
+        }
+      ]
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolumeClaim",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:49:59Z",
+        "finalizers": [
+          "kubernetes.io/pvc-protection"
+        ],
+        "labels": {
+          "app": "postgres"
+        },
+        "name": "data-postgres-0",
+        "namespace": "ate-system",
+        "resourceVersion": "1049",
+        "uid": "c158051c-89e1-4fe4-8f6d-60e34c106752"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "1Gi"
+          }
+        },
+        "storageClassName": "standard",
+        "volumeMode": "Filesystem",
+        "volumeName": "pvc-c158051c-89e1-4fe4-8f6d-60e34c106752"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolumeClaim",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:52:53Z",
+        "finalizers": [
+          "kubernetes.io/pvc-protection"
+        ],
+        "name": "rustfs-data",
+        "namespace": "ate-system",
+        "resourceVersion": "1707",
+        "uid": "48f36106-cce2-4a54-b8c8-eadf1a45d9b5"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "1Gi"
+          }
+        },
+        "storageClassName": "standard",
+        "volumeMode": "Filesystem",
+        "volumeName": "pvc-48f36106-cce2-4a54-b8c8-eadf1a45d9b5"
+      }
+    }
+  ],
+  "kind": "List"
+}

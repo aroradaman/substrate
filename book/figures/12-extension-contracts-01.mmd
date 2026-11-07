@@ -1,0 +1,13 @@
+flowchart LR
+    Q{Integration} -->|Actor APIs| A[ateapi client]
+    Q -->|Secrets| C[CredentialProvider]
+    Q -->|Snapshots and assets| S[Object-store plugin]
+    Q -->|Egress headers| P[Experimental ext_proc]
+    Q -->|New runtime| R[Worker integration]
+    Q -->|Placement or lifecycle| I[Control-plane change]
+    A --> PUB[Public API compatibility]
+    C --> PUB
+    S --> PUB
+    P --> SEC[Gateway security and rollout]
+    R --> INT[Worker RPC and node ABI]
+    I --> DB[Transactions and recovery]

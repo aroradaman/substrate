@@ -1,0 +1,135 @@
+[
+  {
+    "id": "actor-lifecycle-01",
+    "chapter": "actor-lifecycle.md",
+    "input": "lifecycle-figures/actor-lifecycle-01.mmd",
+    "output": "lifecycle-figures/actor-lifecycle-01.svg",
+    "sha256": "730a5970b484b37326711bea1dc23dd7bb994f8ac3c788fd67304061df82222a"
+  },
+  {
+    "id": "actor-lifecycle-02",
+    "chapter": "actor-lifecycle.md",
+    "input": "lifecycle-figures/actor-lifecycle-02.mmd",
+    "output": "lifecycle-figures/actor-lifecycle-02.svg",
+    "sha256": "129deee5121d0e6174a9cc3afa0c50000995b52eadc52dd7f2047ff89e7e37a4"
+  },
+  {
+    "id": "actor-lifecycle-03",
+    "chapter": "actor-lifecycle.md",
+    "input": "lifecycle-figures/actor-lifecycle-03.mmd",
+    "output": "lifecycle-figures/actor-lifecycle-03.svg",
+    "sha256": "45d7e016fcffc4f8b9e5e953b2e2058f408b3f836655b1046c964040fd91dea6"
+  },
+  {
+    "id": "actor-lifecycle-04",
+    "chapter": "actor-lifecycle.md",
+    "input": "lifecycle-figures/actor-lifecycle-04.mmd",
+    "output": "lifecycle-figures/actor-lifecycle-04.svg",
+    "sha256": "ef9d8c32e5805aa595f48e081f7ebe80c8a8548f25bef45004d82d5b83aa8574"
+  },
+  {
+    "id": "actor-lifecycle-05",
+    "chapter": "actor-lifecycle.md",
+    "input": "lifecycle-figures/actor-lifecycle-05.mmd",
+    "output": "lifecycle-figures/actor-lifecycle-05.svg",
+    "sha256": "a692b1c6025622248d11a74417ad92a01b01a76ac4ddb5eae38db0ad66475327"
+  },
+  {
+    "id": "actor-lifecycle-06",
+    "chapter": "actor-lifecycle.md",
+    "input": "lifecycle-figures/actor-lifecycle-06.mmd",
+    "output": "lifecycle-figures/actor-lifecycle-06.svg",
+    "sha256": "23b503a99cbc379224e381263ad60fd91a16cecbf3d276ff98e2f7cb6e97db35"
+  },
+  {
+    "id": "actor-lifecycle-07",
+    "chapter": "actor-lifecycle.md",
+    "input": "lifecycle-figures/actor-lifecycle-07.mmd",
+    "output": "lifecycle-figures/actor-lifecycle-07.svg",
+    "sha256": "1ec279744014d125c8a2b8708bfc9a573265d6b9e6c83442c9bbd1df411f3595"
+  },
+  {
+    "id": "actor-lifecycle-08",
+    "chapter": "actor-lifecycle.md",
+    "input": "lifecycle-figures/actor-lifecycle-08.mmd",
+    "output": "lifecycle-figures/actor-lifecycle-08.svg",
+    "sha256": "1dc97ddbb08c2c95875e90a6d8be73a22f99abe456e8e0576fb0bed2571eb6ec"
+  },
+  {
+    "id": "actor-lifecycle-09",
+    "chapter": "actor-lifecycle.md",
+    "input": "lifecycle-figures/actor-lifecycle-09.mmd",
+    "output": "lifecycle-figures/actor-lifecycle-09.svg",
+    "sha256": "5581d32794b3ab0b243b4d0fd7a7827f1eb2c78fe6ecc9b5bdd490b6db54a19c"
+  },
+  {
+    "id": "actor-lifecycle-10",
+    "chapter": "actor-lifecycle.md",
+    "input": "lifecycle-figures/actor-lifecycle-10.mmd",
+    "output": "lifecycle-figures/actor-lifecycle-10.svg",
+    "sha256": "0d9c58dc313234a3bce3ac5c036f5f9a9356298b1a9de029753181d3759b0b73"
+  },
+  {
+    "id": "actor-lifecycle-11",
+    "chapter": "actor-lifecycle.md",
+    "input": "lifecycle-figures/actor-lifecycle-11.mmd",
+    "output": "lifecycle-figures/actor-lifecycle-11.svg",
+    "sha256": "2e6c0daf7450e9800fb5cfdfbb82b386d911fdd9bb58b86c4a7de3ee41b51954"
+  },
+  {
+    "id": "actor-lifecycle-12",
+    "chapter": "actor-lifecycle.md",
+    "input": "lifecycle-figures/actor-lifecycle-12.mmd",
+    "output": "lifecycle-figures/actor-lifecycle-12.svg",
+    "sha256": "cabaac036546733b843c7e59aee04d28ac13e4cd74190d88a0761c3e8e00db59"
+  },
+  {
+    "id": "actor-lifecycle-13",
+    "chapter": "actor-lifecycle.md",
+    "input": "lifecycle-figures/actor-lifecycle-13.mmd",
+    "output": "lifecycle-figures/actor-lifecycle-13.svg",
+    "sha256": "a20134ce66f449231f7f18f23d3e9627e7759adc32719a902962e1c6248a0fb1"
+  },
+  {
+    "id": "actor-lifecycle-14",
+    "chapter": "actor-lifecycle.md",
+    "input": "lifecycle-figures/actor-lifecycle-14.mmd",
+    "output": "lifecycle-figures/actor-lifecycle-14.svg",
+    "sha256": "5a7872cb445a35f81622fa631a20114dd69b63842386f087d61fbc4061cde0d2"
+  },
+  {
+    "id": "actor-lifecycle-15",
+    "chapter": "actor-lifecycle.md",
+    "input": "lifecycle-figures/actor-lifecycle-15.mmd",
+    "output": "lifecycle-figures/actor-lifecycle-15.svg",
+    "sha256": "a7b2b955b6363be6092f67f43ff98bfb32c36abd9e7e0b09dce16dc85109dbfb"
+  },
+  {
+    "id": "actor-lifecycle-16",
+    "chapter": "actor-lifecycle.md",
+    "input": "lifecycle-figures/actor-lifecycle-16.mmd",
+    "output": "lifecycle-figures/actor-lifecycle-16.svg",
+    "sha256": "2dc03235e6d4bc6b9d3fa78e27a91a71da9e4420273b3361b9c829e0fb7c8bb0"
+  },
+  {
+    "id": "actor-lifecycle-17",
+    "chapter": "actor-lifecycle.md",
+    "input": "lifecycle-figures/actor-lifecycle-17.mmd",
+    "output": "lifecycle-figures/actor-lifecycle-17.svg",
+    "sha256": "511d68a80dfb6e9c4a187432f3d7333414ead5f5d54062e508a59eb6756a7da4"
+  },
+  {
+    "id": "actor-lifecycle-18",
+    "chapter": "actor-lifecycle.md",
+    "input": "lifecycle-figures/actor-lifecycle-18.mmd",
+    "output": "lifecycle-figures/actor-lifecycle-18.svg",
+    "sha256": "f1a7b086ecd635a4cff0f784f3dcafd4fb081ef92537fac31b4f195fd113f93c"
+  },
+  {
+    "id": "actor-lifecycle-19",
+    "chapter": "actor-lifecycle.md",
+    "input": "lifecycle-figures/actor-lifecycle-19.mmd",
+    "output": "lifecycle-figures/actor-lifecycle-19.svg",
+    "sha256": "fe79041e6d799be7d5454d5b97aa192d80002ce4dda6949d25bfd8a6b9835fbe"
+  }
+]

@@ -1,0 +1,13 @@
+flowchart TB
+    Restart[Worker process restarts] --> Issue[Acquire a new epoch]
+    Issue --> Register[Register IPs and capacity]
+    Register --> Clear[Clear old runtime advertisement]
+    Register --> Event[Worker outbox event]
+    Clear --> Runtime[Report current runtime set]
+    Event --> Cache[Worker cache handler]
+    Cache --> Queue[Assignment recovery queue]
+    Queue --> Lease[Acquire worker-assignment lease]
+    Lease --> Scan[Scan assignment rows]
+    Scan --> ActorLease[Acquire each actor lease]
+    ActorLease --> Recover[Crash and release earlier execution]
+    Recover --> Observe[Advance observed epoch]

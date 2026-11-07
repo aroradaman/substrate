@@ -1,0 +1,9 @@
+flowchart TB
+    Pool[WorkerPool] --> Build[Deployment builder]
+    Build --> Identity[Identity<br/>certificates and peers]
+    Build --> Resources[Allocation<br/>limits and devices]
+    Build --> Host[Host access<br/>mounts and capabilities]
+    Identity --> Kubelet[Kubelet creates worker Pod]
+    Resources --> Kubelet
+    Host --> Kubelet
+    Kubelet --> Worker[Worker starts<br/>with readiness and drain settings]

@@ -1,0 +1,12 @@
+sequenceDiagram
+    participant WN as Worker release N
+    participant W1 as Worker release N+1
+    participant L1 as Atelet release N+1
+    participant L2 as Atelet release N+2
+    Note over WN,L1: First compatible rollout
+    L1->>WN: Old request shape
+    L1->>W1: Old request shape
+    Note over W1: Learns new field but caller does not send it yet
+    Note over W1,L2: Next compatible rollout
+    L2->>W1: May send new field
+    Note over W1: Field already understood

@@ -1,0 +1,14 @@
+flowchart TB
+    subgraph Pod[gVisor worker Pod]
+        W[Trusted worker]
+        T[atunnel]
+        subgraph Sandbox[Actor sandbox]
+            A[Application]
+            S[Sentry<br/>userspace kernel]
+            A --> S
+        end
+        W --> S
+        T --> A
+    end
+    S --> Host[Host Linux<br/>cgroups, filesystems<br/>network namespaces and veth]
+    W --> Host

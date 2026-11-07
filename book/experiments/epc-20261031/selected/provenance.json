@@ -1,0 +1,92 @@
+[
+  {
+    "selected": "counter-runtime-nft.txt",
+    "original": "kernel/network-counter-running-20261031T175640-2033250/node/workers/ate-demo-counter-counter-679c67c85d-fghjq/namespaces/worker-actor:92c54efa-a098-47c4-93f1-f17bd3730c1a/nft.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "selected": "counter-runtime-nft.json",
+    "original": "kernel/network-counter-running-20261031T175640-2033250/node/workers/ate-demo-counter-counter-679c67c85d-fghjq/namespaces/worker-actor:92c54efa-a098-47c4-93f1-f17bd3730c1a/nft.json",
+    "sha256": "25031f48ac983f28f142a187c6f985da16092b633cde83f3e0eae47884534f7f"
+  },
+  {
+    "selected": "counter-gateway-nft.txt",
+    "original": "kernel/network-counter-running-20261031T175640-2033250/node/workers/ate-demo-counter-counter-679c67c85d-fghjq/namespaces/worker-actor:92c54efa-a098-47c4-93f1-f17bd3730c1a-at/nft.txt",
+    "sha256": "8432341d9fa9f1b4fe90cb16f501e077ca855274d8cbf5775593b3e6dba983f4"
+  },
+  {
+    "selected": "counter-gateway-nft.json",
+    "original": "kernel/network-counter-running-20261031T175640-2033250/node/workers/ate-demo-counter-counter-679c67c85d-fghjq/namespaces/worker-actor:92c54efa-a098-47c4-93f1-f17bd3730c1a-at/nft.json",
+    "sha256": "9432152934c692fc7c01b763d8ee1c83a150d078597b511c74e9a7f3101100cb"
+  },
+  {
+    "selected": "counter-gateway-links.json",
+    "original": "kernel/network-counter-running-20261031T175640-2033250/node/workers/ate-demo-counter-counter-679c67c85d-fghjq/namespaces/worker-actor:92c54efa-a098-47c4-93f1-f17bd3730c1a-at/link.json",
+    "sha256": "bf2f29bfdc947debb83c646fe6eb727fcfae965c9ff098036c598afaa74d19aa"
+  },
+  {
+    "selected": "counter-runtime-links.json",
+    "original": "kernel/network-counter-running-20261031T175640-2033250/node/workers/ate-demo-counter-counter-679c67c85d-fghjq/namespaces/worker-actor:92c54efa-a098-47c4-93f1-f17bd3730c1a/link.json",
+    "sha256": "d96cd0d7499cc871d806478436aa0b900c950e8ccc53f226d9079eaa6bdaeabf"
+  },
+  {
+    "selected": "counter-gateway-sockets.txt",
+    "original": "kernel/network-counter-running-20261031T175640-2033250/node/workers/ate-demo-counter-counter-679c67c85d-fghjq/namespaces/worker-actor:92c54efa-a098-47c4-93f1-f17bd3730c1a-at/sockets.txt",
+    "sha256": "8ac4443c518a76195df61eda9dc4922837a92dff169c272b38ce22ff7838fd83"
+  },
+  {
+    "selected": "worker-pod-nft.txt",
+    "original": "kernel/network-counter-running-20261031T175640-2033250/node/workers/ate-demo-counter-counter-679c67c85d-fghjq/pod-network/nft.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "selected": "worker-pod-nft.json",
+    "original": "kernel/network-counter-running-20261031T175640-2033250/node/workers/ate-demo-counter-counter-679c67c85d-fghjq/pod-network/nft.json",
+    "sha256": "25031f48ac983f28f142a187c6f985da16092b633cde83f3e0eae47884534f7f"
+  },
+  {
+    "selected": "worker-pod-links.json",
+    "original": "kernel/network-counter-running-20261031T175640-2033250/node/workers/ate-demo-counter-counter-679c67c85d-fghjq/pod-network/link.json",
+    "sha256": "cc0e5b7eb03443b2d7867a4371f55c30f235894153cfc7c6fb723f3b6fbd215a"
+  },
+  {
+    "selected": "node-nft.txt",
+    "original": "kernel/network-counter-running-20261031T175640-2033250/node/node/network/nft.txt",
+    "sha256": "87e650f3969a4511baefc2a4e2c020d69c33b3245b4a96bc48cd78f17e95bda6"
+  },
+  {
+    "selected": "node-links.json",
+    "original": "kernel/network-counter-running-20261031T175640-2033250/node/node/network/link.json",
+    "sha256": "bbb53fb6f81ae56a99c6d485ea7bf0dc398b3d8ac82650a538034bd05a0cc22f"
+  },
+  {
+    "selected": "cgroup-ancestry.tsv",
+    "original": "kernel/network-counter-final-processes-20261031T175829-2068208/node/cgroup-ancestry.tsv",
+    "sha256": "5799cba638a812b7ef4a8d6873ea14613d7d1266c23c78e91f27fa0e2b009890"
+  },
+  {
+    "selected": "postgres-schema.sql",
+    "original": "database/final/schema.sql",
+    "sha256": "ad1526766b6146568184536a649f2007f7eebab134293fe8e174a11e0a9194fb"
+  },
+  {
+    "selected": "postgres-final-records.json",
+    "original": "database/final/decoded-records.json",
+    "sha256": "d565945dd854702a704c617f469e5b74b20182c3515ab4e9043616827c034141"
+  },
+  {
+    "selected": "rustfs-objects.json",
+    "original": "manifests/capture-20261031T180401Z/provenance/rustfs-objects.json",
+    "sha256": "862c25c5bd1f09aa1a3a23abc36167ed70a061361c8824ef4d5d9a7bb3fdb9cd"
+  },
+  {
+    "selected": "rustfs-manifests.json",
+    "original": "manifests/capture-20261031T180401Z/provenance/rustfs-manifests.json",
+    "sha256": "ee8b92b1eb170eed7bf163d36763517132d7708cc1098d47e2472584ff8a37c5"
+  },
+  {
+    "selected": "storage-backends.json",
+    "original": "manifests/capture-20261031T180401Z/provenance/deployed-storage-backends.json",
+    "sha256": "536feaab31876d0b3f36316ff8e4e77eadb6a68d0f7d715e2fc83a6e3776c3af"
+  }
+]

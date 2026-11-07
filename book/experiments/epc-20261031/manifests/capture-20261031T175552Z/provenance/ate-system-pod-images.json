@@ -1,0 +1,300 @@
+[
+  {
+    "containers": [
+      {
+        "exitCode": null,
+        "image": "sha256:61206565bc4f1a93e076b0d2395332176932d8797cb3b3567fd2dc0f2e018ba4",
+        "imageID": "localhost:5002/objectstore-plugin@sha256:f15b72a15bb19e7b4936805588a0c14e8ddd5b30791c430c2b771de5e5524cbe",
+        "name": "objectstore-plugin",
+        "ready": true,
+        "restartCount": 0,
+        "terminatedReason": null,
+        "waitingReason": null
+      },
+      {
+        "exitCode": null,
+        "image": "sha256:e616a7e39d6642976f74cc12b784d82796bc5592895d68fd230a4f1cb3067cc8",
+        "imageID": "localhost:5002/ateapi@sha256:bbc3a1f5e7b78b657d9630e7eb82efad2771fc2b9a7c146b0493e9229f3e5b5b",
+        "name": "ate-api-server",
+        "ready": true,
+        "restartCount": 0,
+        "terminatedReason": null,
+        "waitingReason": null
+      }
+    ],
+    "name": "ate-api-server-6548f95b7c-jc6m4",
+    "namespace": "ate-system",
+    "node": "substrate-lifecycle-control-plane",
+    "phase": "Running",
+    "uid": "f0af4cdc-b12f-4969-bf24-859d681481b3"
+  },
+  {
+    "containers": [
+      {
+        "exitCode": null,
+        "image": "sha256:61206565bc4f1a93e076b0d2395332176932d8797cb3b3567fd2dc0f2e018ba4",
+        "imageID": "localhost:5002/objectstore-plugin@sha256:f15b72a15bb19e7b4936805588a0c14e8ddd5b30791c430c2b771de5e5524cbe",
+        "name": "objectstore-plugin",
+        "ready": true,
+        "restartCount": 0,
+        "terminatedReason": null,
+        "waitingReason": null
+      },
+      {
+        "exitCode": null,
+        "image": "sha256:e616a7e39d6642976f74cc12b784d82796bc5592895d68fd230a4f1cb3067cc8",
+        "imageID": "localhost:5002/ateapi@sha256:bbc3a1f5e7b78b657d9630e7eb82efad2771fc2b9a7c146b0493e9229f3e5b5b",
+        "name": "ate-api-server",
+        "ready": true,
+        "restartCount": 0,
+        "terminatedReason": null,
+        "waitingReason": null
+      }
+    ],
+    "name": "ate-api-server-6548f95b7c-lgnfq",
+    "namespace": "ate-system",
+    "node": "substrate-lifecycle-control-plane",
+    "phase": "Running",
+    "uid": "222bfec9-f2d1-405a-aac9-7502edcb48cd"
+  },
+  {
+    "containers": [
+      {
+        "exitCode": null,
+        "image": "sha256:df1d976aa65d9d0acd85daf14e7c12f7c5e34f4dcc657b8fcfe33930ebeb929b",
+        "imageID": "localhost:5002/atecontroller@sha256:c40384558ece84906fd926901bf1c4a8d31ba8690836083227c92f467c227198",
+        "name": "ate-controller",
+        "ready": true,
+        "restartCount": 0,
+        "terminatedReason": null,
+        "waitingReason": null
+      }
+    ],
+    "name": "ate-controller-57f77ccc8b-thz5d",
+    "namespace": "ate-system",
+    "node": "substrate-lifecycle-control-plane",
+    "phase": "Running",
+    "uid": "765315d7-83a3-4eba-959b-bf2a58fc45dc"
+  },
+  {
+    "containers": [
+      {
+        "exitCode": null,
+        "image": "sha256:06db8b4d60626713051851f4daf02e9180d108ebba685658adc8cd2235f25570",
+        "imageID": "localhost:5002/ate-idp-server@sha256:f110a8508ab50df289e9256346d463def44bd480b4d88673ad3ee67be0d143fa",
+        "name": "ate-idp-server",
+        "ready": true,
+        "restartCount": 0,
+        "terminatedReason": null,
+        "waitingReason": null
+      }
+    ],
+    "name": "ate-idp-server-548dc8b57d-l9974",
+    "namespace": "ate-system",
+    "node": "substrate-lifecycle-control-plane",
+    "phase": "Running",
+    "uid": "f300cf32-ac2c-4fe8-853a-44f4a8c6c006"
+  },
+  {
+    "containers": [
+      {
+        "exitCode": null,
+        "image": "sha256:06db8b4d60626713051851f4daf02e9180d108ebba685658adc8cd2235f25570",
+        "imageID": "localhost:5002/ate-idp-server@sha256:f110a8508ab50df289e9256346d463def44bd480b4d88673ad3ee67be0d143fa",
+        "name": "ate-idp-server",
+        "ready": true,
+        "restartCount": 0,
+        "terminatedReason": null,
+        "waitingReason": null
+      }
+    ],
+    "name": "ate-idp-server-548dc8b57d-wgkqq",
+    "namespace": "ate-system",
+    "node": "substrate-lifecycle-control-plane",
+    "phase": "Running",
+    "uid": "02434767-d849-49e1-8d97-9875cdd35379"
+  },
+  {
+    "containers": [
+      {
+        "exitCode": null,
+        "image": "sha256:61206565bc4f1a93e076b0d2395332176932d8797cb3b3567fd2dc0f2e018ba4",
+        "imageID": "localhost:5002/objectstore-plugin@sha256:f15b72a15bb19e7b4936805588a0c14e8ddd5b30791c430c2b771de5e5524cbe",
+        "name": "objectstore-plugin",
+        "ready": true,
+        "restartCount": 0,
+        "terminatedReason": null,
+        "waitingReason": null
+      },
+      {
+        "exitCode": null,
+        "image": "sha256:3345b0b524dac13381fe1807d069d26e1b34347031c21afecbd30a59e499a76d",
+        "imageID": "localhost:5002/atelet@sha256:54df0f45bb570914dfb7753ea49c265d404e2620ee2d8dad48ff9c695191c3fd",
+        "name": "atelet",
+        "ready": true,
+        "restartCount": 0,
+        "terminatedReason": null,
+        "waitingReason": null
+      }
+    ],
+    "name": "atelet-bkhcr",
+    "namespace": "ate-system",
+    "node": "substrate-lifecycle-control-plane",
+    "phase": "Running",
+    "uid": "9ac08b03-3d16-4b0f-8a16-1b31d2fc3008"
+  },
+  {
+    "containers": [
+      {
+        "exitCode": null,
+        "image": "sha256:84dc03dbe77e389181f4fb6fe64f099809e1084f853f6a2aef6204a6f97e93cc",
+        "imageID": "localhost:5002/atenet@sha256:0b8a1c1515ed0ae74cb69e53666bef08a37e0e81d1c357fbd916cd744cca4f81",
+        "name": "sdsmint",
+        "ready": true,
+        "restartCount": 0,
+        "terminatedReason": null,
+        "waitingReason": null
+      },
+      {
+        "exitCode": null,
+        "image": "sha256:0cf8d014e8ce2a7e6c34d324c3ee5343d3e3ee416ee9a971789c2599fe5525bd",
+        "imageID": "localhost:5002/envoy-dataplane@sha256:8256ea4f5d5380fcfb02c2f79205f3d99ebfda3762f05e9a69f244645e5dd898",
+        "name": "envoy",
+        "ready": true,
+        "restartCount": 0,
+        "terminatedReason": null,
+        "waitingReason": null
+      },
+      {
+        "exitCode": null,
+        "image": "sha256:84dc03dbe77e389181f4fb6fe64f099809e1084f853f6a2aef6204a6f97e93cc",
+        "imageID": "localhost:5002/atenet@sha256:0b8a1c1515ed0ae74cb69e53666bef08a37e0e81d1c357fbd916cd744cca4f81",
+        "name": "ext-proc",
+        "ready": true,
+        "restartCount": 0,
+        "terminatedReason": null,
+        "waitingReason": null
+      }
+    ],
+    "name": "atenet-egress-867b49b5cb-ltsqh",
+    "namespace": "ate-system",
+    "node": "substrate-lifecycle-control-plane",
+    "phase": "Running",
+    "uid": "5e87a9c7-e948-4b76-99cf-5ea6787a54c1"
+  },
+  {
+    "containers": [
+      {
+        "exitCode": null,
+        "image": "sha256:84dc03dbe77e389181f4fb6fe64f099809e1084f853f6a2aef6204a6f97e93cc",
+        "imageID": "localhost:5002/atenet@sha256:0b8a1c1515ed0ae74cb69e53666bef08a37e0e81d1c357fbd916cd744cca4f81",
+        "name": "atenet-router",
+        "ready": true,
+        "restartCount": 0,
+        "terminatedReason": null,
+        "waitingReason": null
+      },
+      {
+        "exitCode": null,
+        "image": "sha256:0cf8d014e8ce2a7e6c34d324c3ee5343d3e3ee416ee9a971789c2599fe5525bd",
+        "imageID": "localhost:5002/envoy-dataplane@sha256:8256ea4f5d5380fcfb02c2f79205f3d99ebfda3762f05e9a69f244645e5dd898",
+        "name": "envoy",
+        "ready": true,
+        "restartCount": 0,
+        "terminatedReason": null,
+        "waitingReason": null
+      }
+    ],
+    "name": "atenet-router-599d645d96-crwdw",
+    "namespace": "ate-system",
+    "node": "substrate-lifecycle-control-plane",
+    "phase": "Running",
+    "uid": "df1c2ee8-8d01-4770-9da0-7ce66431de1b"
+  },
+  {
+    "containers": [
+      {
+        "exitCode": null,
+        "image": "sha256:af5175f09fc31e1e08c7cb1a37085fa080bb6874736876b84d55cfbdbc606e67",
+        "imageID": "localhost:5002/kubernetes-secrets@sha256:2faf674fa3c135e0531fdab07c7cd4a9ca9beddebefdd74c7d78c70d2bdb8d41",
+        "name": "k8s-credential-provider",
+        "ready": true,
+        "restartCount": 0,
+        "terminatedReason": null,
+        "waitingReason": null
+      }
+    ],
+    "name": "k8s-credential-provider-6cf6fbcdcc-sjnq6",
+    "namespace": "ate-system",
+    "node": "substrate-lifecycle-control-plane",
+    "phase": "Running",
+    "uid": "7991adc1-f4c4-45d5-a304-68b4b358c48c"
+  },
+  {
+    "containers": [
+      {
+        "exitCode": null,
+        "image": "sha256:bd1890816ae0b8ad4644f05728570d4be774e1f1490d7232f5084b52ea335183",
+        "imageID": "docker.io/library/postgres@sha256:9a8afca54e7861fd90fab5fdf4c42477a6b1cb7d293595148e674e0a3181de15",
+        "name": "tls-reloader",
+        "ready": true,
+        "restartCount": 0,
+        "terminatedReason": null,
+        "waitingReason": null
+      },
+      {
+        "exitCode": null,
+        "image": "sha256:bd1890816ae0b8ad4644f05728570d4be774e1f1490d7232f5084b52ea335183",
+        "imageID": "docker.io/library/postgres@sha256:9a8afca54e7861fd90fab5fdf4c42477a6b1cb7d293595148e674e0a3181de15",
+        "name": "postgres",
+        "ready": true,
+        "restartCount": 0,
+        "terminatedReason": null,
+        "waitingReason": null
+      }
+    ],
+    "name": "postgres-0",
+    "namespace": "ate-system",
+    "node": "substrate-lifecycle-control-plane",
+    "phase": "Running",
+    "uid": "fff3b864-af55-4e0d-94c3-42d21e7267b9"
+  },
+  {
+    "containers": [
+      {
+        "exitCode": null,
+        "image": "sha256:cf1d7ba6108cd433dc8468d23b4361e644dc5424524481f5956bfd2dbc0f9b84",
+        "imageID": "docker.io/rustfs/rustfs@sha256:9ca9559533b537d10482fe923288b676ad08f92a7069d9a17327fbae3cab688b",
+        "name": "rustfs",
+        "ready": true,
+        "restartCount": 0,
+        "terminatedReason": null,
+        "waitingReason": null
+      }
+    ],
+    "name": "rustfs-54c86945fb-m2wrb",
+    "namespace": "ate-system",
+    "node": "substrate-lifecycle-control-plane",
+    "phase": "Running",
+    "uid": "a2bb1000-930e-4714-a736-925468449556"
+  },
+  {
+    "containers": [
+      {
+        "exitCode": 0,
+        "image": "sha256:e84d8cf62bb8820751a8575e8d60a55735bb561e53db1f5d44e7c8ab1d147c6e",
+        "imageID": "docker.io/amazon/aws-cli@sha256:c8156a0e74e13929a42d7e60f0d4e14e7d28d980cd21822505d4bff80e5460c1",
+        "name": "create-bucket",
+        "ready": false,
+        "restartCount": 0,
+        "terminatedReason": "Completed",
+        "waitingReason": null
+      }
+    ],
+    "name": "rustfs-bucket-init-q2j8g",
+    "namespace": "ate-system",
+    "node": "substrate-lifecycle-control-plane",
+    "phase": "Succeeded",
+    "uid": "118510bd-7091-4c55-8f70-be7d5ac7ffb2"
+  }
+]

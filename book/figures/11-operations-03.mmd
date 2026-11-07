@@ -1,0 +1,12 @@
+flowchart TB
+    SPEC[Commit + configuration + workload population] --> RIG[Choose benchmark layer]
+    RIG --> API[Fake dataplane: API and database]
+    RIG --> RT[Real runtime lifecycle]
+    RIG --> NET[Nighthawk router or egress]
+    RIG --> TUN[Isolated atunnel]
+    API --> WIN[Select valid measurement window]
+    RT --> WIN
+    NET --> WIN
+    TUN --> WIN
+    WIN --> JOIN[Join outcomes, phase logs, resources]
+    JOIN --> CLAIM[Bounded claim with exclusions]

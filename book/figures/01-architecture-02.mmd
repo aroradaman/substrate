@@ -1,0 +1,22 @@
+flowchart TB
+    Client[Application client] --> Router[atenet-router]
+    CLI[kubectl-ate] --> API[ate-api-server]
+    Router -->|ResumeActor| API
+    API <--> PG[(PostgreSQL)]
+    API --> Let[atelet on selected node]
+    Let --> Worker[ateworker]
+    Router -->|authenticated tunnel| Tunnel[atunnel in worker]
+    Tunnel --> Actor[Actor sandbox]
+    Worker --> Actor
+    Actor --> Tunnel
+    Tunnel --> Egress[atenet-egress]
+    Egress --> Remote[External service]
+    API --> CP[Control object-store sidecar]
+    Let --> NP[Node object-store sidecar]
+    CP --> Store[(GCS or S3-compatible storage)]
+    NP --> Store
+    Admin[Infrastructure configuration] --> Kube[Kubernetes API]
+    Kube --> Controller[atecontroller]
+    Controller --> Kube
+    Controller -->|worker registry synchronization| API
+    Kube --> Worker

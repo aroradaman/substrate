@@ -1,0 +1,10 @@
+flowchart TB
+    W[ateworker-microvm] -->|Unix REST| CH[Cloud Hypervisor]
+    CH --> K["Host /dev/kvm"]
+    K --> GK[Guest kernel]
+    GK --> Apps["Actor containers"]
+    W -->|hybrid vsock| AG[Kata agent]
+    AG --> Apps
+    W --> VF[virtiofsd]
+    VF --> O[Host overlay]
+    VF <-->|virtio-fs| GK

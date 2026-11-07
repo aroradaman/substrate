@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: lifecycle-target
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: origin
+  namespace: lifecycle-target
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: lifecycle-origin}
+  template:
+    metadata:
+      labels: {app: lifecycle-origin}
+    spec:
+      containers:
+      - name: origin
+        image: localhost:5002/testserver-1c83b80ce58e2008bb42365908c84c50@sha256:77708dfd20b6eeb25beb64d864f0c8cfd847b138d46cc7b18fc508b17a2ee631
+        args: [http, --listen=:8080, --body=substrate-lifecycle-origin-20261031]
+        ports:
+        - {name: http, containerPort: 8080}
+        readinessProbe:
+          httpGet: {path: /healthz, port: http}
+        resources:
+          requests: {cpu: 10m, memory: 32Mi}
+          limits: {cpu: 250m, memory: 128Mi}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: origin
+  namespace: lifecycle-target
+spec:
+  selector: {app: lifecycle-origin}
+  ports:
+  - {name: http, port: 80, targetPort: http}

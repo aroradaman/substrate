@@ -1,0 +1,9 @@
+flowchart TB
+    L[atelet node plugin] -->|S3 API :9000| S[rustfs Service]
+    C[API control plugin] -->|S3 API :9000| S
+    J[Bucket init Job] -->|Create or detect ate-snapshots| S
+    S --> R[One RustFS Pod]
+    R --> P[ReadWriteOnce PVC 1Gi]
+    P --> D["/data"]
+    N[NetworkPolicy] -. admits API callers .-> S
+    O[Operator port-forward] -. console :9001 .-> R

@@ -1,0 +1,10 @@
+flowchart TB
+    Ping[VMM version from ping] --> Check{Affected prefault range or unknown?}
+    Check -->|Yes, including default v53| Copy[Eager Copy]
+    Check -->|No| Demand[OnDemand]
+    Copy --> Read[Read populated extents before resume]
+    Read --> Drop[Drop or evict staged source]
+    Drop --> Full[Next snapshot self-contained]
+    Demand --> UFFD[External VMM userfaultfd handler]
+    UFFD --> Keep[Keep source for activation lifetime]
+    Keep --> Diff[Next snapshot requires base merge]

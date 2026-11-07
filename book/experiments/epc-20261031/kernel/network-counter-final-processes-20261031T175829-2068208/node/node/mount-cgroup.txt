@@ -1,0 +1,2 @@
+TARGET         FSTYPE  OPTIONS
+/sys/fs/cgroup cgroup2 rw,nosuid,nodev,noexec,relatime,nsdelegate,memory_recursiveprot

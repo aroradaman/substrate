@@ -1,0 +1,11 @@
+flowchart TB
+    C[Client through local proxy] --> R[Ingress router]
+    R -->|authenticated CONNECT| T[atunnel in worker]
+    T --> G[Actor gateway namespace]
+    G --> V[Veth pair]
+    V --> S[gVisor network stack]
+    S --> A[Counter listener]
+    A --> S
+    G -->|redirected outbound TCP| P[atunnel egress proxy]
+    P --> E[Shared egress gateway]
+    E --> X[Permitted external service]

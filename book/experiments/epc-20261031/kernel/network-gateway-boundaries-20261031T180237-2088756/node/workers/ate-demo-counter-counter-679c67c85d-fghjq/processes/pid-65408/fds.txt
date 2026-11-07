@@ -1,0 +1,5 @@
+10	anon_inode:[eventfd]
+4	anon_inode:[eventfd]
+5	socket:[465117286]
+9	anon_inode:[eventpoll]
+other_path_fds_count=8 (paths and contents omitted)

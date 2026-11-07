@@ -1,0 +1,107 @@
+node_relative_path=/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-burstable.slice/kubelet-kubepods-burstable-pod2a3f0bf1_e705_47b9_a943_0142a581fc76.slice/cri-containerd-611a58221ba89ac45167e6a5c52bb84dfac1ab7e4328cb19508c7f4ecd3789b2.scope
+[cgroup.type]
+domain
+[cgroup.controllers]
+cpuset cpu io memory hugetlb pids rdma misc
+[cgroup.subtree_control]
+cpuset cpu io memory hugetlb pids rdma misc
+[cgroup.procs]
+[cgroup.threads]
+[memory.max]
+1073741824
+[memory.high]
+max
+[memory.current]
+39378944
+[memory.events]
+low 0
+high 0
+max 0
+oom 0
+oom_kill 0
+oom_group_kill 0
+[memory.events.local]
+low 0
+high 0
+max 0
+oom 0
+oom_kill 0
+oom_group_kill 0
+[memory.stat]
+anon 27975680
+file 7979008
+kernel 3424256
+kernel_stack 622592
+pagetables 868352
+sec_pagetables 0
+percpu 178704
+sock 0
+vmalloc 28672
+shmem 6426624
+zswap 0
+zswapped 0
+file_mapped 7479296
+file_dirty 1056768
+file_writeback 0
+swapcached 0
+anon_thp 0
+file_thp 0
+shmem_thp 0
+inactive_anon 0
+active_anon 34402304
+inactive_file 110592
+active_file 1441792
+unevictable 0
+slab_reclaimable 460936
+slab_unreclaimable 1163872
+slab 1624808
+workingset_refault_anon 0
+workingset_refault_file 0
+workingset_activate_anon 0
+workingset_activate_file 0
+workingset_restore_anon 0
+workingset_restore_file 0
+workingset_nodereclaim 0
+pgscan 0
+pgsteal 0
+pgscan_kswapd 0
+pgscan_direct 0
+pgscan_khugepaged 0
+pgsteal_kswapd 0
+pgsteal_direct 0
+pgsteal_khugepaged 0
+pgfault 74574
+pgmajfault 16
+pgrefill 0
+pgactivate 0
+pgdeactivate 0
+pglazyfree 0
+pglazyfreed 0
+zswpin 0
+zswpout 0
+zswpwb 0
+thp_fault_alloc 0
+thp_collapse_alloc 0
+thp_swpout 0
+thp_swpout_fallback 0
+[memory.pressure]
+some avg10=0.00 avg60=0.00 avg300=0.00 total=0
+full avg10=0.00 avg60=0.00 avg300=0.00 total=0
+[cpu.max]
+100000 100000
+[cpu.weight]
+35
+[cpu.stat]
+usage_usec 1237703
+user_usec 621677
+system_usec 616025
+core_sched.force_idle_usec 0
+nr_periods 385
+nr_throttled 5
+throttled_usec 47668
+nr_bursts 0
+burst_usec 0
+[pids.max]
+11553
+[pids.current]
+38

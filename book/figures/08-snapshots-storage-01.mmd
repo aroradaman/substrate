@@ -1,0 +1,9 @@
+flowchart TB
+  Capture["Worker capture"] --> Local["LatestLocal\nnode files"]
+  Local --> Upload["Upload data files"]
+  Upload --> Manifest["Commit manifest"]
+  Manifest --> Durable["LatestDurable\nobject-store prefix"]
+  Local --> SameNode["Same-node restore"]
+  Durable --> OtherNode["Remote restore"]
+  Durable --> Tag["Server-side copy\nto tag owner"]
+  Durable --> Detach["Detach local files"]

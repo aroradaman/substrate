@@ -1,0 +1,20 @@
+[
+  {
+    "pod": "ate-api-server-6548f95b7c-jc6m4",
+    "container": "objectstore-plugin",
+    "ATE_STORAGE_BACKEND": "s3",
+    "AWS_ENDPOINT_URL": "http://rustfs.ate-system.svc:9000"
+  },
+  {
+    "pod": "ate-api-server-6548f95b7c-lgnfq",
+    "container": "objectstore-plugin",
+    "ATE_STORAGE_BACKEND": "s3",
+    "AWS_ENDPOINT_URL": "http://rustfs.ate-system.svc:9000"
+  },
+  {
+    "pod": "atelet-bkhcr",
+    "container": "objectstore-plugin",
+    "ATE_STORAGE_BACKEND": "s3",
+    "AWS_ENDPOINT_URL": "http://rustfs.ate-system.svc:9000"
+  }
+]

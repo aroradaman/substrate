@@ -1,0 +1,16 @@
+sequenceDiagram
+  participant API as ateapi
+  participant N as atelet
+  participant T as Tracker
+  participant W as Worker
+  participant O as Object store
+  API->>N: Checkpoint generation g
+  N->>T: BeginCheckpoint(g)
+  N->>W: Capture files
+  W-->>N: Completed file set
+  N->>T: CommitLocal(g)
+  N-->>API: Local snapshot state
+  T->>O: Delayed upload of latest eligible state
+  O-->>T: Manifest committed
+  T->>T: Commit durable state and report due
+  T-->>API: ReportSnapshotState

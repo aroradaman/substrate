@@ -1,0 +1,14 @@
+sequenceDiagram
+    participant User as API client
+    participant API as Control / WorkerService
+    participant Let as Atelet / WorkerSupport
+    participant Worker as Worker runtime service
+    User->>API: ResumeActor
+    API->>Let: Run or Restore
+    Let->>Worker: RunWorkload or RestoreWorkload
+    Worker-->>Let: Result and execution information
+    Let-->>API: Activation result
+    API-->>User: Actor and assignment
+    Note over Worker,API: Upward support calls use separately authenticated contracts
+    Worker->>Let: RegisterWorker or ReportActorCrashed
+    Let->>API: Corresponding WorkerService request

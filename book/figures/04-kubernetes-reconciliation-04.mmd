@@ -1,0 +1,8 @@
+stateDiagram-v2
+    [*] --> UNAVAILABLE: Scheduled Pod creates Worker
+    UNAVAILABLE --> ACTIVE: Pod Ready with IP
+    ACTIVE --> UNAVAILABLE: Pod not Ready
+    ACTIVE --> DRAINING: Pod terminating or cleanup requested
+    UNAVAILABLE --> DRAINING: Pod terminating or cleanup requested
+    DRAINING --> Removed: Pod gone and DeleteWorker completes
+    Removed --> [*]

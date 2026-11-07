@@ -1,0 +1,43 @@
+[cgroup.type]
+domain
+[cgroup.controllers]
+cpuset cpu io memory hugetlb pids rdma misc
+[cgroup.subtree_control]
+[cgroup.procs]
+9473
+9481
+9503
+9510
+9511
+9516
+[memory.max]
+max
+[memory.high]
+536870912
+[memory.current]
+21147648
+[memory.events]
+low 0
+high 0
+max 0
+oom 0
+oom_kill 0
+oom_group_kill 0
+[cpu.max]
+100000 100000
+[cpu.weight]
+100
+[cpu.stat]
+usage_usec 127831
+user_usec 69522
+system_usec 58308
+core_sched.force_idle_usec 0
+nr_periods 26
+nr_throttled 0
+throttled_usec 0
+nr_bursts 0
+burst_usec 0
+[pids.max]
+max
+[pids.current]
+23

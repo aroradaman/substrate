@@ -1,0 +1,23 @@
+sequenceDiagram
+    participant A as Actor
+    participant N as Namespace nftables
+    participant T as atunnel egress
+    participant G as Egress gateway
+    participant P as Egress processor
+    participant D as Destination
+    A->>N: TCP connect to destination IP:port
+    N->>T: REDIRECT accepted socket
+    T->>N: getsockopt SO_ORIGINAL_DST
+    N-->>T: Original IP:port
+    T->>G: mTLS CONNECT with actor certificate
+    G->>P: Authenticate and obtain policy
+    P-->>G: Actor context and allowed processing rules
+    Note over G: Inspect cleartext or TLS ClientHello
+    alt HTTP or intercepted TLS
+        G->>P: Evaluate each HTTP request
+        P-->>G: Allow/deny and header effects
+    else Allowed TLS passthrough
+        Note over G: Authorize using visible TLS metadata
+    end
+    G->>D: Upstream connection
+    D-->>A: Response through tunnel

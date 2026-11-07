@@ -1,0 +1,68 @@
+{
+  "reader": "macOS PDFKit",
+  "pages": 298,
+  "chapter_and_appendix_starts": [
+    {
+      "page": 9,
+      "title_opening": "1. Multiplexing Actors: Architecture"
+    },
+    {
+      "page": 29,
+      "title_opening": "2. Two API Planes: Resources,"
+    },
+    {
+      "page": 50,
+      "title_opening": "3. Placement and Consistency in"
+    },
+    {
+      "page": 75,
+      "title_opening": "4. Reconciling Kubernetes"
+    },
+    {
+      "page": 97,
+      "title_opening": "5. Node Supervision and Shared"
+    },
+    {
+      "page": 119,
+      "title_opening": "6. gVisor Execution and Checkpoint"
+    },
+    {
+      "page": 142,
+      "title_opening": "7. MicroVM Execution with Kata and"
+    },
+    {
+      "page": 164,
+      "title_opening": "8. Snapshot Persistence, Locality,"
+    },
+    {
+      "page": 187,
+      "title_opening": "9. Actor Networking, Transparent"
+    },
+    {
+      "page": 212,
+      "title_opening": "10. Identity, Authorization, and"
+    },
+    {
+      "page": 237,
+      "title_opening": "11. Operating and Measuring a"
+    },
+    {
+      "page": 259,
+      "title_opening": "12. Extension Contracts and"
+    },
+    {
+      "page": 280,
+      "title_opening": "Appendix A. Linux Primitive and"
+    },
+    {
+      "page": 289,
+      "title_opening": "Appendix B. Source Inventory and"
+    },
+    {
+      "page": 295,
+      "title_opening": "Appendix C. Glossary and Reading"
+    }
+  ],
+  "figure_captions": 57,
+  "pages_with_fewer_than_100_text_characters": []
+}

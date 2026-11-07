@@ -1,0 +1,531 @@
+table ip nat { # handle 2
+	chain PREROUTING { # handle 1
+		type nat hook prerouting priority dstnat; policy accept;
+		 counter packets 1050 bytes 97179 jump KUBE-SERVICES # handle 22
+		ip daddr 172.19.0.1 counter packets 26 bytes 2252 jump DOCKER_OUTPUT # handle 8
+	}
+
+	chain INPUT { # handle 2
+		type nat hook input priority srcnat; policy accept;
+	}
+
+	chain OUTPUT { # handle 3
+		type nat hook output priority dstnat; policy accept;
+		 counter packets 4137 bytes 251022 jump KUBE-SERVICES # handle 21
+		ip daddr 172.19.0.1 counter packets 178 bytes 13482 jump DOCKER_OUTPUT # handle 7
+	}
+
+	chain POSTROUTING { # handle 4
+		type nat hook postrouting priority srcnat; policy accept;
+		 counter packets 4973 bytes 334459 jump KUBE-POSTROUTING # handle 24
+		ip daddr 172.19.0.1 counter packets 0 bytes 0 jump DOCKER_POSTROUTING # handle 9
+		fib daddr type != local  counter packets 2324 bytes 172717 jump KIND-MASQ-AGENT # handle 18
+	}
+
+	chain DOCKER_OUTPUT { # handle 5
+		ip daddr 172.19.0.1 tcp dport 53 counter packets 0 bytes 0 dnat to 127.0.0.11:35885 # handle 10
+		ip daddr 172.19.0.1 udp dport 53 counter packets 204 bytes 15734 dnat to 127.0.0.11:42122 # handle 11
+	}
+
+	chain DOCKER_POSTROUTING { # handle 6
+		ip saddr 127.0.0.11 tcp sport 35885 counter packets 0 bytes 0 snat to 172.19.0.1:53 # handle 12
+		ip saddr 127.0.0.11 udp sport 42122 counter packets 0 bytes 0 snat to 172.19.0.1:53 # handle 13
+	}
+
+	chain KUBE-KUBELET-CANARY { # handle 14
+	}
+
+	chain KIND-MASQ-AGENT { # handle 15
+		ip daddr 10.244.0.0/16  counter packets 2218 bytes 166357 return # handle 16
+		 counter packets 106 bytes 6360 masquerade # handle 17
+	}
+
+	chain KUBE-PROXY-CANARY { # handle 19
+	}
+
+	chain KUBE-SERVICES { # handle 20
+		meta l4proto tcp ip daddr 10.96.237.104  tcp dport 8444 counter packets 0 bytes 0 jump KUBE-SVC-RUH6SVEZ46X7SDLR # handle 574
+		meta l4proto tcp ip daddr 10.96.237.104  tcp dport 443 counter packets 0 bytes 0 jump KUBE-SVC-4XN7DDOCZBF5XGHN # handle 575
+		meta l4proto tcp ip daddr 10.96.41.43  tcp dport 4317 counter packets 1 bytes 60 jump KUBE-SVC-RHMRSIZKITPAE7F5 # handle 576
+		meta l4proto tcp ip daddr 10.96.41.43  tcp dport 8889 counter packets 0 bytes 0 jump KUBE-SVC-5UOOJ7NCWAHFLKZ2 # handle 577
+		meta l4proto tcp ip daddr 10.96.0.1  tcp dport 443 counter packets 0 bytes 0 jump KUBE-SVC-NPX46M4PTMTKRN6Y # handle 578
+		meta l4proto udp ip daddr 10.96.0.10  udp dport 53 counter packets 163 bytes 16807 jump KUBE-SVC-TCOU7JCQXEZGVUNU # handle 579
+		meta l4proto tcp ip daddr 10.96.0.10  tcp dport 53 counter packets 0 bytes 0 jump KUBE-SVC-ERIFXISQEP7F7OF4 # handle 580
+		meta l4proto tcp ip daddr 10.96.83.79  tcp dport 443 counter packets 0 bytes 0 jump KUBE-SVC-SOMVEVN7PERWSVPS # handle 581
+		meta l4proto tcp ip daddr 10.96.128.135  tcp dport 9001 counter packets 0 bytes 0 jump KUBE-SVC-XZZMGEAGL63KKYOG # handle 582
+		meta l4proto tcp ip daddr 10.96.128.135  tcp dport 9000 counter packets 7 bytes 420 jump KUBE-SVC-A2SY25MVNIQF6HKW # handle 583
+		meta l4proto tcp ip daddr 10.96.41.43  tcp dport 4318 counter packets 0 bytes 0 jump KUBE-SVC-FLEGEQUUAFZ4N65C # handle 584
+		meta l4proto tcp ip daddr 10.96.18.24  tcp dport 8080 counter packets 0 bytes 0 jump KUBE-SVC-YXZCIIJZABXUI5QL # handle 585
+		meta l4proto tcp ip daddr 10.96.41.43  tcp dport 8888 counter packets 0 bytes 0 jump KUBE-SVC-ZRDVVVKFTTEHC7JC # handle 586
+		meta l4proto tcp ip daddr 10.96.228.170  tcp dport 4317 counter packets 0 bytes 0 jump KUBE-SVC-U7O5CQRLNZAQTJKW # handle 587
+		meta l4proto tcp ip daddr 10.96.178.104  tcp dport 443 counter packets 1 bytes 60 jump KUBE-SVC-MC3ISXSYU3VSMMAL # handle 588
+		meta l4proto tcp ip daddr 10.96.249.148  tcp dport 80 counter packets 0 bytes 0 jump KUBE-SVC-SQXQAVDX277X74K4 # handle 589
+		meta l4proto tcp ip daddr 10.96.0.10  tcp dport 9153 counter packets 0 bytes 0 jump KUBE-SVC-JD5MR3NA4I4DYORP # handle 594
+		meta l4proto tcp ip daddr 10.96.228.170  tcp dport 4318 counter packets 0 bytes 0 jump KUBE-SVC-PEDR33XZA4ERDQB4 # handle 595
+		meta l4proto tcp ip daddr 10.96.228.170  tcp dport 16686 counter packets 0 bytes 0 jump KUBE-SVC-7X5OJBLMM6DAITMB # handle 596
+		meta l4proto tcp ip daddr 10.96.191.37  tcp dport 9090 counter packets 0 bytes 0 jump KUBE-SVC-PPN7LKL4BGLHWNPX # handle 597
+		meta l4proto tcp ip daddr 10.96.31.0  tcp dport 50051 counter packets 0 bytes 0 jump KUBE-SVC-4FAU5QS2ZNEEVQJJ # handle 598
+		 fib daddr type local counter packets 321 bytes 19260 jump KUBE-NODEPORTS # handle 599
+	}
+
+	chain KUBE-POSTROUTING { # handle 23
+		meta mark & 0x00004000 != 0x00004000 counter packets 779 bytes 53729 return # handle 570
+		counter packets 0 bytes 0 meta mark set mark xor 0x4000 # handle 571
+		 counter packets 0 bytes 0 masquerade fully-random # handle 572
+	}
+
+	chain KUBE-NODEPORTS { # handle 25
+	}
+
+	chain KUBE-MARK-MASQ { # handle 26
+		counter packets 0 bytes 0 meta mark set mark or 0x4000 # handle 573
+	}
+
+	chain KUBE-SVC-NPX46M4PTMTKRN6Y { # handle 27
+		meta l4proto tcp ip saddr != 10.244.0.0/16 ip daddr 10.96.0.1  tcp dport 443 counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 34
+		 counter packets 24 bytes 1440 jump KUBE-SEP-6PU2EFDUDSAUAFA6 # handle 35
+	}
+
+	chain KUBE-SEP-6PU2EFDUDSAUAFA6 { # handle 28
+		ip saddr 172.19.0.7  counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 36
+		meta l4proto tcp  meta l4proto tcp counter packets 24 bytes 1440 dnat to 172.19.0.7:6443 # handle 37
+	}
+
+	chain KUBE-SVC-TCOU7JCQXEZGVUNU { # handle 45
+		meta l4proto udp ip saddr != 10.244.0.0/16 ip daddr 10.96.0.10  udp dport 53 counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 60
+		 meta random & 2147483647 < 1073741824 counter packets 347 bytes 37256 jump KUBE-SEP-6E7XQMQ4RAYOWTTM # handle 61
+		 counter packets 361 bytes 38711 jump KUBE-SEP-WXWGHGKZOCNYRYI7 # handle 62
+	}
+
+	chain KUBE-SEP-6E7XQMQ4RAYOWTTM { # handle 46
+		ip saddr 10.244.0.3  counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 63
+		meta l4proto udp  meta l4proto udp counter packets 347 bytes 37256 dnat to 10.244.0.3:53 # handle 64
+	}
+
+	chain KUBE-SEP-WXWGHGKZOCNYRYI7 { # handle 47
+		ip saddr 10.244.0.4  counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 65
+		meta l4proto udp  meta l4proto udp counter packets 361 bytes 38711 dnat to 10.244.0.4:53 # handle 66
+	}
+
+	chain KUBE-SVC-ERIFXISQEP7F7OF4 { # handle 48
+		meta l4proto tcp ip saddr != 10.244.0.0/16 ip daddr 10.96.0.10  tcp dport 53 counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 68
+		 meta random & 2147483647 < 1073741824 counter packets 0 bytes 0 jump KUBE-SEP-ZXMNUKOKXUTL2MK2 # handle 69
+		 counter packets 0 bytes 0 jump KUBE-SEP-SF3LG62VAE5ALYDV # handle 70
+	}
+
+	chain KUBE-SEP-ZXMNUKOKXUTL2MK2 { # handle 49
+		ip saddr 10.244.0.3  counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 71
+		meta l4proto tcp  meta l4proto tcp counter packets 0 bytes 0 dnat to 10.244.0.3:53 # handle 72
+	}
+
+	chain KUBE-SEP-SF3LG62VAE5ALYDV { # handle 50
+		ip saddr 10.244.0.4  counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 73
+		meta l4proto tcp  meta l4proto tcp counter packets 0 bytes 0 dnat to 10.244.0.4:53 # handle 74
+	}
+
+	chain KUBE-SVC-JD5MR3NA4I4DYORP { # handle 51
+		meta l4proto tcp ip saddr != 10.244.0.0/16 ip daddr 10.96.0.10  tcp dport 9153 counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 76
+		 meta random & 2147483647 < 1073741824 counter packets 0 bytes 0 jump KUBE-SEP-ZP3FB6NMPNCO4VBJ # handle 77
+		 counter packets 0 bytes 0 jump KUBE-SEP-PUHFDAMRBZWCPADU # handle 78
+	}
+
+	chain KUBE-SEP-ZP3FB6NMPNCO4VBJ { # handle 52
+		ip saddr 10.244.0.3  counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 79
+		meta l4proto tcp  meta l4proto tcp counter packets 0 bytes 0 dnat to 10.244.0.3:9153 # handle 80
+	}
+
+	chain KUBE-SEP-PUHFDAMRBZWCPADU { # handle 53
+		ip saddr 10.244.0.4  counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 81
+		meta l4proto tcp  meta l4proto tcp counter packets 0 bytes 0 dnat to 10.244.0.4:9153 # handle 82
+	}
+
+	chain KUBE-SVC-YXZCIIJZABXUI5QL { # handle 111
+		meta l4proto tcp ip saddr != 10.244.0.0/16 ip daddr 10.96.18.24  tcp dport 8080 counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 122
+		 counter packets 0 bytes 0 jump KUBE-SEP-LOEZFLSZBSAA2Q74 # handle 123
+	}
+
+	chain KUBE-SEP-LOEZFLSZBSAA2Q74 { # handle 112
+		ip saddr 10.244.0.9  counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 124
+		meta l4proto tcp  meta l4proto tcp counter packets 0 bytes 0 dnat to 10.244.0.9:8080 # handle 125
+	}
+
+	chain KUBE-SVC-SOMVEVN7PERWSVPS { # handle 127
+		meta l4proto tcp ip saddr != 10.244.0.0/16 ip daddr 10.96.83.79  tcp dport 443 counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 140
+		 meta random & 2147483647 < 1073741824 counter packets 0 bytes 0 jump KUBE-SEP-J4W6FLCFL6YKBGYT # handle 141
+		 counter packets 0 bytes 0 jump KUBE-SEP-YNAHKYXTC2PRWTPE # handle 142
+	}
+
+	chain KUBE-SEP-J4W6FLCFL6YKBGYT { # handle 128
+		ip saddr 10.244.0.12  counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 143
+		meta l4proto tcp  meta l4proto tcp counter packets 0 bytes 0 dnat to 10.244.0.12:8443 # handle 144
+	}
+
+	chain KUBE-SEP-YNAHKYXTC2PRWTPE { # handle 129
+		ip saddr 10.244.0.13  counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 145
+		meta l4proto tcp  meta l4proto tcp counter packets 0 bytes 0 dnat to 10.244.0.13:8443 # handle 146
+	}
+
+	chain KUBE-SVC-U7O5CQRLNZAQTJKW { # handle 203
+		meta l4proto tcp ip saddr != 10.244.0.0/16 ip daddr 10.96.228.170  tcp dport 4317 counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 219
+		 counter packets 1 bytes 60 jump KUBE-SEP-SRY7X37WT4KCFWWT # handle 220
+	}
+
+	chain KUBE-SEP-SRY7X37WT4KCFWWT { # handle 204
+		ip saddr 10.244.0.18  counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 221
+		meta l4proto tcp  meta l4proto tcp counter packets 1 bytes 60 dnat to 10.244.0.18:4317 # handle 222
+	}
+
+	chain KUBE-SVC-PEDR33XZA4ERDQB4 { # handle 205
+		meta l4proto tcp ip saddr != 10.244.0.0/16 ip daddr 10.96.228.170  tcp dport 4318 counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 225
+		 counter packets 0 bytes 0 jump KUBE-SEP-TR64OWUDNSRC4VHY # handle 226
+	}
+
+	chain KUBE-SEP-TR64OWUDNSRC4VHY { # handle 206
+		ip saddr 10.244.0.18  counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 227
+		meta l4proto tcp  meta l4proto tcp counter packets 0 bytes 0 dnat to 10.244.0.18:4318 # handle 228
+	}
+
+	chain KUBE-SVC-7X5OJBLMM6DAITMB { # handle 207
+		meta l4proto tcp ip saddr != 10.244.0.0/16 ip daddr 10.96.228.170  tcp dport 16686 counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 230
+		 counter packets 0 bytes 0 jump KUBE-SEP-RAGGSKKCX7E5BC6B # handle 231
+	}
+
+	chain KUBE-SEP-RAGGSKKCX7E5BC6B { # handle 208
+		ip saddr 10.244.0.18  counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 232
+		meta l4proto tcp  meta l4proto tcp counter packets 0 bytes 0 dnat to 10.244.0.18:16686 # handle 233
+	}
+
+	chain KUBE-SVC-ZRDVVVKFTTEHC7JC { # handle 235
+		meta l4proto tcp ip saddr != 10.244.0.0/16 ip daddr 10.96.41.43  tcp dport 8888 counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 248
+		 counter packets 0 bytes 0 jump KUBE-SEP-TSV42P7X7JS5RVDY # handle 249
+	}
+
+	chain KUBE-SEP-TSV42P7X7JS5RVDY { # handle 236
+		ip saddr 10.244.0.17  counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 250
+		meta l4proto tcp  meta l4proto tcp counter packets 0 bytes 0 dnat to 10.244.0.17:8888 # handle 251
+	}
+
+	chain KUBE-SVC-RHMRSIZKITPAE7F5 { # handle 237
+		meta l4proto tcp ip saddr != 10.244.0.0/16 ip daddr 10.96.41.43  tcp dport 4317 counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 257
+		 counter packets 18 bytes 1080 jump KUBE-SEP-GPGTKWVRJZLFQAAR # handle 258
+	}
+
+	chain KUBE-SEP-GPGTKWVRJZLFQAAR { # handle 238
+		ip saddr 10.244.0.17  counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 259
+		meta l4proto tcp  meta l4proto tcp counter packets 18 bytes 1080 dnat to 10.244.0.17:4317 # handle 260
+	}
+
+	chain KUBE-SVC-5UOOJ7NCWAHFLKZ2 { # handle 239
+		meta l4proto tcp ip saddr != 10.244.0.0/16 ip daddr 10.96.41.43  tcp dport 8889 counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 262
+		 counter packets 0 bytes 0 jump KUBE-SEP-VN4MDCGW5PDENPXO # handle 263
+	}
+
+	chain KUBE-SEP-VN4MDCGW5PDENPXO { # handle 240
+		ip saddr 10.244.0.17  counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 264
+		meta l4proto tcp  meta l4proto tcp counter packets 0 bytes 0 dnat to 10.244.0.17:8889 # handle 265
+	}
+
+	chain KUBE-SVC-FLEGEQUUAFZ4N65C { # handle 241
+		meta l4proto tcp ip saddr != 10.244.0.0/16 ip daddr 10.96.41.43  tcp dport 4318 counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 271
+		 counter packets 0 bytes 0 jump KUBE-SEP-4DMZ6A5SVJYACPHI # handle 272
+	}
+
+	chain KUBE-SEP-4DMZ6A5SVJYACPHI { # handle 242
+		ip saddr 10.244.0.17  counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 273
+		meta l4proto tcp  meta l4proto tcp counter packets 0 bytes 0 dnat to 10.244.0.17:4318 # handle 274
+	}
+
+	chain KUBE-SVC-RUH6SVEZ46X7SDLR { # handle 295
+		meta l4proto tcp ip saddr != 10.244.0.0/16 ip daddr 10.96.237.104  tcp dport 8444 counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 316
+		 counter packets 0 bytes 0 jump KUBE-SEP-LV4BKOKOMVCOTO23 # handle 317
+	}
+
+	chain KUBE-SEP-LV4BKOKOMVCOTO23 { # handle 296
+		ip saddr 10.244.0.16  counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 318
+		meta l4proto tcp  meta l4proto tcp counter packets 0 bytes 0 dnat to 10.244.0.16:8444 # handle 319
+	}
+
+	chain KUBE-SVC-4XN7DDOCZBF5XGHN { # handle 297
+		meta l4proto tcp ip saddr != 10.244.0.0/16 ip daddr 10.96.237.104  tcp dport 443 counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 321
+		 counter packets 0 bytes 0 jump KUBE-SEP-2RWDIRF3NJJEYIDE # handle 322
+	}
+
+	chain KUBE-SEP-2RWDIRF3NJJEYIDE { # handle 298
+		ip saddr 10.244.0.16  counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 323
+		meta l4proto tcp  meta l4proto tcp counter packets 0 bytes 0 dnat to 10.244.0.16:8443 # handle 324
+	}
+
+	chain KUBE-SVC-XZZMGEAGL63KKYOG { # handle 327
+		meta l4proto tcp ip saddr != 10.244.0.0/16 ip daddr 10.96.128.135  tcp dport 9001 counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 341
+		 counter packets 0 bytes 0 jump KUBE-SEP-QGB4TQ5RT6EBRYZZ # handle 342
+	}
+
+	chain KUBE-SEP-QGB4TQ5RT6EBRYZZ { # handle 328
+		ip saddr 10.244.0.20  counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 343
+		meta l4proto tcp  meta l4proto tcp counter packets 0 bytes 0 dnat to 10.244.0.20:9001 # handle 344
+	}
+
+	chain KUBE-SVC-A2SY25MVNIQF6HKW { # handle 329
+		meta l4proto tcp ip saddr != 10.244.0.0/16 ip daddr 10.96.128.135  tcp dport 9000 counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 346
+		 counter packets 29 bytes 1740 jump KUBE-SEP-ZHYVAZNPMTQBKJ4E # handle 347
+	}
+
+	chain KUBE-SEP-ZHYVAZNPMTQBKJ4E { # handle 330
+		ip saddr 10.244.0.20  counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 348
+		meta l4proto tcp  meta l4proto tcp counter packets 29 bytes 1740 dnat to 10.244.0.20:9000 # handle 349
+	}
+
+	chain KUBE-SVC-4FAU5QS2ZNEEVQJJ { # handle 405
+		meta l4proto tcp ip saddr != 10.244.0.0/16 ip daddr 10.96.31.0  tcp dport 50051 counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 412
+		 counter packets 0 bytes 0 jump KUBE-SEP-JB2MVYP5QEYQPJ7I # handle 413
+	}
+
+	chain KUBE-SEP-JB2MVYP5QEYQPJ7I { # handle 406
+		ip saddr 10.244.0.21  counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 414
+		meta l4proto tcp  meta l4proto tcp counter packets 0 bytes 0 dnat to 10.244.0.21:50051 # handle 415
+	}
+
+	chain KUBE-SVC-PPN7LKL4BGLHWNPX { # handle 434
+		meta l4proto tcp ip saddr != 10.244.0.0/16 ip daddr 10.96.191.37  tcp dport 9090 counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 459
+		 counter packets 0 bytes 0 jump KUBE-SEP-5AG7LKV6ALJCSLE4 # handle 460
+	}
+
+	chain KUBE-SEP-5AG7LKV6ALJCSLE4 { # handle 435
+		ip saddr 10.244.0.19  counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 461
+		meta l4proto tcp  meta l4proto tcp counter packets 0 bytes 0 dnat to 10.244.0.19:9090 # handle 462
+	}
+
+	chain KUBE-SVC-MC3ISXSYU3VSMMAL { # handle 512
+		meta l4proto tcp ip saddr != 10.244.0.0/16 ip daddr 10.96.178.104  tcp dport 443 counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 530
+		 counter packets 1 bytes 60 jump KUBE-SEP-JNEBYEZQPG43CFVC # handle 531
+	}
+
+	chain KUBE-SEP-JNEBYEZQPG43CFVC { # handle 513
+		ip saddr 10.244.0.22  counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 532
+		meta l4proto tcp  meta l4proto tcp counter packets 1 bytes 60 dnat to 10.244.0.22:443 # handle 533
+	}
+
+	chain KUBE-SVC-SQXQAVDX277X74K4 { # handle 568
+		meta l4proto tcp ip saddr != 10.244.0.0/16 ip daddr 10.96.249.148  tcp dport 80 counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 590
+		 counter packets 0 bytes 0 jump KUBE-SEP-T6MGXH55FVM74VFQ # handle 591
+	}
+
+	chain KUBE-SEP-T6MGXH55FVM74VFQ { # handle 569
+		ip saddr 10.244.0.28  counter packets 0 bytes 0 jump KUBE-MARK-MASQ # handle 592
+		meta l4proto tcp  meta l4proto tcp counter packets 0 bytes 0 dnat to 10.244.0.28:8080 # handle 593
+	}
+}
+table ip mangle { # handle 3
+	chain KUBE-IPTABLES-HINT { # handle 1
+	}
+
+	chain KUBE-KUBELET-CANARY { # handle 2
+	}
+
+	chain KUBE-PROXY-CANARY { # handle 3
+	}
+}
+table ip filter { # handle 4
+	chain KUBE-FIREWALL { # handle 1
+		ip saddr != 127.0.0.0/8 ip daddr 127.0.0.0/8  ct status dnat counter packets 0 bytes 0 drop # handle 215
+	}
+
+	chain OUTPUT { # handle 2
+		type filter hook output priority filter; policy accept;
+		ct state new  counter packets 4139 bytes 251184 jump KUBE-PROXY-FIREWALL # handle 22
+		ct state new  counter packets 4139 bytes 251184 jump KUBE-SERVICES # handle 17
+		counter packets 226662 bytes 69908017 jump KUBE-FIREWALL # handle 3
+	}
+
+	chain INPUT { # handle 4
+		type filter hook input priority filter; policy accept;
+		ct state new  counter packets 2832 bytes 173456 jump KUBE-PROXY-FIREWALL # handle 21
+		 counter packets 235321 bytes 1163534304 jump KUBE-NODEPORTS # handle 14
+		ct state new  counter packets 2832 bytes 173456 jump KUBE-EXTERNAL-SERVICES # handle 10
+		counter packets 252999 bytes 1172268778 jump KUBE-FIREWALL # handle 5
+	}
+
+	chain KUBE-KUBELET-CANARY { # handle 7
+	}
+
+	chain KUBE-PROXY-CANARY { # handle 8
+	}
+
+	chain KUBE-EXTERNAL-SERVICES { # handle 9
+	}
+
+	chain FORWARD { # handle 11
+		type filter hook forward priority filter; policy accept;
+		ct state new  counter packets 877 bytes 86176 jump KUBE-PROXY-FIREWALL # handle 23
+		 counter packets 66879 bytes 96185421 jump KUBE-FORWARD # handle 19
+		ct state new  counter packets 877 bytes 86176 jump KUBE-SERVICES # handle 16
+		ct state new  counter packets 855 bytes 84856 jump KUBE-EXTERNAL-SERVICES # handle 12
+	}
+
+	chain KUBE-NODEPORTS { # handle 13
+	}
+
+	chain KUBE-SERVICES { # handle 15
+	}
+
+	chain KUBE-FORWARD { # handle 18
+		ct state invalid xt match "nfacct" counter packets 0 bytes 0 drop # handle 216
+		 meta mark & 0x00004000 == 0x00004000 counter packets 0 bytes 0 accept # handle 217
+		 ct state related,established counter packets 14606 bytes 4177884 accept # handle 218
+	}
+
+	chain KUBE-PROXY-FIREWALL { # handle 20
+	}
+}
+table ip6 mangle { # handle 5
+	chain KUBE-IPTABLES-HINT { # handle 1
+	}
+
+	chain KUBE-KUBELET-CANARY { # handle 2
+	}
+
+	chain KUBE-PROXY-CANARY { # handle 3
+	}
+}
+table ip6 nat { # handle 6
+	chain KUBE-KUBELET-CANARY { # handle 1
+	}
+
+	chain KUBE-PROXY-CANARY { # handle 2
+	}
+
+	chain KUBE-SERVICES { # handle 3
+		ip6 daddr != ::1  fib daddr type local counter packets 0 bytes 0 jump KUBE-NODEPORTS # handle 17
+	}
+
+	chain OUTPUT { # handle 4
+		type nat hook output priority dstnat; policy accept;
+		 counter packets 1 bytes 110 jump KUBE-SERVICES # handle 5
+	}
+
+	chain PREROUTING { # handle 6
+		type nat hook prerouting priority dstnat; policy accept;
+		 counter packets 0 bytes 0 jump KUBE-SERVICES # handle 7
+	}
+
+	chain KUBE-POSTROUTING { # handle 8
+		meta mark & 0x00004000 != 0x00004000 counter packets 1 bytes 110 return # handle 13
+		counter packets 0 bytes 0 meta mark set mark xor 0x4000 # handle 14
+		 counter packets 0 bytes 0 xt target "MASQUERADE" # handle 15
+	}
+
+	chain POSTROUTING { # handle 9
+		type nat hook postrouting priority srcnat; policy accept;
+		 counter packets 1 bytes 110 jump KUBE-POSTROUTING # handle 10
+	}
+
+	chain KUBE-NODEPORTS { # handle 11
+	}
+
+	chain KUBE-MARK-MASQ { # handle 12
+		counter packets 0 bytes 0 meta mark set mark or 0x4000 # handle 16
+	}
+}
+table ip6 filter { # handle 7
+	chain KUBE-KUBELET-CANARY { # handle 1
+	}
+
+	chain KUBE-PROXY-CANARY { # handle 2
+	}
+
+	chain KUBE-EXTERNAL-SERVICES { # handle 3
+	}
+
+	chain INPUT { # handle 4
+		type filter hook input priority filter; policy accept;
+		counter packets 5578 bytes 4236322 jump KUBE-FIREWALL # handle 21
+		ct state new  counter packets 1 bytes 110 jump KUBE-PROXY-FIREWALL # handle 17
+		 counter packets 5578 bytes 4236322 jump KUBE-NODEPORTS # handle 9
+		ct state new  counter packets 1 bytes 110 jump KUBE-EXTERNAL-SERVICES # handle 5
+	}
+
+	chain FORWARD { # handle 6
+		type filter hook forward priority filter; policy accept;
+		ct state new  counter packets 0 bytes 0 jump KUBE-PROXY-FIREWALL # handle 19
+		 counter packets 0 bytes 0 jump KUBE-FORWARD # handle 15
+		ct state new  counter packets 0 bytes 0 jump KUBE-SERVICES # handle 11
+		ct state new  counter packets 0 bytes 0 jump KUBE-EXTERNAL-SERVICES # handle 7
+	}
+
+	chain KUBE-NODEPORTS { # handle 8
+	}
+
+	chain KUBE-SERVICES { # handle 10
+	}
+
+	chain OUTPUT { # handle 12
+		type filter hook output priority filter; policy accept;
+		counter packets 5718 bytes 4246754 jump KUBE-FIREWALL # handle 22
+		ct state new  counter packets 1 bytes 110 jump KUBE-PROXY-FIREWALL # handle 18
+		ct state new  counter packets 1 bytes 110 jump KUBE-SERVICES # handle 13
+	}
+
+	chain KUBE-FORWARD { # handle 14
+		ct state invalid xt match "nfacct" counter packets 0 bytes 0 drop # handle 23
+		 meta mark & 0x00004000 == 0x00004000 counter packets 0 bytes 0 accept # handle 24
+		 ct state related,established counter packets 0 bytes 0 accept # handle 25
+	}
+
+	chain KUBE-PROXY-FIREWALL { # handle 16
+	}
+
+	chain KUBE-FIREWALL { # handle 20
+	}
+}
+table inet kindnet-network-policies { # handle 43
+	set podips-v4 { # handle 1
+		type ipv4_addr
+		elements = { 10.244.0.7, 10.244.0.8,
+			     10.244.0.9, 10.244.0.10,
+			     10.244.0.11, 10.244.0.12,
+			     10.244.0.13, 10.244.0.15,
+			     10.244.0.16, 10.244.0.20,
+			     10.244.0.21, 10.244.0.22,
+			     10.244.0.23, 10.244.0.24,
+			     10.244.0.25, 10.244.0.26,
+			     10.244.0.27 }
+	}
+
+	set podips-v6 { # handle 2
+		type ipv6_addr
+	}
+
+	chain postrouting { # handle 3
+		type filter hook postrouting priority srcnat - 5; policy accept;
+		udp dport 53 accept # handle 4
+		icmpv6 type nd-router-solicit accept # handle 5
+		icmpv6 type nd-router-advert accept # handle 6
+		icmpv6 type nd-neighbor-solicit accept # handle 7
+		icmpv6 type nd-neighbor-advert accept # handle 8
+		icmpv6 type nd-redirect accept # handle 9
+		meta skuid 0 counter packets 52180 bytes 13491067 accept # handle 10
+		ct label 28 ct state established,related counter packets 38287 bytes 24383933 accept # handle 11
+		ip saddr @podips-v4 queue flags bypass to 101 # handle 12
+		ip daddr @podips-v4 queue flags bypass to 101 # handle 13
+		ip6 saddr @podips-v6 queue flags bypass to 101 # handle 14
+		ip6 daddr @podips-v6 queue flags bypass to 101 # handle 15
+		ct label set 28 # handle 16
+	}
+
+	chain input { # handle 17
+		type filter hook input priority srcnat + 1; policy accept;
+		iifname "lo" accept # handle 18
+		ip saddr @podips-v4 ct state new queue flags bypass to 101 # handle 19
+		ip6 saddr @podips-v6 ct state new queue flags bypass to 101 # handle 20
+	}
+
+	chain prerouting { # handle 21
+		type filter hook prerouting priority dstnat + 5; policy accept;
+		meta l4proto != udp accept # handle 22
+		udp dport != 53 accept # handle 23
+		ip saddr @podips-v4 queue flags bypass to 101 # handle 24
+		ip daddr @podips-v4 queue flags bypass to 101 # handle 25
+		ip6 saddr @podips-v6 queue flags bypass to 101 # handle 26
+		ip6 daddr @podips-v6 queue flags bypass to 101 # handle 27
+	}
+}

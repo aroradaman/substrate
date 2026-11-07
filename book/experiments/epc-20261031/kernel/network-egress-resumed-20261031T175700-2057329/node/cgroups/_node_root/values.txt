@@ -1,0 +1,107 @@
+node_relative_path=/
+[cgroup.type]
+domain
+[cgroup.controllers]
+cpuset cpu io memory hugetlb pids rdma misc
+[cgroup.subtree_control]
+cpuset cpu io memory hugetlb pids rdma misc
+[cgroup.procs]
+[cgroup.threads]
+[memory.max]
+max
+[memory.high]
+max
+[memory.current]
+6175678464
+[memory.events]
+low 0
+high 0
+max 0
+oom 0
+oom_kill 0
+oom_group_kill 0
+[memory.events.local]
+low 0
+high 0
+max 0
+oom 0
+oom_kill 0
+oom_group_kill 0
+[memory.stat]
+anon 1824088064
+file 4030361600
+kernel 309301248
+kernel_stack 19300352
+pagetables 26255360
+sec_pagetables 0
+percpu 5903208
+sock 20480
+vmalloc 1273856
+shmem 64413696
+zswap 0
+zswapped 0
+file_mapped 1312997376
+file_dirty 2686976
+file_writeback 0
+swapcached 0
+anon_thp 228589568
+file_thp 0
+shmem_thp 0
+inactive_anon 0
+active_anon 1898512384
+inactive_file 3963064320
+active_file 2883584
+unevictable 585728
+slab_reclaimable 216515032
+slab_unreclaimable 37820048
+slab 254335080
+workingset_refault_anon 0
+workingset_refault_file 0
+workingset_activate_anon 0
+workingset_activate_file 0
+workingset_restore_anon 0
+workingset_restore_file 0
+workingset_nodereclaim 0
+pgscan 0
+pgsteal 0
+pgscan_kswapd 0
+pgscan_direct 0
+pgscan_khugepaged 0
+pgsteal_kswapd 0
+pgsteal_direct 0
+pgsteal_khugepaged 0
+pgfault 8300469
+pgmajfault 31
+pgrefill 0
+pgactivate 0
+pgdeactivate 0
+pglazyfree 0
+pglazyfreed 0
+zswpin 0
+zswpout 0
+zswpwb 0
+thp_fault_alloc 121
+thp_collapse_alloc 0
+thp_swpout 0
+thp_swpout_fallback 0
+[memory.pressure]
+some avg10=0.00 avg60=0.00 avg300=0.00 total=101
+full avg10=0.00 avg60=0.00 avg300=0.00 total=95
+[cpu.max]
+max 100000
+[cpu.weight]
+100
+[cpu.stat]
+usage_usec 268689144
+user_usec 149788585
+system_usec 118900559
+core_sched.force_idle_usec 0
+nr_periods 0
+nr_throttled 0
+throttled_usec 0
+nr_bursts 0
+burst_usec 0
+[pids.max]
+77022
+[pids.current]
+1179

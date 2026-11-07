@@ -1,0 +1,9 @@
+flowchart TB
+    Proto[Public proto and validation annotations] --> Protoc[protoc Go and gRPC generation]
+    Protoc --> Go[Generated Go messages]
+    Go --> DV[validation-gen]
+    DV --> Validate[Generated request validation]
+    Proto --> Lint[apitool rules and exemptions]
+    Types[Infrastructure Go types and markers] --> CG[controller-gen]
+    CG --> CRD[CRD YAML and deepcopy code]
+    Types --> Clients[client-gen / lister-gen / informer-gen]

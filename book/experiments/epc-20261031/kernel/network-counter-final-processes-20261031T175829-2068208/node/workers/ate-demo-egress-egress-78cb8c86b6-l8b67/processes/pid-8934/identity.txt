@@ -1,0 +1,26 @@
+pid=8934
+ateworker-gviso
+/ko-app/ateworker-gvisor
+net net:[4026537237]
+mnt mnt:[4026537375]
+pid pid:[4026537376]
+user user:[4026531837]
+cgroup cgroup:[4026537377]
+ipc ipc:[4026537369]
+uts uts:[4026537368]
+Name:	ateworker-gviso
+State:	S (sleeping)
+Pid:	8934
+PPid:	8880
+Uid:	0	0	0	0
+Gid:	0	0	0	0
+NStgid:	8934	22
+NSpid:	8934	22
+Threads:	15
+CapInh:	0000000000000000
+CapPrm:	00000000882c31cb
+CapEff:	00000000882c31cb
+CapBnd:	00000000882c31cb
+NoNewPrivs:	0
+Seccomp:	0
+0::/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-besteffort.slice/kubelet-kubepods-besteffort-pod046447c4_3c24_4c3f_8632_9d639a266bde.slice/cri-containerd-96a4963c21a98a49baf0fe71aa1ded89843c29346ca3c3ae18391cb81b2aa276.scope/worker

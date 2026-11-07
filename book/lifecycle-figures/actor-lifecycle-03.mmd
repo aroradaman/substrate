@@ -1,0 +1,20 @@
+sequenceDiagram
+    participant C as atecontroller
+    participant K as Kubernetes
+    participant W as Worker
+    participant N as atelet
+    participant A as ateapi
+    C->>K: Reconcile worker Deployment
+    K->>W: Schedule Pod and start container
+    C->>A: Synchronize Pod as Worker record
+    W->>N: AcquireWorkerEpoch
+    N->>A: AcquireWorkerEpoch for this Pod
+    A-->>N: New epoch
+    N-->>W: New epoch
+    W->>N: RegisterWorker with epoch and capacity
+    N->>A: RegisterWorker with epoch and capacity
+    A-->>N: Registration accepted
+    N-->>W: Registration accepted
+    W->>N: Report runtime capabilities
+    N->>A: Publish current runtime set
+    Note over A: Eligibility requires current registration and runtime data

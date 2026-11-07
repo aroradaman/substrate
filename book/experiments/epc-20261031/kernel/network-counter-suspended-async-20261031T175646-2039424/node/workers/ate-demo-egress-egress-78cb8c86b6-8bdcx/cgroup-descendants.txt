@@ -1,0 +1,2 @@
+/sys/fs/cgroup/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-besteffort.slice/kubelet-kubepods-besteffort-pod1aa9dcee_c8e3_41c4_8613_4d835c0c299a.slice/cri-containerd-1d7c4139be2fb3b53f8973a34332af13ebd93bc97c4007c2815996b4059e74a6.scope
+/sys/fs/cgroup/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-besteffort.slice/kubelet-kubepods-besteffort-pod1aa9dcee_c8e3_41c4_8613_4d835c0c299a.slice/cri-containerd-1d7c4139be2fb3b53f8973a34332af13ebd93bc97c4007c2815996b4059e74a6.scope/worker

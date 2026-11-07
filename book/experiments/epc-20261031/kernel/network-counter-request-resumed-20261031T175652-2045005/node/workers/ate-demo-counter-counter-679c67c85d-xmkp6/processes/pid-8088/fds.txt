@@ -1,0 +1,13 @@
+1	pipe:[464942977]
+10	socket:[464958107]
+11	socket:[464957711]
+12	socket:[464958920]
+13	anon_inode:inotify
+2	pipe:[464942978]
+4	socket:[464946121]
+5	anon_inode:[eventpoll]
+6	anon_inode:[eventfd]
+7	anon_inode:inotify
+8	socket:[464954977]
+9	socket:[464957709]
+other_path_fds_count=2 (paths and contents omitted)

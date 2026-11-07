@@ -1,0 +1,107 @@
+node_relative_path=/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-besteffort.slice/kubelet-kubepods-besteffort-pod046447c4_3c24_4c3f_8632_9d639a266bde.slice
+[cgroup.type]
+domain
+[cgroup.controllers]
+cpuset cpu io memory hugetlb pids rdma misc
+[cgroup.subtree_control]
+cpuset cpu io memory hugetlb pids rdma misc
+[cgroup.procs]
+[cgroup.threads]
+[memory.max]
+max
+[memory.high]
+max
+[memory.current]
+38543360
+[memory.events]
+low 0
+high 0
+max 0
+oom 0
+oom_kill 0
+oom_group_kill 0
+[memory.events.local]
+low 0
+high 0
+max 0
+oom 0
+oom_kill 0
+oom_group_kill 0
+[memory.stat]
+anon 31002624
+file 3596288
+kernel 3936256
+kernel_stack 786432
+pagetables 917504
+sec_pagetables 0
+percpu 215928
+sock 8192
+vmalloc 45056
+shmem 3379200
+zswap 0
+zswapped 0
+file_mapped 3375104
+file_dirty 32768
+file_writeback 0
+swapcached 0
+anon_thp 0
+file_thp 0
+shmem_thp 0
+inactive_anon 0
+active_anon 34381824
+inactive_file 217088
+active_file 0
+unevictable 0
+slab_reclaimable 495472
+slab_unreclaimable 1363368
+slab 1858840
+workingset_refault_anon 0
+workingset_refault_file 0
+workingset_activate_anon 0
+workingset_activate_file 0
+workingset_restore_anon 0
+workingset_restore_file 0
+workingset_nodereclaim 0
+pgscan 0
+pgsteal 0
+pgscan_kswapd 0
+pgscan_direct 0
+pgscan_khugepaged 0
+pgsteal_kswapd 0
+pgsteal_direct 0
+pgsteal_khugepaged 0
+pgfault 35299
+pgmajfault 0
+pgrefill 0
+pgactivate 0
+pgdeactivate 0
+pglazyfree 0
+pglazyfreed 0
+zswpin 0
+zswpout 0
+zswpwb 0
+thp_fault_alloc 0
+thp_collapse_alloc 0
+thp_swpout 0
+thp_swpout_fallback 0
+[memory.pressure]
+some avg10=0.00 avg60=0.00 avg300=0.00 total=0
+full avg10=0.00 avg60=0.00 avg300=0.00 total=0
+[cpu.max]
+max 100000
+[cpu.weight]
+1
+[cpu.stat]
+usage_usec 898429
+user_usec 478421
+system_usec 420007
+core_sched.force_idle_usec 0
+nr_periods 0
+nr_throttled 0
+throttled_usec 0
+nr_bursts 0
+burst_usec 0
+[pids.max]
+max
+[pids.current]
+48

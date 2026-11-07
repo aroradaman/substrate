@@ -1,0 +1,26 @@
+pid=7496
+atenet
+/ko-app/atenet
+net net:[4026536576]
+mnt mnt:[4026537018]
+pid pid:[4026537019]
+user user:[4026531837]
+cgroup cgroup:[4026537020]
+ipc ipc:[4026536643]
+uts uts:[4026536642]
+Name:	atenet
+State:	S (sleeping)
+Pid:	7496
+PPid:	7369
+Uid:	65532	65532	65532	65532
+Gid:	65532	65532	65532	65532
+NStgid:	7496	1
+NSpid:	7496	1
+Threads:	14
+CapInh:	0000000000000000
+CapPrm:	0000000000000000
+CapEff:	0000000000000000
+CapBnd:	0000000000000000
+NoNewPrivs:	1
+Seccomp:	0
+0::/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-burstable.slice/kubelet-kubepods-burstable-pod5e87a9c7_e948_4b76_99cf_5ea6787a54c1.slice/cri-containerd-6359017eef70a46b245bf4440fbe7bdadeee165e4478bf0147e37d275ff4b956.scope

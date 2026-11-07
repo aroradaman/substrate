@@ -1,0 +1,8 @@
+flowchart TB
+    N[atelet] -->|NodeProvider RPC| P[Node object-store sidecar]
+    P --> C[Compression and bounded upload buffers]
+    C --> S[S3 client with path-style addressing]
+    S --> R[RustFS API on port 9000]
+    R --> V[PVC mounted at /data]
+    A[ateapi] -->|Copy or cleanup RPC| Q[Control object-store sidecar]
+    Q --> R

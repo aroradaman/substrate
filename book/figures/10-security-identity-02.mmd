@@ -1,0 +1,18 @@
+sequenceDiagram
+    participant K as Kubelet or authorized requester
+    participant KA as kube-apiserver
+    participant PC as Pod certificate controller
+    participant P as Component Pod
+    participant W as atunnel
+    participant L as atelet WorkerSupport
+    participant A as ateapi WorkerService
+    K->>KA: PodCertificateRequest
+    PC->>KA: Watch and validate request form
+    PC->>KA: Signed chain and refresh status
+    KA-->>P: Projected credential and trust bundle
+    W->>W: Generate actor activation key and CSR
+    W->>L: mTLS Unix RPC with actor UID and CSR
+    L->>A: Node-authenticated mint request
+    A->>A: Validate actor, node, worker assignment
+    A-->>W: Worker-for-actor certificate chain via atelet
+    Note over W: Private key never leaves atunnel

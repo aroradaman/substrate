@@ -1,0 +1,12 @@
+flowchart TB
+    F[Worker files and atelet manifest] --> M{Upload mode}
+    M -->|Deferred| L[Move files and CommitLocal]
+    L --> B[Schedule background upload]
+    L --> A[Return local checkpoint state]
+    B --> U[Upload data then manifest]
+    U --> D[Record durable state and report obligation]
+    D --> R[Retry WorkerService state report]
+    M -->|Immediate| I[Upload data then manifest]
+    I --> C[CommitDurable]
+    C --> K[Attempt local retention]
+    K --> Q[Return checkpoint state to workflow]

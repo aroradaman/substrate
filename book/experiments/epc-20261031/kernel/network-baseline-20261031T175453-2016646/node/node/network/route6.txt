@@ -1,0 +1,76 @@
+fc00:f853:ccd:e793::/64 dev eth0 proto kernel metric 256 pref medium
+fe80::/64 dev eth0 proto kernel metric 256 pref medium
+fe80::/64 dev vethc062d0c3 proto kernel metric 256 pref medium
+fe80::/64 dev vethf1ba911f proto kernel metric 256 pref medium
+fe80::/64 dev vethe739fae7 proto kernel metric 256 pref medium
+fe80::/64 dev vethe69468a4 proto kernel metric 256 pref medium
+fe80::/64 dev vethc6320c3c proto kernel metric 256 pref medium
+fe80::/64 dev vethaf42f965 proto kernel metric 256 pref medium
+fe80::/64 dev vethbc5f495b proto kernel metric 256 pref medium
+fe80::/64 dev veth2835c7d6 proto kernel metric 256 pref medium
+fe80::/64 dev veth4dbe14a9 proto kernel metric 256 pref medium
+fe80::/64 dev veth2bea192a proto kernel metric 256 pref medium
+fe80::/64 dev veth03417377 proto kernel metric 256 pref medium
+fe80::/64 dev veth133ad53c proto kernel metric 256 pref medium
+fe80::/64 dev veth0b1e42e2 proto kernel metric 256 pref medium
+fe80::/64 dev veth3a7a3177 proto kernel metric 256 pref medium
+fe80::/64 dev veth6fa732d1 proto kernel metric 256 pref medium
+fe80::/64 dev vethfbe90053 proto kernel metric 256 pref medium
+fe80::/64 dev vethce51b758 proto kernel metric 256 pref medium
+fe80::/64 dev vethd2b1e7d4 proto kernel metric 256 pref medium
+fe80::/64 dev vethd4335de8 proto kernel metric 256 pref medium
+fe80::/64 dev veth0c0250d6 proto kernel metric 256 pref medium
+fe80::/64 dev veth26f1d552 proto kernel metric 256 pref medium
+fe80::/64 dev veth65777b88 proto kernel metric 256 pref medium
+fe80::/64 dev vethc8e843f4 proto kernel metric 256 pref medium
+default via fc00:f853:ccd:e793::1 dev eth0 metric 1024 pref medium
+local ::1 dev lo table local proto kernel metric 0 pref medium
+local fc00:f853:ccd:e793::7 dev eth0 table local proto kernel metric 0 pref medium
+local fe80::af:c1ff:feee:ac44 dev vethaf42f965 table local proto kernel metric 0 pref medium
+local fe80::43c:38ff:fe0e:e1b9 dev vethe739fae7 table local proto kernel metric 0 pref medium
+local fe80::804:77ff:fee9:a865 dev vethc6320c3c table local proto kernel metric 0 pref medium
+local fe80::2c1b:f9ff:feff:abc2 dev vethfbe90053 table local proto kernel metric 0 pref medium
+local fe80::2c87:75ff:fe40:7fce dev vethce51b758 table local proto kernel metric 0 pref medium
+local fe80::5cf7:29ff:fe1c:8ab0 dev veth65777b88 table local proto kernel metric 0 pref medium
+local fe80::68a8:18ff:fe5e:519f dev veth2835c7d6 table local proto kernel metric 0 pref medium
+local fe80::7818:40ff:fe93:bc20 dev veth3a7a3177 table local proto kernel metric 0 pref medium
+local fe80::7c44:40ff:fea9:4490 dev veth4dbe14a9 table local proto kernel metric 0 pref medium
+local fe80::906f:5fff:fe2a:744f dev veth03417377 table local proto kernel metric 0 pref medium
+local fe80::907b:bbff:fe4f:f4a3 dev veth0b1e42e2 table local proto kernel metric 0 pref medium
+local fe80::944e:fcff:fea2:66fd dev veth133ad53c table local proto kernel metric 0 pref medium
+local fe80::94cb:fff:fee6:18b1 dev vethe69468a4 table local proto kernel metric 0 pref medium
+local fe80::98db:c4ff:fe89:fb9e dev vethbc5f495b table local proto kernel metric 0 pref medium
+local fe80::b40e:92ff:fe5f:16af dev eth0 table local proto kernel metric 0 pref medium
+local fe80::c475:ff:fe20:2569 dev veth2bea192a table local proto kernel metric 0 pref medium
+local fe80::ccc6:5eff:feae:8eed dev vethf1ba911f table local proto kernel metric 0 pref medium
+local fe80::d099:3aff:fe56:3586 dev vethc8e843f4 table local proto kernel metric 0 pref medium
+local fe80::e0b2:5eff:fe48:9c36 dev veth0c0250d6 table local proto kernel metric 0 pref medium
+local fe80::e8d5:24ff:fedc:a913 dev vethd2b1e7d4 table local proto kernel metric 0 pref medium
+local fe80::ec9f:c0ff:fe52:7251 dev veth26f1d552 table local proto kernel metric 0 pref medium
+local fe80::f0ec:6ff:feb0:8cd1 dev vethc062d0c3 table local proto kernel metric 0 pref medium
+local fe80::fc1d:41ff:fe05:91ae dev veth6fa732d1 table local proto kernel metric 0 pref medium
+local fe80::fca3:4eff:fede:10c2 dev vethd4335de8 table local proto kernel metric 0 pref medium
+multicast ff00::/8 dev eth0 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev vethc062d0c3 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev vethf1ba911f table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev vethe739fae7 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev vethe69468a4 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev vethc6320c3c table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev vethaf42f965 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev vethbc5f495b table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev veth2835c7d6 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev veth4dbe14a9 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev veth2bea192a table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev veth03417377 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev veth133ad53c table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev veth0b1e42e2 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev veth3a7a3177 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev veth6fa732d1 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev vethfbe90053 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev vethce51b758 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev vethd2b1e7d4 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev vethd4335de8 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev veth0c0250d6 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev veth26f1d552 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev veth65777b88 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev vethc8e843f4 table local proto kernel metric 256 pref medium

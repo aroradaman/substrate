@@ -1,0 +1,8 @@
+default via 10.244.0.1 dev eth0 
+10.244.0.0/24 via 10.244.0.1 dev eth0 src 10.244.0.24 
+10.244.0.1 dev eth0 scope link src 10.244.0.24 
+local 10.244.0.24 dev eth0 table local proto kernel scope host src 10.244.0.24 
+broadcast 10.244.0.255 dev eth0 table local proto kernel scope link src 10.244.0.24 
+local 127.0.0.0/8 dev lo table local proto kernel scope host src 127.0.0.1 
+local 127.0.0.1 dev lo table local proto kernel scope host src 127.0.0.1 
+broadcast 127.255.255.255 dev lo table local proto kernel scope link src 127.0.0.1 

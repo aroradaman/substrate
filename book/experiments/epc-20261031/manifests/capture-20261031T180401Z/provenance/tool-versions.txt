@@ -1,0 +1,12 @@
+2026-10-31T18:04:03Z
+revision=0ddbf78d54bb6da2ccb01125b7e085aa14d555a6
+commit_time=2026-10-31T05:48:18+00:00
+effective_go=go version go1.27.3 linux/amd64
+launcher_go_without_auto_selection=go version go1.27.1 linux/amd64
+docker=29.7.2 / 29.7.2
+github.com/docker/buildx v0.37.0 ac30b249211430b85fb8f37b6e7154b5c47ba0b6
+jq-1.7
+Python 3.12.3
+ambient_kind=kind v0.34.0-alpha.1356+214d9fd1426470 go1.26.7 linux/amd64
+pinned_kind_wrapper_record=kind v0.33.0 go1.27.3 linux/amd64
+ambient_ko=v0.19.1

@@ -1,0 +1,26 @@
+pid=51781
+gvisor_sentry
+/var/lib/ate/actors/92c54efa-a098-47c4-93f1-f17bd3730c1a/sandbox-assets/gvisor/gvisor-bin/gvisor_sentry
+net net:[4026537855]
+mnt mnt:[4026537984]
+pid pid:[4026537987]
+user user:[4026537983]
+cgroup cgroup:[4026537230]
+ipc ipc:[4026537986]
+uts uts:[4026537985]
+Name:	gvisor_sentry
+State:	S (sleeping)
+Pid:	51781
+PPid:	51773
+Uid:	0	0	0	0
+Gid:	0	0	0	0
+NStgid:	51781	446	8
+NSpid:	51781	446	8
+Threads:	1
+CapInh:	0000000000000000
+CapPrm:	000000000008001f
+CapEff:	000000000008001f
+CapBnd:	000000000008001f
+NoNewPrivs:	1
+Seccomp:	2
+0::/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-burstable.slice/kubelet-kubepods-burstable-pod2a3f0bf1_e705_47b9_a943_0142a581fc76.slice/cri-containerd-611a58221ba89ac45167e6a5c52bb84dfac1ab7e4328cb19508c7f4ecd3789b2.scope/92c54efa-a098-47c4-93f1-f17bd3730c1a-_sandbox

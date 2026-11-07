@@ -1,0 +1,19 @@
+{
+  "status": {
+    "id": "8fc1d5d3b23f9983a87b6160aca03328351d2a8be2c62fa0d828d35a64bbcb7f",
+    "metadata": {
+      "attempt": 0,
+      "name": "worker"
+    },
+    "state": "CONTAINER_RUNNING",
+    "labels": {
+      "io.kubernetes.container.name": "worker",
+      "io.kubernetes.pod.name": "counter-679c67c85d-xmkp6",
+      "io.kubernetes.pod.namespace": "ate-demo-counter",
+      "io.kubernetes.pod.uid": "f8a965ec-cc06-4bd0-b79c-fd16947807cd"
+    },
+    "imageRef": "localhost:5002/ateworker-gvisor@sha256:9a116289631c3172ae951af57f241cdcc0f5fffd12a9ac76170f496ad83cbe44"
+  },
+  "pid": 8017,
+  "runtimeType": "io.containerd.runc.v2"
+}

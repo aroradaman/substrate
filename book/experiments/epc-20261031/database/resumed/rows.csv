@@ -1,0 +1,33 @@
+BEGIN
+captured_at
+2026-10-31 18:02:24.12365+00
+atespace,name,uid,version,proto_bytes,proto_md5
+ate-demo-counter,lifecycle-clone,126a97ec-0c7d-4486-ad5d-f5d223291d9c,3,1077,ebf9e3ed31dd63092451be8754fcad1b
+ate-demo-counter,lifecycle-counter,92c54efa-a098-47c4-93f1-f17bd3730c1a,39,1123,54e10ff92e37be9db618a88cfd020ea6
+ate-demo-egress,lifecycle-egress,8fe5de26-cc8a-40e4-aa86-770a6bd8c43e,7,1114,8835856eab5a1394328fffa57d5e81e8
+actor,actor_uid,worker_name,assignment_proto_bytes
+lifecycle-clone,126a97ec-0c7d-4486-ad5d-f5d223291d9c,f8a965ec-cc06-4bd0-b79c-fd16947807cd,194
+lifecycle-counter,92c54efa-a098-47c4-93f1-f17bd3730c1a,21575f0d-c359-4d45-8079-11f74894bac5,196
+lifecycle-egress,8fe5de26-cc8a-40e4-aa86-770a6bd8c43e,046447c4-3c24-4c3f-8632-9d639a266bde,194
+atespace,name,uid,version,proto_bytes
+ate-demo-counter,lifecycle-checkpoint,48abb3b2-88ff-442f-ae67-3860b9b26867,3,551
+atespace,actor_name,uid,version,proto_bytes
+relname,relkind,relpersistence
+actors,r,p
+tags,r,p
+worker_assignments,r,p
+worker_outbox,p,p
+worker_outbox_p202610311745,r,u
+worker_outbox_p202610311745_xid_idx,i,u
+worker_outbox_p202610311800,r,u
+worker_outbox_p202610311800_xid_idx,i,u
+worker_outbox_p202610311815,r,u
+worker_outbox_p202610311815_xid_idx,i,u
+worker_outbox_p202610311830,r,u
+worker_outbox_p202610311830_xid_idx,i,u
+worker_outbox_trim,r,p
+workers,r,p
+id,version_id,is_applied,tstamp
+1,0,t,2026-10-31 17:52:51.122126
+2,1,t,2026-10-31 17:52:51.134222
+COMMIT

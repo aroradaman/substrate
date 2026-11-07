@@ -1,0 +1,580 @@
+{
+  "containers": [
+    {
+      "id": "1d7c4139be2fb3b53f8973a34332af13ebd93bc97c4007c2815996b4059e74a6",
+      "podSandboxId": "bffdab532e629b4f719f8bd70cf37dfbe6027ae27e139d9975748637b236915d",
+      "metadata": {
+        "name": "worker",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "worker",
+        "io.kubernetes.pod.name": "egress-78cb8c86b6-8bdcx",
+        "io.kubernetes.pod.namespace": "ate-demo-egress",
+        "io.kubernetes.pod.uid": "1aa9dcee-c8e3-41c4-8613-4d835c0c299a"
+      },
+      "imageRef": "sha256:40bbe1604f1f6bb1d77017ec1307c01d7ae02d6e9feef85adfac66a864229ef9"
+    },
+    {
+      "id": "96a4963c21a98a49baf0fe71aa1ded89843c29346ca3c3ae18391cb81b2aa276",
+      "podSandboxId": "1a05c39236854a64f313e17ee2ad3dc83cc0d239cf6997362ce5f5d7eb2ecc43",
+      "metadata": {
+        "name": "worker",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "worker",
+        "io.kubernetes.pod.name": "egress-78cb8c86b6-l8b67",
+        "io.kubernetes.pod.namespace": "ate-demo-egress",
+        "io.kubernetes.pod.uid": "046447c4-3c24-4c3f-8632-9d639a266bde"
+      },
+      "imageRef": "sha256:40bbe1604f1f6bb1d77017ec1307c01d7ae02d6e9feef85adfac66a864229ef9"
+    },
+    {
+      "id": "b65a1c04a6644d7e84eeb04b84d7e87027bb98a720066cb0043333f82f23e82d",
+      "podSandboxId": "9c567ac69baaa8ac7b3cfa0d18cae689891587ed04ad101ca1d56a7c762689c1",
+      "metadata": {
+        "name": "worker",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "worker",
+        "io.kubernetes.pod.name": "counter-679c67c85d-fghjq",
+        "io.kubernetes.pod.namespace": "ate-demo-counter",
+        "io.kubernetes.pod.uid": "21575f0d-c359-4d45-8079-11f74894bac5"
+      },
+      "imageRef": "sha256:40bbe1604f1f6bb1d77017ec1307c01d7ae02d6e9feef85adfac66a864229ef9"
+    },
+    {
+      "id": "8fc1d5d3b23f9983a87b6160aca03328351d2a8be2c62fa0d828d35a64bbcb7f",
+      "podSandboxId": "755b669649040c32c4308564b52dbe6940611b613d87b9ce8a3b6dd2b016e371",
+      "metadata": {
+        "name": "worker",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "worker",
+        "io.kubernetes.pod.name": "counter-679c67c85d-xmkp6",
+        "io.kubernetes.pod.namespace": "ate-demo-counter",
+        "io.kubernetes.pod.uid": "f8a965ec-cc06-4bd0-b79c-fd16947807cd"
+      },
+      "imageRef": "sha256:40bbe1604f1f6bb1d77017ec1307c01d7ae02d6e9feef85adfac66a864229ef9"
+    },
+    {
+      "id": "611a58221ba89ac45167e6a5c52bb84dfac1ab7e4328cb19508c7f4ecd3789b2",
+      "podSandboxId": "01e2449a333509e00d95b9f06ab28c92527c7c7bb7ccab85903331e16e675b5c",
+      "metadata": {
+        "name": "worker",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "worker",
+        "io.kubernetes.pod.name": "counter-679c67c85d-db5m4",
+        "io.kubernetes.pod.namespace": "ate-demo-counter",
+        "io.kubernetes.pod.uid": "2a3f0bf1-e705-47b9-a943-0142a581fc76"
+      },
+      "imageRef": "sha256:40bbe1604f1f6bb1d77017ec1307c01d7ae02d6e9feef85adfac66a864229ef9"
+    },
+    {
+      "id": "6359017eef70a46b245bf4440fbe7bdadeee165e4478bf0147e37d275ff4b956",
+      "podSandboxId": "9b22fdccbafa31af274c44896ce8983a29ee320028671e32232049e8182c3daf",
+      "metadata": {
+        "name": "ext-proc",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "ext-proc",
+        "io.kubernetes.pod.name": "atenet-egress-867b49b5cb-ltsqh",
+        "io.kubernetes.pod.namespace": "ate-system",
+        "io.kubernetes.pod.uid": "5e87a9c7-e948-4b76-99cf-5ea6787a54c1"
+      },
+      "imageRef": "sha256:84dc03dbe77e389181f4fb6fe64f099809e1084f853f6a2aef6204a6f97e93cc"
+    },
+    {
+      "id": "a4085ac8f16426ee591e0ec6c1fbe2dfd4bf51439c142b3752e0088c83bd00e7",
+      "podSandboxId": "9b22fdccbafa31af274c44896ce8983a29ee320028671e32232049e8182c3daf",
+      "metadata": {
+        "name": "envoy",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "envoy",
+        "io.kubernetes.pod.name": "atenet-egress-867b49b5cb-ltsqh",
+        "io.kubernetes.pod.namespace": "ate-system",
+        "io.kubernetes.pod.uid": "5e87a9c7-e948-4b76-99cf-5ea6787a54c1"
+      },
+      "imageRef": "sha256:0cf8d014e8ce2a7e6c34d324c3ee5343d3e3ee416ee9a971789c2599fe5525bd"
+    },
+    {
+      "id": "c8d39478a42ea01b4c564e58bdc9e937d75997d8709939e7c816b2b0b5bbbd25",
+      "podSandboxId": "9b22fdccbafa31af274c44896ce8983a29ee320028671e32232049e8182c3daf",
+      "metadata": {
+        "name": "sdsmint",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "sdsmint",
+        "io.kubernetes.pod.name": "atenet-egress-867b49b5cb-ltsqh",
+        "io.kubernetes.pod.namespace": "ate-system",
+        "io.kubernetes.pod.uid": "5e87a9c7-e948-4b76-99cf-5ea6787a54c1"
+      },
+      "imageRef": "sha256:84dc03dbe77e389181f4fb6fe64f099809e1084f853f6a2aef6204a6f97e93cc"
+    },
+    {
+      "id": "ee67f3a37008206c65eca39d88e10a6b5e52001b0ca751cd66209182e3940c09",
+      "podSandboxId": "3095ccc1459be49d8f8bde6214a959d0bbf93c903836dca4a052bfc3732fef7e",
+      "metadata": {
+        "name": "k8s-credential-provider",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "k8s-credential-provider",
+        "io.kubernetes.pod.name": "k8s-credential-provider-6cf6fbcdcc-sjnq6",
+        "io.kubernetes.pod.namespace": "ate-system",
+        "io.kubernetes.pod.uid": "7991adc1-f4c4-45d5-a304-68b4b358c48c"
+      },
+      "imageRef": "sha256:af5175f09fc31e1e08c7cb1a37085fa080bb6874736876b84d55cfbdbc606e67"
+    },
+    {
+      "id": "c696343b8bc494037e9a63fc25d51f61d80d9a39cc0716349722fecba09a04e3",
+      "podSandboxId": "ae0e3bbc002e26d84d30b39d50d82a47f8d016b536576db2eee1fb7e182b5550",
+      "metadata": {
+        "name": "rustfs",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "rustfs",
+        "io.kubernetes.pod.name": "rustfs-54c86945fb-m2wrb",
+        "io.kubernetes.pod.namespace": "ate-system",
+        "io.kubernetes.pod.uid": "a2bb1000-930e-4714-a736-925468449556"
+      },
+      "imageRef": "sha256:cf1d7ba6108cd433dc8468d23b4361e644dc5424524481f5956bfd2dbc0f9b84"
+    },
+    {
+      "id": "e4aa491104e87a08d6e0bd8e662505b2ae7ffd2da483ef4d86e49541488ecacd",
+      "podSandboxId": "49c2b81b8d6d63537f0e11d1257e306e2b1f54a7ee315ea42aabde60feba4485",
+      "metadata": {
+        "name": "prometheus",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "prometheus",
+        "io.kubernetes.pod.name": "prometheus-5b5fb67d57-qpv82",
+        "io.kubernetes.pod.namespace": "otel-system",
+        "io.kubernetes.pod.uid": "d80c73a5-6ae1-49a9-aa3d-58310141a4e8"
+      },
+      "imageRef": "sha256:876ae6bcb0d6c9190d799e82c996fbe5faecdaaa0ec84f5e7dd272c0542ea63c"
+    },
+    {
+      "id": "921403a2133f60db21b1bb65973fde1336a17c1778400e8ceb5aaef0479efa9f",
+      "podSandboxId": "e1f61577360a2ba2afc04d282d194b70967f90b12e2b8354e0027c2c4e77c8a2",
+      "metadata": {
+        "name": "otel-collector",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "otel-collector",
+        "io.kubernetes.pod.name": "opentelemetry-collector-6f5b87f5dd-bmvck",
+        "io.kubernetes.pod.namespace": "otel-system",
+        "io.kubernetes.pod.uid": "40e96f40-9f76-45d3-8d94-f1387283dd2e"
+      },
+      "imageRef": "sha256:a64fa52ad3b55378bb62d8642439aaf0ec3abf45a8ddc1ac02bac31eea7a6565"
+    },
+    {
+      "id": "f8903a64cafbd77479f691de1d127447ee14a9cdd73bc554380d54d7a00dbc46",
+      "podSandboxId": "63a1b0c385e35902a329cb5db5162666e7a567fc9c0570113479b80af8ca07ae",
+      "metadata": {
+        "name": "jaeger",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "jaeger",
+        "io.kubernetes.pod.name": "jaeger-fb9948ddf-2sd9f",
+        "io.kubernetes.pod.namespace": "otel-system",
+        "io.kubernetes.pod.uid": "0d99448d-960e-4172-bed2-a04db6065e7b"
+      },
+      "imageRef": "sha256:ec6830add7b6b108e619a985cfd05fb36a027ce3800fbf58c35b839c395a0904"
+    },
+    {
+      "id": "4fdac2584aa5f3051d529c0fc109fbae26287b1808a52f690f508f0de7635e45",
+      "podSandboxId": "ebf988e99d3defbc502b61020c836c96fdf467ac3ad78fdb1d7486cf211cb321",
+      "metadata": {
+        "name": "envoy",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "envoy",
+        "io.kubernetes.pod.name": "atenet-router-599d645d96-crwdw",
+        "io.kubernetes.pod.namespace": "ate-system",
+        "io.kubernetes.pod.uid": "df1c2ee8-8d01-4770-9da0-7ce66431de1b"
+      },
+      "imageRef": "sha256:0cf8d014e8ce2a7e6c34d324c3ee5343d3e3ee416ee9a971789c2599fe5525bd"
+    },
+    {
+      "id": "a4c2288d48fee70785481d1a8454d4c866bf52f23cef006914b661d7467e45ff",
+      "podSandboxId": "ebf988e99d3defbc502b61020c836c96fdf467ac3ad78fdb1d7486cf211cb321",
+      "metadata": {
+        "name": "atenet-router",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "atenet-router",
+        "io.kubernetes.pod.name": "atenet-router-599d645d96-crwdw",
+        "io.kubernetes.pod.namespace": "ate-system",
+        "io.kubernetes.pod.uid": "df1c2ee8-8d01-4770-9da0-7ce66431de1b"
+      },
+      "imageRef": "sha256:84dc03dbe77e389181f4fb6fe64f099809e1084f853f6a2aef6204a6f97e93cc"
+    },
+    {
+      "id": "fe6de0bd2e354ec8e58ce44ef4c8142b37b40777e299e828c7b6c72ad1bd88b1",
+      "podSandboxId": "05e9c8ea228bde4da5f3bf28a3174aae989965e3fb9d93048d94afda713ba682",
+      "metadata": {
+        "name": "atelet",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "atelet",
+        "io.kubernetes.pod.name": "atelet-bkhcr",
+        "io.kubernetes.pod.namespace": "ate-system",
+        "io.kubernetes.pod.uid": "9ac08b03-3d16-4b0f-8a16-1b31d2fc3008"
+      },
+      "imageRef": "sha256:3345b0b524dac13381fe1807d069d26e1b34347031c21afecbd30a59e499a76d"
+    },
+    {
+      "id": "176972b62f7b8d9aac441f5eb97ed9faab8f88f6e0b3e100366722d1b4c4bcb0",
+      "podSandboxId": "3d83114505154fd1e17e424c538c4a0b5fd47bee5fd08ed7004a1bcb8d395b40",
+      "metadata": {
+        "name": "ate-api-server",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "ate-api-server",
+        "io.kubernetes.pod.name": "ate-api-server-6548f95b7c-lgnfq",
+        "io.kubernetes.pod.namespace": "ate-system",
+        "io.kubernetes.pod.uid": "222bfec9-f2d1-405a-aac9-7502edcb48cd"
+      },
+      "imageRef": "sha256:e616a7e39d6642976f74cc12b784d82796bc5592895d68fd230a4f1cb3067cc8"
+    },
+    {
+      "id": "357126c8448f0c137af2ccc4c60fdffb910887f6f54907ebca5d67ebfa649124",
+      "podSandboxId": "9be2f33a8c56c09eb1a9590c70061fd9db8d8cbaa345db562dbbb7d2ad42cb70",
+      "metadata": {
+        "name": "ate-idp-server",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "ate-idp-server",
+        "io.kubernetes.pod.name": "ate-idp-server-548dc8b57d-wgkqq",
+        "io.kubernetes.pod.namespace": "ate-system",
+        "io.kubernetes.pod.uid": "02434767-d849-49e1-8d97-9875cdd35379"
+      },
+      "imageRef": "sha256:06db8b4d60626713051851f4daf02e9180d108ebba685658adc8cd2235f25570"
+    },
+    {
+      "id": "812246b18bf37910f0cd9d331599bb0439670aa58d51a883ca5c7d26331cc349",
+      "podSandboxId": "3e30b70a6dd5d4d782ce95049898d9dc4211c16faac84c026bdef643ee2bb629",
+      "metadata": {
+        "name": "ate-idp-server",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "ate-idp-server",
+        "io.kubernetes.pod.name": "ate-idp-server-548dc8b57d-l9974",
+        "io.kubernetes.pod.namespace": "ate-system",
+        "io.kubernetes.pod.uid": "f300cf32-ac2c-4fe8-853a-44f4a8c6c006"
+      },
+      "imageRef": "sha256:06db8b4d60626713051851f4daf02e9180d108ebba685658adc8cd2235f25570"
+    },
+    {
+      "id": "ed93c214f27b0c8b6aa1c3ad69df70fa9382d1985f53421c833a096d1352ee68",
+      "podSandboxId": "998e4d88fb17ebb684f758ae1ff6d0bc87e1e054903636bc288528c54ed48253",
+      "metadata": {
+        "name": "ate-api-server",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "ate-api-server",
+        "io.kubernetes.pod.name": "ate-api-server-6548f95b7c-jc6m4",
+        "io.kubernetes.pod.namespace": "ate-system",
+        "io.kubernetes.pod.uid": "f0af4cdc-b12f-4969-bf24-859d681481b3"
+      },
+      "imageRef": "sha256:e616a7e39d6642976f74cc12b784d82796bc5592895d68fd230a4f1cb3067cc8"
+    },
+    {
+      "id": "33d484ec3156b4847085a6ce5dbd800809fdea28f678ad9968c6da67524fa5bc",
+      "podSandboxId": "05e9c8ea228bde4da5f3bf28a3174aae989965e3fb9d93048d94afda713ba682",
+      "metadata": {
+        "name": "objectstore-plugin",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "objectstore-plugin",
+        "io.kubernetes.pod.name": "atelet-bkhcr",
+        "io.kubernetes.pod.namespace": "ate-system",
+        "io.kubernetes.pod.uid": "9ac08b03-3d16-4b0f-8a16-1b31d2fc3008"
+      },
+      "imageRef": "sha256:61206565bc4f1a93e076b0d2395332176932d8797cb3b3567fd2dc0f2e018ba4"
+    },
+    {
+      "id": "8d968786ebe6818e3dda2ca1832011057a7c4a362cba46eee8d3fdb70867b209",
+      "podSandboxId": "3d83114505154fd1e17e424c538c4a0b5fd47bee5fd08ed7004a1bcb8d395b40",
+      "metadata": {
+        "name": "objectstore-plugin",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "objectstore-plugin",
+        "io.kubernetes.pod.name": "ate-api-server-6548f95b7c-lgnfq",
+        "io.kubernetes.pod.namespace": "ate-system",
+        "io.kubernetes.pod.uid": "222bfec9-f2d1-405a-aac9-7502edcb48cd"
+      },
+      "imageRef": "sha256:61206565bc4f1a93e076b0d2395332176932d8797cb3b3567fd2dc0f2e018ba4"
+    },
+    {
+      "id": "387de2bc1f639fa3b44d928e520229cc0819268b4441579faecf2ebdcb5fb0a0",
+      "podSandboxId": "29c231ea285d28fe288e9cec9458a81ca9c65a4ea0e6fb6a3ff77259997d7e15",
+      "metadata": {
+        "name": "ate-controller",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "ate-controller",
+        "io.kubernetes.pod.name": "ate-controller-57f77ccc8b-thz5d",
+        "io.kubernetes.pod.namespace": "ate-system",
+        "io.kubernetes.pod.uid": "765315d7-83a3-4eba-959b-bf2a58fc45dc"
+      },
+      "imageRef": "sha256:df1d976aa65d9d0acd85daf14e7c12f7c5e34f4dcc657b8fcfe33930ebeb929b"
+    },
+    {
+      "id": "f1f56e6fb349fecef95fce6db008cd6bf110012f9dc085eba4d7b1fff5741e36",
+      "podSandboxId": "998e4d88fb17ebb684f758ae1ff6d0bc87e1e054903636bc288528c54ed48253",
+      "metadata": {
+        "name": "objectstore-plugin",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "objectstore-plugin",
+        "io.kubernetes.pod.name": "ate-api-server-6548f95b7c-jc6m4",
+        "io.kubernetes.pod.namespace": "ate-system",
+        "io.kubernetes.pod.uid": "f0af4cdc-b12f-4969-bf24-859d681481b3"
+      },
+      "imageRef": "sha256:61206565bc4f1a93e076b0d2395332176932d8797cb3b3567fd2dc0f2e018ba4"
+    },
+    {
+      "id": "50aa17f262d33fdbd212e275342283b469d2609088b4876e2865f01d120ff09b",
+      "podSandboxId": "6b4ea1b3614e8c953319dae69dfc9feb344007371fe8ed330a26aec919a577ee",
+      "metadata": {
+        "name": "postgres",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "postgres",
+        "io.kubernetes.pod.name": "postgres-0",
+        "io.kubernetes.pod.namespace": "ate-system",
+        "io.kubernetes.pod.uid": "fff3b864-af55-4e0d-94c3-42d21e7267b9"
+      },
+      "imageRef": "sha256:bd1890816ae0b8ad4644f05728570d4be774e1f1490d7232f5084b52ea335183"
+    },
+    {
+      "id": "6017db9915e15690941bb15de38f966fbbfd07a11882a9d09331d5c3095b340e",
+      "podSandboxId": "6b4ea1b3614e8c953319dae69dfc9feb344007371fe8ed330a26aec919a577ee",
+      "metadata": {
+        "name": "tls-reloader",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "tls-reloader",
+        "io.kubernetes.pod.name": "postgres-0",
+        "io.kubernetes.pod.namespace": "ate-system",
+        "io.kubernetes.pod.uid": "fff3b864-af55-4e0d-94c3-42d21e7267b9"
+      },
+      "imageRef": "sha256:bd1890816ae0b8ad4644f05728570d4be774e1f1490d7232f5084b52ea335183"
+    },
+    {
+      "id": "8a682dfecdb5ae6de2f680b62140d448d3a82c5f32d14dfaa31ed3aa20fd6f62",
+      "podSandboxId": "54ea5cece9b70a8574b9686ff914ae745dd8bd51617e99c8bea53f420f3eca2e",
+      "metadata": {
+        "name": "controller",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "controller",
+        "io.kubernetes.pod.name": "podcertificate-controller-74bcb5cdfc-tb7nn",
+        "io.kubernetes.pod.namespace": "podcertificate-controller-system",
+        "io.kubernetes.pod.uid": "93a3aca8-e11a-4050-b45d-686022fc7fb6"
+      },
+      "imageRef": "sha256:cc5a0c2e40a48442550440b000da599e36c508f102fd9814f5fc14e05d06242e"
+    },
+    {
+      "id": "1512cb32c0f2e0d96d1a5f8effb2efb268d2835ffcbfe124efd1e84802619c6f",
+      "podSandboxId": "b06ad528551b9315f9a1434374441709f7e9bbcdad4cebb739e2087293c5292e",
+      "metadata": {
+        "name": "coredns",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "coredns",
+        "io.kubernetes.pod.name": "coredns-559f6c778d-ndnrr",
+        "io.kubernetes.pod.namespace": "kube-system",
+        "io.kubernetes.pod.uid": "785db53c-89c5-4866-ac8e-8eba13e6a8ae"
+      },
+      "imageRef": "sha256:520212b8b0fcd9309d7362d592f513b72880fa5a4e9e8b91442e7ee3b622c6a9"
+    },
+    {
+      "id": "0292b7296f12f79b37fbb8fd2596c6daa206697ce4f0724a3cbf50bb1d8d2e8c",
+      "podSandboxId": "012e72e199ab474b693d7efad9cd4f2ed3cfd73c891e03118dc103a1ff478e80",
+      "metadata": {
+        "name": "coredns",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "coredns",
+        "io.kubernetes.pod.name": "coredns-559f6c778d-pc5qn",
+        "io.kubernetes.pod.namespace": "kube-system",
+        "io.kubernetes.pod.uid": "123976b8-63f7-45d8-8945-1b808bf96cf1"
+      },
+      "imageRef": "sha256:520212b8b0fcd9309d7362d592f513b72880fa5a4e9e8b91442e7ee3b622c6a9"
+    },
+    {
+      "id": "f2ad3a730ca09bf16c8c330b31c833b3782ba27b94e029c681a7a8010f0b9911",
+      "podSandboxId": "e49ebc3cb0bda8962d21e90382281e6a7a485cec026c7d96daf0aea1f378fc68",
+      "metadata": {
+        "name": "local-path-provisioner",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "local-path-provisioner",
+        "io.kubernetes.pod.name": "local-path-provisioner-75f7fc7dc5-j6ncm",
+        "io.kubernetes.pod.namespace": "local-path-storage",
+        "io.kubernetes.pod.uid": "c0146de9-3e4a-4fee-a45b-fa933e8799cc"
+      },
+      "imageRef": "sha256:c82008e2cd0186ef96bfd05d6b49d3286768fae5bd7a961f70bd485a3785c006"
+    },
+    {
+      "id": "78dc46759b940234d3243e633b331df56f683b45c7814d983651f9c68d59884f",
+      "podSandboxId": "fb87ad513beca02c810bd66ff19016038c52d31294c1affac5738b786fc98d6c",
+      "metadata": {
+        "name": "kindnet-cni",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "kindnet-cni",
+        "io.kubernetes.pod.name": "kindnet-j4rmw",
+        "io.kubernetes.pod.namespace": "kube-system",
+        "io.kubernetes.pod.uid": "786a4426-a6d1-4f3c-9f6e-5e9eff6afadf"
+      },
+      "imageRef": "sha256:4626fe10df5b930638e6e1662143ee1c7a698de6174fdb61a8ce658e688be2cd"
+    },
+    {
+      "id": "418768f71004b40a44a9fd72c96865eda3b630f7066191f310f1b01f30a92959",
+      "podSandboxId": "ad8e5986230f8df75cab110c8afda7cc8a4c6fec09c47521c32d7b483ee6142a",
+      "metadata": {
+        "name": "kube-proxy",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "kube-proxy",
+        "io.kubernetes.pod.name": "kube-proxy-96m2x",
+        "io.kubernetes.pod.namespace": "kube-system",
+        "io.kubernetes.pod.uid": "be578d6f-4d2d-4d8d-b26e-4adc6505987b"
+      },
+      "imageRef": "sha256:d6a28daf3e6b0ac88d2c74d715a4a156a33c1acef57fe89bcd334c47532949e7"
+    },
+    {
+      "id": "b9bc408a8ce365cacc4ba669b73a4b3a9082e37a674945307988c9dda5bb67ab",
+      "podSandboxId": "52b980cf0cae676a37dbd544f35b8f2cd54b443fd67ffbc7a25c95d5d63b338c",
+      "metadata": {
+        "name": "etcd",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "etcd",
+        "io.kubernetes.pod.name": "etcd-substrate-lifecycle-control-plane",
+        "io.kubernetes.pod.namespace": "kube-system",
+        "io.kubernetes.pod.uid": "5a8ad366a27041f0fcd5a123f3c28cb6"
+      },
+      "imageRef": "sha256:270fbeb69717150d82de2f31e6d6a93a6a60f8843d63df68cebe33c4b59c5f78"
+    },
+    {
+      "id": "60aba6d5a920fe16dc5c8e9f915da46ef937ea635bce57eba70fa2f205d72467",
+      "podSandboxId": "5de3dc7029d6083205afc56bad25c8ca7530d2fdda006e4a3f02107948345b54",
+      "metadata": {
+        "name": "kube-apiserver",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "kube-apiserver",
+        "io.kubernetes.pod.name": "kube-apiserver-substrate-lifecycle-control-plane",
+        "io.kubernetes.pod.namespace": "kube-system",
+        "io.kubernetes.pod.uid": "d55b400b5d34f5ffd83521f9434d067a"
+      },
+      "imageRef": "sha256:bec5f0e1e2eeb613b139d1f11f4d3d651ace46da25fd6c578e415fb9e911b9cf"
+    },
+    {
+      "id": "c37e51e555b0aba715ebf57abbaf9dd4e0d47ffb8c5d5bf9dd44576ff228e905",
+      "podSandboxId": "a18bdb9dd810f991735898f9f8bc1552d2f03ff754b81912130d7d63a3305e1e",
+      "metadata": {
+        "name": "kube-controller-manager",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "kube-controller-manager",
+        "io.kubernetes.pod.name": "kube-controller-manager-substrate-lifecycle-control-plane",
+        "io.kubernetes.pod.namespace": "kube-system",
+        "io.kubernetes.pod.uid": "05a70af14a09b17c2bf0fe70585c6990"
+      },
+      "imageRef": "sha256:364b3c3d9ec198179631af61ca9ff18efa5316ba19ce79f301fbeaee7b060989"
+    },
+    {
+      "id": "2ae3963d3dbcb895b9bc95f53a3fd403473bf38015480fd612080bc054df2317",
+      "podSandboxId": "72658a9729f2dfdf8c4f6c7a1e4f9f395689e07b729f753a319b457cec5c035e",
+      "metadata": {
+        "name": "kube-scheduler",
+        "attempt": 0
+      },
+      "state": "CONTAINER_RUNNING",
+      "labels": {
+        "io.kubernetes.container.name": "kube-scheduler",
+        "io.kubernetes.pod.name": "kube-scheduler-substrate-lifecycle-control-plane",
+        "io.kubernetes.pod.namespace": "kube-system",
+        "io.kubernetes.pod.uid": "7b5060cfecd2ec7c7794840012d58505"
+      },
+      "imageRef": "sha256:1fabf80a1273af13d05ef7528d2e48302da8b2c82c6e40eee9133debd484c428"
+    }
+  ]
+}

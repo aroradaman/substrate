@@ -1,0 +1,10 @@
+flowchart TB
+  Actor["Actor checkpoint"] --> Worker["Runtime files"]
+  Worker --> Node["atelet"]
+  Node --> NP["Node plugin\nS3 client"]
+  API["ateapi tag / delete"] --> CP["Control plugin\nS3 client"]
+  NP --> Svc["rustfs service\nAPI :9000"]
+  CP --> Svc
+  Init["Bucket-init Job"] --> Svc
+  Svc --> Rust["RustFS pod\n1 replica"]
+  Rust --> PVC["rustfs-data PVC\n1 GiB"]

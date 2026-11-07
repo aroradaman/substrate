@@ -1,0 +1,15 @@
+sequenceDiagram
+    participant D as Demo installer
+    participant A as ateapi
+    participant G as Golden reconciler
+    D->>A: Create ActorTemplate
+    A-->>D: Template accepted
+    G->>A: Create temporary golden actor
+    G->>A: ResumeActor through Control service
+    A-->>G: Runtime readiness completed
+    G->>A: SuspendActor with synchronous durability
+    A-->>G: Completed durable snapshot
+    G->>A: CreateTag copies the snapshot
+    G->>A: Delete temporary actor
+    G->>A: Persist template golden-tag status
+    D->>A: Observe golden snapshot ready

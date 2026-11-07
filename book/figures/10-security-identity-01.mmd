@@ -1,0 +1,19 @@
+flowchart TB
+    U[Untrusted actor application]
+    GV[gVisor Sentry boundary]
+    VM[Guest kernel and VMM boundary]
+    W[Shared ateworker process and atunnel]
+    L[Node atelet]
+    API[ate-api-server and authorization]
+    PL[Object-store plugin]
+    EG[Egress gateway and credential provider]
+    U --> GV
+    U --> VM
+    GV --> W
+    VM --> W
+    W --> L
+    L --> API
+    L --> PL
+    W --> EG
+    classDef untrusted fill:#f8d7da,stroke:#8a1c2c
+    class U untrusted

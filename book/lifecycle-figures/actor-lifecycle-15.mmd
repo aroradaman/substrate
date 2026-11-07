@@ -1,0 +1,18 @@
+sequenceDiagram
+    participant C as Client
+    participant A as Original actor
+    participant S as Snapshot and RustFS
+    participant T as Durable tag
+    participant B as Clone actor
+    C->>A: Three requests
+    A-->>C: 1, 2, 3 in all counters
+    A->>S: Async suspend at count 3
+    C->>A: Request triggers resume
+    A-->>C: 4 in all counters
+    A->>S: Sync suspend at count 4
+    S->>T: Copy into tag-owned prefix
+    T->>B: Create suspended clone, then resume
+    C->>B: Request
+    B-->>C: 5 in all counters
+    C->>A: Resume original, then request
+    A-->>C: 5 in all counters

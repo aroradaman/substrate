@@ -1,0 +1,96 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "networking.k8s.io/v1",
+      "kind": "NetworkPolicy",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:53:22Z",
+        "generation": 1,
+        "labels": {
+          "ate.dev/worker-pool": "counter"
+        },
+        "name": "substrate-counter",
+        "namespace": "ate-demo-counter",
+        "ownerReferences": [
+          {
+            "apiVersion": "ate.dev/v1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "WorkerPool",
+            "name": "counter",
+            "uid": "a6337c57-2158-4fa0-a67a-bf7faa1721e1"
+          }
+        ],
+        "resourceVersion": "1900",
+        "uid": "9886c45e-f601-41b4-9868-89c6df54a006"
+      },
+      "spec": {
+        "ingress": [
+          {
+            "from": [
+              {
+                "namespaceSelector": {
+                  "matchLabels": {
+                    "kubernetes.io/metadata.name": "ate-system"
+                  }
+                },
+                "podSelector": {
+                  "matchLabels": {
+                    "app": "atenet-router"
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "podSelector": {
+          "matchLabels": {
+            "ate.dev/worker-pool": "counter"
+          }
+        },
+        "policyTypes": [
+          "Ingress"
+        ]
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ServiceAccount",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:53:22Z",
+        "name": "ateworker",
+        "namespace": "ate-demo-counter",
+        "resourceVersion": "1904",
+        "uid": "ad0c2d87-ec79-4999-9fc1-37f3dbe32be3"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ServiceAccount",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:53:22Z",
+        "name": "default",
+        "namespace": "ate-demo-counter",
+        "resourceVersion": "1897",
+        "uid": "b877c613-a868-4177-8908-1a14ee0a7742"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "binaryData": {},
+      "data": {
+        "ca.crt": "<redacted>"
+      },
+      "kind": "ConfigMap",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:53:22Z",
+        "name": "kube-root-ca.crt",
+        "namespace": "ate-demo-counter",
+        "resourceVersion": "1898",
+        "uid": "86b1d098-51da-48a4-94af-0e2d15a64282"
+      }
+    }
+  ],
+  "kind": "List"
+}

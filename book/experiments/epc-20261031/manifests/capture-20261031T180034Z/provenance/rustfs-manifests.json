@@ -1,0 +1,167 @@
+[
+  {
+    "bucket": "ate-snapshots",
+    "key": "atespaces/ate-demo-counter/actors/92c54efa-a098-47c4-93f1-f17bd3730c1a/snapshots/bab690e0-d67d-4bd3-91cb-7f088fb604bf/manifest.json",
+    "selected_fields": {
+      "sandboxClass": "gvisor",
+      "atespace": "ate-demo-counter",
+      "actorName": "lifecycle-counter",
+      "actorUid": "92c54efa-a098-47c4-93f1-f17bd3730c1a",
+      "actorTemplateAtespace": "ate-demo-counter",
+      "actorTemplateName": "counter",
+      "snapshotFiles": [
+        "checkpoint.img",
+        "fs/fscheckpoint.pb",
+        "fs/multitar.img",
+        "fs/pages.img",
+        "fs/pages_meta.img",
+        "pages.img",
+        "pages_meta.img",
+        "rootfs/fscheckpoint.pb",
+        "rootfs/multitar.img",
+        "rootfs/pages.img",
+        "rootfs/pages_meta.img"
+      ],
+      "dataSnapshotFiles": [
+        "fs/fscheckpoint.pb",
+        "fs/multitar.img",
+        "fs/pages.img",
+        "fs/pages_meta.img"
+      ],
+      "fidelity": "memory",
+      "assets": {
+        "gvisor": {
+          "sha256": "708afc62f2ee82d19930c703e85f9dab4f27a78c0aec40c0f55eb1040107f1a7"
+        }
+      }
+    }
+  },
+  {
+    "bucket": "ate-snapshots",
+    "key": "atespaces/ate-demo-counter/tags/48abb3b2-88ff-442f-ae67-3860b9b26867/manifest.json",
+    "selected_fields": {
+      "sandboxClass": "gvisor",
+      "atespace": "ate-demo-counter",
+      "actorName": "lifecycle-counter",
+      "actorUid": "92c54efa-a098-47c4-93f1-f17bd3730c1a",
+      "actorTemplateAtespace": "ate-demo-counter",
+      "actorTemplateName": "counter",
+      "snapshotFiles": [
+        "checkpoint.img",
+        "fs/fscheckpoint.pb",
+        "fs/multitar.img",
+        "fs/pages.img",
+        "fs/pages_meta.img",
+        "pages.img",
+        "pages_meta.img",
+        "rootfs/fscheckpoint.pb",
+        "rootfs/multitar.img",
+        "rootfs/pages.img",
+        "rootfs/pages_meta.img"
+      ],
+      "dataSnapshotFiles": [
+        "fs/fscheckpoint.pb",
+        "fs/multitar.img",
+        "fs/pages.img",
+        "fs/pages_meta.img"
+      ],
+      "fidelity": "memory",
+      "assets": {
+        "gvisor": {
+          "sha256": "708afc62f2ee82d19930c703e85f9dab4f27a78c0aec40c0f55eb1040107f1a7"
+        }
+      }
+    }
+  },
+  {
+    "bucket": "ate-snapshots",
+    "key": "atespaces/ate-demo-counter/tags/9d10cdd3-4d52-4a09-b94f-a0227f6bebf5/manifest.json",
+    "selected_fields": {
+      "sandboxClass": "gvisor",
+      "atespace": "ate-demo-counter",
+      "actorName": "0306f965-08ac-47c5-97a0-099daac7da54",
+      "actorUid": "76063b08-99be-47b8-86e8-aacbb2e40698",
+      "actorTemplateAtespace": "ate-demo-counter",
+      "actorTemplateName": "counter",
+      "snapshotFiles": [
+        "checkpoint.img",
+        "fs/fscheckpoint.pb",
+        "fs/multitar.img",
+        "fs/pages.img",
+        "fs/pages_meta.img",
+        "pages.img",
+        "pages_meta.img",
+        "rootfs/fscheckpoint.pb",
+        "rootfs/multitar.img",
+        "rootfs/pages.img",
+        "rootfs/pages_meta.img"
+      ],
+      "dataSnapshotFiles": [
+        "fs/fscheckpoint.pb",
+        "fs/multitar.img",
+        "fs/pages.img",
+        "fs/pages_meta.img"
+      ],
+      "fidelity": "memory",
+      "assets": {
+        "gvisor": {
+          "sha256": "708afc62f2ee82d19930c703e85f9dab4f27a78c0aec40c0f55eb1040107f1a7"
+        }
+      }
+    }
+  },
+  {
+    "bucket": "ate-snapshots",
+    "key": "atespaces/ate-demo-egress/actors/8fe5de26-cc8a-40e4-aa86-770a6bd8c43e/snapshots/7a91badb-26b4-437b-915b-3d2ada473b50/manifest.json",
+    "selected_fields": {
+      "sandboxClass": "gvisor",
+      "atespace": "ate-demo-egress",
+      "actorName": "lifecycle-egress",
+      "actorUid": "8fe5de26-cc8a-40e4-aa86-770a6bd8c43e",
+      "actorTemplateAtespace": "ate-demo-egress",
+      "actorTemplateName": "egress",
+      "snapshotFiles": [
+        "checkpoint.img",
+        "pages.img",
+        "pages_meta.img",
+        "rootfs/fscheckpoint.pb",
+        "rootfs/multitar.img",
+        "rootfs/pages.img",
+        "rootfs/pages_meta.img"
+      ],
+      "fidelity": "memory",
+      "assets": {
+        "gvisor": {
+          "sha256": "708afc62f2ee82d19930c703e85f9dab4f27a78c0aec40c0f55eb1040107f1a7"
+        }
+      }
+    }
+  },
+  {
+    "bucket": "ate-snapshots",
+    "key": "atespaces/ate-demo-egress/tags/11c4465b-dd9c-4b29-ad27-6ade7a0a994a/manifest.json",
+    "selected_fields": {
+      "sandboxClass": "gvisor",
+      "atespace": "ate-demo-egress",
+      "actorName": "90cd6fd4-d815-42ba-9ff4-b773b7e008b1",
+      "actorUid": "405fbd19-ca49-46b8-a6ff-433b1f1e8f91",
+      "actorTemplateAtespace": "ate-demo-egress",
+      "actorTemplateName": "egress",
+      "snapshotFiles": [
+        "checkpoint.img",
+        "pages.img",
+        "pages_meta.img",
+        "rootfs/fscheckpoint.pb",
+        "rootfs/multitar.img",
+        "rootfs/pages.img",
+        "rootfs/pages_meta.img"
+      ],
+      "fidelity": "memory",
+      "assets": {
+        "gvisor": {
+          "sha256": "708afc62f2ee82d19930c703e85f9dab4f27a78c0aec40c0f55eb1040107f1a7"
+        }
+      }
+    }
+  }
+]

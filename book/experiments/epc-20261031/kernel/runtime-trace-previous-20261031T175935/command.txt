@@ -1,0 +1,1 @@
+strace -f -ttt -T -s 128 -e trace=clone,clone3,execve,wait4,waitid,exit_group,setns,unshare,mount,umount2,pivot_root,seccomp,prctl,pidfd_open,pidfd_send_signal,memfd_create,userfaultfd,fsopen,fsconfig,fsmount,move_mount,open_tree,cachestat,fadvise64,fdatasync,copy_file_range,renameat2,unlinkat -p 8010

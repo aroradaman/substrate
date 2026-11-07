@@ -1,0 +1,8 @@
+flowchart TB
+    W[ateworker-gvisor] --> CLI[runsc commands]
+    CLI --> S["Sentry\nuser-space kernel"]
+    Apps["Actor containers"] -->|syscall ABI| S
+    S --> G[Filesystem helpers]
+    G --> F[Host OCI base]
+    C[Host cgroup] -. accounts .-> S
+    N["netns + veth"] --> S

@@ -1,0 +1,9 @@
+namespace/lifecycle-target created
+deployment.apps/origin created
+service/origin created
+Waiting for deployment "origin" rollout to finish: 0 of 1 updated replicas are available...
+deployment "origin" successfully rolled out
+Warning: no --token-file given; acting as the shared identity system:serviceaccount:ate-system:ate-client rather than as yourself. Pass --token-file to act as yourself.
+ATESPACE          NAME               TEMPLATE                 STATE                   WORKER POD   WORKER IPS   VERSION   AGE
+ate-demo-egress   lifecycle-egress   ate-demo-egress/egress   ACTOR_STATE_SUSPENDED   <none>                    1         0s
+Warning: no --token-file given; acting as the shared identity system:serviceaccount:ate-system:ate-client rather than as yourself. Pass --token-file to act as yourself.

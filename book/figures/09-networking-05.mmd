@@ -1,0 +1,15 @@
+stateDiagram-v2
+    [*] --> Resolving: Join or create actor flight
+    Resolving --> Served: First attempt succeeds
+    Resolving --> Failed: Non-retryable result
+    Resolving --> Admission: Retryable result
+    Admission --> Shed: Parking lot full
+    Admission --> Parked: Acquire request slot
+    Parked --> Served: Shared flight succeeds
+    Parked --> Failed: Permanent error
+    Parked --> CapacityError: Retry budget exhausted
+    Parked --> CallerGone: Client cancels or times out
+    note right of CallerGone
+      Shared resume can continue
+      after this caller leaves
+    end note

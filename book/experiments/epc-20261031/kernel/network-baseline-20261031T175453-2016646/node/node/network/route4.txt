@@ -1,0 +1,53 @@
+default via 172.19.0.1 dev eth0 
+10.244.0.2 dev vethc062d0c3 scope host 
+10.244.0.3 dev vethf1ba911f scope host 
+10.244.0.4 dev vethe739fae7 scope host 
+10.244.0.5 dev vethe69468a4 scope host 
+10.244.0.7 dev vethc6320c3c scope host 
+10.244.0.8 dev vethaf42f965 scope host 
+10.244.0.9 dev vethbc5f495b scope host 
+10.244.0.10 dev veth2835c7d6 scope host 
+10.244.0.11 dev veth4dbe14a9 scope host 
+10.244.0.12 dev veth2bea192a scope host 
+10.244.0.13 dev veth03417377 scope host 
+10.244.0.16 dev veth133ad53c scope host 
+10.244.0.17 dev veth0b1e42e2 scope host 
+10.244.0.18 dev veth3a7a3177 scope host 
+10.244.0.19 dev veth6fa732d1 scope host 
+10.244.0.20 dev vethfbe90053 scope host 
+10.244.0.21 dev vethce51b758 scope host 
+10.244.0.22 dev vethd2b1e7d4 scope host 
+10.244.0.23 dev vethd4335de8 scope host 
+10.244.0.24 dev veth0c0250d6 scope host 
+10.244.0.25 dev veth26f1d552 scope host 
+10.244.0.26 dev veth65777b88 scope host 
+10.244.0.27 dev vethc8e843f4 scope host 
+172.19.0.0/16 dev eth0 proto kernel scope link src 172.19.0.7 
+local 10.244.0.1 dev vethc062d0c3 table local proto kernel scope host src 10.244.0.1 
+local 10.244.0.1 dev vethf1ba911f table local proto kernel scope host src 10.244.0.1 
+local 10.244.0.1 dev vethe739fae7 table local proto kernel scope host src 10.244.0.1 
+local 10.244.0.1 dev vethe69468a4 table local proto kernel scope host src 10.244.0.1 
+local 10.244.0.1 dev vethc6320c3c table local proto kernel scope host src 10.244.0.1 
+local 10.244.0.1 dev vethaf42f965 table local proto kernel scope host src 10.244.0.1 
+local 10.244.0.1 dev vethbc5f495b table local proto kernel scope host src 10.244.0.1 
+local 10.244.0.1 dev veth2835c7d6 table local proto kernel scope host src 10.244.0.1 
+local 10.244.0.1 dev veth4dbe14a9 table local proto kernel scope host src 10.244.0.1 
+local 10.244.0.1 dev veth2bea192a table local proto kernel scope host src 10.244.0.1 
+local 10.244.0.1 dev veth03417377 table local proto kernel scope host src 10.244.0.1 
+local 10.244.0.1 dev veth133ad53c table local proto kernel scope host src 10.244.0.1 
+local 10.244.0.1 dev veth0b1e42e2 table local proto kernel scope host src 10.244.0.1 
+local 10.244.0.1 dev veth3a7a3177 table local proto kernel scope host src 10.244.0.1 
+local 10.244.0.1 dev veth6fa732d1 table local proto kernel scope host src 10.244.0.1 
+local 10.244.0.1 dev vethfbe90053 table local proto kernel scope host src 10.244.0.1 
+local 10.244.0.1 dev vethce51b758 table local proto kernel scope host src 10.244.0.1 
+local 10.244.0.1 dev vethd2b1e7d4 table local proto kernel scope host src 10.244.0.1 
+local 10.244.0.1 dev vethd4335de8 table local proto kernel scope host src 10.244.0.1 
+local 10.244.0.1 dev veth0c0250d6 table local proto kernel scope host src 10.244.0.1 
+local 10.244.0.1 dev veth26f1d552 table local proto kernel scope host src 10.244.0.1 
+local 10.244.0.1 dev veth65777b88 table local proto kernel scope host src 10.244.0.1 
+local 10.244.0.1 dev vethc8e843f4 table local proto kernel scope host src 10.244.0.1 
+local 127.0.0.0/8 dev lo table local proto kernel scope host src 127.0.0.1 
+local 127.0.0.1 dev lo table local proto kernel scope host src 127.0.0.1 
+broadcast 127.255.255.255 dev lo table local proto kernel scope link src 127.0.0.1 
+local 172.19.0.7 dev eth0 table local proto kernel scope host src 172.19.0.7 
+broadcast 172.19.255.255 dev eth0 table local proto kernel scope link src 172.19.0.7 

@@ -1,0 +1,8 @@
+flowchart TB
+    F[Process enables preview gate] --> BOTH{Gate enabled and request opted in?}
+    H[Client preview metadata] --> BOTH
+    BOTH -->|Yes| V[Validate gated user fields]
+    BOTH -->|No| REJ[Reject newly requested gated fields]
+    V --> WF[Workflow starts system-owned work]
+    WF --> SYS[Context opts in for maintenance]
+    SYS --> CLEAN[Delete, suspend, detach remain possible]

@@ -1,0 +1,429 @@
+[
+  {
+    "atespace": "ate-demo-counter",
+    "decoded_proto": {
+      "metadata": {
+        "atespace": "ate-demo-counter",
+        "name": "lifecycle-clone",
+        "uid": "126a97ec-0c7d-4486-ad5d-f5d223291d9c",
+        "version": "3",
+        "createTime": "2026-10-31T17:56:59.348459643Z",
+        "updateTime": "2026-10-31T17:56:59.618746596Z"
+      },
+      "actorTemplate": {
+        "atespace": "ate-demo-counter",
+        "name": "counter"
+      },
+      "sourceTag": {
+        "atespace": "ate-demo-counter",
+        "name": "lifecycle-checkpoint"
+      },
+      "status": {
+        "state": "ACTOR_STATE_RUNNING",
+        "workerAssignment": {
+          "worker": {
+            "name": "f8a965ec-cc06-4bd0-b79c-fd16947807cd"
+          },
+          "workerNamespace": "ate-demo-counter",
+          "workerPool": "counter",
+          "workerPod": "counter-679c67c85d-xmkp6",
+          "workerPodUid": "f8a965ec-cc06-4bd0-b79c-fd16947807cd",
+          "workerPodIps": [
+            "10.244.0.24"
+          ],
+          "nodeName": "substrate-lifecycle-control-plane",
+          "workerEpoch": "1",
+          "sandboxRuntime": {
+            "sandboxClass": "gvisor",
+            "version": {
+              "schemaVersion": "v1",
+              "attributes": [
+                {
+                  "key": "architecture",
+                  "value": "amd64"
+                },
+                {
+                  "key": "cpu_features",
+                  "value": "bc0004102c100800000001210000000f00401f5ef19f27eb0f8bfbfffffa3203"
+                },
+                {
+                  "key": "sandbox_bundle_hash",
+                  "value": "sha256:807de8c088dd96082750dafdd3f8fed2aae65132a4156742969be1703368e20c"
+                }
+              ]
+            }
+          },
+          "workerSpiffeId": "spiffe://cluster.local/ns/ate-demo-counter/sa/ateworker"
+        },
+        "assignedNode": "substrate-lifecycle-control-plane",
+        "snapshots": [
+          {
+            "uuid": "48abb3b2-88ff-442f-ae67-3860b9b26867",
+            "generation": 1,
+            "owner": "SNAPSHOT_OWNER_TAG",
+            "fidelity": "SNAPSHOT_FIDELITY_MEMORY",
+            "actorTemplateUid": "0306f965-08ac-47c5-97a0-099daac7da54",
+            "durableSnapshot": {
+              "state": "SNAPSHOT_STORAGE_STATE_COMPLETED",
+              "object": {
+                "snapshotUri": "gs://ate-snapshots/atespaces/ate-demo-counter/tags/48abb3b2-88ff-442f-ae67-3860b9b26867"
+              }
+            },
+            "sandboxRuntime": {
+              "sandboxClass": "gvisor",
+              "version": {
+                "schemaVersion": "v1",
+                "attributes": [
+                  {
+                    "key": "architecture",
+                    "value": "amd64"
+                  },
+                  {
+                    "key": "cpu_features",
+                    "value": "bc0004102c100800000001210000000f00401f5ef19f27eb0f8bfbfffffa3203"
+                  },
+                  {
+                    "key": "sandbox_bundle_hash",
+                    "value": "sha256:807de8c088dd96082750dafdd3f8fed2aae65132a4156742969be1703368e20c"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "lastAssignedGeneration": 1
+      }
+    },
+    "kind": "Actor",
+    "name": "lifecycle-clone",
+    "proto_bytes": 1077,
+    "uid": "126a97ec-0c7d-4486-ad5d-f5d223291d9c",
+    "version": 3
+  },
+  {
+    "atespace": "ate-demo-counter",
+    "decoded_proto": {
+      "metadata": {
+        "atespace": "ate-demo-counter",
+        "name": "lifecycle-counter",
+        "uid": "92c54efa-a098-47c4-93f1-f17bd3730c1a",
+        "version": "39",
+        "createTime": "2026-10-31T17:54:30.184040220Z",
+        "updateTime": "2026-10-31T18:02:23.710422878Z"
+      },
+      "actorTemplate": {
+        "atespace": "ate-demo-counter",
+        "name": "counter"
+      },
+      "status": {
+        "state": "ACTOR_STATE_RUNNING",
+        "workerAssignment": {
+          "worker": {
+            "name": "21575f0d-c359-4d45-8079-11f74894bac5"
+          },
+          "workerNamespace": "ate-demo-counter",
+          "workerPool": "counter",
+          "workerPod": "counter-679c67c85d-fghjq",
+          "workerPodUid": "21575f0d-c359-4d45-8079-11f74894bac5",
+          "workerPodIps": [
+            "10.244.0.25"
+          ],
+          "nodeName": "substrate-lifecycle-control-plane",
+          "workerEpoch": "1",
+          "sandboxRuntime": {
+            "sandboxClass": "gvisor",
+            "version": {
+              "schemaVersion": "v1",
+              "attributes": [
+                {
+                  "key": "architecture",
+                  "value": "amd64"
+                },
+                {
+                  "key": "cpu_features",
+                  "value": "bc0004102c100800000001210000000f00401f5ef19f27eb0f8bfbfffffa3203"
+                },
+                {
+                  "key": "sandbox_bundle_hash",
+                  "value": "sha256:807de8c088dd96082750dafdd3f8fed2aae65132a4156742969be1703368e20c"
+                }
+              ]
+            }
+          },
+          "workerSpiffeId": "spiffe://cluster.local/ns/ate-demo-counter/sa/ateworker"
+        },
+        "assignedNode": "substrate-lifecycle-control-plane",
+        "snapshots": [
+          {
+            "uuid": "79ade422-1ec9-4857-9e67-d9f1a9f74c97",
+            "generation": 9,
+            "owner": "SNAPSHOT_OWNER_ACTOR",
+            "fidelity": "SNAPSHOT_FIDELITY_MEMORY",
+            "actorTemplateUid": "0306f965-08ac-47c5-97a0-099daac7da54",
+            "locality": "substrate-lifecycle-control-plane",
+            "durableSnapshot": {
+              "state": "SNAPSHOT_STORAGE_STATE_COMPLETED",
+              "object": {
+                "snapshotUri": "gs://ate-snapshots/atespaces/ate-demo-counter/actors/92c54efa-a098-47c4-93f1-f17bd3730c1a/snapshots/79ade422-1ec9-4857-9e67-d9f1a9f74c97"
+              }
+            },
+            "sandboxRuntime": {
+              "sandboxClass": "gvisor",
+              "version": {
+                "schemaVersion": "v1",
+                "attributes": [
+                  {
+                    "key": "architecture",
+                    "value": "amd64"
+                  },
+                  {
+                    "key": "cpu_features",
+                    "value": "bc0004102c100800000001210000000f00401f5ef19f27eb0f8bfbfffffa3203"
+                  },
+                  {
+                    "key": "sandbox_bundle_hash",
+                    "value": "sha256:807de8c088dd96082750dafdd3f8fed2aae65132a4156742969be1703368e20c"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "lastAssignedGeneration": 9
+      }
+    },
+    "kind": "Actor",
+    "name": "lifecycle-counter",
+    "proto_bytes": 1123,
+    "uid": "92c54efa-a098-47c4-93f1-f17bd3730c1a",
+    "version": 39
+  },
+  {
+    "atespace": "ate-demo-egress",
+    "decoded_proto": {
+      "metadata": {
+        "atespace": "ate-demo-egress",
+        "name": "lifecycle-egress",
+        "uid": "8fe5de26-cc8a-40e4-aa86-770a6bd8c43e",
+        "version": "7",
+        "createTime": "2026-10-31T17:56:41.307058282Z",
+        "updateTime": "2026-10-31T17:57:00.026530401Z"
+      },
+      "actorTemplate": {
+        "atespace": "ate-demo-egress",
+        "name": "egress"
+      },
+      "status": {
+        "state": "ACTOR_STATE_RUNNING",
+        "workerAssignment": {
+          "worker": {
+            "name": "046447c4-3c24-4c3f-8632-9d639a266bde"
+          },
+          "workerNamespace": "ate-demo-egress",
+          "workerPool": "egress",
+          "workerPod": "egress-78cb8c86b6-l8b67",
+          "workerPodUid": "046447c4-3c24-4c3f-8632-9d639a266bde",
+          "workerPodIps": [
+            "10.244.0.26"
+          ],
+          "nodeName": "substrate-lifecycle-control-plane",
+          "workerEpoch": "1",
+          "sandboxRuntime": {
+            "sandboxClass": "gvisor",
+            "version": {
+              "schemaVersion": "v1",
+              "attributes": [
+                {
+                  "key": "architecture",
+                  "value": "amd64"
+                },
+                {
+                  "key": "cpu_features",
+                  "value": "bc0004102c100800000001210000000f00401f5ef19f27eb0f8bfbfffffa3203"
+                },
+                {
+                  "key": "sandbox_bundle_hash",
+                  "value": "sha256:807de8c088dd96082750dafdd3f8fed2aae65132a4156742969be1703368e20c"
+                }
+              ]
+            }
+          },
+          "workerSpiffeId": "spiffe://cluster.local/ns/ate-demo-egress/sa/ateworker"
+        },
+        "assignedNode": "substrate-lifecycle-control-plane",
+        "snapshots": [
+          {
+            "uuid": "7a91badb-26b4-437b-915b-3d2ada473b50",
+            "generation": 2,
+            "owner": "SNAPSHOT_OWNER_ACTOR",
+            "fidelity": "SNAPSHOT_FIDELITY_MEMORY",
+            "actorTemplateUid": "90cd6fd4-d815-42ba-9ff4-b773b7e008b1",
+            "locality": "substrate-lifecycle-control-plane",
+            "durableSnapshot": {
+              "state": "SNAPSHOT_STORAGE_STATE_COMPLETED",
+              "object": {
+                "snapshotUri": "gs://ate-snapshots/atespaces/ate-demo-egress/actors/8fe5de26-cc8a-40e4-aa86-770a6bd8c43e/snapshots/7a91badb-26b4-437b-915b-3d2ada473b50"
+              }
+            },
+            "sandboxRuntime": {
+              "sandboxClass": "gvisor",
+              "version": {
+                "schemaVersion": "v1",
+                "attributes": [
+                  {
+                    "key": "architecture",
+                    "value": "amd64"
+                  },
+                  {
+                    "key": "cpu_features",
+                    "value": "bc0004102c100800000001210000000f00401f5ef19f27eb0f8bfbfffffa3203"
+                  },
+                  {
+                    "key": "sandbox_bundle_hash",
+                    "value": "sha256:807de8c088dd96082750dafdd3f8fed2aae65132a4156742969be1703368e20c"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "lastAssignedGeneration": 2
+      }
+    },
+    "kind": "Actor",
+    "name": "lifecycle-egress",
+    "proto_bytes": 1114,
+    "uid": "8fe5de26-cc8a-40e4-aa86-770a6bd8c43e",
+    "version": 7
+  },
+  {
+    "decoded_proto": {
+      "metadata": {
+        "name": "126a97ec-0c7d-4486-ad5d-f5d223291d9c",
+        "uid": "9d144308-27eb-4d45-8db9-6420459c1068",
+        "version": "1",
+        "createTime": "2026-10-31T17:56:59.425980284Z",
+        "updateTime": "2026-10-31T17:56:59.425980284Z"
+      },
+      "actor": {
+        "atespace": "ate-demo-counter",
+        "name": "lifecycle-clone"
+      },
+      "actorUid": "126a97ec-0c7d-4486-ad5d-f5d223291d9c",
+      "resources": {
+        "cpuMillicores": "1000",
+        "memoryBytes": "536870912"
+      }
+    },
+    "kind": "ActorAssignment",
+    "name": "126a97ec-0c7d-4486-ad5d-f5d223291d9c",
+    "proto_bytes": 194,
+    "worker_name": "f8a965ec-cc06-4bd0-b79c-fd16947807cd"
+  },
+  {
+    "decoded_proto": {
+      "metadata": {
+        "name": "8fe5de26-cc8a-40e4-aa86-770a6bd8c43e",
+        "uid": "c6638a2e-210f-417f-8296-fee349feedfe",
+        "version": "1",
+        "createTime": "2026-10-31T17:56:59.907182431Z",
+        "updateTime": "2026-10-31T17:56:59.907182431Z"
+      },
+      "actor": {
+        "atespace": "ate-demo-egress",
+        "name": "lifecycle-egress"
+      },
+      "actorUid": "8fe5de26-cc8a-40e4-aa86-770a6bd8c43e",
+      "resources": {
+        "cpuMillicores": "1000",
+        "memoryBytes": "536870912"
+      }
+    },
+    "kind": "ActorAssignment",
+    "name": "8fe5de26-cc8a-40e4-aa86-770a6bd8c43e",
+    "proto_bytes": 194,
+    "worker_name": "046447c4-3c24-4c3f-8632-9d639a266bde"
+  },
+  {
+    "decoded_proto": {
+      "metadata": {
+        "name": "92c54efa-a098-47c4-93f1-f17bd3730c1a",
+        "uid": "c7d7482e-7305-48f4-a481-e7c384ef65db",
+        "version": "1",
+        "createTime": "2026-10-31T18:02:23.559790087Z",
+        "updateTime": "2026-10-31T18:02:23.559790087Z"
+      },
+      "actor": {
+        "atespace": "ate-demo-counter",
+        "name": "lifecycle-counter"
+      },
+      "actorUid": "92c54efa-a098-47c4-93f1-f17bd3730c1a",
+      "resources": {
+        "cpuMillicores": "1000",
+        "memoryBytes": "536870912"
+      }
+    },
+    "kind": "ActorAssignment",
+    "name": "92c54efa-a098-47c4-93f1-f17bd3730c1a",
+    "proto_bytes": 196,
+    "worker_name": "21575f0d-c359-4d45-8079-11f74894bac5"
+  },
+  {
+    "atespace": "ate-demo-counter",
+    "decoded_proto": {
+      "metadata": {
+        "atespace": "ate-demo-counter",
+        "name": "lifecycle-checkpoint",
+        "uid": "48abb3b2-88ff-442f-ae67-3860b9b26867",
+        "version": "3",
+        "createTime": "2026-10-31T17:56:59.171076360Z",
+        "updateTime": "2026-10-31T17:56:59.261305655Z"
+      },
+      "status": {
+        "snapshot": {
+          "uuid": "48abb3b2-88ff-442f-ae67-3860b9b26867",
+          "generation": 1,
+          "owner": "SNAPSHOT_OWNER_TAG",
+          "fidelity": "SNAPSHOT_FIDELITY_MEMORY",
+          "durableSnapshot": {
+            "state": "SNAPSHOT_STORAGE_STATE_COMPLETED",
+            "object": {
+              "snapshotUri": "gs://ate-snapshots/atespaces/ate-demo-counter/tags/48abb3b2-88ff-442f-ae67-3860b9b26867"
+            }
+          },
+          "sandboxRuntime": {
+            "sandboxClass": "gvisor",
+            "version": {
+              "schemaVersion": "v1",
+              "attributes": [
+                {
+                  "key": "architecture",
+                  "value": "amd64"
+                },
+                {
+                  "key": "cpu_features",
+                  "value": "bc0004102c100800000001210000000f00401f5ef19f27eb0f8bfbfffffa3203"
+                },
+                {
+                  "key": "sandbox_bundle_hash",
+                  "value": "sha256:807de8c088dd96082750dafdd3f8fed2aae65132a4156742969be1703368e20c"
+                }
+              ]
+            }
+          }
+        },
+        "actorTemplateUid": "0306f965-08ac-47c5-97a0-099daac7da54"
+      },
+      "scope": "TAG_SCOPE_ATESPACE",
+      "sourceActor": {
+        "atespace": "ate-demo-counter",
+        "name": "lifecycle-counter"
+      }
+    },
+    "kind": "Tag",
+    "name": "lifecycle-checkpoint",
+    "proto_bytes": 551,
+    "uid": "48abb3b2-88ff-442f-ae67-3860b9b26867",
+    "version": 3
+  }
+]

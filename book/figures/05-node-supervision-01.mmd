@@ -1,0 +1,9 @@
+flowchart TB
+    API[ateapi] --> A[atelet]
+    A --> Prep["Images, assets, volumes"]
+    Prep --> W["Worker RPC + ActorDirs"]
+    W --> Actors["Actor sandboxes"]
+    Actors --> T[atunnel]
+    A --> P["Object-store plugin"]
+    P --> O[Object storage]
+    K["Pod allocation"] -. bounds .-> W

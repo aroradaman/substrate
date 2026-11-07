@@ -1,0 +1,1746 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "apps/v1",
+      "kind": "Deployment",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:53:22Z",
+        "generation": 1,
+        "labels": {
+          "ate.dev/worker-pool": "counter"
+        },
+        "name": "counter",
+        "namespace": "ate-demo-counter",
+        "ownerReferences": [
+          {
+            "apiVersion": "ate.dev/v1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "WorkerPool",
+            "name": "counter",
+            "uid": "a6337c57-2158-4fa0-a67a-bf7faa1721e1"
+          }
+        ],
+        "resourceVersion": "1990",
+        "uid": "7261845d-0896-4b70-bef2-ebee24a5b5e1"
+      },
+      "spec": {
+        "progressDeadlineSeconds": 4800,
+        "replicas": 3,
+        "revisionHistoryLimit": 10,
+        "selector": {
+          "matchLabels": {
+            "ate.dev/worker-pool": "counter"
+          }
+        },
+        "strategy": {
+          "rollingUpdate": {
+            "maxSurge": 0,
+            "maxUnavailable": "10%"
+          },
+          "type": "RollingUpdate"
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "ate.dev/worker-pool": "counter"
+            }
+          },
+          "spec": {
+            "affinity": {},
+            "containers": [
+              {
+                "args": [
+                  "<redacted>"
+                ],
+                "env": [
+                  {
+                    "name": "POD_UID",
+                    "valueFrom": {
+                      "fieldRef": {
+                        "apiVersion": "v1",
+                        "fieldPath": "metadata.uid"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POD_NAMESPACE",
+                    "valueFrom": {
+                      "fieldRef": {
+                        "apiVersion": "v1",
+                        "fieldPath": "metadata.namespace"
+                      }
+                    }
+                  },
+                  {
+                    "name": "WORKER_POOL_NAME",
+                    "valueFrom": {
+                      "fieldRef": {
+                        "apiVersion": "v1",
+                        "fieldPath": "metadata.labels['ate.dev/worker-pool']"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POD_NAME",
+                    "valueFrom": {
+                      "fieldRef": {
+                        "apiVersion": "v1",
+                        "fieldPath": "metadata.name"
+                      }
+                    }
+                  },
+                  {
+                    "name": "NODE_NAME",
+                    "valueFrom": {
+                      "fieldRef": {
+                        "apiVersion": "v1",
+                        "fieldPath": "spec.nodeName"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POD_IPS",
+                    "valueFrom": {
+                      "fieldRef": {
+                        "apiVersion": "v1",
+                        "fieldPath": "status.podIPs"
+                      }
+                    }
+                  },
+                  {
+                    "name": "OTEL_EXPORTER_OTLP_ENDPOINT",
+                    "value": "<redacted>"
+                  },
+                  {
+                    "name": "OTEL_RESOURCE_ATTRIBUTES",
+                    "value": "<redacted>"
+                  },
+                  {
+                    "name": "OTEL_METRIC_EXPORT_INTERVAL",
+                    "value": "<redacted>"
+                  },
+                  {
+                    "name": "OTEL_METRIC_EXPORT_TIMEOUT",
+                    "value": "<redacted>"
+                  },
+                  {
+                    "name": "OTEL_LOGS_EXPORTER",
+                    "value": "<redacted>"
+                  }
+                ],
+                "image": "localhost:5002/ateworker-gvisor@sha256:9a116289631c3172ae951af57f241cdcc0f5fffd12a9ac76170f496ad83cbe44",
+                "imagePullPolicy": "IfNotPresent",
+                "name": "worker",
+                "ports": [
+                  {
+                    "containerPort": 443,
+                    "name": "https",
+                    "protocol": "TCP"
+                  },
+                  {
+                    "containerPort": 8443,
+                    "name": "connect",
+                    "protocol": "TCP"
+                  },
+                  {
+                    "containerPort": 8080,
+                    "name": "readyz",
+                    "protocol": "TCP"
+                  }
+                ],
+                "readinessProbe": {
+                  "failureThreshold": 3,
+                  "httpGet": {
+                    "path": "/readyz",
+                    "port": "readyz",
+                    "scheme": "HTTP"
+                  },
+                  "periodSeconds": 10,
+                  "successThreshold": 1,
+                  "timeoutSeconds": 1
+                },
+                "resources": {
+                  "limits": {
+                    "cpu": "1",
+                    "memory": "1Gi"
+                  },
+                  "requests": {
+                    "cpu": "250m",
+                    "memory": "1Gi"
+                  }
+                },
+                "securityContext": {
+                  "appArmorProfile": {
+                    "type": "Unconfined"
+                  },
+                  "capabilities": {
+                    "add": [
+                      "NET_ADMIN",
+                      "SYS_ADMIN",
+                      "SYS_CHROOT",
+                      "SYS_PTRACE",
+                      "SETUID",
+                      "SETGID",
+                      "SETPCAP",
+                      "DAC_OVERRIDE",
+                      "FOWNER",
+                      "CHOWN",
+                      "MKNOD",
+                      "NET_RAW",
+                      "SETFCAP"
+                    ],
+                    "drop": [
+                      "ALL"
+                    ]
+                  },
+                  "privileged": false,
+                  "runAsGroup": 0,
+                  "runAsUser": 0,
+                  "seccompProfile": {
+                    "type": "Unconfined"
+                  }
+                },
+                "terminationMessagePath": "/dev/termination-log",
+                "terminationMessagePolicy": "File",
+                "volumeMounts": [
+                  {
+                    "mountPath": "/run/worker-capacity",
+                    "name": "worker-capacity",
+                    "readOnly": true
+                  },
+                  {
+                    "mountPath": "/var/lib/ate",
+                    "mountPropagation": "HostToContainer",
+                    "name": "ate-base"
+                  },
+                  {
+                    "mountPath": "/run/podidentity.podcert.ate.dev",
+                    "name": "atunnel-identity",
+                    "readOnly": true
+                  },
+                  {
+                    "mountPath": "/run/servicedns.podcert.ate.dev",
+                    "name": "atunnel-egress-trust",
+                    "readOnly": true
+                  }
+                ]
+              }
+            ],
+            "dnsPolicy": "ClusterFirst",
+            "restartPolicy": "Always",
+            "schedulerName": "default-scheduler",
+            "securityContext": {
+              "runAsGroup": 0,
+              "runAsUser": 0
+            },
+            "serviceAccount": "ateworker",
+            "serviceAccountName": "ateworker",
+            "terminationGracePeriodSeconds": 3600,
+            "tolerations": [
+              {
+                "effect": "NoSchedule",
+                "key": "ate.dev/sandboxClass",
+                "operator": "Equal",
+                "value": "gvisor"
+              }
+            ],
+            "volumes": [
+              {
+                "downwardAPI": {
+                  "defaultMode": 420,
+                  "items": [
+                    {
+                      "path": "cpu_millicores",
+                      "resourceFieldRef": {
+                        "containerName": "worker",
+                        "divisor": "1m",
+                        "resource": "limits.cpu"
+                      }
+                    },
+                    {
+                      "path": "memory_bytes",
+                      "resourceFieldRef": {
+                        "containerName": "worker",
+                        "divisor": "1",
+                        "resource": "limits.memory"
+                      }
+                    }
+                  ]
+                },
+                "name": "worker-capacity"
+              },
+              {
+                "hostPath": {
+                  "path": "/var/lib/ate",
+                  "type": "DirectoryOrCreate"
+                },
+                "name": "ate-base"
+              },
+              {
+                "name": "atunnel-identity",
+                "projected": {
+                  "defaultMode": 420,
+                  "sources": [
+                    {
+                      "podCertificate": {
+                        "credentialBundlePath": "credential-bundle.pem",
+                        "keyType": "ECDSAP256",
+                        "signerName": "podidentity.podcert.ate.dev/identity"
+                      }
+                    },
+                    {
+                      "clusterTrustBundle": {
+                        "labelSelector": {
+                          "matchLabels": {
+                            "podcert.ate.dev/canarying": "live"
+                          }
+                        },
+                        "path": "trust-bundle.pem",
+                        "signerName": "podidentity.podcert.ate.dev/identity"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "atunnel-egress-trust",
+                "projected": {
+                  "defaultMode": 420,
+                  "sources": [
+                    {
+                      "clusterTrustBundle": {
+                        "labelSelector": {
+                          "matchLabels": {
+                            "podcert.ate.dev/canarying": "live"
+                          }
+                        },
+                        "path": "trust-bundle.pem",
+                        "signerName": "servicedns.podcert.ate.dev/identity"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "apps/v1",
+      "kind": "ReplicaSet",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:53:22Z",
+        "generation": 1,
+        "labels": {
+          "ate.dev/worker-pool": "counter",
+          "pod-template-hash": "679c67c85d"
+        },
+        "name": "counter-679c67c85d",
+        "namespace": "ate-demo-counter",
+        "ownerReferences": [
+          {
+            "apiVersion": "apps/v1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "Deployment",
+            "name": "counter",
+            "uid": "7261845d-0896-4b70-bef2-ebee24a5b5e1"
+          }
+        ],
+        "resourceVersion": "1988",
+        "uid": "ca6c2874-d41a-4fc0-a18b-f9a1b2ce007a"
+      },
+      "spec": {
+        "replicas": 3,
+        "selector": {
+          "matchLabels": {
+            "ate.dev/worker-pool": "counter",
+            "pod-template-hash": "679c67c85d"
+          }
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "ate.dev/worker-pool": "counter",
+              "pod-template-hash": "679c67c85d"
+            }
+          },
+          "spec": {
+            "affinity": {},
+            "containers": [
+              {
+                "args": [
+                  "<redacted>"
+                ],
+                "env": [
+                  {
+                    "name": "POD_UID",
+                    "valueFrom": {
+                      "fieldRef": {
+                        "apiVersion": "v1",
+                        "fieldPath": "metadata.uid"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POD_NAMESPACE",
+                    "valueFrom": {
+                      "fieldRef": {
+                        "apiVersion": "v1",
+                        "fieldPath": "metadata.namespace"
+                      }
+                    }
+                  },
+                  {
+                    "name": "WORKER_POOL_NAME",
+                    "valueFrom": {
+                      "fieldRef": {
+                        "apiVersion": "v1",
+                        "fieldPath": "metadata.labels['ate.dev/worker-pool']"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POD_NAME",
+                    "valueFrom": {
+                      "fieldRef": {
+                        "apiVersion": "v1",
+                        "fieldPath": "metadata.name"
+                      }
+                    }
+                  },
+                  {
+                    "name": "NODE_NAME",
+                    "valueFrom": {
+                      "fieldRef": {
+                        "apiVersion": "v1",
+                        "fieldPath": "spec.nodeName"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POD_IPS",
+                    "valueFrom": {
+                      "fieldRef": {
+                        "apiVersion": "v1",
+                        "fieldPath": "status.podIPs"
+                      }
+                    }
+                  },
+                  {
+                    "name": "OTEL_EXPORTER_OTLP_ENDPOINT",
+                    "value": "<redacted>"
+                  },
+                  {
+                    "name": "OTEL_RESOURCE_ATTRIBUTES",
+                    "value": "<redacted>"
+                  },
+                  {
+                    "name": "OTEL_METRIC_EXPORT_INTERVAL",
+                    "value": "<redacted>"
+                  },
+                  {
+                    "name": "OTEL_METRIC_EXPORT_TIMEOUT",
+                    "value": "<redacted>"
+                  },
+                  {
+                    "name": "OTEL_LOGS_EXPORTER",
+                    "value": "<redacted>"
+                  }
+                ],
+                "image": "localhost:5002/ateworker-gvisor@sha256:9a116289631c3172ae951af57f241cdcc0f5fffd12a9ac76170f496ad83cbe44",
+                "imagePullPolicy": "IfNotPresent",
+                "name": "worker",
+                "ports": [
+                  {
+                    "containerPort": 443,
+                    "name": "https",
+                    "protocol": "TCP"
+                  },
+                  {
+                    "containerPort": 8443,
+                    "name": "connect",
+                    "protocol": "TCP"
+                  },
+                  {
+                    "containerPort": 8080,
+                    "name": "readyz",
+                    "protocol": "TCP"
+                  }
+                ],
+                "readinessProbe": {
+                  "failureThreshold": 3,
+                  "httpGet": {
+                    "path": "/readyz",
+                    "port": "readyz",
+                    "scheme": "HTTP"
+                  },
+                  "periodSeconds": 10,
+                  "successThreshold": 1,
+                  "timeoutSeconds": 1
+                },
+                "resources": {
+                  "limits": {
+                    "cpu": "1",
+                    "memory": "1Gi"
+                  },
+                  "requests": {
+                    "cpu": "250m",
+                    "memory": "1Gi"
+                  }
+                },
+                "securityContext": {
+                  "appArmorProfile": {
+                    "type": "Unconfined"
+                  },
+                  "capabilities": {
+                    "add": [
+                      "NET_ADMIN",
+                      "SYS_ADMIN",
+                      "SYS_CHROOT",
+                      "SYS_PTRACE",
+                      "SETUID",
+                      "SETGID",
+                      "SETPCAP",
+                      "DAC_OVERRIDE",
+                      "FOWNER",
+                      "CHOWN",
+                      "MKNOD",
+                      "NET_RAW",
+                      "SETFCAP"
+                    ],
+                    "drop": [
+                      "ALL"
+                    ]
+                  },
+                  "privileged": false,
+                  "runAsGroup": 0,
+                  "runAsUser": 0,
+                  "seccompProfile": {
+                    "type": "Unconfined"
+                  }
+                },
+                "terminationMessagePath": "/dev/termination-log",
+                "terminationMessagePolicy": "File",
+                "volumeMounts": [
+                  {
+                    "mountPath": "/run/worker-capacity",
+                    "name": "worker-capacity",
+                    "readOnly": true
+                  },
+                  {
+                    "mountPath": "/var/lib/ate",
+                    "mountPropagation": "HostToContainer",
+                    "name": "ate-base"
+                  },
+                  {
+                    "mountPath": "/run/podidentity.podcert.ate.dev",
+                    "name": "atunnel-identity",
+                    "readOnly": true
+                  },
+                  {
+                    "mountPath": "/run/servicedns.podcert.ate.dev",
+                    "name": "atunnel-egress-trust",
+                    "readOnly": true
+                  }
+                ]
+              }
+            ],
+            "dnsPolicy": "ClusterFirst",
+            "restartPolicy": "Always",
+            "schedulerName": "default-scheduler",
+            "securityContext": {
+              "runAsGroup": 0,
+              "runAsUser": 0
+            },
+            "serviceAccount": "ateworker",
+            "serviceAccountName": "ateworker",
+            "terminationGracePeriodSeconds": 3600,
+            "tolerations": [
+              {
+                "effect": "NoSchedule",
+                "key": "ate.dev/sandboxClass",
+                "operator": "Equal",
+                "value": "gvisor"
+              }
+            ],
+            "volumes": [
+              {
+                "downwardAPI": {
+                  "defaultMode": 420,
+                  "items": [
+                    {
+                      "path": "cpu_millicores",
+                      "resourceFieldRef": {
+                        "containerName": "worker",
+                        "divisor": "1m",
+                        "resource": "limits.cpu"
+                      }
+                    },
+                    {
+                      "path": "memory_bytes",
+                      "resourceFieldRef": {
+                        "containerName": "worker",
+                        "divisor": "1",
+                        "resource": "limits.memory"
+                      }
+                    }
+                  ]
+                },
+                "name": "worker-capacity"
+              },
+              {
+                "hostPath": {
+                  "path": "/var/lib/ate",
+                  "type": "DirectoryOrCreate"
+                },
+                "name": "ate-base"
+              },
+              {
+                "name": "atunnel-identity",
+                "projected": {
+                  "defaultMode": 420,
+                  "sources": [
+                    {
+                      "podCertificate": {
+                        "credentialBundlePath": "credential-bundle.pem",
+                        "keyType": "ECDSAP256",
+                        "signerName": "podidentity.podcert.ate.dev/identity"
+                      }
+                    },
+                    {
+                      "clusterTrustBundle": {
+                        "labelSelector": {
+                          "matchLabels": {
+                            "podcert.ate.dev/canarying": "live"
+                          }
+                        },
+                        "path": "trust-bundle.pem",
+                        "signerName": "podidentity.podcert.ate.dev/identity"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "atunnel-egress-trust",
+                "projected": {
+                  "defaultMode": 420,
+                  "sources": [
+                    {
+                      "clusterTrustBundle": {
+                        "labelSelector": {
+                          "matchLabels": {
+                            "podcert.ate.dev/canarying": "live"
+                          }
+                        },
+                        "path": "trust-bundle.pem",
+                        "signerName": "servicedns.podcert.ate.dev/identity"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Pod",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:53:22Z",
+        "generateName": "counter-679c67c85d-",
+        "generation": 1,
+        "labels": {
+          "ate.dev/worker-pool": "counter",
+          "pod-template-hash": "679c67c85d"
+        },
+        "name": "counter-679c67c85d-db5m4",
+        "namespace": "ate-demo-counter",
+        "ownerReferences": [
+          {
+            "apiVersion": "apps/v1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "ReplicaSet",
+            "name": "counter-679c67c85d",
+            "uid": "ca6c2874-d41a-4fc0-a18b-f9a1b2ce007a"
+          }
+        ],
+        "resourceVersion": "1973",
+        "uid": "2a3f0bf1-e705-47b9-a943-0142a581fc76"
+      },
+      "spec": {
+        "affinity": {},
+        "containers": [
+          {
+            "args": [
+              "<redacted>"
+            ],
+            "env": [
+              {
+                "name": "POD_UID",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.uid"
+                  }
+                }
+              },
+              {
+                "name": "POD_NAMESPACE",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.namespace"
+                  }
+                }
+              },
+              {
+                "name": "WORKER_POOL_NAME",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.labels['ate.dev/worker-pool']"
+                  }
+                }
+              },
+              {
+                "name": "POD_NAME",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.name"
+                  }
+                }
+              },
+              {
+                "name": "NODE_NAME",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "spec.nodeName"
+                  }
+                }
+              },
+              {
+                "name": "POD_IPS",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "status.podIPs"
+                  }
+                }
+              },
+              {
+                "name": "OTEL_EXPORTER_OTLP_ENDPOINT",
+                "value": "<redacted>"
+              },
+              {
+                "name": "OTEL_RESOURCE_ATTRIBUTES",
+                "value": "<redacted>"
+              },
+              {
+                "name": "OTEL_METRIC_EXPORT_INTERVAL",
+                "value": "<redacted>"
+              },
+              {
+                "name": "OTEL_METRIC_EXPORT_TIMEOUT",
+                "value": "<redacted>"
+              },
+              {
+                "name": "OTEL_LOGS_EXPORTER",
+                "value": "<redacted>"
+              }
+            ],
+            "image": "localhost:5002/ateworker-gvisor@sha256:9a116289631c3172ae951af57f241cdcc0f5fffd12a9ac76170f496ad83cbe44",
+            "imagePullPolicy": "IfNotPresent",
+            "name": "worker",
+            "ports": [
+              {
+                "containerPort": 443,
+                "name": "https",
+                "protocol": "TCP"
+              },
+              {
+                "containerPort": 8443,
+                "name": "connect",
+                "protocol": "TCP"
+              },
+              {
+                "containerPort": 8080,
+                "name": "readyz",
+                "protocol": "TCP"
+              }
+            ],
+            "readinessProbe": {
+              "failureThreshold": 3,
+              "httpGet": {
+                "path": "/readyz",
+                "port": "readyz",
+                "scheme": "HTTP"
+              },
+              "periodSeconds": 10,
+              "successThreshold": 1,
+              "timeoutSeconds": 1
+            },
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "1Gi"
+              },
+              "requests": {
+                "cpu": "250m",
+                "memory": "1Gi"
+              }
+            },
+            "securityContext": {
+              "appArmorProfile": {
+                "type": "Unconfined"
+              },
+              "capabilities": {
+                "add": [
+                  "NET_ADMIN",
+                  "SYS_ADMIN",
+                  "SYS_CHROOT",
+                  "SYS_PTRACE",
+                  "SETUID",
+                  "SETGID",
+                  "SETPCAP",
+                  "DAC_OVERRIDE",
+                  "FOWNER",
+                  "CHOWN",
+                  "MKNOD",
+                  "NET_RAW",
+                  "SETFCAP"
+                ],
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "privileged": false,
+              "runAsGroup": 0,
+              "runAsUser": 0,
+              "seccompProfile": {
+                "type": "Unconfined"
+              }
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/run/worker-capacity",
+                "name": "worker-capacity",
+                "readOnly": true
+              },
+              {
+                "mountPath": "/var/lib/ate",
+                "mountPropagation": "HostToContainer",
+                "name": "ate-base"
+              },
+              {
+                "mountPath": "/run/podidentity.podcert.ate.dev",
+                "name": "atunnel-identity",
+                "readOnly": true
+              },
+              {
+                "mountPath": "/run/servicedns.podcert.ate.dev",
+                "name": "atunnel-egress-trust",
+                "readOnly": true
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-bl29l",
+                "readOnly": true
+              }
+            ]
+          }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "enableServiceLinks": true,
+        "nodeName": "substrate-lifecycle-control-plane",
+        "preemptionPolicy": "PreemptLowerPriority",
+        "priority": 0,
+        "restartPolicy": "Always",
+        "schedulerName": "default-scheduler",
+        "securityContext": {
+          "runAsGroup": 0,
+          "runAsUser": 0
+        },
+        "serviceAccount": "ateworker",
+        "serviceAccountName": "ateworker",
+        "terminationGracePeriodSeconds": 3600,
+        "tolerations": [
+          {
+            "effect": "NoSchedule",
+            "key": "ate.dev/sandboxClass",
+            "operator": "Equal",
+            "value": "gvisor"
+          },
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/not-ready",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          },
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/unreachable",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          }
+        ],
+        "volumes": [
+          {
+            "downwardAPI": {
+              "defaultMode": 420,
+              "items": [
+                {
+                  "path": "cpu_millicores",
+                  "resourceFieldRef": {
+                    "containerName": "worker",
+                    "divisor": "1m",
+                    "resource": "limits.cpu"
+                  }
+                },
+                {
+                  "path": "memory_bytes",
+                  "resourceFieldRef": {
+                    "containerName": "worker",
+                    "divisor": "1",
+                    "resource": "limits.memory"
+                  }
+                }
+              ]
+            },
+            "name": "worker-capacity"
+          },
+          {
+            "hostPath": {
+              "path": "/var/lib/ate",
+              "type": "DirectoryOrCreate"
+            },
+            "name": "ate-base"
+          },
+          {
+            "name": "atunnel-identity",
+            "projected": {
+              "defaultMode": 420,
+              "sources": [
+                {
+                  "podCertificate": {
+                    "credentialBundlePath": "credential-bundle.pem",
+                    "keyType": "ECDSAP256",
+                    "signerName": "podidentity.podcert.ate.dev/identity"
+                  }
+                },
+                {
+                  "clusterTrustBundle": {
+                    "labelSelector": {
+                      "matchLabels": {
+                        "podcert.ate.dev/canarying": "live"
+                      }
+                    },
+                    "path": "trust-bundle.pem",
+                    "signerName": "podidentity.podcert.ate.dev/identity"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "atunnel-egress-trust",
+            "projected": {
+              "defaultMode": 420,
+              "sources": [
+                {
+                  "clusterTrustBundle": {
+                    "labelSelector": {
+                      "matchLabels": {
+                        "podcert.ate.dev/canarying": "live"
+                      }
+                    },
+                    "path": "trust-bundle.pem",
+                    "signerName": "servicedns.podcert.ate.dev/identity"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "kube-api-access-bl29l",
+            "projected": {
+              "defaultMode": 420,
+              "sources": [
+                {
+                  "serviceAccountToken": {
+                    "expirationSeconds": 3607,
+                    "path": "token"
+                  }
+                },
+                {
+                  "configMap": {
+                    "items": [
+                      {
+                        "key": "ca.crt",
+                        "path": "ca.crt"
+                      }
+                    ],
+                    "name": "kube-root-ca.crt"
+                  }
+                },
+                {
+                  "downwardAPI": {
+                    "items": [
+                      {
+                        "fieldRef": {
+                          "apiVersion": "v1",
+                          "fieldPath": "metadata.namespace"
+                        },
+                        "path": "namespace"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Pod",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:53:22Z",
+        "generateName": "counter-679c67c85d-",
+        "generation": 1,
+        "labels": {
+          "ate.dev/worker-pool": "counter",
+          "pod-template-hash": "679c67c85d"
+        },
+        "name": "counter-679c67c85d-fghjq",
+        "namespace": "ate-demo-counter",
+        "ownerReferences": [
+          {
+            "apiVersion": "apps/v1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "ReplicaSet",
+            "name": "counter-679c67c85d",
+            "uid": "ca6c2874-d41a-4fc0-a18b-f9a1b2ce007a"
+          }
+        ],
+        "resourceVersion": "1974",
+        "uid": "21575f0d-c359-4d45-8079-11f74894bac5"
+      },
+      "spec": {
+        "affinity": {},
+        "containers": [
+          {
+            "args": [
+              "<redacted>"
+            ],
+            "env": [
+              {
+                "name": "POD_UID",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.uid"
+                  }
+                }
+              },
+              {
+                "name": "POD_NAMESPACE",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.namespace"
+                  }
+                }
+              },
+              {
+                "name": "WORKER_POOL_NAME",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.labels['ate.dev/worker-pool']"
+                  }
+                }
+              },
+              {
+                "name": "POD_NAME",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.name"
+                  }
+                }
+              },
+              {
+                "name": "NODE_NAME",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "spec.nodeName"
+                  }
+                }
+              },
+              {
+                "name": "POD_IPS",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "status.podIPs"
+                  }
+                }
+              },
+              {
+                "name": "OTEL_EXPORTER_OTLP_ENDPOINT",
+                "value": "<redacted>"
+              },
+              {
+                "name": "OTEL_RESOURCE_ATTRIBUTES",
+                "value": "<redacted>"
+              },
+              {
+                "name": "OTEL_METRIC_EXPORT_INTERVAL",
+                "value": "<redacted>"
+              },
+              {
+                "name": "OTEL_METRIC_EXPORT_TIMEOUT",
+                "value": "<redacted>"
+              },
+              {
+                "name": "OTEL_LOGS_EXPORTER",
+                "value": "<redacted>"
+              }
+            ],
+            "image": "localhost:5002/ateworker-gvisor@sha256:9a116289631c3172ae951af57f241cdcc0f5fffd12a9ac76170f496ad83cbe44",
+            "imagePullPolicy": "IfNotPresent",
+            "name": "worker",
+            "ports": [
+              {
+                "containerPort": 443,
+                "name": "https",
+                "protocol": "TCP"
+              },
+              {
+                "containerPort": 8443,
+                "name": "connect",
+                "protocol": "TCP"
+              },
+              {
+                "containerPort": 8080,
+                "name": "readyz",
+                "protocol": "TCP"
+              }
+            ],
+            "readinessProbe": {
+              "failureThreshold": 3,
+              "httpGet": {
+                "path": "/readyz",
+                "port": "readyz",
+                "scheme": "HTTP"
+              },
+              "periodSeconds": 10,
+              "successThreshold": 1,
+              "timeoutSeconds": 1
+            },
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "1Gi"
+              },
+              "requests": {
+                "cpu": "250m",
+                "memory": "1Gi"
+              }
+            },
+            "securityContext": {
+              "appArmorProfile": {
+                "type": "Unconfined"
+              },
+              "capabilities": {
+                "add": [
+                  "NET_ADMIN",
+                  "SYS_ADMIN",
+                  "SYS_CHROOT",
+                  "SYS_PTRACE",
+                  "SETUID",
+                  "SETGID",
+                  "SETPCAP",
+                  "DAC_OVERRIDE",
+                  "FOWNER",
+                  "CHOWN",
+                  "MKNOD",
+                  "NET_RAW",
+                  "SETFCAP"
+                ],
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "privileged": false,
+              "runAsGroup": 0,
+              "runAsUser": 0,
+              "seccompProfile": {
+                "type": "Unconfined"
+              }
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/run/worker-capacity",
+                "name": "worker-capacity",
+                "readOnly": true
+              },
+              {
+                "mountPath": "/var/lib/ate",
+                "mountPropagation": "HostToContainer",
+                "name": "ate-base"
+              },
+              {
+                "mountPath": "/run/podidentity.podcert.ate.dev",
+                "name": "atunnel-identity",
+                "readOnly": true
+              },
+              {
+                "mountPath": "/run/servicedns.podcert.ate.dev",
+                "name": "atunnel-egress-trust",
+                "readOnly": true
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-qgrm8",
+                "readOnly": true
+              }
+            ]
+          }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "enableServiceLinks": true,
+        "nodeName": "substrate-lifecycle-control-plane",
+        "preemptionPolicy": "PreemptLowerPriority",
+        "priority": 0,
+        "restartPolicy": "Always",
+        "schedulerName": "default-scheduler",
+        "securityContext": {
+          "runAsGroup": 0,
+          "runAsUser": 0
+        },
+        "serviceAccount": "ateworker",
+        "serviceAccountName": "ateworker",
+        "terminationGracePeriodSeconds": 3600,
+        "tolerations": [
+          {
+            "effect": "NoSchedule",
+            "key": "ate.dev/sandboxClass",
+            "operator": "Equal",
+            "value": "gvisor"
+          },
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/not-ready",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          },
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/unreachable",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          }
+        ],
+        "volumes": [
+          {
+            "downwardAPI": {
+              "defaultMode": 420,
+              "items": [
+                {
+                  "path": "cpu_millicores",
+                  "resourceFieldRef": {
+                    "containerName": "worker",
+                    "divisor": "1m",
+                    "resource": "limits.cpu"
+                  }
+                },
+                {
+                  "path": "memory_bytes",
+                  "resourceFieldRef": {
+                    "containerName": "worker",
+                    "divisor": "1",
+                    "resource": "limits.memory"
+                  }
+                }
+              ]
+            },
+            "name": "worker-capacity"
+          },
+          {
+            "hostPath": {
+              "path": "/var/lib/ate",
+              "type": "DirectoryOrCreate"
+            },
+            "name": "ate-base"
+          },
+          {
+            "name": "atunnel-identity",
+            "projected": {
+              "defaultMode": 420,
+              "sources": [
+                {
+                  "podCertificate": {
+                    "credentialBundlePath": "credential-bundle.pem",
+                    "keyType": "ECDSAP256",
+                    "signerName": "podidentity.podcert.ate.dev/identity"
+                  }
+                },
+                {
+                  "clusterTrustBundle": {
+                    "labelSelector": {
+                      "matchLabels": {
+                        "podcert.ate.dev/canarying": "live"
+                      }
+                    },
+                    "path": "trust-bundle.pem",
+                    "signerName": "podidentity.podcert.ate.dev/identity"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "atunnel-egress-trust",
+            "projected": {
+              "defaultMode": 420,
+              "sources": [
+                {
+                  "clusterTrustBundle": {
+                    "labelSelector": {
+                      "matchLabels": {
+                        "podcert.ate.dev/canarying": "live"
+                      }
+                    },
+                    "path": "trust-bundle.pem",
+                    "signerName": "servicedns.podcert.ate.dev/identity"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "kube-api-access-qgrm8",
+            "projected": {
+              "defaultMode": 420,
+              "sources": [
+                {
+                  "serviceAccountToken": {
+                    "expirationSeconds": 3607,
+                    "path": "token"
+                  }
+                },
+                {
+                  "configMap": {
+                    "items": [
+                      {
+                        "key": "ca.crt",
+                        "path": "ca.crt"
+                      }
+                    ],
+                    "name": "kube-root-ca.crt"
+                  }
+                },
+                {
+                  "downwardAPI": {
+                    "items": [
+                      {
+                        "fieldRef": {
+                          "apiVersion": "v1",
+                          "fieldPath": "metadata.namespace"
+                        },
+                        "path": "namespace"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Pod",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:53:22Z",
+        "generateName": "counter-679c67c85d-",
+        "generation": 1,
+        "labels": {
+          "ate.dev/worker-pool": "counter",
+          "pod-template-hash": "679c67c85d"
+        },
+        "name": "counter-679c67c85d-xmkp6",
+        "namespace": "ate-demo-counter",
+        "ownerReferences": [
+          {
+            "apiVersion": "apps/v1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "ReplicaSet",
+            "name": "counter-679c67c85d",
+            "uid": "ca6c2874-d41a-4fc0-a18b-f9a1b2ce007a"
+          }
+        ],
+        "resourceVersion": "1989",
+        "uid": "f8a965ec-cc06-4bd0-b79c-fd16947807cd"
+      },
+      "spec": {
+        "affinity": {},
+        "containers": [
+          {
+            "args": [
+              "<redacted>"
+            ],
+            "env": [
+              {
+                "name": "POD_UID",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.uid"
+                  }
+                }
+              },
+              {
+                "name": "POD_NAMESPACE",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.namespace"
+                  }
+                }
+              },
+              {
+                "name": "WORKER_POOL_NAME",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.labels['ate.dev/worker-pool']"
+                  }
+                }
+              },
+              {
+                "name": "POD_NAME",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.name"
+                  }
+                }
+              },
+              {
+                "name": "NODE_NAME",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "spec.nodeName"
+                  }
+                }
+              },
+              {
+                "name": "POD_IPS",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "status.podIPs"
+                  }
+                }
+              },
+              {
+                "name": "OTEL_EXPORTER_OTLP_ENDPOINT",
+                "value": "<redacted>"
+              },
+              {
+                "name": "OTEL_RESOURCE_ATTRIBUTES",
+                "value": "<redacted>"
+              },
+              {
+                "name": "OTEL_METRIC_EXPORT_INTERVAL",
+                "value": "<redacted>"
+              },
+              {
+                "name": "OTEL_METRIC_EXPORT_TIMEOUT",
+                "value": "<redacted>"
+              },
+              {
+                "name": "OTEL_LOGS_EXPORTER",
+                "value": "<redacted>"
+              }
+            ],
+            "image": "localhost:5002/ateworker-gvisor@sha256:9a116289631c3172ae951af57f241cdcc0f5fffd12a9ac76170f496ad83cbe44",
+            "imagePullPolicy": "IfNotPresent",
+            "name": "worker",
+            "ports": [
+              {
+                "containerPort": 443,
+                "name": "https",
+                "protocol": "TCP"
+              },
+              {
+                "containerPort": 8443,
+                "name": "connect",
+                "protocol": "TCP"
+              },
+              {
+                "containerPort": 8080,
+                "name": "readyz",
+                "protocol": "TCP"
+              }
+            ],
+            "readinessProbe": {
+              "failureThreshold": 3,
+              "httpGet": {
+                "path": "/readyz",
+                "port": "readyz",
+                "scheme": "HTTP"
+              },
+              "periodSeconds": 10,
+              "successThreshold": 1,
+              "timeoutSeconds": 1
+            },
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "1Gi"
+              },
+              "requests": {
+                "cpu": "250m",
+                "memory": "1Gi"
+              }
+            },
+            "securityContext": {
+              "appArmorProfile": {
+                "type": "Unconfined"
+              },
+              "capabilities": {
+                "add": [
+                  "NET_ADMIN",
+                  "SYS_ADMIN",
+                  "SYS_CHROOT",
+                  "SYS_PTRACE",
+                  "SETUID",
+                  "SETGID",
+                  "SETPCAP",
+                  "DAC_OVERRIDE",
+                  "FOWNER",
+                  "CHOWN",
+                  "MKNOD",
+                  "NET_RAW",
+                  "SETFCAP"
+                ],
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "privileged": false,
+              "runAsGroup": 0,
+              "runAsUser": 0,
+              "seccompProfile": {
+                "type": "Unconfined"
+              }
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/run/worker-capacity",
+                "name": "worker-capacity",
+                "readOnly": true
+              },
+              {
+                "mountPath": "/var/lib/ate",
+                "mountPropagation": "HostToContainer",
+                "name": "ate-base"
+              },
+              {
+                "mountPath": "/run/podidentity.podcert.ate.dev",
+                "name": "atunnel-identity",
+                "readOnly": true
+              },
+              {
+                "mountPath": "/run/servicedns.podcert.ate.dev",
+                "name": "atunnel-egress-trust",
+                "readOnly": true
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-6vb66",
+                "readOnly": true
+              }
+            ]
+          }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "enableServiceLinks": true,
+        "nodeName": "substrate-lifecycle-control-plane",
+        "preemptionPolicy": "PreemptLowerPriority",
+        "priority": 0,
+        "restartPolicy": "Always",
+        "schedulerName": "default-scheduler",
+        "securityContext": {
+          "runAsGroup": 0,
+          "runAsUser": 0
+        },
+        "serviceAccount": "ateworker",
+        "serviceAccountName": "ateworker",
+        "terminationGracePeriodSeconds": 3600,
+        "tolerations": [
+          {
+            "effect": "NoSchedule",
+            "key": "ate.dev/sandboxClass",
+            "operator": "Equal",
+            "value": "gvisor"
+          },
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/not-ready",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          },
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/unreachable",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          }
+        ],
+        "volumes": [
+          {
+            "downwardAPI": {
+              "defaultMode": 420,
+              "items": [
+                {
+                  "path": "cpu_millicores",
+                  "resourceFieldRef": {
+                    "containerName": "worker",
+                    "divisor": "1m",
+                    "resource": "limits.cpu"
+                  }
+                },
+                {
+                  "path": "memory_bytes",
+                  "resourceFieldRef": {
+                    "containerName": "worker",
+                    "divisor": "1",
+                    "resource": "limits.memory"
+                  }
+                }
+              ]
+            },
+            "name": "worker-capacity"
+          },
+          {
+            "hostPath": {
+              "path": "/var/lib/ate",
+              "type": "DirectoryOrCreate"
+            },
+            "name": "ate-base"
+          },
+          {
+            "name": "atunnel-identity",
+            "projected": {
+              "defaultMode": 420,
+              "sources": [
+                {
+                  "podCertificate": {
+                    "credentialBundlePath": "credential-bundle.pem",
+                    "keyType": "ECDSAP256",
+                    "signerName": "podidentity.podcert.ate.dev/identity"
+                  }
+                },
+                {
+                  "clusterTrustBundle": {
+                    "labelSelector": {
+                      "matchLabels": {
+                        "podcert.ate.dev/canarying": "live"
+                      }
+                    },
+                    "path": "trust-bundle.pem",
+                    "signerName": "podidentity.podcert.ate.dev/identity"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "atunnel-egress-trust",
+            "projected": {
+              "defaultMode": 420,
+              "sources": [
+                {
+                  "clusterTrustBundle": {
+                    "labelSelector": {
+                      "matchLabels": {
+                        "podcert.ate.dev/canarying": "live"
+                      }
+                    },
+                    "path": "trust-bundle.pem",
+                    "signerName": "servicedns.podcert.ate.dev/identity"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "kube-api-access-6vb66",
+            "projected": {
+              "defaultMode": 420,
+              "sources": [
+                {
+                  "serviceAccountToken": {
+                    "expirationSeconds": 3607,
+                    "path": "token"
+                  }
+                },
+                {
+                  "configMap": {
+                    "items": [
+                      {
+                        "key": "ca.crt",
+                        "path": "ca.crt"
+                      }
+                    ],
+                    "name": "kube-root-ca.crt"
+                  }
+                },
+                {
+                  "downwardAPI": {
+                    "items": [
+                      {
+                        "fieldRef": {
+                          "apiVersion": "v1",
+                          "fieldPath": "metadata.namespace"
+                        },
+                        "path": "namespace"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "kind": "List"
+}

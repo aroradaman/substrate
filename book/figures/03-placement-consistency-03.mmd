@@ -1,0 +1,14 @@
+sequenceDiagram
+    participant A as Resume actor A
+    participant B as Resume actor B
+    participant C as Worker cache
+    participant DB as PostgreSQL worker row
+    A->>C: Select worker with one remaining slot
+    B->>C: Select the same worker
+    A->>DB: Lock worker and insert assignment A
+    A->>DB: Recheck capacity and book slot
+    DB-->>A: Commit
+    B->>DB: Acquire worker row lock
+    B->>DB: Insert assignment B and recheck capacity
+    DB-->>B: No room, transaction rolls back
+    B->>C: Retry candidate selection

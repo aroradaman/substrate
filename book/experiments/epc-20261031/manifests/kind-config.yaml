@@ -1,0 +1,26 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+# cmd/podcertcontroller depends on ClusterTrustBundle & PodCertificateRequest.
+# They are not enabled by default as of Kubernetes v1.36
+# https://github.com/kubernetes/kubernetes/blob/master/test/compatibility_lifecycle/reference/versioned_feature_list.yaml
+featureGates:
+  ClusterTrustBundle: true
+  ClusterTrustBundleProjection: true
+  PodCertificateRequest: true
+runtimeConfig:
+  "certificates.k8s.io/v1beta1": "true"
+networking:
+  ipFamily: ipv4
+# The install pulls ~570MB of third-party images (postgres, prometheus, the otel
+# collector, rustfs, envoy, jaeger) onto this one node. kubelet serializes image
+# pulls by default, so they queue behind one another and whichever workload draws
+# the back of the queue can miss its readiness deadline.
+# TODO: kind should probably default to parallel pulls for its single-node
+# clusters rather than leaving every user to patch it in.
+kubeadmConfigPatches:
+- |
+  kind: KubeletConfiguration
+  serializeImagePulls: false
+  maxParallelImagePulls: 4

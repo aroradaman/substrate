@@ -1,0 +1,18 @@
+{
+  "metadata": {
+    "name": "atenet-egress",
+    "namespace": "ate-system",
+    "uid": "ae07a2d8-495c-4bb0-88bc-2f6cfccab3cc",
+    "generation": 1
+  },
+  "containers": [
+    {
+      "name": "envoy",
+      "image": "localhost:5002/envoy-dataplane@sha256:8256ea4f5d5380fcfb02c2f79205f3d99ebfda3762f05e9a69f244645e5dd898"
+    },
+    {
+      "name": "ext-proc",
+      "image": "localhost:5002/atenet@sha256:0b8a1c1515ed0ae74cb69e53666bef08a37e0e81d1c357fbd916cd744cca4f81"
+    }
+  ]
+}

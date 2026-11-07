@@ -1,0 +1,21 @@
+[
+  {
+    "containers": [
+      {
+        "exitCode": null,
+        "image": "sha256:cc5a0c2e40a48442550440b000da599e36c508f102fd9814f5fc14e05d06242e",
+        "imageID": "localhost:5002/podcertcontroller@sha256:9b1ca8bd548e10dd758357b2ce1dcd3231c10b8fb609f3af4f3fb3e2f32ec848",
+        "name": "controller",
+        "ready": true,
+        "restartCount": 0,
+        "terminatedReason": null,
+        "waitingReason": null
+      }
+    ],
+    "name": "podcertificate-controller-74bcb5cdfc-tb7nn",
+    "namespace": "podcertificate-controller-system",
+    "node": "substrate-lifecycle-control-plane",
+    "phase": "Running",
+    "uid": "93a3aca8-e11a-4050-b45d-686022fc7fb6"
+  }
+]

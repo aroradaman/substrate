@@ -1,0 +1,13 @@
+flowchart TB
+    API[Actor lifecycle and placement] --> L[atelet]
+    L -->|Run / checkpoint / restore / terminate| RPC[ateworker internal RPC]
+    L -->|Prepared directories and assets| FS[Shared node paths]
+    RPC --> G[gVisor worker]
+    RPC --> M[MicroVM worker]
+    RPC -. proposed implementation .-> X[Additional worker runtime]
+    FS --> G
+    FS --> M
+    FS -.-> X
+    G --> R[runsc]
+    M --> K[Kata agent + Cloud Hypervisor + virtiofsd]
+    X --> Y[Backend-specific execution boundary]

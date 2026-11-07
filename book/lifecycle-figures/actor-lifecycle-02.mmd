@@ -1,0 +1,9 @@
+flowchart TB
+    V[Validate install configuration] --> N[Namespace and CRDs]
+    N --> S[SandboxConfig and API prerequisites]
+    S --> I[Certificate controller and trust]
+    I --> O[Optional CSI and telemetry config]
+    O --> DB[PostgreSQL]
+    DB --> B[Apply system bundle]
+    B --> E[Credential provider and egress]
+    E --> W[Wait for component rollouts]

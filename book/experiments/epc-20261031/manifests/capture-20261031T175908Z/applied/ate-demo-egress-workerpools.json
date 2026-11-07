@@ -1,0 +1,30 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "ate.dev/v1",
+      "kind": "WorkerPool",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:53:55Z",
+        "generation": 1,
+        "labels": {
+          "workload": "egress"
+        },
+        "name": "egress",
+        "namespace": "ate-demo-egress",
+        "resourceVersion": "2081",
+        "uid": "03041976-34ce-419f-85d8-e252833a360a"
+      },
+      "spec": {
+        "replicas": 2,
+        "sandboxClasses": [
+          {
+            "name": "gvisor"
+          }
+        ],
+        "workerImage": "localhost:5002/ateworker-gvisor@sha256:9a116289631c3172ae951af57f241cdcc0f5fffd12a9ac76170f496ad83cbe44"
+      }
+    }
+  ],
+  "kind": "List"
+}

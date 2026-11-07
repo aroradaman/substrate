@@ -1,0 +1,42 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "ate.dev/v1",
+      "kind": "WorkerPool",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:53:22Z",
+        "generation": 1,
+        "labels": {
+          "workload": "counter"
+        },
+        "name": "counter",
+        "namespace": "ate-demo-counter",
+        "resourceVersion": "1991",
+        "uid": "a6337c57-2158-4fa0-a67a-bf7faa1721e1"
+      },
+      "spec": {
+        "replicas": 3,
+        "sandboxClasses": [
+          {
+            "name": "gvisor"
+          }
+        ],
+        "template": {
+          "resources": {
+            "limits": {
+              "cpu": "1",
+              "memory": "1Gi"
+            },
+            "requests": {
+              "cpu": "250m",
+              "memory": "1Gi"
+            }
+          }
+        },
+        "workerImage": "localhost:5002/ateworker-gvisor@sha256:9a116289631c3172ae951af57f241cdcc0f5fffd12a9ac76170f496ad83cbe44"
+      }
+    }
+  ],
+  "kind": "List"
+}

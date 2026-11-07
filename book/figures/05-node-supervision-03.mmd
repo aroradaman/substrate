@@ -1,0 +1,11 @@
+flowchart TB
+    P[Worker pod cgroup: memory.max and CPU budget]
+    P --> W[worker leaf: supervisor and tunnel]
+    P --> A[Actor A leaf]
+    P --> B[Actor B leaf]
+    P --> C[Temporary checkpoint leaf]
+    A --> AP[Actor host processes]
+    B --> BP[Actor host processes]
+    A -. gVisor checkpoint moves sentry .-> C
+    L[Memory borrowing ledger] -. bounds writeback loans .-> C
+    L -. delays conflicting activations .-> B

@@ -1,0 +1,26 @@
+erDiagram
+    ATESPACES ||--o{ ACTORS : contains
+    ATESPACES ||--o{ ACTOR_TEMPLATES : contains
+    ATESPACES ||--o{ TAGS : contains
+    ACTORS ||--o| ACTOR_EGRESS_POLICIES : SQL_foreign_key
+    WORKERS ||--o{ WORKER_ASSIGNMENTS : SQL_foreign_key
+    ACTORS ||..o| WORKER_ASSIGNMENTS : logical_actor_UID_join
+    ACTORS {
+      text atespace PK
+      text name PK
+      text uid
+      bigint version
+      bytea proto
+    }
+    WORKER_ASSIGNMENTS {
+      text actor_uid PK
+      text worker_name FK
+      bytea proto
+    }
+    TAGS {
+      text atespace PK
+      text name PK
+      text uid
+      bigint version
+      bytea proto
+    }

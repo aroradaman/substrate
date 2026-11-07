@@ -1,0 +1,27 @@
+table ip worker-actor { # handle 1
+	chain forward { # handle 1
+		type filter hook forward priority filter; policy drop;
+	}
+
+	chain disallowed-egress { # handle 2
+		type filter hook prerouting priority raw; policy accept;
+		ip daddr 169.254.17.0/30 accept # handle 3
+		ip daddr 169.254.0.0/16 reject with icmp admin-prohibited # handle 4
+		meta l4proto != tcp reject with icmp net-unreachable # handle 5
+	}
+
+	chain prerouting { # handle 6
+		type nat hook prerouting priority dstnat; policy accept;
+		ip daddr != 169.254.17.0/30 meta l4proto tcp redirect to :15001 # handle 7
+	}
+}
+table ip6 worker-actor-v6 { # handle 2
+	chain forward { # handle 1
+		type filter hook forward priority filter; policy drop;
+	}
+
+	chain disallowed-egress { # handle 2
+		type filter hook prerouting priority raw; policy accept;
+		ip6 daddr fe80::/10 reject with icmpv6 admin-prohibited # handle 3
+	}
+}

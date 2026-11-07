@@ -1,0 +1,1082 @@
+[
+  {
+    "path": ".ko.yaml",
+    "bytes": 2346,
+    "sha256": "0f25486cc451e4e8ae2cedcc8277fca44896e7f2a7a04d06fdf2e16e097e79ae"
+  },
+  {
+    "path": "cmd/ate-setup/README.md",
+    "bytes": 1824,
+    "sha256": "7cf26d9815add4bd5b622a031508055a39e842d61a8e2b3f93c8565f34894ef8"
+  },
+  {
+    "path": "cmd/ate-setup/commands.md",
+    "bytes": 13800,
+    "sha256": "7ec7bc5c6ac38713890394303ea4cb0c959c19be8b9a033e8b51c8182b29a11e"
+  },
+  {
+    "path": "cmd/ate-setup/differences.md",
+    "bytes": 18309,
+    "sha256": "6e4d3c9c34e615939b350d21d85add34dd3af5bf0e393f4bbeabe3f640af4f8c"
+  },
+  {
+    "path": "cmd/ate-setup/internal/cmd/benchmarks.go",
+    "bytes": 4069,
+    "sha256": "3d5ff8a47f9846e11989473ba87a64ec975623354d695ece12544dd99a7c516d"
+  },
+  {
+    "path": "cmd/ate-setup/internal/cmd/benchmarks_test.go",
+    "bytes": 2271,
+    "sha256": "70d64c21858f75f30f02f38d68b33057dff0deb48455334db0649131aecd97c2"
+  },
+  {
+    "path": "cmd/ate-setup/internal/cmd/create.go",
+    "bytes": 3005,
+    "sha256": "c3c5517d0c79bbbb755700c4773ea86525fa58243c96f678cb0f98583a1160c0"
+  },
+  {
+    "path": "cmd/ate-setup/internal/cmd/csi_test.go",
+    "bytes": 5646,
+    "sha256": "186efdfd5f1268a88d4579f8ba0e5201771d04e2fddd1041370be4914f4d3810"
+  },
+  {
+    "path": "cmd/ate-setup/internal/cmd/delete.go",
+    "bytes": 1591,
+    "sha256": "5aa813930462c781caaad11bc7c30a87541a42df0c8b1d0e16e1610c15b356d7"
+  },
+  {
+    "path": "cmd/ate-setup/internal/cmd/demo.go",
+    "bytes": 2547,
+    "sha256": "b9ce7905d400b5a0089323860ac8da1036f63b4600a85a8d46485e4e22f9444a"
+  },
+  {
+    "path": "cmd/ate-setup/internal/cmd/deploy.go",
+    "bytes": 8156,
+    "sha256": "d93a85f46bddd415a01d83fa812af75bc4b57534df2ed213fb203a67ec39b6ba"
+  },
+  {
+    "path": "cmd/ate-setup/internal/cmd/deploy_test.go",
+    "bytes": 4371,
+    "sha256": "b0ef4ff35c46000cae8a390972f985decefff3fc60c29f14906ff663efb9d11c"
+  },
+  {
+    "path": "cmd/ate-setup/internal/cmd/publish.go",
+    "bytes": 4627,
+    "sha256": "dfb0e8667a9e0ebcea820e4a2c932c2d5523dbf48ded71c9d0615a631853137c"
+  },
+  {
+    "path": "cmd/ate-setup/internal/cmd/record_test.go",
+    "bytes": 6500,
+    "sha256": "e90a055227aaddf2aa191b433b41c8c842bf1e54eb6a03d2059b4c85081d96f4"
+  },
+  {
+    "path": "cmd/ate-setup/internal/cmd/recordname_test.go",
+    "bytes": 3446,
+    "sha256": "f841015e580d65638e6b811a9ee436625630d954a7de8432ee47af6d32d05163"
+  },
+  {
+    "path": "cmd/ate-setup/internal/cmd/root.go",
+    "bytes": 9650,
+    "sha256": "610efe3e9ce89427ed9a35ae3448c4d05bd199a389e3b712775b1b9c68df9e4d"
+  },
+  {
+    "path": "cmd/ate-setup/internal/cmd/setup.go",
+    "bytes": 2087,
+    "sha256": "15ac50d6335cad050b9b3d0876485153339b37b0a3531d5b0089ce94c45a7e3a"
+  },
+  {
+    "path": "cmd/ate-setup/internal/config/config.go",
+    "bytes": 27913,
+    "sha256": "91c96cd8a33ad273bb61a18535fd752b0ec649660ac47cbcf7fd38b43b8dc63b"
+  },
+  {
+    "path": "cmd/ate-setup/internal/config/config_test.go",
+    "bytes": 52616,
+    "sha256": "98abc6ac80e0a6c37dea515ad7753e7660d826e70b706b19309191145c3dec09"
+  },
+  {
+    "path": "cmd/ate-setup/internal/config/coverage_test.go",
+    "bytes": 3631,
+    "sha256": "94dd20822e371a1e44df96d9b098cc0f1ac2f7f740dafaa33edf8b9b1a3f3d78"
+  },
+  {
+    "path": "cmd/ate-setup/internal/config/credentials.go",
+    "bytes": 2024,
+    "sha256": "3d077bf792438a938508cf9f2f4b43ca50e9a8dddf4072cf06fe1cb13ac409b2"
+  },
+  {
+    "path": "cmd/ate-setup/internal/config/devenv_test.go",
+    "bytes": 4316,
+    "sha256": "0cfe5755e825149154c6b93dcb76bf46fcc0876c443fa76e4b5f1eb17c74b798"
+  },
+  {
+    "path": "cmd/ate-setup/internal/config/document.go",
+    "bytes": 5216,
+    "sha256": "cfcc6f409224de2de987be98f9a84504191e33227e59c94c25fd81d30938bfb2"
+  },
+  {
+    "path": "cmd/ate-setup/internal/config/errors.go",
+    "bytes": 1958,
+    "sha256": "821ccd18df7ed5dec5d8a61d973d8950a31c69f620bdd9b400019d6f7adfe863"
+  },
+  {
+    "path": "cmd/ate-setup/internal/config/errors_test.go",
+    "bytes": 8426,
+    "sha256": "8adb75a06d08b25bce26ec635fc41b47a65a1537ac45432e2a51e562d81184fd"
+  },
+  {
+    "path": "cmd/ate-setup/internal/config/file.go",
+    "bytes": 6038,
+    "sha256": "2e68a61cfb7a0813c4119745dbadc6dae9580b35334ffc38938b414a295776eb"
+  },
+  {
+    "path": "cmd/ate-setup/internal/config/file_test.go",
+    "bytes": 8415,
+    "sha256": "fc1f9bd57bc88506f41357ab010f31487cb35653a8460e764d6e709b3fbc6143"
+  },
+  {
+    "path": "cmd/ate-setup/internal/config/fixtures_test.go",
+    "bytes": 3125,
+    "sha256": "a6964f65672f867686b6d2483e2f509688eae1e10cae193ba63abbf95f1a3ffb"
+  },
+  {
+    "path": "cmd/ate-setup/internal/config/kindcheck.go",
+    "bytes": 2205,
+    "sha256": "9f31cd68573852c5e0b77f564cf5b4bb5c99208b5e6362dcf07f127111ba1444"
+  },
+  {
+    "path": "cmd/ate-setup/internal/config/kinddefaults_test.go",
+    "bytes": 4766,
+    "sha256": "e49a1a3adc521209b324d6bd65e40526c00473386d27605caea4a1af16a13b9a"
+  },
+  {
+    "path": "cmd/ate-setup/internal/config/load.go",
+    "bytes": 18833,
+    "sha256": "8d8d8cf7d3b274e701c9ccb4c747f052f3ca45074843bb803e91fdc06fb75908"
+  },
+  {
+    "path": "cmd/ate-setup/internal/config/load_test.go",
+    "bytes": 7108,
+    "sha256": "6ea70daef1a03ea02a025e7bfdff24b0646eb2966d33c5dfc1aa4a75175c3d53"
+  },
+  {
+    "path": "cmd/ate-setup/internal/config/options_test.go",
+    "bytes": 4188,
+    "sha256": "936220a97c9453c555c4eaf5fa754daaf94fb94a89c3e5d4a2f5bf23645584b5"
+  },
+  {
+    "path": "cmd/ate-setup/internal/config/record.go",
+    "bytes": 7547,
+    "sha256": "40f1b2a6ba008b082ed1dafed860f55a98eb0024084a8d74691dd0594fc5a1c9"
+  },
+  {
+    "path": "cmd/ate-setup/internal/config/record_test.go",
+    "bytes": 12213,
+    "sha256": "d6a403dd78bb1c5f6186eda41f24113afc1b1ec79e95bae782bfa00cb56eebec"
+  },
+  {
+    "path": "cmd/ate-setup/internal/config/register_test.go",
+    "bytes": 8214,
+    "sha256": "cf5fd5b0b4df2488fb0502464921d1089dcb1ab72449042cc1f4a321f01de89f"
+  },
+  {
+    "path": "cmd/ate-setup/internal/config/report.go",
+    "bytes": 4081,
+    "sha256": "9449bcb976b22908e9199f91c8bca41b6d8bf93ce0203f10ccf04a73fdd630ef"
+  },
+  {
+    "path": "cmd/ate-setup/internal/config/report_test.go",
+    "bytes": 7335,
+    "sha256": "e34d52e129a9e9a4a0963a48da4212e2038dab195bedafd68fb83b8d52f6056d"
+  },
+  {
+    "path": "cmd/ate-setup/internal/config/resolve.go",
+    "bytes": 7171,
+    "sha256": "e88da0bca044675d4ec2a59d22a00b3d1f04736757f3ba893c704c7dbe3e6a3e"
+  },
+  {
+    "path": "cmd/ate-setup/internal/config/resolve_test.go",
+    "bytes": 12126,
+    "sha256": "4811c3608291927d53e10dccb63151c9cfbaa0f62efe38e039db520ca9189996"
+  },
+  {
+    "path": "cmd/ate-setup/internal/config/setting.go",
+    "bytes": 23241,
+    "sha256": "726fd3a909f504847153526ac2ff787ccb5e3d2fc32f52c467465b89c4574b3e"
+  },
+  {
+    "path": "cmd/ate-setup/internal/config/setting_test.go",
+    "bytes": 9811,
+    "sha256": "fdcfb8a61223060a15aabedd7dac0c35220617a38d011850c6ea945544b7cda1"
+  },
+  {
+    "path": "cmd/ate-setup/internal/config/shellenv.go",
+    "bytes": 3030,
+    "sha256": "59ae4376ccd7d85feec1fe01aa3dd186a967386ad26edeff0aa8105c01be5db2"
+  },
+  {
+    "path": "cmd/ate-setup/internal/demos/all/all.go",
+    "bytes": 1529,
+    "sha256": "28f67832a6fb086c1ed82dbef8ba5cb52dd1bee9cc37e0b5256d05cc9f98d633"
+  },
+  {
+    "path": "cmd/ate-setup/internal/demos/all/all_test.go",
+    "bytes": 1953,
+    "sha256": "8388530274507528d86cc9f76c0063b0545024438080ffab96e6ea0b1d0fc009"
+  },
+  {
+    "path": "cmd/ate-setup/internal/demos/claudemultiplex/claudemultiplex.go",
+    "bytes": 4250,
+    "sha256": "f0be0b21a09ea9a426e2f82e054004125f0d8ce64234fc685093421773fe37bd"
+  },
+  {
+    "path": "cmd/ate-setup/internal/demos/claudemultiplex/claudemultiplex_test.go",
+    "bytes": 1836,
+    "sha256": "361910676519c89bf222e75de19904719cec86f503e0698658c282f984933e86"
+  },
+  {
+    "path": "cmd/ate-setup/internal/demos/counter/counter.go",
+    "bytes": 3505,
+    "sha256": "df6e11ed6baff229e5aea44ef783f1c60a549896d51d9eeef2473b6ca45bac5d"
+  },
+  {
+    "path": "cmd/ate-setup/internal/demos/counter/counter_test.go",
+    "bytes": 2585,
+    "sha256": "732814d9ef7f061c236c580027029af3fae33ffe301f8f33ae22133daf9e37f3"
+  },
+  {
+    "path": "cmd/ate-setup/internal/demos/countermicrovm/countermicrovm.go",
+    "bytes": 1644,
+    "sha256": "f16635e650a8f8f72b8239bef26e8ae1e336c09af87b8af56a038fc50b357255"
+  },
+  {
+    "path": "cmd/ate-setup/internal/demos/demos.go",
+    "bytes": 3890,
+    "sha256": "8b652867b454b3fa637c0427c190ad2252c8cd2f5823c3283d82602ae0f6ec6c"
+  },
+  {
+    "path": "cmd/ate-setup/internal/demos/demotest/demotest.go",
+    "bytes": 3756,
+    "sha256": "6b23874c213bdddcb3fb7a26999d7ab704183dc48676003205739cc58ae601bf"
+  },
+  {
+    "path": "cmd/ate-setup/internal/demos/egress/egress.go",
+    "bytes": 1750,
+    "sha256": "c38809fec8d82c2454c895b58608b3931e18944e96c5901958ff9423b23369ff"
+  },
+  {
+    "path": "cmd/ate-setup/internal/demos/egressmicrovm/egressmicrovm.go",
+    "bytes": 1826,
+    "sha256": "812dbd2e33b6414b1d39aa1b7c66fe9564885421006196d8d3e0ab12220b5e97"
+  },
+  {
+    "path": "cmd/ate-setup/internal/demos/jupyter/jupyter.go",
+    "bytes": 1596,
+    "sha256": "55324da36ae5524d2d07a9092b8dfd69f70443b4ec1e26fc69a1f11069f33674"
+  },
+  {
+    "path": "cmd/ate-setup/internal/demos/multitemplate/multitemplate.go",
+    "bytes": 1669,
+    "sha256": "72857083f508d7025deee810bb2607b32bf700a917f66159cdbc7c2130a8474a"
+  },
+  {
+    "path": "cmd/ate-setup/internal/demos/parking/parking.go",
+    "bytes": 1503,
+    "sha256": "024a7e4bbf1b1be18477995fe476bb5cf407690256f990cfdb7a862a75a05402"
+  },
+  {
+    "path": "cmd/ate-setup/internal/demos/render.go",
+    "bytes": 1274,
+    "sha256": "e7412b5e7fec411f80dd66dcdbd3be19cf7712b30b20d866f98d960a827f499a"
+  },
+  {
+    "path": "cmd/ate-setup/internal/demos/render_test.go",
+    "bytes": 2398,
+    "sha256": "8c8389b9ad75b24bdd3a7fba6429adc8111045a3614537cdea670ea23e4ced02"
+  },
+  {
+    "path": "cmd/ate-setup/internal/demos/sandbox/sandbox.go",
+    "bytes": 1569,
+    "sha256": "f7567fb63d65565bd4ea51ee425816c5ad89a50d5bf5117ba5c7334e6697f993"
+  },
+  {
+    "path": "cmd/ate-setup/internal/demos/substrate.go",
+    "bytes": 6819,
+    "sha256": "70641feb7ac32053d94012dacca0b0b03eaefa7edd387ec80b929a1ecaa92ad6"
+  },
+  {
+    "path": "cmd/ate-setup/internal/images/digest.go",
+    "bytes": 2388,
+    "sha256": "f1299716aeb9d33da3ce9c170f78f4f78997ff5cc3f8393b5d2d0a9e90221216"
+  },
+  {
+    "path": "cmd/ate-setup/internal/images/dockerfile.go",
+    "bytes": 5125,
+    "sha256": "89207958c3041745737c83bed3b00fdbc1b7efd9115b535e5991e6258ecfc519"
+  },
+  {
+    "path": "cmd/ate-setup/internal/images/dockerfile_test.go",
+    "bytes": 4301,
+    "sha256": "b624dd5de630dcf284d74fcd6cc0fabab96a482cdfebfcdca240f45d3b6e224e"
+  },
+  {
+    "path": "cmd/ate-setup/internal/images/images.go",
+    "bytes": 5863,
+    "sha256": "d132ce5ae59d212fe51391bdfdc77927a18c4f4a0ef3ffc656db6c0ef262e33e"
+  },
+  {
+    "path": "cmd/ate-setup/internal/images/images_test.go",
+    "bytes": 4858,
+    "sha256": "de4e056194cb0ee09074e5db59dedfdf76ddd25405da82d95df5711672b3fb46"
+  },
+  {
+    "path": "cmd/ate-setup/internal/images/prebuilt.go",
+    "bytes": 6324,
+    "sha256": "76f402c48991837f485a93cf33dd3ce635f7517abaafba54f69f4fd3e122bbd1"
+  },
+  {
+    "path": "cmd/ate-setup/internal/images/prebuilt_test.go",
+    "bytes": 15439,
+    "sha256": "b79dd8555a7ad537638ae04e54721ce75801cc5ad727ca190c75efd81c3b1092"
+  },
+  {
+    "path": "cmd/ate-setup/internal/images/release.go",
+    "bytes": 8262,
+    "sha256": "b637a5a835596cae028e8926a0975fe64a63e81e520879dffbd01c9cd76b9d6b"
+  },
+  {
+    "path": "cmd/ate-setup/internal/images/release_test.go",
+    "bytes": 7433,
+    "sha256": "1ba2fc34cdf8d41aa817c362c78fea0dd1629c088cd3b550041211df61ed616c"
+  },
+  {
+    "path": "cmd/ate-setup/internal/ko/ko.go",
+    "bytes": 9484,
+    "sha256": "b93a4da4afbc504b495f5940de06406b25dc190558d493cd16ebeeebace936b2"
+  },
+  {
+    "path": "cmd/ate-setup/internal/ko/ko_test.go",
+    "bytes": 9098,
+    "sha256": "8eabcc9ba2297ca03f45224356c2ccb08a4455ae28f3f8bcf134224927d07a25"
+  },
+  {
+    "path": "cmd/ate-setup/internal/kube/apply.go",
+    "bytes": 11841,
+    "sha256": "aef9a4c1c9ab0b9a5b17b29b97cb06871c5df34ec68d1161f8468f27ec0018d2"
+  },
+  {
+    "path": "cmd/ate-setup/internal/kube/apply_test.go",
+    "bytes": 5473,
+    "sha256": "f69a32ac16cae7a761f16b3afbe761d29cde2cbb67e191865a0fd925227e5d0e"
+  },
+  {
+    "path": "cmd/ate-setup/internal/kube/capool.go",
+    "bytes": 2283,
+    "sha256": "c81a250cd0fb02d237950c9a317761c24483f2bb4507b1cf4cab96f810b3629f"
+  },
+  {
+    "path": "cmd/ate-setup/internal/kube/client.go",
+    "bytes": 4326,
+    "sha256": "86742bf5c5be456046816c8b177ecada8bd4542abf3ca2d3b9cfc042e25547ce"
+  },
+  {
+    "path": "cmd/ate-setup/internal/kube/client_test.go",
+    "bytes": 2981,
+    "sha256": "4d6998c334f785b89cc0bf294c78d9069d3b0626d1497add0d2ee25e35714610"
+  },
+  {
+    "path": "cmd/ate-setup/internal/kube/exec.go",
+    "bytes": 1709,
+    "sha256": "906fe35c57d62e1f5bad48a4ae5513c5ea7aa221e9cc04c13a276655d6654283"
+  },
+  {
+    "path": "cmd/ate-setup/internal/kube/manifest.go",
+    "bytes": 5251,
+    "sha256": "b1aebb88be0604272310fba9f0399b1fc5351b9d27bc1f8f1208475ba33ece3a"
+  },
+  {
+    "path": "cmd/ate-setup/internal/kube/manifest_test.go",
+    "bytes": 5141,
+    "sha256": "24dfad9fb9d95a41821ce73185f9fc912a16d30f387ac65cbe5dd7a09378a9b1"
+  },
+  {
+    "path": "cmd/ate-setup/internal/kube/resources.go",
+    "bytes": 9126,
+    "sha256": "f6bc8d8c1638dcdc1ba466f0cb1953e1b35baef6e6261fe61d057193a7a3a4d2"
+  },
+  {
+    "path": "cmd/ate-setup/internal/kube/resources_test.go",
+    "bytes": 2744,
+    "sha256": "9b441e3e9fb8dc8807103e17b96e41c0d2d81c52bdce69af8c5fd9990cbab32d"
+  },
+  {
+    "path": "cmd/ate-setup/internal/kube/wait.go",
+    "bytes": 12551,
+    "sha256": "cf830518927bf6fe681c979e1550cd0c676ea332b65a2e5bf02526c6eb0120f8"
+  },
+  {
+    "path": "cmd/ate-setup/internal/kube/wait_test.go",
+    "bytes": 9871,
+    "sha256": "e04accd9cbc64fc336e93bfe435fa00f13a5a47068a94db23064e48cff3ceaf4"
+  },
+  {
+    "path": "cmd/ate-setup/internal/kustomize/kustomize.go",
+    "bytes": 4675,
+    "sha256": "5bf18660c0138d256ef5f996ce3acf3e5f338cc79bf0f4baef32e824959154e0"
+  },
+  {
+    "path": "cmd/ate-setup/internal/kustomize/kustomize_test.go",
+    "bytes": 4759,
+    "sha256": "76dd786f5aa916e3494ec00831c76ee269639ed6a084e874068a3c5f196b23f0"
+  },
+  {
+    "path": "cmd/ate-setup/internal/log/log.go",
+    "bytes": 2365,
+    "sha256": "ca834725f85a724e8a33966e520d484def240a0e892b5d46e0606411619a3c05"
+  },
+  {
+    "path": "cmd/ate-setup/internal/log/log_test.go",
+    "bytes": 1144,
+    "sha256": "1a3123f65796993bb6daa8b88c6ad2c912fc58f7edfa2b9c0a725e882b56bf2d"
+  },
+  {
+    "path": "cmd/ate-setup/internal/render/render.go",
+    "bytes": 2956,
+    "sha256": "12d6ac76b5ed82c2aa2c7dcf907b79696ea88e0582375d0c38156d404d380757"
+  },
+  {
+    "path": "cmd/ate-setup/internal/render/render_test.go",
+    "bytes": 2210,
+    "sha256": "bcd67fde97fbe8bbbce27bda9889053738b135c1cb9963058f5a40741c0725af"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/actors.go",
+    "bytes": 1738,
+    "sha256": "c6f43ed50cbaa243a88c90affb1917f7b2fc74d3475452385c3474b23f9411e4"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/apienv.go",
+    "bytes": 19068,
+    "sha256": "4119d6ca696bb510b0fed5ae64dd8b1287497532ab0b995b08f9ab6e29da1814"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/apienv_test.go",
+    "bytes": 36974,
+    "sha256": "171ade21251598f0c91f2980be99d364a9d9d2577a39a1796010c26ae3b19733"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/benchmarks.go",
+    "bytes": 4700,
+    "sha256": "e7fb7d05bbc5e2ece0d47bddb1be4f904cddbc0d586437a30e35e1ea14c8eea8"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/benchmarks_test.go",
+    "bytes": 4346,
+    "sha256": "b19701a54e6669c8196b20e14116d03456997389f2969582b7d4dbf4b79cada8"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/cloudsql.go",
+    "bytes": 9213,
+    "sha256": "e911b9ccc4e31667bc13c00404f7b32236bb7c9ecf3a5f3b3b970bf96e82f881"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/cloudsql_test.go",
+    "bytes": 9073,
+    "sha256": "4aa9d96921b71579034db84cf660b4d8334309b48644ca3ca949edb59add6d5a"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/create.go",
+    "bytes": 15019,
+    "sha256": "20e724ba569a7553474494ecc2416ca8c6c3c4a3b15b1fadf41f4c52c8b43f47"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/create_test.go",
+    "bytes": 11421,
+    "sha256": "aec7011d4e3fe3f40a2d6160ead539d24aa49200fdf91979b0f47ee53a3ad220"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/credprovider.go",
+    "bytes": 2739,
+    "sha256": "f30ccdf0c090695c31cfc381b612692cf3f240bd541758cb9e9b401eeea7ca83"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/credprovider_test.go",
+    "bytes": 8231,
+    "sha256": "f0fc4c90a5fd1a56929b7a0eb7b5d9dccfbfd3f2a424312b1754c943f33e91b1"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/csi.go",
+    "bytes": 23050,
+    "sha256": "b1671a8226902caadb847bc4db99d26baf73ad74432865f776226d438dd1d85c"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/csi_test.go",
+    "bytes": 10777,
+    "sha256": "6fd20270f58ad6b8e9c521416af05c41ff6986709734ca32a753cc8188a1ab2b"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/delete.go",
+    "bytes": 8201,
+    "sha256": "7f0fc76e6bd9caf329e196cbc535d9267c2482ea549879eff3231d847fa655ea"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/delete_test.go",
+    "bytes": 14086,
+    "sha256": "946f843c0f4466c0a7a160845fe2538d4e07b3d3087299f10f394f7642aebb57"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/deploy.go",
+    "bytes": 23626,
+    "sha256": "04447f15da8fa0666b6c0ac5319d0c434bf57543614105ca0082cfad9cae2ee6"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/deploy_test.go",
+    "bytes": 8944,
+    "sha256": "85a751771477b7545ffa977767c5611e42a05fcb4ca97ad1309e7bfec00b7a8d"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/egress_dns_test.go",
+    "bytes": 6815,
+    "sha256": "e8c1453432799d19b5ae3660e2613cd6673dd696144b7c2d9927839edb2503ba"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/env.go",
+    "bytes": 11409,
+    "sha256": "380884bc37f71e51178acc2a0ac93ebbab9a27fb9e5e2a2db3994611a96d646d"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/idpserver.go",
+    "bytes": 2923,
+    "sha256": "c7153951716b343dcbb2a9a2e2de2d4110002439b7b29a7c542cb46de6bc49f0"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/idpserver_test.go",
+    "bytes": 4694,
+    "sha256": "0cd5bbb5d957438c9e78c4878a64d54fc805a8d6fda75a137a4c095346ba75a4"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/microvm.go",
+    "bytes": 25988,
+    "sha256": "58fb16bc54df0482434999a43697df31d9f3a83ad052506915595def1c498233"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/microvm_test.go",
+    "bytes": 27614,
+    "sha256": "64d4762c92d5634d2f5898c2f2a375fe71005f085a567146e3c53b5ae9df6e02"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/namespace_test.go",
+    "bytes": 2295,
+    "sha256": "a527f3a3dd26417b662d4a9cafdedd6920cd091e2f5535242c121d03f4d7c61e"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/overlay.go",
+    "bytes": 23033,
+    "sha256": "5b5be7f2d58a8bdfa90971dd4dca40653df1b32a91cefbc94bc4b87c7b9f6c54"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/overlay_test.go",
+    "bytes": 67967,
+    "sha256": "69152dd55e622ed088fff6c94fcb73deb8ece0d55e76390dc202223c9753fcf9"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/postgres.go",
+    "bytes": 14008,
+    "sha256": "461cf2525ae77df70e35482d4d55198a4cc2c69c51f36b108e15167fd477f3f3"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/postgres_test.go",
+    "bytes": 19008,
+    "sha256": "d4b7431d11cbf6f882d14b963c9840d7a2b45e29afbdf3d9b62a41539ff7cee7"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/preflight.go",
+    "bytes": 1824,
+    "sha256": "70b404a6ed48ebe92cc04a052c3f4104ad6bae81c71542dff5d0e79548bf0aa2"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/prereqs.go",
+    "bytes": 4936,
+    "sha256": "932ae5157fa8f1c7a17ab62a7a99a7e842c95198f191826724d7e9dc2cc12667"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/prereqs_test.go",
+    "bytes": 3141,
+    "sha256": "9266dd64fd6f43125cbf7a984f16fa97fcd1ec6363ac9f6a586bfb333bb1355d"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/preview.go",
+    "bytes": 3336,
+    "sha256": "4a707e17ed151ae316ebb671498a480967241f8dbd0231ed5fd350c40ac07320"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/preview_test.go",
+    "bytes": 10035,
+    "sha256": "cc656350153fc669b6828d8656bc5a09528a4c2bd89c8df78a5086d2c33f371b"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/publish.go",
+    "bytes": 10156,
+    "sha256": "00b46e8cbec9d9202d6d7ca10638675ac828792ba8dc4b3a7cebd53bffe55d1d"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/publish_test.go",
+    "bytes": 8518,
+    "sha256": "5aa1c348341f6d9d45a55c6094b7cae346cfdb5c0c5f64f1c8b37908a0d090cd"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/substrate.go",
+    "bytes": 7038,
+    "sha256": "7291510786d7efe8b12bd03301d887174c4822a19842b26f5560e42fe73f3ea1"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/substrate_test.go",
+    "bytes": 7851,
+    "sha256": "4bfebd3ac7a0eb8232ed571b2c5cba5fcebe87f90618c055fbf5c049dfc3518c"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/systemnetworkpolicy_test.go",
+    "bytes": 18665,
+    "sha256": "963837a2973a40a1a3ca4fb562e3441a30a59265907c782bde3e3bc19f41653e"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/version.go",
+    "bytes": 1366,
+    "sha256": "d8eb683e012927c80c07aaf4bf7ede6697b1bef03b0219843ebe7698a16a46f4"
+  },
+  {
+    "path": "cmd/ate-setup/internal/steps/version_test.go",
+    "bytes": 1857,
+    "sha256": "406202dea0e63022c32f99268a6ebfc6f9ec9b807902d39b7724e3c22b2b3f0a"
+  },
+  {
+    "path": "cmd/ate-setup/main.go",
+    "bytes": 833,
+    "sha256": "a443615618a4a657c64a2c2033e85863760526417c1fa370041a187bbfe2d90b"
+  },
+  {
+    "path": "cmd/ate-setup/preflight_test.go",
+    "bytes": 10013,
+    "sha256": "4cd32679f67e30115b5b92b0b2624259e5964031a724c69737ed25ec519ec2fb"
+  },
+  {
+    "path": "cmd/dataplane/envoy/Dockerfile",
+    "bytes": 3043,
+    "sha256": "922472c9929a78ee4ac29394029f7c9bf4dabec725b64a6b4ad45684641dfdf2"
+  },
+  {
+    "path": "cmd/dataplane/envoy/README.md",
+    "bytes": 2465,
+    "sha256": "f591881a02318b3b877cf5d6f40bc0d7cc8d8e72f7a454f9de00b30e0ebd04f6"
+  },
+  {
+    "path": "cmd/dataplane/envoy/dynamic-modules/.gitignore",
+    "bytes": 8,
+    "sha256": "b53ee26e6ff1da219b0563333a76d2c9ec19eec713d6ee54e11a1edacb0e9f3d"
+  },
+  {
+    "path": "cmd/dataplane/envoy/dynamic-modules/Cargo.lock",
+    "bytes": 10846,
+    "sha256": "96509d24cb9dad2371ddc77e888c77c355b80a6b1988e83ae810eb1f1dfb7759"
+  },
+  {
+    "path": "cmd/dataplane/envoy/dynamic-modules/Cargo.toml",
+    "bytes": 1265,
+    "sha256": "0be8b2e0ce11525616c2904eaded1ac42f4b02575f9ec84ec7d60a81291b8e45"
+  },
+  {
+    "path": "cmd/dataplane/envoy/dynamic-modules/egress-policy/Cargo.toml",
+    "bytes": 922,
+    "sha256": "76b3be731fe1637aff115ca6f35a0ce5d834039d0ceb72bf604131aa586a100b"
+  },
+  {
+    "path": "cmd/dataplane/envoy/dynamic-modules/egress-policy/README.md",
+    "bytes": 3777,
+    "sha256": "96dd50ef89eb59a51ad3105eceb9c17f05a83f681a3f81fcdbde852cc6356cfb"
+  },
+  {
+    "path": "cmd/dataplane/envoy/dynamic-modules/egress-policy/src/egress_policy.rs",
+    "bytes": 6051,
+    "sha256": "90015442eddc9ed938b614c60663d18e3d9f39e5b4413fe024dc2a14e49081e7"
+  },
+  {
+    "path": "cmd/dataplane/envoy/dynamic-modules/egress-policy/src/egress_policy_store.rs",
+    "bytes": 4256,
+    "sha256": "ba37e6e2cd5fc0c71e399e46269b52773be35ac7e929b78a8d351c7f48265e49"
+  },
+  {
+    "path": "cmd/dataplane/envoy/dynamic-modules/egress-policy/src/lib.rs",
+    "bytes": 1379,
+    "sha256": "1df5e310426a9dc131f6983738a2a9d8427093a0eb49211a06d8359066644785"
+  },
+  {
+    "path": "cmd/dataplane/envoy/dynamic-modules/egress-policy/src/listener_filter.rs",
+    "bytes": 17094,
+    "sha256": "ab3d4d2c6fa39bc38576b83271ba997490847ba65295883da67cd03c8f516701"
+  },
+  {
+    "path": "cmd/dataplane/envoy/dynamic-modules/egress-policy/src/policy_store_filter.rs",
+    "bytes": 15231,
+    "sha256": "d14cc49554d160f98e4c2ef4f221c7299070d7f5e5264ecdc5312e01192e8615"
+  },
+  {
+    "path": "demos/counter/.gitignore",
+    "bytes": 14,
+    "sha256": "8e8844548959805f554dd37d333ea434732a00c4b1336a94fa200e5a50ab4cec"
+  },
+  {
+    "path": "demos/counter/README.md",
+    "bytes": 9951,
+    "sha256": "1a962309729a825a639f8615731d66e41e1b5682df407b84888c010a7efda93d"
+  },
+  {
+    "path": "demos/counter/counter-microvm-csi-test-template.yaml",
+    "bytes": 1576,
+    "sha256": "9646f997eba54fa38cdb6c9a9d1a400274091c27ed4676aafbe59c4ce1309613"
+  },
+  {
+    "path": "demos/counter/counter-microvm-csi-test.yaml",
+    "bytes": 1138,
+    "sha256": "1438ed3f7cc11e8958a967cfe23bf7e5855ac5098e37af2a09a3cdc4c464b70d"
+  },
+  {
+    "path": "demos/counter/counter-microvm-template.yaml.tmpl",
+    "bytes": 2810,
+    "sha256": "a830c5cc6429de8ea9e68bf6c7c76a50cb627a6f6f62e3816133bce6e0fdebe4"
+  },
+  {
+    "path": "demos/counter/counter-microvm.yaml.tmpl",
+    "bytes": 2693,
+    "sha256": "8bd87ce310aa6e8629082d86ff8e56dc858dbf9fbbdc15a87ba4baabc998fb68"
+  },
+  {
+    "path": "demos/counter/counter-template.yaml.tmpl",
+    "bytes": 2291,
+    "sha256": "76eda7cc0fd1a11d665dc47c3203b6632dec4a38eb7a1a0332d9ab37e9396cfc"
+  },
+  {
+    "path": "demos/counter/counter.go",
+    "bytes": 8761,
+    "sha256": "24e1fa64273f91f6b601e58a59eecd1ade6c020855b31e99c460c01dd10f81b7"
+  },
+  {
+    "path": "demos/counter/counter.yaml.tmpl",
+    "bytes": 2449,
+    "sha256": "9684782fafad5d0628e97d4b0c8ae40736a47e5f4a571e8c1ef0403d23873737"
+  },
+  {
+    "path": "demos/egress/README.md",
+    "bytes": 13429,
+    "sha256": "ef02b5e9b97c7b753658b7238278ec440218a15c30360c3cf9ee0012f387c81e"
+  },
+  {
+    "path": "demos/egress/egress-microvm-template.yaml.tmpl",
+    "bytes": 2705,
+    "sha256": "fcb896183e082287dc36caaf5000f612df8bc77addbce53a18437d3c05c1cc92"
+  },
+  {
+    "path": "demos/egress/egress-microvm.yaml.tmpl",
+    "bytes": 1764,
+    "sha256": "1bd186f41148823f38e9aa2911824e5f44fb058a3486c0e14b0d07744489a653"
+  },
+  {
+    "path": "demos/egress/egress-template.yaml.tmpl",
+    "bytes": 2140,
+    "sha256": "7a4226b2b497f2c2d5ba846138b6a49976e2bcb4afa96e563a49df2e68d4bdde"
+  },
+  {
+    "path": "demos/egress/egress.yaml.tmpl",
+    "bytes": 1192,
+    "sha256": "ed57ac67a556932531627bf21f65330c6b7d99216469545f44eeaaf376c024f5"
+  },
+  {
+    "path": "demos/egress/main.go",
+    "bytes": 35606,
+    "sha256": "578ff6df140d222e31e94337014e9727477f66d110f6429e1d8433e56d9305cc"
+  },
+  {
+    "path": "demos/egress/main_test.go",
+    "bytes": 37728,
+    "sha256": "a7ad4cd0d436ab46369483ea28bb130ba1e6081bbcec47e101e974747439e1d4"
+  },
+  {
+    "path": "demos/egress/test-egress.sh",
+    "bytes": 10471,
+    "sha256": "c9e1620d06cc1a73f60fca6473ddfd29996b19ed440a7f7f2dfa97baf96a6ab5"
+  },
+  {
+    "path": "go.mod",
+    "bytes": 13321,
+    "sha256": "132db84d4cc0bff8c61c9be0ca4ae56d8ff1f31129863337493ac66f12a3bcc0"
+  },
+  {
+    "path": "go.sum",
+    "bytes": 69207,
+    "sha256": "45bffcd6ed5de115449b07f0e7ac9764c1ba015fc97f489761de0dfd380356f4"
+  },
+  {
+    "path": "hack/create-kind-cluster.sh",
+    "bytes": 10446,
+    "sha256": "cbf37697ac246949cb185296cc331887060b45c4e3e00e79f8e501302cbb9119"
+  },
+  {
+    "path": "hack/kind.sh",
+    "bytes": 713,
+    "sha256": "b42f16ae3e83b1ab72928df884e0293301a8e9cba3622e81a307705d38dec029"
+  },
+  {
+    "path": "hack/tools/kind/go.mod",
+    "bytes": 694,
+    "sha256": "11a990f63b9b110a8b6da9f72f65522793b21967d97c34a763cc7e83f03c532c"
+  },
+  {
+    "path": "hack/tools/kind/go.sum",
+    "bytes": 3779,
+    "sha256": "f41c58e83d523cb678fa918a9d603fc30c7911d07c8dc79c46e60b2675552660"
+  },
+  {
+    "path": "hack/tools/ko/go.mod",
+    "bytes": 8792,
+    "sha256": "360b243752e020e9be7f56d31ea085a33154fdb966095f9a3a4a226a6d191f29"
+  },
+  {
+    "path": "hack/tools/ko/go.sum",
+    "bytes": 55071,
+    "sha256": "62248cb16f8d79d4b0a4dce4248783a6e4a634ea37832e38fec9412ce43f5a36"
+  },
+  {
+    "path": "manifests/ate-install/agentgateway-egress/kustomization.yaml",
+    "bytes": 759,
+    "sha256": "ee522ab16a390fa4ac523fa91f76d0959072e8d1944fa3074c8e5228b51b834f"
+  },
+  {
+    "path": "manifests/ate-install/agentgateway-router/kustomization.yaml",
+    "bytes": 721,
+    "sha256": "fb37ca09de8d122a25e9e94c85610638a1a4a51a46561612621fb67624017aee"
+  },
+  {
+    "path": "manifests/ate-install/agentgateway/kustomization.yaml",
+    "bytes": 707,
+    "sha256": "d30cf518f616ff471358b9865bbb777d8fa7d1d93240f68580e3b6f649f0cb96"
+  },
+  {
+    "path": "manifests/ate-install/ate-api-server.yaml",
+    "bytes": 16926,
+    "sha256": "34f8798a62735e4b1b2de11f06bd3164b1bdb912d302bee1af1023e2aad4e7f4"
+  },
+  {
+    "path": "manifests/ate-install/ate-controller.yaml",
+    "bytes": 4470,
+    "sha256": "18a222d689ed3eeb544eec8b9bbb8144a284c1f5d194ab8320ab06049ef9e5b8"
+  },
+  {
+    "path": "manifests/ate-install/ate-idp-server.yaml",
+    "bytes": 3204,
+    "sha256": "e0a5f2a9dd1b52e321e52e1658965b6357e57c3fc3b07d955eed8bda1a59f9e2"
+  },
+  {
+    "path": "manifests/ate-install/ate-otel-config.yaml",
+    "bytes": 1838,
+    "sha256": "0c0571a1091189e3983f8395b9bc04b2ed36c95e9d4c2956bf6c91a0765cd0e9"
+  },
+  {
+    "path": "manifests/ate-install/ate-system-namespace.yaml",
+    "bytes": 634,
+    "sha256": "2481e5717820001a63aafb2bac06554f80858816d2054e5af7a0e9117df6b6a2"
+  },
+  {
+    "path": "manifests/ate-install/ate-system-networkpolicies.yaml",
+    "bytes": 7204,
+    "sha256": "52129287882156653097f327ec9c46df4db62fac88eb945ff7885c0050a180e4"
+  },
+  {
+    "path": "manifests/ate-install/atelet.yaml",
+    "bytes": 17949,
+    "sha256": "d1c19013bf87e26b2bb99845f09e6d63de5e2d259cd97b98ae6e8b88b60446d4"
+  },
+  {
+    "path": "manifests/ate-install/atenet-egress.yaml",
+    "bytes": 75859,
+    "sha256": "76c0903c0645815f6266ea71815e635174d24600dc250b6623c14ca0e1ccd546"
+  },
+  {
+    "path": "manifests/ate-install/atenet-router-monitoring.yaml",
+    "bytes": 1428,
+    "sha256": "7cbb9fc0d37fbe50bc99158df95ced4248c765354affc3520c0c9980808fde87"
+  },
+  {
+    "path": "manifests/ate-install/atenet-router.yaml",
+    "bytes": 16344,
+    "sha256": "65ddb0b69fc90e0c2a3b5802a5a5373d8e375a2cf3e40268c64b2d335960f3b3"
+  },
+  {
+    "path": "manifests/ate-install/base/kustomization.yaml",
+    "bytes": 1604,
+    "sha256": "ea9841b22529a7f1922365c33b1f950167e47f66d08718d7f22c2d3848061780"
+  },
+  {
+    "path": "manifests/ate-install/cloudsql/proxy-sidecar-patch.yaml",
+    "bytes": 2754,
+    "sha256": "b37a4a25f48c24dae4d15027bc8beb08e7530a70a562fefdd3955c211c916188"
+  },
+  {
+    "path": "manifests/ate-install/components/agentgateway-egress/kustomization.yaml",
+    "bytes": 5902,
+    "sha256": "b2e6291eaf919939ca853a46de97ee8dca5d11fb35fae6e395f3c92d31c6bfb3"
+  },
+  {
+    "path": "manifests/ate-install/components/agentgateway-static-mtls/configmap.yaml",
+    "bytes": 3527,
+    "sha256": "073457dbfa0c2d67aaeeb69bd0b14ec664d32b1bccd2e356d423a04d66416622"
+  },
+  {
+    "path": "manifests/ate-install/components/agentgateway-static-mtls/kustomization.yaml",
+    "bytes": 797,
+    "sha256": "37e0b581ce2b14635bf71fe54ecf429df9963f740705b7ea52941759133a0a49"
+  },
+  {
+    "path": "manifests/ate-install/components/agentgateway/configmap.yaml",
+    "bytes": 6604,
+    "sha256": "8a4c0af17f222a23a14a4abedf0346c3e8d4a55d9c126ff8fbf9b19b3d8836a2"
+  },
+  {
+    "path": "manifests/ate-install/components/agentgateway/kustomization.yaml",
+    "bytes": 6637,
+    "sha256": "22c30e20efd36c56bbb6d5e162d19065098a02e5d4e55e49c1b4e9f0d255b5d8"
+  },
+  {
+    "path": "manifests/ate-install/components/cordon-system-infra-components/kustomization.yaml",
+    "bytes": 3479,
+    "sha256": "0e4093073458ac56c83f468de71b9c2fe33b4a69374953c39133e3833726c1d7"
+  },
+  {
+    "path": "manifests/ate-install/components/e2e/kustomization.yaml",
+    "bytes": 1692,
+    "sha256": "f9674c1dc5dab0bedc7b347c4ef1aee7fd214c07ab1a2c3484494ccd7b1d897b"
+  },
+  {
+    "path": "manifests/ate-install/components/fake-data-plane/fake-workersync.yaml",
+    "bytes": 5693,
+    "sha256": "69211b3913d8c681ef213fdf3b89485d716daa445656d12f16aca5e057ab43ab"
+  },
+  {
+    "path": "manifests/ate-install/components/fake-data-plane/kustomization.yaml",
+    "bytes": 5962,
+    "sha256": "e636b37e0bac60786f0b2726eed1b9774d15ec93fb005c7008274016e2494503"
+  },
+  {
+    "path": "manifests/ate-install/generated/ate.dev_csidriverconfigs.yaml",
+    "bytes": 4944,
+    "sha256": "52e661fc18e9b37dd5a0f6fa39dbe9d160f893ec382684e955b15f9f540be794"
+  },
+  {
+    "path": "manifests/ate-install/generated/ate.dev_sandboxconfigs.yaml",
+    "bytes": 8042,
+    "sha256": "69abe0812db1791033d7decd6cb9debfc9c8c2d18e2c78840056ef4b2aabf39f"
+  },
+  {
+    "path": "manifests/ate-install/generated/ate.dev_workerpools.yaml",
+    "bytes": 34898,
+    "sha256": "de34b35027e465797e6cf403d26a4055f72c27459d0850ffead1765edb19f622"
+  },
+  {
+    "path": "manifests/ate-install/generated/role.yaml",
+    "bytes": 2322,
+    "sha256": "8e3d6de16408dba04a1c38b87a7206a0207da215f1c9ef8548579019cce165fc"
+  },
+  {
+    "path": "manifests/ate-install/kind-agentgateway/kustomization.yaml",
+    "bytes": 1092,
+    "sha256": "cc965dcda7149b3a351c40abf007a725e35dcf088619cfc6656477ad263711ed"
+  },
+  {
+    "path": "manifests/ate-install/kind/ate-api-server/kustomization.yaml",
+    "bytes": 2321,
+    "sha256": "08000b4848eee0ce0380a2cd6e620077958e33f0e3ebc1209b4ee0ff9fda5883"
+  },
+  {
+    "path": "manifests/ate-install/kind/ate-otel-config.yaml",
+    "bytes": 2391,
+    "sha256": "312213744fd5428da15cb4a6417f8b9eb150d330901d9648d8e168dea7caac6c"
+  },
+  {
+    "path": "manifests/ate-install/kind/atelet/kustomization.yaml",
+    "bytes": 3237,
+    "sha256": "360120719f03d955e57bb092ceea579af75e235da01371228d16c5b7d35d31f8"
+  },
+  {
+    "path": "manifests/ate-install/kind/kustomization.yaml",
+    "bytes": 1563,
+    "sha256": "c4a59466ef19c12e72b6110c4eb21e433a4e5fdad9e78f5ca20e9d1a231879be"
+  },
+  {
+    "path": "manifests/ate-install/kind/otel-collector.yaml",
+    "bytes": 8590,
+    "sha256": "ea957a260ee8570f28d453ef4af75ab01d9ee15afd0db716eacdfbd0224b8d31"
+  },
+  {
+    "path": "manifests/ate-install/kind/postgres/kustomization.yaml",
+    "bytes": 1493,
+    "sha256": "edf977490ce5fd26a4d946026a307fc57820c98322f626fe373df34b6bd882c3"
+  },
+  {
+    "path": "manifests/ate-install/kind/prometheus.yaml",
+    "bytes": 7278,
+    "sha256": "bc28c81317b5f3a1fe8b0f594b3e584f9976114558c7fe844033f1f328f5a988"
+  },
+  {
+    "path": "manifests/ate-install/kind/rustfs.yaml",
+    "bytes": 4187,
+    "sha256": "d60907d681187ee40dc7ed6c96f61ffc2070c130a365004bb1ca368066672002"
+  },
+  {
+    "path": "manifests/ate-install/pod-certificate-controller.yaml",
+    "bytes": 5197,
+    "sha256": "d917fbb41238b5d4f9c26d994d5e4f903a9789a985c762fdd033bbe43dc61128"
+  },
+  {
+    "path": "manifests/ate-install/podcert-size10/kustomization.yaml",
+    "bytes": 1475,
+    "sha256": "3125dbe237ea4065006789c6de474d043c4d36829123cce60dcdaaea35dbd15b"
+  },
+  {
+    "path": "manifests/ate-install/postgres-size10/postgres-config-patch.yaml",
+    "bytes": 3463,
+    "sha256": "5652d9e49608f31ba5b777a5beda14f6a10d877fb59090b382747672e5f8d688"
+  },
+  {
+    "path": "manifests/ate-install/postgres/postgres.yaml",
+    "bytes": 9330,
+    "sha256": "61f37721b7363fd8ebddeae68ac1a63f72edcb9fbc7fa6439a0ca482671f5ed3"
+  },
+  {
+    "path": "manifests/ate-install/sandboxconfig-gvisor.yaml",
+    "bytes": 2399,
+    "sha256": "1f1afd2a19932d213a0ee49c78be760adb1df41ac79cfcd1489a7ba9ae7ac9bf"
+  },
+  {
+    "path": "manifests/ate-install/sandboxconfig-microvm.yaml.tmpl",
+    "bytes": 4256,
+    "sha256": "7377a685f3d1510efba392d3a94051ff069764762cde4161ce358bf954c34ae4"
+  },
+  {
+    "path": "manifests/ate-install/sandboxconfig-validation.yaml",
+    "bytes": 2546,
+    "sha256": "73921f1d9c7959011b1d5f2651fe5b2ba95cc8209be599c21856750f4264b527"
+  },
+  {
+    "path": "manifests/egress-credential-injection/k8s-credential-provider.yaml",
+    "bytes": 6195,
+    "sha256": "c80cc0ad5c8cceebe16aeb9328a8eb8dbfbf36501a9db3155b54a36f76efc20e"
+  },
+  {
+    "path": "manifests/egress-credential-injection/namespace-policy.yaml",
+    "bytes": 1463,
+    "sha256": "4aae518eea996011922df94c00505d3f4271960475e17b49d57c10094227766b"
+  },
+  {
+    "path": "manifests/egress-credential-injection/sample-secret.yaml",
+    "bytes": 1157,
+    "sha256": "c995a875031e325979157709755b617a778243764f49c1a3fbafe7a0ba43a22d"
+  }
+]

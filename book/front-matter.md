@@ -1,0 +1,49 @@
+# Substrate Internals
+
+## Sandboxing, Scheduling, and Multiplexing AI Agents on Kubernetes
+
+Source-grounded manuscript · October 31, 2026
+
+Implementation baseline: `0ddbf78d54bb6da2ccb01125b7e085aa14d555a6`
+
+## Preface
+
+Substrate puts a second scheduling and lifecycle system above Kubernetes. Kubernetes provisions worker Pods and supplies the surrounding infrastructure. Substrate assigns actors to those workers, restores their execution state, mediates their network traffic, and moves their snapshots between local storage and an object store. Understanding that division requires following several kinds of state at once: PostgreSQL records, Kubernetes objects, node-local bookkeeping, sandbox processes, filesystem objects, and authenticated network sessions.
+
+This book follows those state transitions through a specific checkout. Its central questions are concrete. Which write establishes an actor assignment? Which process may still use a snapshot file after a restore returns? What prevents a worker restart from accepting instructions for an earlier incarnation? Which memory charge can kill a neighboring actor? Where is an outbound request authenticated, and where is its credential added? What survives losing a node, and what survives losing an object-storage deployment?
+
+The answers cross component boundaries. A scheduler policy cannot establish exclusive assignment without a store transaction. A fast restore does not establish readiness until the guest can service the wakeup probe. An object-store acknowledgment establishes only the durability offered by that configured backend. A private network namespace does not decide whether an actor may contact a particular hostname. The book therefore treats the system as cooperating protocols rather than a list of binaries.
+
+The intended reader already understands Kubernetes control-plane internals, reconciliation, container construction, namespaces, cgroups, and virtualization. Basic explanations appear only where a distinction changes Substrate behavior. The emphasis is on actual structs, interfaces, algorithms, failure sequences, resource accounting, and the cost of maintaining consistency while many actors share a smaller worker fleet.
+
+## The source contract
+
+Every implementation claim refers to the local repository baseline named above. Links in the individual chapters resolve to files in that clone. Generated public and internal protocols, deployment manifests, dependency pins, benchmark harnesses, tests, and relevant vendored wrappers are part of the evidence. A comment or documentation page is not treated as proof when executable code contradicts it.
+
+The reconnaissance inventoried the complete clone outside Git's object database: 14,145 files before the manuscript was created, including 11,794 files under `vendor/`. Deep inspection concentrated on first-party behavior and the dependency boundaries it exercises. That does not mean every line of every vendored library was manually reviewed. The complete syscall behavior of Go, Envoy, runsc, Cloud Hypervisor, virtiofsd, and a selected CSI driver cannot be established by searching Substrate's Go files. Appendix A identifies direct calls, library-mediated calls, and external-runtime mechanisms separately.
+
+The checkout is pre-1.0. Its future version-skew contract is valuable design material, but it is not a current blanket compatibility guarantee. Its architecture document is explicitly marked aspirational. There is no `docs/roadmap.md` in this checkout. Roadmap discussions therefore cite explicit targets, preview gates, limitations, or source TODOs, and identify additional proposals as proposals.
+
+The book contains no new performance measurements. Numbers from flags, manifests, algorithms, and configuration are implementation facts at the baseline. North-star latency and scale numbers are targets. Historical benchmark observations are identified as such when discussed. Capacity examples are worked models with stated assumptions, not claims about a measured cluster.
+
+## What the book covers
+
+The first four chapters establish the resource model, execution topology, placement protocol, and Kubernetes reconciliation loops. Chapters 5 through 8 follow node supervision, common worker machinery, gVisor, microVMs, and persistence. Chapters 9 and 10 separate transport from authorization and credential handling. Chapters 11 and 12 cover measurement, operations, extension boundaries, and upgrades.
+
+Each chapter has six numbered sections. Section N.6 considers the subsystem's roadmap and engineering improvements. This keeps unfinished work adjacent to the mechanism it would change. The appendices collect the kernel audit, source inventory, implementation-status matrix, and vocabulary.
+
+RustFS receives explicit treatment as an alternate object-store deployment through the S3 backend. The repository already includes a RustFS deployment, bucket-initialization Job, NetworkPolicy, and matching node/control plugin configuration for kind. Those files establish an integration path. Their single-replica deployment, small PVC, HTTP endpoint, and static development credentials do not establish a production availability or security design. The storage and operations chapters explain what changes when the object store shares infrastructure and failure domains with the compute fleet.
+
+## Reading the diagrams and examples
+
+Mermaid diagrams express ordering, ownership, and boundaries. An arrow labeled with an RPC means a protocol invocation, not a claim that the associated state transition is atomic with every adjacent arrow. Database transaction boundaries and persistence points are identified explicitly when they matter. State diagrams abbreviate error handling only when the accompanying text explains the omitted branches.
+
+Code excerpts illustrate actual implementation decisions. Pseudocode is labeled and should not be compiled as an API example. Operational commands are tied to the repository's current tooling; environment-specific values remain placeholders. Commands shown for a runbook are instructions for a prepared environment, not a record of commands executed while writing the manuscript.
+
+The local source links are useful during code review. For a stable comparison against a later checkout, use the full baseline commit above. The manuscript is intended to make such comparison easier: changes to schema ownership, worker admission, snapshot fidelity, runtime compatibility, or identity scope should be visible as changes to a specific contract, rather than as vague changes to an architectural description.
+
+## Publication and verification notes
+
+This is a complete first manuscript, not a declaration that the software or prose has received an independent production certification. The publication checks verify chapter structure, source-link resolution, diagram rendering, cross-references, and actual word/page counts. They do not execute Kubernetes, KVM, CSI, cloud storage, or multi-node failure tests.
+
+The project source retains its existing license and attribution. Short excerpts identify their source. No upstream source files were altered to make the narrative fit. The companion audit records important mismatches between older documentation and current behavior, including the conditional microVM demand-paging path and the absence of a wired automatic idle-suspension trigger.

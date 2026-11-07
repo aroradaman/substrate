@@ -1,0 +1,17 @@
+sequenceDiagram
+    participant R1 as API replica one
+    participant DB as PostgreSQL
+    participant L as Atelet
+    participant R2 as API replica two
+    R1->>DB: Acquire actor lease with token one
+    R1->>DB: Persist assignment and RESUMING
+    R1->>L: Restore actor UID on worker Pod UID
+    L-->>R1: Restore result
+    Note over R1: Process exits before final state write
+    R2->>DB: Lease attempt before expiry
+    DB-->>R2: Conflict
+    R2->>DB: Acquire after expiry
+    R2->>DB: Read RESUMING and existing assignment
+    R2->>L: Re-enter Run or Restore contract
+    L-->>R2: Result with worker epoch
+    R2->>DB: Finalize RUNNING with precondition

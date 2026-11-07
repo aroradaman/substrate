@@ -1,0 +1,296 @@
+2026-10-31T17:53:10.221776920Z 2026/10/31 17:53:10 INFO initializing preview gates state="[ExternalVolumes=off, GoldenEgressPolicy=off, PerTemplateSnapshotLocation=off]"
+2026-10-31T17:53:10.221883200Z {"time":"2026-10-31T17:53:10.221818181Z","level":"INFO","msg":"atenet router starting","version":"0ddbf78d"}
+2026-10-31T17:53:10.222198682Z {"time":"2026-10-31T17:53:10.222124703Z","level":"INFO","msg":"Tracing initialized","sampler":"ParentBased{root:TraceIDRatioBased{0.01},remoteParentSampled:AlwaysOnSampler,remoteParentNotSampled:AlwaysOffSampler,localParentSampled:AlwaysOnSampler,localParentNotSampled:AlwaysOffSampler}","export":true}
+2026-10-31T17:53:10.222203562Z {"time":"2026-10-31T17:53:10.222161812Z","level":"INFO","msg":"Metrics exporters resolved","exporters":"otlp,prometheus"}
+2026-10-31T17:53:10.223600229Z {"time":"2026-10-31T17:53:10.223491728Z","level":"INFO","msg":"Metrics initialized","otlp_export":true}
+2026-10-31T17:53:10.223845776Z {"time":"2026-10-31T17:53:10.22370192Z","level":"INFO","msg":"Starting health HTTP server","addr":":9091"}
+2026-10-31T17:53:10.224116530Z {"time":"2026-10-31T17:53:10.224065493Z","level":"INFO","msg":"Connecting to ateapi","address":"dns:///api.ate-system.svc:443"}
+2026-10-31T17:53:10.224120881Z {"time":"2026-10-31T17:53:10.224088113Z","level":"INFO","msg":"Starting substrate router subsystem","mode":"egress","atenet_router":"envoy"}
+2026-10-31T17:53:10.224695777Z {"time":"2026-10-31T17:53:10.223623274Z","level":"INFO","msg":"Starting metrics HTTP server","addr":":9090"}
+2026-10-31T17:53:10.225871003Z {"time":"2026-10-31T17:53:10.225800034Z","level":"INFO","msg":"egress credential injection enabled","provider":"k8s-credential-provider.ate-system.svc:50051","provider_name":"k8s.io"}
+2026-10-31T17:53:10.226133698Z {"time":"2026-10-31T17:53:10.226064665Z","level":"INFO","msg":"Starting periodic health checker","interval":1000000000}
+2026-10-31T17:53:10.226136761Z {"time":"2026-10-31T17:53:10.226101216Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:10.226138465Z {"time":"2026-10-31T17:53:10.226078762Z","level":"INFO","msg":"Starting ExtProc Server","address":"127.0.0.1:50051"}
+2026-10-31T17:53:11.227031959Z {"time":"2026-10-31T17:53:11.22684468Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:12.226572224Z {"time":"2026-10-31T17:53:12.226253391Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:13.226857113Z {"time":"2026-10-31T17:53:13.226659598Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:14.227167697Z {"time":"2026-10-31T17:53:14.226964245Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:15.227174936Z {"time":"2026-10-31T17:53:15.22704145Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:16.227194740Z {"time":"2026-10-31T17:53:16.226896927Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:17.226995112Z {"time":"2026-10-31T17:53:17.226849324Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:18.226638830Z {"time":"2026-10-31T17:53:18.226534711Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:19.226952808Z {"time":"2026-10-31T17:53:19.226786713Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:20.226318688Z {"time":"2026-10-31T17:53:20.226155133Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:21.226728101Z {"time":"2026-10-31T17:53:21.226513987Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:22.227048929Z {"time":"2026-10-31T17:53:22.226882332Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:23.226996273Z {"time":"2026-10-31T17:53:23.226873736Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:24.226424522Z {"time":"2026-10-31T17:53:24.226256552Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:25.226793527Z {"time":"2026-10-31T17:53:25.226383169Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:26.227077529Z {"time":"2026-10-31T17:53:26.226893942Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:27.227247567Z {"time":"2026-10-31T17:53:27.226838183Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:28.227085771Z {"time":"2026-10-31T17:53:28.226848756Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:29.226955815Z {"time":"2026-10-31T17:53:29.226802222Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:30.227170727Z {"time":"2026-10-31T17:53:30.226980931Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:31.226917253Z {"time":"2026-10-31T17:53:31.226770131Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:32.226496168Z {"time":"2026-10-31T17:53:32.226151175Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:33.226990882Z {"time":"2026-10-31T17:53:33.226806118Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:34.226548001Z {"time":"2026-10-31T17:53:34.226376908Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:35.227130940Z {"time":"2026-10-31T17:53:35.226944038Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:36.227358224Z {"time":"2026-10-31T17:53:36.227202049Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:37.227008686Z {"time":"2026-10-31T17:53:37.22685168Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:38.226325987Z {"time":"2026-10-31T17:53:38.226147379Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:39.226493944Z {"time":"2026-10-31T17:53:39.226340478Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:40.226828415Z {"time":"2026-10-31T17:53:40.226675314Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:41.227019661Z {"time":"2026-10-31T17:53:41.226854961Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:42.226988302Z {"time":"2026-10-31T17:53:42.226784492Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:43.226944992Z {"time":"2026-10-31T17:53:43.22677903Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:44.226815849Z {"time":"2026-10-31T17:53:44.226572488Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:45.227108716Z {"time":"2026-10-31T17:53:45.226937895Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:46.227152456Z {"time":"2026-10-31T17:53:46.226864283Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:47.227348303Z {"time":"2026-10-31T17:53:47.227164855Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:48.226633255Z {"time":"2026-10-31T17:53:48.226460813Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:49.226427919Z {"time":"2026-10-31T17:53:49.226243199Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:50.226743338Z {"time":"2026-10-31T17:53:50.226307782Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:51.227804521Z {"time":"2026-10-31T17:53:51.227039931Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:52.227186215Z {"time":"2026-10-31T17:53:52.226983679Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:53.227072552Z {"time":"2026-10-31T17:53:53.226886664Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:54.227158567Z {"time":"2026-10-31T17:53:54.226855658Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:55.227061619Z {"time":"2026-10-31T17:53:55.226853753Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:56.227049114Z {"time":"2026-10-31T17:53:56.226852085Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:57.227137905Z {"time":"2026-10-31T17:53:57.226957403Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:58.227022482Z {"time":"2026-10-31T17:53:58.226869016Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:53:59.226985290Z {"time":"2026-10-31T17:53:59.226809372Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:00.227091551Z {"time":"2026-10-31T17:54:00.226944077Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:01.227361628Z {"time":"2026-10-31T17:54:01.227199794Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:02.226481960Z {"time":"2026-10-31T17:54:02.226255151Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:03.227001485Z {"time":"2026-10-31T17:54:03.226856283Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:04.227047637Z {"time":"2026-10-31T17:54:04.226853142Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:05.226626355Z {"time":"2026-10-31T17:54:05.226480036Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:06.227017409Z {"time":"2026-10-31T17:54:06.226842363Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:07.226426504Z {"time":"2026-10-31T17:54:07.226260889Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:08.226641584Z {"time":"2026-10-31T17:54:08.226463344Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:09.226923324Z {"time":"2026-10-31T17:54:09.226763827Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:10.226748622Z {"time":"2026-10-31T17:54:10.226634599Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:11.227046144Z {"time":"2026-10-31T17:54:11.226838653Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:12.227071576Z {"time":"2026-10-31T17:54:12.226897347Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:13.226925488Z {"time":"2026-10-31T17:54:13.226775787Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:14.226887556Z {"time":"2026-10-31T17:54:14.22659767Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:15.227303084Z {"time":"2026-10-31T17:54:15.226972337Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:16.226507758Z {"time":"2026-10-31T17:54:16.226304865Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:17.226685768Z {"time":"2026-10-31T17:54:17.226526158Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:18.227005613Z {"time":"2026-10-31T17:54:18.226845778Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:19.226971743Z {"time":"2026-10-31T17:54:19.226794059Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:20.226485332Z {"time":"2026-10-31T17:54:20.226340142Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:21.226747356Z {"time":"2026-10-31T17:54:21.226562103Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:22.227070070Z {"time":"2026-10-31T17:54:22.226899241Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:23.227087964Z {"time":"2026-10-31T17:54:23.226886696Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:24.226748573Z {"time":"2026-10-31T17:54:24.226576774Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:25.226980472Z {"time":"2026-10-31T17:54:25.226841495Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:26.227036999Z {"time":"2026-10-31T17:54:26.226848224Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:27.227176746Z {"time":"2026-10-31T17:54:27.227026646Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:28.227184112Z {"time":"2026-10-31T17:54:28.2269576Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:29.227316407Z {"time":"2026-10-31T17:54:29.226842505Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:30.226959074Z {"time":"2026-10-31T17:54:30.226776432Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:31.226537193Z {"time":"2026-10-31T17:54:31.226298603Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:32.226691579Z {"time":"2026-10-31T17:54:32.226514119Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:33.226985340Z {"time":"2026-10-31T17:54:33.226799623Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:34.227003497Z {"time":"2026-10-31T17:54:34.226839964Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:35.227006391Z {"time":"2026-10-31T17:54:35.226852745Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:36.226527800Z {"time":"2026-10-31T17:54:36.226356103Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:37.226993270Z {"time":"2026-10-31T17:54:37.226784017Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:38.226677854Z {"time":"2026-10-31T17:54:38.226478605Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:39.226997421Z {"time":"2026-10-31T17:54:39.226848054Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:40.226276967Z {"time":"2026-10-31T17:54:40.226139057Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:41.226353394Z {"time":"2026-10-31T17:54:41.226221427Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:42.226984362Z {"time":"2026-10-31T17:54:42.226789049Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:43.227000338Z {"time":"2026-10-31T17:54:43.22684893Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:44.227018863Z {"time":"2026-10-31T17:54:44.226843126Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:45.227346955Z {"time":"2026-10-31T17:54:45.2271916Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:46.227011093Z {"time":"2026-10-31T17:54:46.226855605Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:47.226927693Z {"time":"2026-10-31T17:54:47.226787077Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:48.227073332Z {"time":"2026-10-31T17:54:48.226840841Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:49.226665287Z {"time":"2026-10-31T17:54:49.226510569Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:50.226273895Z {"time":"2026-10-31T17:54:50.226130869Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:51.227121028Z {"time":"2026-10-31T17:54:51.226959348Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:52.226434588Z {"time":"2026-10-31T17:54:52.226279945Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:53.227032324Z {"time":"2026-10-31T17:54:53.226848553Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:54.227024126Z {"time":"2026-10-31T17:54:54.226902465Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:55.227092696Z {"time":"2026-10-31T17:54:55.226851612Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:56.226432151Z {"time":"2026-10-31T17:54:56.226255675Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:57.227055752Z {"time":"2026-10-31T17:54:57.2268533Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:58.226974932Z {"time":"2026-10-31T17:54:58.226850243Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:54:59.226976842Z {"time":"2026-10-31T17:54:59.22677202Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:00.227213905Z {"time":"2026-10-31T17:55:00.227041986Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:01.226972597Z {"time":"2026-10-31T17:55:01.226792214Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:02.227007533Z {"time":"2026-10-31T17:55:02.226819153Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:03.227073705Z {"time":"2026-10-31T17:55:03.226861922Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:04.227192723Z {"time":"2026-10-31T17:55:04.226851924Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:05.227061745Z {"time":"2026-10-31T17:55:05.226886035Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:06.226973073Z {"time":"2026-10-31T17:55:06.226784713Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:07.227141800Z {"time":"2026-10-31T17:55:07.22696396Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:08.226961173Z {"time":"2026-10-31T17:55:08.226778291Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:09.227038976Z {"time":"2026-10-31T17:55:09.226868864Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:10.226866803Z {"time":"2026-10-31T17:55:10.226631074Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:11.226988551Z {"time":"2026-10-31T17:55:11.22684122Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:12.226409971Z {"time":"2026-10-31T17:55:12.226272957Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:13.227044739Z {"time":"2026-10-31T17:55:13.2268957Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:14.226991166Z {"time":"2026-10-31T17:55:14.226844531Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:15.227298714Z {"time":"2026-10-31T17:55:15.226920701Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:16.226444480Z {"time":"2026-10-31T17:55:16.226262873Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:17.227149000Z {"time":"2026-10-31T17:55:17.226859204Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:18.227185208Z {"time":"2026-10-31T17:55:18.226851977Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:19.227230402Z {"time":"2026-10-31T17:55:19.226995558Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:20.227121307Z {"time":"2026-10-31T17:55:20.226969107Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:21.226993722Z {"time":"2026-10-31T17:55:21.226859341Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:22.227011970Z {"time":"2026-10-31T17:55:22.226839402Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:23.226954519Z {"time":"2026-10-31T17:55:23.226775846Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:24.226915694Z {"time":"2026-10-31T17:55:24.226767863Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:25.227064087Z {"time":"2026-10-31T17:55:25.226886245Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:26.227017361Z {"time":"2026-10-31T17:55:26.226850976Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:27.227225514Z {"time":"2026-10-31T17:55:27.227032462Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:28.227241417Z {"time":"2026-10-31T17:55:28.226880203Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:29.226989395Z {"time":"2026-10-31T17:55:29.226839288Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:30.226676842Z {"time":"2026-10-31T17:55:30.226493853Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:31.226929472Z {"time":"2026-10-31T17:55:31.226781203Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:32.227106810Z {"time":"2026-10-31T17:55:32.226958559Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:33.226462291Z {"time":"2026-10-31T17:55:33.226307156Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:34.227015286Z {"time":"2026-10-31T17:55:34.226861512Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:35.227019130Z {"time":"2026-10-31T17:55:35.226878176Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:36.226950428Z {"time":"2026-10-31T17:55:36.226780173Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:37.227078088Z {"time":"2026-10-31T17:55:37.226851583Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:38.226975062Z {"time":"2026-10-31T17:55:38.226788275Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:39.226993667Z {"time":"2026-10-31T17:55:39.226850293Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:40.226645734Z {"time":"2026-10-31T17:55:40.226492222Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:41.226953151Z {"time":"2026-10-31T17:55:41.226794255Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:42.227048377Z {"time":"2026-10-31T17:55:42.226846401Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:43.226951501Z {"time":"2026-10-31T17:55:43.226787433Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:44.226742694Z {"time":"2026-10-31T17:55:44.226551414Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:45.226992440Z {"time":"2026-10-31T17:55:45.226837169Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:46.226928575Z {"time":"2026-10-31T17:55:46.226501252Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:47.227125095Z {"time":"2026-10-31T17:55:47.226995283Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:48.226940932Z {"time":"2026-10-31T17:55:48.22678102Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:49.226972986Z {"time":"2026-10-31T17:55:49.226784037Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:50.226788494Z {"time":"2026-10-31T17:55:50.226637894Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:51.227043846Z {"time":"2026-10-31T17:55:51.226890308Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:52.227125188Z {"time":"2026-10-31T17:55:52.226878664Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:53.226991803Z {"time":"2026-10-31T17:55:53.226845006Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:54.226993009Z {"time":"2026-10-31T17:55:54.226851957Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:55.226443013Z {"time":"2026-10-31T17:55:55.226249923Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:56.227449202Z {"time":"2026-10-31T17:55:56.227195189Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:57.226618366Z {"time":"2026-10-31T17:55:57.22641655Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:58.226433607Z {"time":"2026-10-31T17:55:58.226257252Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:55:59.227771837Z {"time":"2026-10-31T17:55:59.227098215Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:00.227021486Z {"time":"2026-10-31T17:56:00.226627109Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:01.226458066Z {"time":"2026-10-31T17:56:01.226297687Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:02.226492492Z {"time":"2026-10-31T17:56:02.22632718Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:03.227224863Z {"time":"2026-10-31T17:56:03.22704588Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:04.226476692Z {"time":"2026-10-31T17:56:04.226311763Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:05.226490368Z {"time":"2026-10-31T17:56:05.226321879Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:06.226934409Z {"time":"2026-10-31T17:56:06.226659624Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:07.226985595Z {"time":"2026-10-31T17:56:07.226789717Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:08.226386313Z {"time":"2026-10-31T17:56:08.226216223Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:09.227009530Z {"time":"2026-10-31T17:56:09.226843355Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:10.227239146Z {"time":"2026-10-31T17:56:10.227068564Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:11.227025379Z {"time":"2026-10-31T17:56:11.22685105Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:12.227211187Z {"time":"2026-10-31T17:56:12.226838927Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:13.226951948Z {"time":"2026-10-31T17:56:13.226780971Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:14.227258682Z {"time":"2026-10-31T17:56:14.227052931Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:15.227037294Z {"time":"2026-10-31T17:56:15.226869643Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:16.227069117Z {"time":"2026-10-31T17:56:16.226854685Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:17.226373256Z {"time":"2026-10-31T17:56:17.226227286Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:18.226419622Z {"time":"2026-10-31T17:56:18.226271815Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:19.227043869Z {"time":"2026-10-31T17:56:19.226848281Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:20.226876784Z {"time":"2026-10-31T17:56:20.226727436Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:21.226962169Z {"time":"2026-10-31T17:56:21.226789644Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:22.227060230Z {"time":"2026-10-31T17:56:22.226887511Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:23.227130211Z {"time":"2026-10-31T17:56:23.226949701Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:24.226412646Z {"time":"2026-10-31T17:56:24.226247348Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:25.227003280Z {"time":"2026-10-31T17:56:25.226856554Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:26.227031339Z {"time":"2026-10-31T17:56:26.226845291Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:27.227232557Z {"time":"2026-10-31T17:56:27.227031963Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:28.227009851Z {"time":"2026-10-31T17:56:28.226839015Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:29.227241459Z {"time":"2026-10-31T17:56:29.226889156Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:30.227270750Z {"time":"2026-10-31T17:56:30.227011963Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:31.226514079Z {"time":"2026-10-31T17:56:31.226305645Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:32.226731663Z {"time":"2026-10-31T17:56:32.22654523Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:33.226364615Z {"time":"2026-10-31T17:56:33.226225697Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:34.226434491Z {"time":"2026-10-31T17:56:34.226223598Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:35.226363283Z {"time":"2026-10-31T17:56:35.226222385Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:36.226981881Z {"time":"2026-10-31T17:56:36.226840414Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:37.227221644Z {"time":"2026-10-31T17:56:37.22707213Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:38.226641714Z {"time":"2026-10-31T17:56:38.226478251Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:39.226905542Z {"time":"2026-10-31T17:56:39.226766029Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:40.227219736Z {"time":"2026-10-31T17:56:40.226982717Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:41.226346480Z {"time":"2026-10-31T17:56:41.226226679Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:42.226947749Z {"time":"2026-10-31T17:56:42.226777396Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:42.893540083Z {"time":"2026-10-31T17:56:42.893424424Z","level":"WARN","msg":"egress denied: actor has no egress policy","actor":{"type":"*ateapi.Actor","atespace":"ate-demo-egress","name":"lifecycle-egress"},"leg":"egress","trace_id":"a76af36057708ae86750d6e9bc8f16c0","span_id":"8880b4f96a2582c2","trace_flags":"00"}
+2026-10-31T17:56:42.893554782Z {"time":"2026-10-31T17:56:42.893505842Z","level":"ERROR","msg":"Error during ext_proc RequestHeaders processing","direction":"egress","err":"egress denied","trace_id":"a76af36057708ae86750d6e9bc8f16c0","span_id":"8880b4f96a2582c2","trace_flags":"00"}
+2026-10-31T17:56:43.177292703Z {"time":"2026-10-31T17:56:43.177205222Z","level":"WARN","msg":"egress denied: actor has no egress policy","actor":{"type":"*ateapi.Actor","atespace":"ate-demo-egress","name":"lifecycle-egress"},"leg":"egress","trace_id":"6947ab709d1717f3adf73550166bc26c","span_id":"2d9882e3f0c4fcdc","trace_flags":"00"}
+2026-10-31T17:56:43.177304830Z {"time":"2026-10-31T17:56:43.17725613Z","level":"ERROR","msg":"Error during ext_proc RequestHeaders processing","direction":"egress","err":"egress denied","trace_id":"6947ab709d1717f3adf73550166bc26c","span_id":"2d9882e3f0c4fcdc","trace_flags":"00"}
+2026-10-31T17:56:43.227080346Z {"time":"2026-10-31T17:56:43.226962116Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:43.732220781Z {"time":"2026-10-31T17:56:43.732117687Z","level":"WARN","msg":"egress denied: actor has no egress policy","actor":{"type":"*ateapi.Actor","atespace":"ate-demo-egress","name":"lifecycle-egress"},"leg":"egress","trace_id":"6f81fbf09ebe3fca0ca2804d352f2364","span_id":"0bf398e79eb27bee","trace_flags":"00"}
+2026-10-31T17:56:43.732238071Z {"time":"2026-10-31T17:56:43.732166102Z","level":"ERROR","msg":"Error during ext_proc RequestHeaders processing","direction":"egress","err":"egress denied","trace_id":"6f81fbf09ebe3fca0ca2804d352f2364","span_id":"0bf398e79eb27bee","trace_flags":"00"}
+2026-10-31T17:56:44.226459131Z {"time":"2026-10-31T17:56:44.226299182Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:44.283562985Z {"time":"2026-10-31T17:56:44.283470629Z","level":"WARN","msg":"egress denied: actor has no egress policy","actor":{"type":"*ateapi.Actor","atespace":"ate-demo-egress","name":"lifecycle-egress"},"leg":"egress","trace_id":"c3d88396cd42dfa2eab83dc6a2560973","span_id":"4b6f6f60f0c26044","trace_flags":"00"}
+2026-10-31T17:56:44.283581190Z {"time":"2026-10-31T17:56:44.283514132Z","level":"ERROR","msg":"Error during ext_proc RequestHeaders processing","direction":"egress","err":"egress denied","trace_id":"c3d88396cd42dfa2eab83dc6a2560973","span_id":"4b6f6f60f0c26044","trace_flags":"00"}
+2026-10-31T17:56:44.840511725Z {"time":"2026-10-31T17:56:44.840402016Z","level":"WARN","msg":"egress denied: actor has no egress policy","actor":{"type":"*ateapi.Actor","atespace":"ate-demo-egress","name":"lifecycle-egress"},"leg":"egress","trace_id":"22ecfddfb11137dea3b92f0b378a7978","span_id":"ff0b135337ce4d20","trace_flags":"00"}
+2026-10-31T17:56:44.840522401Z {"time":"2026-10-31T17:56:44.840466508Z","level":"ERROR","msg":"Error during ext_proc RequestHeaders processing","direction":"egress","err":"egress denied","trace_id":"22ecfddfb11137dea3b92f0b378a7978","span_id":"ff0b135337ce4d20","trace_flags":"00"}
+2026-10-31T17:56:45.226649939Z {"time":"2026-10-31T17:56:45.226511575Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:45.398819773Z {"time":"2026-10-31T17:56:45.39872696Z","level":"WARN","msg":"egress denied: actor has no egress policy","actor":{"type":"*ateapi.Actor","atespace":"ate-demo-egress","name":"lifecycle-egress"},"leg":"egress","trace_id":"4fccd4b09bf0f447aec02c27ec626b3d","span_id":"d44c5261fb66f77f","trace_flags":"00"}
+2026-10-31T17:56:45.398832247Z {"time":"2026-10-31T17:56:45.398780022Z","level":"ERROR","msg":"Error during ext_proc RequestHeaders processing","direction":"egress","err":"egress denied","trace_id":"4fccd4b09bf0f447aec02c27ec626b3d","span_id":"d44c5261fb66f77f","trace_flags":"00"}
+2026-10-31T17:56:45.947758803Z {"time":"2026-10-31T17:56:45.947643271Z","level":"WARN","msg":"egress denied: actor has no egress policy","actor":{"type":"*ateapi.Actor","atespace":"ate-demo-egress","name":"lifecycle-egress"},"leg":"egress","trace_id":"bda8a113acb14cafe7b78cafbbd595ed","span_id":"35bf38554e05a624","trace_flags":"00"}
+2026-10-31T17:56:45.947770888Z {"time":"2026-10-31T17:56:45.947700987Z","level":"ERROR","msg":"Error during ext_proc RequestHeaders processing","direction":"egress","err":"egress denied","trace_id":"bda8a113acb14cafe7b78cafbbd595ed","span_id":"35bf38554e05a624","trace_flags":"00"}
+2026-10-31T17:56:46.226984147Z {"time":"2026-10-31T17:56:46.226765908Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:46.500512681Z {"time":"2026-10-31T17:56:46.500393922Z","level":"WARN","msg":"egress denied: actor has no egress policy","actor":{"type":"*ateapi.Actor","atespace":"ate-demo-egress","name":"lifecycle-egress"},"leg":"egress","trace_id":"1144ac54696332f1797632bc041877c2","span_id":"6075e2cebcfc0607","trace_flags":"00"}
+2026-10-31T17:56:46.500531273Z {"time":"2026-10-31T17:56:46.500452032Z","level":"ERROR","msg":"Error during ext_proc RequestHeaders processing","direction":"egress","err":"egress denied","trace_id":"1144ac54696332f1797632bc041877c2","span_id":"6075e2cebcfc0607","trace_flags":"00"}
+2026-10-31T17:56:47.054427639Z {"time":"2026-10-31T17:56:47.054263359Z","level":"WARN","msg":"egress denied: actor has no egress policy","actor":{"type":"*ateapi.Actor","atespace":"ate-demo-egress","name":"lifecycle-egress"},"leg":"egress","trace_id":"56e4c226fff61d748bf49bed2c09e884","span_id":"13b13d328c2a98bf","trace_flags":"00"}
+2026-10-31T17:56:47.054434447Z {"time":"2026-10-31T17:56:47.054304871Z","level":"ERROR","msg":"Error during ext_proc RequestHeaders processing","direction":"egress","err":"egress denied","trace_id":"56e4c226fff61d748bf49bed2c09e884","span_id":"13b13d328c2a98bf","trace_flags":"00"}
+2026-10-31T17:56:47.227203982Z {"time":"2026-10-31T17:56:47.227051043Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:47.607152500Z {"time":"2026-10-31T17:56:47.607057802Z","level":"WARN","msg":"egress denied: actor has no egress policy","actor":{"type":"*ateapi.Actor","atespace":"ate-demo-egress","name":"lifecycle-egress"},"leg":"egress","trace_id":"dfc59e4f5df5f8ea6e50ab5300e61c8b","span_id":"c5bc468cd50016d9","trace_flags":"00"}
+2026-10-31T17:56:47.607166491Z {"time":"2026-10-31T17:56:47.607103707Z","level":"ERROR","msg":"Error during ext_proc RequestHeaders processing","direction":"egress","err":"egress denied","trace_id":"dfc59e4f5df5f8ea6e50ab5300e61c8b","span_id":"c5bc468cd50016d9","trace_flags":"00"}
+2026-10-31T17:56:48.162807958Z {"time":"2026-10-31T17:56:48.162707698Z","level":"WARN","msg":"egress denied: actor has no egress policy","actor":{"type":"*ateapi.Actor","atespace":"ate-demo-egress","name":"lifecycle-egress"},"leg":"egress","trace_id":"01b9455a938669b0b7c321cf4310092c","span_id":"3d288c09dd7e95c1","trace_flags":"00"}
+2026-10-31T17:56:48.162820415Z {"time":"2026-10-31T17:56:48.16276294Z","level":"ERROR","msg":"Error during ext_proc RequestHeaders processing","direction":"egress","err":"egress denied","trace_id":"01b9455a938669b0b7c321cf4310092c","span_id":"3d288c09dd7e95c1","trace_flags":"00"}
+2026-10-31T17:56:48.226572572Z {"time":"2026-10-31T17:56:48.226420919Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:48.715439768Z {"time":"2026-10-31T17:56:48.715334536Z","level":"WARN","msg":"egress denied: actor has no egress policy","actor":{"type":"*ateapi.Actor","atespace":"ate-demo-egress","name":"lifecycle-egress"},"leg":"egress","trace_id":"10d3df3d289b09eb4d3c4c68066cdd31","span_id":"436c1159e7c671fc","trace_flags":"00"}
+2026-10-31T17:56:48.715450287Z {"time":"2026-10-31T17:56:48.715385093Z","level":"ERROR","msg":"Error during ext_proc RequestHeaders processing","direction":"egress","err":"egress denied","trace_id":"10d3df3d289b09eb4d3c4c68066cdd31","span_id":"436c1159e7c671fc","trace_flags":"00"}
+2026-10-31T17:56:49.226577389Z {"time":"2026-10-31T17:56:49.226409374Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:49.262705222Z {"time":"2026-10-31T17:56:49.262585747Z","level":"WARN","msg":"egress denied: actor has no egress policy","actor":{"type":"*ateapi.Actor","atespace":"ate-demo-egress","name":"lifecycle-egress"},"leg":"egress","trace_id":"e3c484aa548990b7111873ae0de3254e","span_id":"a0e89b342e087af5","trace_flags":"00"}
+2026-10-31T17:56:49.262731132Z {"time":"2026-10-31T17:56:49.262630289Z","level":"ERROR","msg":"Error during ext_proc RequestHeaders processing","direction":"egress","err":"egress denied","trace_id":"e3c484aa548990b7111873ae0de3254e","span_id":"a0e89b342e087af5","trace_flags":"00"}
+2026-10-31T17:56:49.813576478Z {"time":"2026-10-31T17:56:49.813398571Z","level":"WARN","msg":"egress denied: actor has no egress policy","actor":{"type":"*ateapi.Actor","atespace":"ate-demo-egress","name":"lifecycle-egress"},"leg":"egress","trace_id":"dc8ad5942aa9460541cab7bab980a400","span_id":"592b96b15c24cf38","trace_flags":"00"}
+2026-10-31T17:56:49.813593280Z {"time":"2026-10-31T17:56:49.81343762Z","level":"ERROR","msg":"Error during ext_proc RequestHeaders processing","direction":"egress","err":"egress denied","trace_id":"dc8ad5942aa9460541cab7bab980a400","span_id":"592b96b15c24cf38","trace_flags":"00"}
+2026-10-31T17:56:50.226687178Z {"time":"2026-10-31T17:56:50.226594922Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:50.362391258Z {"time":"2026-10-31T17:56:50.362301876Z","level":"WARN","msg":"egress denied: actor has no egress policy","actor":{"type":"*ateapi.Actor","atespace":"ate-demo-egress","name":"lifecycle-egress"},"leg":"egress","trace_id":"0a3ffc1765731fbe4732f3f112de6d6e","span_id":"48667d2780053030","trace_flags":"00"}
+2026-10-31T17:56:50.362514354Z {"time":"2026-10-31T17:56:50.362399798Z","level":"ERROR","msg":"Error during ext_proc RequestHeaders processing","direction":"egress","err":"egress denied","trace_id":"0a3ffc1765731fbe4732f3f112de6d6e","span_id":"48667d2780053030","trace_flags":"00"}
+2026-10-31T17:56:50.922809098Z {"time":"2026-10-31T17:56:50.922681874Z","level":"WARN","msg":"egress denied: actor has no egress policy","actor":{"type":"*ateapi.Actor","atespace":"ate-demo-egress","name":"lifecycle-egress"},"leg":"egress","trace_id":"5edd8d4adeb0ac5a6a81537729efaabd","span_id":"eb98bd383fdfb66c","trace_flags":"00"}
+2026-10-31T17:56:50.922819424Z {"time":"2026-10-31T17:56:50.922739962Z","level":"ERROR","msg":"Error during ext_proc RequestHeaders processing","direction":"egress","err":"egress denied","trace_id":"5edd8d4adeb0ac5a6a81537729efaabd","span_id":"eb98bd383fdfb66c","trace_flags":"00"}
+2026-10-31T17:56:51.226764643Z {"time":"2026-10-31T17:56:51.226616727Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:51.477700850Z {"time":"2026-10-31T17:56:51.477415255Z","level":"WARN","msg":"egress denied: actor has no egress policy","actor":{"type":"*ateapi.Actor","atespace":"ate-demo-egress","name":"lifecycle-egress"},"leg":"egress","trace_id":"56cbe0c965d45f187c1a82f1cbf34e3f","span_id":"f6f23e0b4f945161","trace_flags":"00"}
+2026-10-31T17:56:51.477756312Z {"time":"2026-10-31T17:56:51.477458545Z","level":"ERROR","msg":"Error during ext_proc RequestHeaders processing","direction":"egress","err":"egress denied","trace_id":"56cbe0c965d45f187c1a82f1cbf34e3f","span_id":"f6f23e0b4f945161","trace_flags":"00"}
+2026-10-31T17:56:52.029950897Z {"time":"2026-10-31T17:56:52.029836382Z","level":"WARN","msg":"egress denied: actor has no egress policy","actor":{"type":"*ateapi.Actor","atespace":"ate-demo-egress","name":"lifecycle-egress"},"leg":"egress","trace_id":"94816571000d773f7d98fbe373266897","span_id":"f256f388ac14d06a","trace_flags":"00"}
+2026-10-31T17:56:52.029962475Z {"time":"2026-10-31T17:56:52.029879414Z","level":"ERROR","msg":"Error during ext_proc RequestHeaders processing","direction":"egress","err":"egress denied","trace_id":"94816571000d773f7d98fbe373266897","span_id":"f256f388ac14d06a","trace_flags":"00"}
+2026-10-31T17:56:52.227055703Z {"time":"2026-10-31T17:56:52.226940351Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:52.581756727Z {"time":"2026-10-31T17:56:52.581550499Z","level":"WARN","msg":"egress denied: actor has no egress policy","actor":{"type":"*ateapi.Actor","atespace":"ate-demo-egress","name":"lifecycle-egress"},"leg":"egress","trace_id":"38b30c6616a972a17b54c922a481446c","span_id":"2345973ac8793da1","trace_flags":"00"}
+2026-10-31T17:56:52.581778296Z {"time":"2026-10-31T17:56:52.581599674Z","level":"ERROR","msg":"Error during ext_proc RequestHeaders processing","direction":"egress","err":"egress denied","trace_id":"38b30c6616a972a17b54c922a481446c","span_id":"2345973ac8793da1","trace_flags":"00"}
+2026-10-31T17:56:53.138233853Z {"time":"2026-10-31T17:56:53.138137328Z","level":"INFO","msg":"egress tunnel opened: requests inside it are decided one by one","actor":{"type":"*ateapi.Actor","atespace":"ate-demo-egress","name":"lifecycle-egress"},"leg":"egress","destination":"10.96.249.148:80","sniRules":0,"trace_id":"517b293b9951d70ffda3222427b5558c","span_id":"7c763d94b660ef4f","trace_flags":"00"}
+2026-10-31T17:56:53.199096912Z {"time":"2026-10-31T17:56:53.19898161Z","level":"INFO","msg":"egress tunnel opened: requests inside it are decided one by one","actor":{"type":"*ateapi.Actor","atespace":"ate-demo-egress","name":"lifecycle-egress"},"leg":"egress","destination":"10.96.249.148:80","sniRules":0,"trace_id":"483b8b58d5c16f327de98a769d6927fd","span_id":"300f19164b5712a4","trace_flags":"00"}
+2026-10-31T17:56:53.200586159Z {"time":"2026-10-31T17:56:53.200476623Z","level":"WARN","msg":"egress denied: no rule allows the destination","actor":{"type":"*ateapi.Actor","atespace":"ate-demo-egress","name":"lifecycle-egress"},"leg":"egress_cleartext","method":"GET","host":"10.96.249.148","dialedPort":80,"sni":"","rule":-1,"trace_id":"2c687634ce1453b93b6277e5d7ec60c9","span_id":"a51ecc21c4f6c9eb","trace_flags":"00"}
+2026-10-31T17:56:53.200854366Z {"time":"2026-10-31T17:56:53.200533715Z","level":"ERROR","msg":"Error during ext_proc RequestHeaders processing","direction":"egress","err":"egress denied","trace_id":"2c687634ce1453b93b6277e5d7ec60c9","span_id":"a51ecc21c4f6c9eb","trace_flags":"00"}
+2026-10-31T17:56:53.227210673Z {"time":"2026-10-31T17:56:53.227034098Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:54.226607475Z {"time":"2026-10-31T17:56:54.22623333Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:55.226929573Z {"time":"2026-10-31T17:56:55.226781277Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:56.226395400Z {"time":"2026-10-31T17:56:56.22625959Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:57.226600369Z {"time":"2026-10-31T17:56:57.226451334Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:58.226914127Z {"time":"2026-10-31T17:56:58.226776086Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:56:59.227390251Z {"time":"2026-10-31T17:56:59.226890003Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:57:00.050837857Z {"time":"2026-10-31T17:57:00.050731157Z","level":"INFO","msg":"egress tunnel opened: requests inside it are decided one by one","actor":{"type":"*ateapi.Actor","atespace":"ate-demo-egress","name":"lifecycle-egress"},"leg":"egress","destination":"10.96.249.148:80","sniRules":0,"trace_id":"2732d2f7e3e441c1a14a2e87b20b40b0","span_id":"a6265e69fa0d5dfd","trace_flags":"00"}
+2026-10-31T17:57:00.227181727Z {"time":"2026-10-31T17:57:00.227080448Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:57:01.226362540Z {"time":"2026-10-31T17:57:01.226213154Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:57:02.227375572Z {"time":"2026-10-31T17:57:02.22707537Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:57:03.226593222Z {"time":"2026-10-31T17:57:03.226386631Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:57:04.226439257Z {"time":"2026-10-31T17:57:04.226291857Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:57:05.226909916Z {"time":"2026-10-31T17:57:05.226774099Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:57:06.226981365Z {"time":"2026-10-31T17:57:06.226837901Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:57:07.226662407Z {"time":"2026-10-31T17:57:07.226362427Z","level":"INFO","msg":"Checking health"}
+2026-10-31T17:57:07.351034434Z {"time":"2026-10-31T17:57:07.350946259Z","level":"INFO","msg":"egress tunnel opened: requests inside it are decided one by one","actor":{"type":"*ateapi.Actor","atespace":"ate-demo-egress","name":"lifecycle-egress"},"leg":"egress","destination":"10.96.249.148:80","sniRules":0,"trace_id":"bb4821fde723522ba060c2bbd710cca3","span_id":"a70944e423ead611","trace_flags":"00"}
+2026-10-31T17:57:07.352385713Z {"time":"2026-10-31T17:57:07.352321388Z","level":"WARN","msg":"egress denied: no rule allows the destination","actor":{"type":"*ateapi.Actor","atespace":"ate-demo-egress","name":"lifecycle-egress"},"leg":"egress_cleartext","method":"GET","host":"10.96.249.148","dialedPort":80,"sni":"","rule":-1,"trace_id":"0c47558a9175228b28d5cbcb7a527b49","span_id":"fd0b542df563bb19","trace_flags":"00"}
+2026-10-31T17:57:07.352472814Z {"time":"2026-10-31T17:57:07.352437685Z","level":"ERROR","msg":"Error during ext_proc RequestHeaders processing","direction":"egress","err":"egress denied","trace_id":"0c47558a9175228b28d5cbcb7a527b49","span_id":"fd0b542df563bb19","trace_flags":"00"}

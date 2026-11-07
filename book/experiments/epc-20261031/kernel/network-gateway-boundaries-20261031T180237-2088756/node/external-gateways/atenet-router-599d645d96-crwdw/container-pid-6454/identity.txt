@@ -1,0 +1,26 @@
+pid=6454
+envoy
+/usr/local/bin/envoy
+net net:[4026536645]
+mnt mnt:[4026536855]
+pid pid:[4026536856]
+user user:[4026531837]
+cgroup cgroup:[4026536857]
+ipc ipc:[4026536777]
+uts uts:[4026536776]
+Name:	envoy
+State:	S (sleeping)
+Pid:	6454
+PPid:	5967
+Uid:	65532	65532	65532	65532
+Gid:	0	0	0	0
+NStgid:	6454	1
+NSpid:	6454	1
+Threads:	38
+CapInh:	0000000000000000
+CapPrm:	0000000000000000
+CapEff:	0000000000000000
+CapBnd:	0000000000000000
+NoNewPrivs:	1
+Seccomp:	0
+0::/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-besteffort.slice/kubelet-kubepods-besteffort-poddf1c2ee8_8d01_4770_9da0_7ce66431de1b.slice/cri-containerd-4fdac2584aa5f3051d529c0fc109fbae26287b1808a52f690f508f0de7635e45.scope

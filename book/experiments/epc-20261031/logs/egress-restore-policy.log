@@ -1,0 +1,25 @@
+Warning: no --token-file given; acting as the shared identity system:serviceaccount:ate-system:ate-client rather than as yourself. Pass --token-file to act as yourself.
+{
+  "metadata": {
+    "atespace": "ate-demo-egress",
+    "createTime": "2026-10-31T18:04:12.863520884Z",
+    "name": "default",
+    "uid": "cf54fdca-5e22-4d8c-aa15-752da6825d95",
+    "updateTime": "2026-10-31T18:04:12.863520884Z",
+    "version": "1"
+  },
+  "rules": [
+    {
+      "http": {
+        "hostnames": [
+          "origin.lifecycle-target.svc.cluster.local"
+        ],
+        "ports": {
+          "numbers": [
+            80
+          ]
+        }
+      }
+    }
+  ]
+}

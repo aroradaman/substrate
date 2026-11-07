@@ -1,0 +1,17 @@
+sequenceDiagram
+    participant A as Actor
+    participant E as Egress gateway
+    participant P as Policy evaluator
+    participant C as Credential provider
+    participant K as Kubernetes Secrets
+    participant D as Destination
+    A->>E: Request without reusable secret
+    E->>P: Actor identity + destination + request
+    P-->>E: Allow with credential-header effect
+    E->>C: FetchSecret(uri, attested actor SPIFFE ID)
+    C->>C: Check atespace and namespace grant
+    C->>K: Read named Secret
+    C->>C: Check Secret labels and selected key
+    C-->>E: Opaque credential bytes
+    E->>D: Authorized request with injected header
+    D-->>A: Response through gateway

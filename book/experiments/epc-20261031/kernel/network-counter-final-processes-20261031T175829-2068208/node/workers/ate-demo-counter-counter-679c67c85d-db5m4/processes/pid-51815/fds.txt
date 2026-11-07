@@ -1,0 +1,17 @@
+14	anon_inode:[eventfd]
+16	socket:[465040080]
+20	anon_inode:[eventpoll]
+21	anon_inode:[eventfd]
+22	pipe:[465044024]
+23	anon_inode:[eventfd]
+254	pipe:[465049689]
+255	pipe:[465049689]
+3	pipe:[465044024]
+31	pipe:[465049692]
+32	pipe:[465049692]
+35	socket:[465045961]
+5	anon_inode:[eventpoll]
+6	socket:[465046894]
+8	anon_inode:seccomp notify
+9	anon_inode:[eventfd]
+other_path_fds_count=24 (paths and contents omitted)

@@ -1,0 +1,17 @@
+sequenceDiagram
+    participant O as Operator
+    participant WP as WorkerPool controller
+    participant W as Old worker
+    participant A as Actor owner or orchestrator
+    participant API as ateapi
+    O->>WP: Change WorkerPool workerImage
+    WP->>W: Deployment replacement begins
+    W-->>A: Actor receives termination signal
+    A->>API: Suspend actor before deadline
+    API->>W: Checkpoint and release
+    alt Suspension completes
+        W-->>WP: Worker exits after draining
+    else Actor remains active
+        Note over W: Forced termination after allowed window
+        W-->>API: Actor requires recovery from prior snapshot
+    end

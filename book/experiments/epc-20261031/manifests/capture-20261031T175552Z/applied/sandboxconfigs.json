@@ -1,0 +1,44 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "ate.dev/v1",
+      "kind": "SandboxConfig",
+      "metadata": {
+        "creationTimestamp": "2026-10-31T17:49:17Z",
+        "finalizers": [
+          "sandboxconfig.ate.dev/workerpool-protection"
+        ],
+        "generation": 1,
+        "name": "gvisor-default",
+        "resourceVersion": "1901",
+        "uid": "7c1db503-7e8b-4e4d-904f-5af446270c24"
+      },
+      "spec": {
+        "defaultVersion": "v6",
+        "sandboxClass": "gvisor",
+        "versions": [
+          {
+            "assets": {
+              "amd64": {
+                "gvisor": {
+                  "sha256": "708afc62f2ee82d19930c703e85f9dab4f27a78c0aec40c0f55eb1040107f1a7",
+                  "url": "<redacted>"
+                }
+              },
+              "arm64": {
+                "gvisor": {
+                  "sha256": "6257e49955f13e6caceb2c4181c5dc5406c460e805940c944e67ad65553f5b02",
+                  "url": "<redacted>"
+                }
+              }
+            },
+            "name": "v6",
+            "state": "Enabled"
+          }
+        ]
+      }
+    }
+  ],
+  "kind": "List"
+}

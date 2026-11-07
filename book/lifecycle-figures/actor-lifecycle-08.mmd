@@ -1,0 +1,15 @@
+sequenceDiagram
+    participant C as CLI
+    participant A as Actor workflow
+    participant DB as PostgreSQL
+    participant N as atelet
+    C->>A: SuspendActor with durability mode
+    A->>DB: Acquire actor lease and read state
+    A->>DB: Record SUSPENDING and pending snapshot
+    A->>N: Checkpoint same snapshot UUID and generation
+    N-->>A: Local and durable snapshot observations
+    A->>A: Detach external volumes when present
+    A->>DB: Release assignment and booked capacity
+    A->>DB: Separate update records SUSPENDED
+    A->>A: Best-effort cleanup of replaced snapshots
+    A-->>C: Suspend result

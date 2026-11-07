@@ -1,0 +1,16 @@
+sequenceDiagram
+    participant W as Worker process
+    participant A as atelet WorkerSupport
+    participant C as ateapi WorkerService
+    participant F as Runtime metadata file
+    W->>A: AcquireWorkerEpoch over mTLS
+    A->>A: Derive pod and node identity
+    A->>C: Acquire epoch for authenticated pod UID
+    C-->>W: New epoch through atelet
+    W->>W: Read capacity files and reserve overhead
+    W->>A: RegisterWorker(epoch, IPs, capacity)
+    A->>C: Register authenticated worker incarnation
+    C-->>W: Registration accepted
+    W->>F: Read advertised sandbox runtimes
+    W->>A: SetWorkerSandboxRuntimes(epoch, runtimes)
+    A->>C: Update runtime compatibility advertisement

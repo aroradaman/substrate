@@ -1,0 +1,23 @@
+	Command being timed: "hack/kind.sh version"
+	User time (seconds): 7.71
+	System time (seconds): 2.33
+	Percent of CPU this job got: 500%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:02.00
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 184576
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 33
+	Minor (reclaiming a frame) page faults: 506142
+	Voluntary context switches: 17974
+	Involuntary context switches: 17103
+	Swaps: 0
+	File system inputs: 16648
+	File system outputs: 157352
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

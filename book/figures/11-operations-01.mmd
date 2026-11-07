@@ -1,0 +1,24 @@
+flowchart TB
+    subgraph Infra[System infrastructure capacity]
+        API[ate-api-server]
+        CT[ate-controller]
+        RT[Ingress and egress gateways]
+        ID[Certificate and identity services]
+    end
+    subgraph DB[Database failure domain]
+        PG[PostgreSQL]
+    end
+    subgraph Nodes[Execution nodes]
+        L[atelet per node]
+        W[Worker Pods]
+        LC[Local snapshots and caches]
+    end
+    OS[External object storage or RustFS]
+    CSI[CSI storage]
+    API --> PG
+    API --> L
+    CT --> W
+    RT --> W
+    L --> LC
+    L --> OS
+    W --> CSI

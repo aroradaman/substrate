@@ -1,0 +1,1 @@
+10.244.0.1 dev eth0 lladdr 96:4e:fc:a2:66:fd REACHABLE 

@@ -1,0 +1,40 @@
+[
+  {
+    "containers": [
+      {
+        "exitCode": null,
+        "image": "sha256:40bbe1604f1f6bb1d77017ec1307c01d7ae02d6e9feef85adfac66a864229ef9",
+        "imageID": "localhost:5002/ateworker-gvisor@sha256:9a116289631c3172ae951af57f241cdcc0f5fffd12a9ac76170f496ad83cbe44",
+        "name": "worker",
+        "ready": true,
+        "restartCount": 0,
+        "terminatedReason": null,
+        "waitingReason": null
+      }
+    ],
+    "name": "egress-78cb8c86b6-8bdcx",
+    "namespace": "ate-demo-egress",
+    "node": "substrate-lifecycle-control-plane",
+    "phase": "Running",
+    "uid": "1aa9dcee-c8e3-41c4-8613-4d835c0c299a"
+  },
+  {
+    "containers": [
+      {
+        "exitCode": null,
+        "image": "sha256:40bbe1604f1f6bb1d77017ec1307c01d7ae02d6e9feef85adfac66a864229ef9",
+        "imageID": "localhost:5002/ateworker-gvisor@sha256:9a116289631c3172ae951af57f241cdcc0f5fffd12a9ac76170f496ad83cbe44",
+        "name": "worker",
+        "ready": true,
+        "restartCount": 0,
+        "terminatedReason": null,
+        "waitingReason": null
+      }
+    ],
+    "name": "egress-78cb8c86b6-l8b67",
+    "namespace": "ate-demo-egress",
+    "node": "substrate-lifecycle-control-plane",
+    "phase": "Running",
+    "uid": "046447c4-3c24-4c3f-8632-9d639a266bde"
+  }
+]

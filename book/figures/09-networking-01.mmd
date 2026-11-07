@@ -1,0 +1,22 @@
+sequenceDiagram
+    participant C as Client
+    participant E as Envoy ingress
+    participant X as Ingress ext_proc
+    participant A as ate-api-server
+    participant L as atelet
+    participant W as Worker atunnel
+    participant P as Actor process
+    C->>E: HTTP request + ate-target-actor
+    E->>X: RequestHeaders
+    X->>A: ResumeActor(actor reference)
+    alt Actor requires activation
+        A->>L: Execute assigned resume
+        L->>W: Worker lifecycle operation
+        Note over W,P: Runtime restores or cold boots and probes readiness
+        L-->>A: Assignment usable
+    end
+    A-->>X: Actor + worker address + worker identity
+    X-->>E: Trusted routing metadata
+    E->>W: mTLS CONNECT for actor and port
+    W->>P: Connection through actor namespace
+    P-->>C: Application response through tunnel

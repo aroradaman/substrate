@@ -1,0 +1,52 @@
+2026-10-31T17:43:53Z
+epc
+Linux epc 6.8.0-138-generic #138-Ubuntu SMP PREEMPT_DYNAMIC Fri Jul 31 22:41:49 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
+uid=1000(daman) gid=1000(daman) groups=1000(daman),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),101(lxd),988(docker)
+16
+               total        used        free      shared  buff/cache   available
+Mem:            62Gi       6.4Gi        28Gi       1.5Gi        30Gi        56Gi
+Swap:          8.0Gi       780Ki       8.0Gi
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda2       250G   46G  192G  20% /
+/dev/sda2       250G   46G  192G  20% /
+cgroup2fs
+go: downloading go1.27.3 (linux/amd64)
+go version go1.27.3 linux/amd64
+Client Version: v1.37.0
+Kustomize Version: v5.8.1
+Client: Docker Engine - Community
+ Version:           29.7.2
+ API version:       1.55
+ Go version:        go1.26.5
+ Git commit:        a7dcaa6
+ Built:             Wed Aug  5 18:28:53 2026
+ OS/Arch:           linux/amd64
+ Context:           default
+
+Server: Docker Engine - Community
+ Engine:
+  Version:          29.7.2
+  API version:      1.55 (minimum version 1.40)
+  Go version:       go1.26.5
+  Git commit:       6a43e3d
+  Built:            Wed Aug  5 18:28:53 2026
+  OS/Arch:          linux/amd64
+  Experimental:     false
+ containerd:
+  Version:          v2.3.4
+  GitCommit:        db8809540e1a7a9da5d518876894933ff55692ab
+ runc:
+  Version:          1.4.3
+  GitCommit:        v1.4.3-0-gbb14dabe
+ docker-init:
+  Version:          0.19.0
+  GitCommit:        de40ad0
+github.com/docker/buildx v0.37.0 ac30b249211430b85fb8f37b6e7154b5c47ba0b6
+0ddbf78d54bb6da2ccb01125b7e085aa14d555a6
+vks-dev-console-vks-dev-console-1 vks-dev-console-vks-dev-console
+pensive_kapitsa vks-dev-console-vks-dev-console:latest
+substrate-cert-v1-test-control-plane upstream-dockerhub-virtual.packages.vcfd.broadcom.net/kindest/node:v1.37.0
+kind-worker2 a1ed56cfb0e7
+kind-worker a1ed56cfb0e7
+kind-control-plane a1ed56cfb0e7
+substrate-dev-registry upstream-dockerhub-virtual.packages.vcfd.broadcom.net/library/registry:3
