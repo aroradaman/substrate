@@ -1,24 +1,24 @@
 {
-  "baseline_commit": "0ddbf78d54bb6da2ccb01125b7e085aa14d555a6",
+  "baseline_commit": "b34fbee742906494b5eb4f1f36987176bf8770a4",
   "complete_chapter_set": true,
   "missing_files": [],
   "source_sha256": {
-    "front-matter.md": "eaa2c9e6c3be968b402f98ffb85726b7783bc307ea365dddbc28d3f2237f7aa8",
-    "chapters/01-architecture.md": "61d5d175ec42de5f45f04ee420a875191d03fe6ad4cc0b0996703a31d6ad221c",
-    "chapters/02-api-planes.md": "b73ee2baf977e647a03088a7246db9bf25a3cebd2b9dda77e5d038c8892ac0db",
-    "chapters/03-placement-consistency.md": "e8485d1ed328dcc592f267185c0e522db5c12281523212a65cda578053b85608",
-    "chapters/04-kubernetes-reconciliation.md": "2885d6214404558b142c243a212693088cb222ac8fa320d1598618bdb691503a",
-    "chapters/05-node-supervision.md": "d583677ed3bd34d1856f9c42808a8e43bdb62e552d930d6bbf87fdc19216ad59",
-    "chapters/06-gvisor.md": "e06afcebeba6658cf8393dd573a4e82be2017f083a05c85a29a8731835d42a93",
-    "chapters/07-microvm.md": "460eb706424feeb4b1cadb8587f788e7ad81b7db468bb283d093930b7c8fae5e",
-    "chapters/08-snapshots-storage.md": "ca80c385877f7e676006a32a05ec7f5163f1260ade5a927cef2466fad86cd419",
-    "chapters/09-networking.md": "cf74a6e65e080e2368571c3ba83d8739fa14eef1c17e70f598e01130134732da",
-    "chapters/10-security-identity.md": "9d693b33ba0c298852b6d046a162ada7bb87d6f66f204aa4909e45170429580d",
-    "chapters/11-operations.md": "f55b994dcf904f58ab5280d8c12acdf7a8e31a7c5593bfffbde4bb550089b3a5",
-    "chapters/12-extension-contracts.md": "5957588e3183f93fb5b7439e1214eb233cc2dd896e5db2c82ba3d0852e6e575c",
-    "appendix-a-kernel-audit.md": "d980667c7b64278509f4e252cad2d1276a6a6dfd88a313047d45eb6dba5b02f5",
-    "appendix-b-source-inventory.md": "4306789bfa53ecbae70dda0a7a13644d2d4804568515d2987cc219474c1c6975",
-    "appendix-c-glossary.md": "990540c3c7ba9b8c041d00115127da5ea09ee185a466d2f1dcfc11d4b15a410d"
+    "front-matter.md": "5810f5ebb3a32046874f53949c79242edfdcfd631e1fe5e64ecf5b693273b144",
+    "chapters/01-architecture.md": "f9282aaa4e53a59adcf385a35eccda18450e292e19ab9b4a7a68e97f0a39c63a",
+    "chapters/02-api-planes.md": "50b5c21cc423ecf7d069190329824095a5ad33d23e12b2942ad9b8604f87990d",
+    "chapters/03-placement-consistency.md": "ff7b0707e3d109cf59050c068fe8dd4c394758fcdce352f4ab0e35b980721688",
+    "chapters/04-kubernetes-reconciliation.md": "05dc5b3e6fb1fef31e05f3006e074c876d42fcdf97b311748fa5c5babdc9b14e",
+    "chapters/05-node-supervision.md": "80ae982bf9827fedf64f4b038b4eef992799c7a6d4b1e0eb17cfdeef97aafade",
+    "chapters/06-gvisor.md": "6395fa9a0821cc7345692858e4090ba2d05360253a882082d72dcd6b5469c9d5",
+    "chapters/07-microvm.md": "56f5f719f12010588b1b1ad54b3d956c165ab8c32df3be439177b348c0cedde6",
+    "chapters/08-snapshots-storage.md": "445fd4ad9b3710422b98dd7c5cffdd18ef018eebfc723756e994c65280b04482",
+    "chapters/09-networking.md": "868ad5755de1fa9ff83155d11879d4966ed81f21ea3b8a230b6a55908ade24c8",
+    "chapters/10-security-identity.md": "e0a6c55288b8abfe7ed1c24adfcff4f2abe80f86316fe0a09069eac1dd41b807",
+    "chapters/11-operations.md": "096a3ad45d49ccd2f763c26e0fb421b54410f0aabd051794066f6e4fd160f609",
+    "chapters/12-extension-contracts.md": "cb07de2c8ff866eabe1d58dc0dac775aabb77d0ec970cfbba86088d3cff74088",
+    "appendix-a-kernel-audit.md": "912f27acf01ec42c328a0a2f1f42651531c47510afed684b060ae1f2fde7486f",
+    "appendix-b-source-inventory.md": "efde944e2067bf429f29ccb9013486c5fcf170ab9cfb052dab844df7abde43fc",
+    "appendix-c-glossary.md": "1139c668146741af782b4a9b8fb2657a49fccf06f0cb0a5173ea2e13321c327c"
   },
   "chapters": [
     {
@@ -26,8 +26,8 @@
       "file": "chapters/01-architecture.md",
       "title": "1. Multiplexing Actors: Architecture and Execution Boundaries",
       "target_words": 6000,
-      "raw_words": 6036,
-      "prose_words": 5717,
+      "raw_words": 6039,
+      "prose_words": 5720,
       "mermaid_diagrams": 5
     },
     {
@@ -35,8 +35,8 @@
       "file": "chapters/02-api-planes.md",
       "title": "2. Two API Planes: Resources, Schemas, and Contracts",
       "target_words": 6600,
-      "raw_words": 6606,
-      "prose_words": 6262,
+      "raw_words": 6673,
+      "prose_words": 6329,
       "mermaid_diagrams": 5
     },
     {
@@ -44,8 +44,8 @@
       "file": "chapters/03-placement-consistency.md",
       "title": "3. Placement and Consistency in ateapi",
       "target_words": 7500,
-      "raw_words": 7440,
-      "prose_words": 7092,
+      "raw_words": 7495,
+      "prose_words": 7149,
       "mermaid_diagrams": 5
     },
     {
@@ -53,8 +53,8 @@
       "file": "chapters/04-kubernetes-reconciliation.md",
       "title": "4. Reconciling Kubernetes Infrastructure",
       "target_words": 6600,
-      "raw_words": 6558,
-      "prose_words": 6284,
+      "raw_words": 6591,
+      "prose_words": 6317,
       "mermaid_diagrams": 5
     },
     {
@@ -62,8 +62,8 @@
       "file": "chapters/05-node-supervision.md",
       "title": "5. Node Supervision and Shared Worker Machinery",
       "target_words": 7200,
-      "raw_words": 7235,
-      "prose_words": 6994,
+      "raw_words": 7250,
+      "prose_words": 7009,
       "mermaid_diagrams": 4
     },
     {
@@ -71,8 +71,8 @@
       "file": "chapters/06-gvisor.md",
       "title": "6. gVisor Execution and Checkpoint Internals",
       "target_words": 7200,
-      "raw_words": 7180,
-      "prose_words": 6881,
+      "raw_words": 7249,
+      "prose_words": 6950,
       "mermaid_diagrams": 4
     },
     {
@@ -80,8 +80,8 @@
       "file": "chapters/07-microvm.md",
       "title": "7. MicroVM Execution with Kata and Cloud Hypervisor",
       "target_words": 7500,
-      "raw_words": 7371,
-      "prose_words": 7141,
+      "raw_words": 7449,
+      "prose_words": 7219,
       "mermaid_diagrams": 4
     },
     {
@@ -89,8 +89,8 @@
       "file": "chapters/08-snapshots-storage.md",
       "title": "8. Snapshot Persistence, Locality, and Storage Backends",
       "target_words": 7500,
-      "raw_words": 7547,
-      "prose_words": 7351,
+      "raw_words": 7596,
+      "prose_words": 7400,
       "mermaid_diagrams": 4
     },
     {
@@ -98,8 +98,8 @@
       "file": "chapters/09-networking.md",
       "title": "9. Actor Networking, Transparent Resume, and Backpressure",
       "target_words": 7500,
-      "raw_words": 7489,
-      "prose_words": 7050,
+      "raw_words": 7510,
+      "prose_words": 7071,
       "mermaid_diagrams": 6
     },
     {
@@ -107,8 +107,8 @@
       "file": "chapters/10-security-identity.md",
       "title": "10. Identity, Authorization, and Credential Brokering",
       "target_words": 7500,
-      "raw_words": 7481,
-      "prose_words": 7128,
+      "raw_words": 7578,
+      "prose_words": 7225,
       "mermaid_diagrams": 5
     },
     {
@@ -116,8 +116,8 @@
       "file": "chapters/11-operations.md",
       "title": "11. Operating and Measuring a Multiplexed Fleet",
       "target_words": 7200,
-      "raw_words": 7223,
-      "prose_words": 6896,
+      "raw_words": 7222,
+      "prose_words": 6895,
       "mermaid_diagrams": 5
     },
     {
@@ -125,26 +125,27 @@
       "file": "chapters/12-extension-contracts.md",
       "title": "12. Extension Contracts and Upgrade Compatibility",
       "target_words": 6300,
-      "raw_words": 6273,
-      "prose_words": 5956,
+      "raw_words": 6321,
+      "prose_words": 6004,
       "mermaid_diagrams": 5
     }
   ],
-  "body_raw_words": 84439,
-  "body_prose_words": 80752,
-  "total_prose_words": 86994,
+  "body_raw_words": 84973,
+  "body_prose_words": 81288,
+  "total_prose_words": 87647,
   "mermaid_diagrams": 57,
-  "checked_local_links": 561,
+  "checked_local_links": 0,
+  "upstream_source_links": 570,
   "errors": [],
   "warnings": [],
   "duplicate_paragraphs": [],
-  "validation_scope": "Static manuscript checks; no Kubernetes, runtime, storage or performance tests executed.",
+  "validation_scope": "Static manuscript checks only. This checker does not execute cluster tests; separately recorded live experiments are identified by the manuscript and evidence index.",
   "rendered_figures": 57,
   "render_validation": {
     "mermaid_version": "11.17.2",
     "mermaid_cli_version": "11.12.0",
     "serialization_version": 2,
-    "browser_version": "Chrome/156.0.8078.74",
+    "browser_version": "Chrome/157.0.8103.39",
     "figures": [
       {
         "id": "01-architecture-01",
@@ -241,7 +242,7 @@
         "chapter": "03-placement-consistency.md",
         "input": "figures/03-placement-consistency-01.mmd",
         "output": "figures/03-placement-consistency-01.svg",
-        "sha256": "7c10952c379dc91c2c8f54ab162ce46510a126b16f989f0e9a27e2f2e7630116",
+        "sha256": "74ea2ce7d7f6021ad695f4a797e67be36bf7dc681193a7c1644ddfcbcbbccf08",
         "ok": true,
         "cached": true
       },
@@ -250,7 +251,7 @@
         "chapter": "03-placement-consistency.md",
         "input": "figures/03-placement-consistency-02.mmd",
         "output": "figures/03-placement-consistency-02.svg",
-        "sha256": "965a34f09fce897920bc4b617b69473a5c6c8a535d9ecf73d07901bee63fefd9",
+        "sha256": "ccc006ca8c089630f1f48437740ba6242981f03180d58da211b0cabc4f148cdf",
         "ok": true,
         "cached": true
       },
@@ -621,7 +622,7 @@
         "output": "figures/12-extension-contracts-01.svg",
         "sha256": "9ed96e89bbb6e3d4f78f12495ea37b4f8f6216ae8cfa1427a29ee5a4cd81562e",
         "ok": true,
-        "cached": false
+        "cached": true
       },
       {
         "id": "12-extension-contracts-02",
@@ -663,22 +664,22 @@
     "failed_figures": 0,
     "network_requests_allowed": false,
     "source_sha256": {
-      "front-matter.md": "eaa2c9e6c3be968b402f98ffb85726b7783bc307ea365dddbc28d3f2237f7aa8",
-      "chapters/01-architecture.md": "61d5d175ec42de5f45f04ee420a875191d03fe6ad4cc0b0996703a31d6ad221c",
-      "chapters/02-api-planes.md": "b73ee2baf977e647a03088a7246db9bf25a3cebd2b9dda77e5d038c8892ac0db",
-      "chapters/03-placement-consistency.md": "e8485d1ed328dcc592f267185c0e522db5c12281523212a65cda578053b85608",
-      "chapters/04-kubernetes-reconciliation.md": "2885d6214404558b142c243a212693088cb222ac8fa320d1598618bdb691503a",
-      "chapters/05-node-supervision.md": "d583677ed3bd34d1856f9c42808a8e43bdb62e552d930d6bbf87fdc19216ad59",
-      "chapters/06-gvisor.md": "e06afcebeba6658cf8393dd573a4e82be2017f083a05c85a29a8731835d42a93",
-      "chapters/07-microvm.md": "460eb706424feeb4b1cadb8587f788e7ad81b7db468bb283d093930b7c8fae5e",
-      "chapters/08-snapshots-storage.md": "ca80c385877f7e676006a32a05ec7f5163f1260ade5a927cef2466fad86cd419",
-      "chapters/09-networking.md": "cf74a6e65e080e2368571c3ba83d8739fa14eef1c17e70f598e01130134732da",
-      "chapters/10-security-identity.md": "9d693b33ba0c298852b6d046a162ada7bb87d6f66f204aa4909e45170429580d",
-      "chapters/11-operations.md": "f55b994dcf904f58ab5280d8c12acdf7a8e31a7c5593bfffbde4bb550089b3a5",
-      "chapters/12-extension-contracts.md": "5957588e3183f93fb5b7439e1214eb233cc2dd896e5db2c82ba3d0852e6e575c",
-      "appendix-a-kernel-audit.md": "d980667c7b64278509f4e252cad2d1276a6a6dfd88a313047d45eb6dba5b02f5",
-      "appendix-b-source-inventory.md": "4306789bfa53ecbae70dda0a7a13644d2d4804568515d2987cc219474c1c6975",
-      "appendix-c-glossary.md": "990540c3c7ba9b8c041d00115127da5ea09ee185a466d2f1dcfc11d4b15a410d"
+      "front-matter.md": "5810f5ebb3a32046874f53949c79242edfdcfd631e1fe5e64ecf5b693273b144",
+      "chapters/01-architecture.md": "f9282aaa4e53a59adcf385a35eccda18450e292e19ab9b4a7a68e97f0a39c63a",
+      "chapters/02-api-planes.md": "50b5c21cc423ecf7d069190329824095a5ad33d23e12b2942ad9b8604f87990d",
+      "chapters/03-placement-consistency.md": "ff7b0707e3d109cf59050c068fe8dd4c394758fcdce352f4ab0e35b980721688",
+      "chapters/04-kubernetes-reconciliation.md": "05dc5b3e6fb1fef31e05f3006e074c876d42fcdf97b311748fa5c5babdc9b14e",
+      "chapters/05-node-supervision.md": "80ae982bf9827fedf64f4b038b4eef992799c7a6d4b1e0eb17cfdeef97aafade",
+      "chapters/06-gvisor.md": "6395fa9a0821cc7345692858e4090ba2d05360253a882082d72dcd6b5469c9d5",
+      "chapters/07-microvm.md": "56f5f719f12010588b1b1ad54b3d956c165ab8c32df3be439177b348c0cedde6",
+      "chapters/08-snapshots-storage.md": "445fd4ad9b3710422b98dd7c5cffdd18ef018eebfc723756e994c65280b04482",
+      "chapters/09-networking.md": "868ad5755de1fa9ff83155d11879d4966ed81f21ea3b8a230b6a55908ade24c8",
+      "chapters/10-security-identity.md": "e0a6c55288b8abfe7ed1c24adfcff4f2abe80f86316fe0a09069eac1dd41b807",
+      "chapters/11-operations.md": "096a3ad45d49ccd2f763c26e0fb421b54410f0aabd051794066f6e4fd160f609",
+      "chapters/12-extension-contracts.md": "cb07de2c8ff866eabe1d58dc0dac775aabb77d0ec970cfbba86088d3cff74088",
+      "appendix-a-kernel-audit.md": "912f27acf01ec42c328a0a2f1f42651531c47510afed684b060ae1f2fde7486f",
+      "appendix-b-source-inventory.md": "efde944e2067bf429f29ccb9013486c5fcf170ab9cfb052dab844df7abde43fc",
+      "appendix-c-glossary.md": "1139c668146741af782b4a9b8fb2657a49fccf06f0cb0a5173ea2e13321c327c"
     },
     "html_checks": {
       "broken_anchors": [],
@@ -686,10 +687,10 @@
       "failed_images": 0,
       "failed_image_ids": []
     },
-    "pdf_sha256": "f08f8f81a13c0eb95a82155978f3c6415dabbb223d3ce81181f82024299d0cc5",
-    "pdf_pages": 298,
-    "pdf_bytes": 4095527,
-    "preview_directory": "/var/folders/y6/vqxjsq8n3bx_zq93_mmx9k7r0000gq/T/substrate-book-previews",
+    "pdf_sha256": "12a4565092fb42d519007a97b9170683e027db822d39517e6164694f4f32bfec",
+    "pdf_pages": 299,
+    "pdf_bytes": 4083727,
+    "preview_directory": "/var/folders/g7/lnw9y1dx4x77m1z16n7bhkhw0000gn/T/substrate-book-previews",
     "changed_during_render": []
   }
 }

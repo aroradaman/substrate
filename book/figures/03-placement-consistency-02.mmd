@@ -4,7 +4,7 @@ sequenceDiagram
     participant L as Atelet
     participant R2 as API replica two
     R1->>DB: Acquire actor lease with token one
-    R1->>DB: Persist assignment and RESUMING
+    R1->>DB: Bind worker, assignment and RESUMING in one transaction
     R1->>L: Restore actor UID on worker Pod UID
     L-->>R1: Restore result
     Note over R1: Process exits before final state write

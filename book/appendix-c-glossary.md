@@ -1,6 +1,6 @@
 # Appendix C. Glossary and Reading Paths
 
-Terms here follow the implementation baseline. Capitalized resource names identify concrete API or Kubernetes types; lower-case process names identify implementations or deployment roles.
+Terms here follow the v1.0.0 implementation. Capitalized resource names identify concrete API or Kubernetes types; lower-case process names identify implementations or deployment roles.
 
 | Term | Meaning and boundary | Read next |
 |---|---|---|
@@ -15,7 +15,7 @@ Terms here follow the implementation baseline. Capitalized resource names identi
 | ateapi / ate-api-server | Go command and deployment role implementing the actor control plane, PostgreSQL workflows, scheduling and associated controllers. | Chapter 3 |
 | atecontroller | Kubernetes infrastructure reconciliation and Pod-to-Worker synchronization process. | Chapter 4 |
 | atelet | Node supervisor that prepares local state and invokes the worker protocol, with support and storage coordination services. | Chapter 5 |
-| ateworker | A runtime-specific worker process implementing Run/Checkpoint/Restore/Terminate and statistics. The baseline has gVisor and microVM implementations. | Chapters 5–7 |
+| ateworker | A runtime-specific worker process implementing Run/Checkpoint/Restore/Terminate and statistics. The v1.0.0 revision has gVisor and microVM implementations. | Chapters 5–7 |
 | atenet-router | Ingress deployment role that resolves actor destinations and triggers resume, using the selected dataplane. | Chapter 9 |
 | atenet-egress | Shared outbound gateway role performing identity, policy and credential handling outside actor sandboxes. | Chapters 9–10 |
 | atunnel | Library embedded in the worker for per-actor ingress/egress transport and DNS behavior. | Chapter 9 |
@@ -32,7 +32,7 @@ Terms here follow the implementation baseline. Capitalized resource names identi
 | Durable snapshot | Completed external snapshot state tracked by the control plane, whose physical resilience depends on the configured storage backend. | Chapter 8 |
 | Detach | Locality-release operation that may require upload before removing a local copy and allowing placement elsewhere. | Chapter 8 |
 | Revert | Lifecycle operation returning an actor to its completed durable state while discarding current execution/local progress as defined by the workflow. | Chapters 3, 8 |
-| OnDemand | Cloud Hypervisor restore mode that faults memory pages as needed. It is conditional in this baseline and not the default staged CH v53 path. | Chapter 7 |
+| OnDemand | Cloud Hypervisor restore mode that faults memory pages as needed. It is conditional in this revision and not the default staged CH v53 path. | Chapter 7 |
 | Copy | Eager guest-memory restoration mode selected by the current version policy for affected or unknown CH versions. | Chapter 7 |
 | Sentry | gVisor userspace kernel hosting the actor's application execution abstraction. It is distinct from host Linux. | Chapter 6 |
 | virtiofsd | Host process serving a filesystem tree to the guest over virtio-fs. Its memory and permissions are part of the microVM boundary. | Chapter 7 |
@@ -41,6 +41,7 @@ Terms here follow the implementation baseline. Capitalized resource names identi
 | RustFS | Existing S3-compatible alternative object-store deployment in the kind manifests. Its backend credentials and failure domains remain explicit operational concerns. | Chapters 8, 11 |
 | Request parking | Bounded retention/retry of requests through eligible transient resume failures, with per-actor flight sharing. | Chapter 9 |
 | SPIFFE identity | URI-based workload identity carried in certificates and used by specific authentication/authorization checks. It is not by itself an authorization policy. | Chapter 10 |
+| Actor JWT | Signed token asserting an actor or worker-for-actor role. Relying parties verify it through the issuer's OpenID Connect discovery document and the key set, which lists every key in the signing pool. | Chapter 10 |
 | EgressPolicy | Actor-related outbound policy evaluated outside the sandbox, including permitted requests and credential effects. | Chapter 10 |
 | AccessPolicy | Substrate API authorization configuration using global/atespace scopes and the embedded relation model. | Chapter 10 |
 | ext_proc | Envoy's external processing protocol. The operation being delegated and trusted metadata available depend on the filter chain. | Chapters 9–10 |

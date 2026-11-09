@@ -2,11 +2,11 @@
 
 Title: **Substrate Internals: Sandboxing, Scheduling, and Multiplexing AI Agents on Kubernetes**.
 
-The user authorized writing the complete book after the repository reconnaissance, explicitly requested whole-clone coverage, and asked to include RustFS as an alternative object store. This manuscript is grounded in local commit `0ddbf78d54bb6da2ccb01125b7e085aa14d555a6` (2026-10-31). Existing source code must not be changed.
+The user authorized writing the complete book after the repository reconnaissance, explicitly requested whole-clone coverage, and asked to include RustFS as an alternative object store. This edition is grounded in the `v1.0.0` tag, commit `b34fbee742906494b5eb4f1f36987176bf8770a4` (2026-11-05). The first edition was grounded in `0ddbf78d54bb6da2ccb01125b7e085aa14d555a6` (2026-10-31). Existing source code must not be changed.
 
 Audience: Kubernetes core contributors who already understand controllers, CRI/CNI/CSI, namespaces, cgroups, and virtualization. Explain Substrate-specific decisions, contracts, races, failure recovery, costs, and limitations. Do not fill pages reteaching basic Kubernetes or generic cloud-native concepts.
 
-Write continuous technical prose, with tables, short code excerpts, concrete execution traces, equations where useful, and mandatory Mermaid diagrams. Avoid filler, invented measurements, invented APIs, repeated summaries, and padding to hit a count. Runtime behavior wins over stale comments. Distinguish implemented behavior, preview features, documented targets/TODOs, and editorial proposals. Prefer readable relative source links from each chapter, for example `../../cmd/ateapi/main.go`. Give identifiers and filenames next to technical claims. For line citations, GitHub permalinks may use the audited full commit; local relative links should omit line fragments.
+Write continuous technical prose, with tables, short code excerpts, concrete execution traces, equations where useful, and mandatory Mermaid diagrams. Avoid filler, invented measurements, invented APIs, repeated summaries, and padding to hit a count. Runtime behavior wins over stale comments. Distinguish implemented behavior, preview features, documented targets/TODOs, and editorial proposals. Link code with upstream GitHub URLs pinned to the `v1.0.0` tag, for example `https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateapi/main.go`. Never link code by a path into a local clone. `build.py` validates each such link against its ref with git. Give identifiers and filenames next to technical claims. For line citations, GitHub permalinks may use the audited full commit; line fragments are allowed on upstream links.
 
 Each chapter has exactly six top-level numbered sections `## N.1` through `## N.6`. Subsections may use `###`. N.6 is titled **Roadmap and engineering improvements**, and must distinguish repository-backed work from proposals. Each chapter ends with a short unnumbered `## Source map` giving the important source files and the questions they answer. No seventh numbered section. Source maps and tables do not replace explanation.
 
@@ -31,7 +31,7 @@ Cross-chapter boundaries: 3 owns leases/CAS/outbox/epochs/scheduling and executi
 
 Critical audit constraints:
 
-- No `ateom`, `pkg/apis`, `config/`, `deploy/`, or `docs/roadmap.md` in this checkout. CRDs are in `api/infra/k8s/ate/v1`; YAML in `manifests`; architecture is `docs/concepts/architecture.md` and explicitly marked aspirational.
+- No `ateom`, `pkg/apis`, `config/`, `deploy/`, or `docs/roadmap.md` in this checkout. CRDs are in `api/infra/k8s/ate/v1`; YAML in `manifests`; architecture is `docs/concepts/architecture.md`, which carries no planned status at v1.0.0; its north-star targets remain targets.
 - Actor/ActorTemplate/Atespace/Worker/Tag/EgressPolicy/AccessPolicy are PostgreSQL API records; WorkerPool/SandboxConfig/CSIDriverConfig are CRDs. Multiple actors can execute concurrently per worker.
 - Placement uses candidate selection from a cache, power-of-two choices and dominant utilization, then authoritative admission under a PostgreSQL worker row lock. Renewable SQL leases, unique assignments, worker epochs and recovery have separate roles.
 - Golden-template and worker-assignment controllers run inside ateapi. Controller-runtime does not implement every controller in the repository.

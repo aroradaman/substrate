@@ -7,7 +7,9 @@ import collections
 import hashlib
 import html
 import json
+import functools
 import re
+import subprocess
 import sys
 import unicodedata
 from pathlib import Path
@@ -20,7 +22,13 @@ except ImportError:
 
 BOOK = Path(__file__).resolve().parent
 REPO = BOOK.parent
-BASELINE = "0ddbf78d54bb6da2ccb01125b7e085aa14d555a6"
+BASELINE = "b34fbee742906494b5eb4f1f36987176bf8770a4"
+# Code links point at the upstream repository at a pinned ref, so readers never
+# see paths into a local clone. The companion and the reconnaissance notes are
+# pinned to the commit their evidence came from.
+REPO_URL = "https://github.com/agent-substrate/substrate"
+TAG = "v1.0.0"
+UPSTREAM_LINK = re.compile(rf"^{re.escape(REPO_URL)}/(blob|tree)/([^/]+)/([^#]+)(#.*)?$")
 TITLE = "Substrate Internals: Sandboxing, Scheduling, and Multiplexing AI Agents on Kubernetes"
 CHAPTERS = [
     ("01-architecture.md", 6000),
@@ -66,6 +74,22 @@ def local_destination(source, target):
     return (source.parent / unquote(parsed.path.strip("<>"))).resolve()
 
 
+@functools.lru_cache(maxsize=None)
+def upstream_problem(url):
+    """Return why an upstream code link is wrong, or None if it names an object at its ref."""
+    match = UPSTREAM_LINK.match(url)
+    if not match:
+        return "not a blob or tree URL under the upstream repository"
+    kind, ref, path, _ = match.groups()
+    result = subprocess.run(["git", "-C", str(REPO), "cat-file", "-t", f"{ref}:{path}"], capture_output=True, text=True)
+    if result.returncode != 0:
+        return f"{path} does not exist at {ref}"
+    actual = result.stdout.strip()
+    if (kind == "blob") != (actual == "blob"):
+        return f"{path} is a {actual} at {ref}, not a {kind}"
+    return None
+
+
 def collect(partial, lifecycle=False):
     wanted = ([BOOK / "actor-lifecycle.md"] if lifecycle else
               [BOOK / "front-matter.md"] + [BOOK / "chapters" / n for n, _ in CHAPTERS] + [BOOK / n for n in APPENDICES])
@@ -80,17 +104,26 @@ def validate(documents, missing):
     paragraphs = collections.defaultdict(list)
     diagram_count = 0
     source_link_count = 0
+    upstream_count = 0
     for path, text in documents:
         name = str(path.relative_to(BOOK))
         if len(re.findall(r"^```", text, re.M)) % 2:
             errors.append(f"{name}: unbalanced fenced code")
         for label, target in LINK.findall(text):
+            if target.startswith(REPO_URL + "/"):
+                upstream_count += 1
+                problem = upstream_problem(target)
+                if problem:
+                    errors.append(f"{name}: {target}: {problem}")
+                continue
             dst = local_destination(path, target)
             if dst is None:
                 continue
             source_link_count += 1
             if not dst.exists():
                 errors.append(f"{name}: missing link target {target}")
+            elif dst.is_relative_to(REPO) and not dst.is_relative_to(BOOK):
+                errors.append(f"{name}: {target} links repository code by path; use the upstream URL")
         for paragraph in re.split(r"\n\s*\n", prose(text)):
             normalized = re.sub(r"\s+", " ", paragraph).strip()
             if len(normalized.split()) >= 65 and not normalized.startswith(("|", "#", "-")):
@@ -126,30 +159,24 @@ def validate(documents, missing):
             "body_prose_words": sum(r["prose_words"] for r in rows),
             "total_prose_words": sum(len(prose(t).split()) for _, t in documents),
             "mermaid_diagrams": diagram_count, "checked_local_links": source_link_count,
+            "upstream_source_links": upstream_count,
             "errors": errors, "warnings": warnings, "duplicate_paragraphs": duplicates,
             "validation_scope": "Static manuscript checks only. This checker does not execute cluster tests; separately recorded live experiments are identified by the manuscript and evidence index."}
 
 
-def rewrite_links(source, text, titles, for_html=False):
+def rewrite_links(source, text, titles):
     def replace(match):
         label, target = match.groups()
         dst = local_destination(source, target)
         if dst is None:
             return match.group(0)
-        fragment = urlsplit(target).fragment
         if dst in titles:
-            target = "#" + (fragment or slug(titles[dst]))
-        elif for_html and dst.is_relative_to(REPO):
-            rel = dst.relative_to(REPO).as_posix()
-            kind = "tree" if dst.is_dir() else "blob"
-            target = f"https://github.com/agent-substrate/substrate/{kind}/{BASELINE}/{rel}"
-            if fragment:
-                target += "#" + fragment
-        elif dst.is_relative_to(REPO):
-            target = "../" + dst.relative_to(REPO).as_posix()
-            if fragment:
-                target += "#" + fragment
-        return f"[{label}]({target})"
+            return f"[{label}](#{urlsplit(target).fragment or slug(titles[dst])})"
+        # Book artifacts such as experiment scripts exist only in the local clone,
+        # so the rendered reader sees the label without a file path.
+        if dst.is_relative_to(BOOK):
+            return label
+        return match.group(0)
     return LINK.sub(replace, text)
 
 
@@ -270,7 +297,7 @@ def build(partial=False, lifecycle=False):
     if not lifecycle:
         (BOOK / "manuscript.md").write_text(manuscript)
     manifest = []
-    render_source = "\n\n".join(figures_for(p, rewrite_links(p, t, titles, True), manifest, figure_dir, "L" if lifecycle else None) for p, t in documents)
+    render_source = "\n\n".join(figures_for(p, rewrite_links(p, t, titles), manifest, figure_dir, "L" if lifecycle else None) for p, t in documents)
     md = markdown.Markdown(extensions=["fenced_code", "tables", "toc", "sane_lists", "footnotes"],
                            extension_configs={"toc": {"slugify": slug, "toc_depth": "1-2"}})
     body = md.convert(render_source)
@@ -279,7 +306,7 @@ def build(partial=False, lifecycle=False):
 <title>{html.escape(title)}</title><meta name="author" content="Substrate Internals manuscript"><style>{CSS}</style></head>
 <body><header class="cover"><div class="eyebrow">Source-grounded systems engineering</div><h1>{cover_title}</h1>
 <p>{subtitle}</p>
-<p class="meta">Implementation baseline {BASELINE[:12]}<br>October 31, 2026</p></header>
+<p class="meta">Implementation baseline v1.0.0, {BASELINE[:12]}<br>November 9, 2026</p></header>
 <div class="layout"><nav aria-label="Table of contents">{md.toc}</nav><main>
 <section class="print-toc"><h1>Contents</h1>{md.toc}</section>{body}</main></div></body></html>'''
     (BOOK / (stem + ".html")).write_text(page)

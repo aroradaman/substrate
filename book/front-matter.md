@@ -2,9 +2,9 @@
 
 ## Sandboxing, Scheduling, and Multiplexing AI Agents on Kubernetes
 
-Source-grounded manuscript · October 31, 2026
+Source-grounded manuscript · Refreshed for v1.0.0 · November 9, 2026
 
-Implementation baseline: `0ddbf78d54bb6da2ccb01125b7e085aa14d555a6`
+Implementation baseline: `v1.0.0`, commit `b34fbee742906494b5eb4f1f36987176bf8770a4`. The first edition was written against `0ddbf78d54bb6da2ccb01125b7e085aa14d555a6`; this edition revises it against the release tag.
 
 ## Preface
 
@@ -18,11 +18,11 @@ The intended reader already understands Kubernetes control-plane internals, reco
 
 ## The source contract
 
-Every implementation claim refers to the local repository baseline named above. Links in the individual chapters resolve to files in that clone. Generated public and internal protocols, deployment manifests, dependency pins, benchmark harnesses, tests, and relevant vendored wrappers are part of the evidence. A comment or documentation page is not treated as proof when executable code contradicts it.
+Every implementation claim refers to the local repository baseline named above. Code links in the chapters point to the upstream repository at the `v1.0.0` tag, so every reference resolves on GitHub without a local clone. Generated public and internal protocols, deployment manifests, dependency pins, benchmark harnesses, tests, and relevant vendored wrappers are part of the evidence. A comment or documentation page is not treated as proof when executable code contradicts it.
 
-The reconnaissance inventoried the complete clone outside Git's object database: 14,145 files before the manuscript was created, including 11,794 files under `vendor/`. Deep inspection concentrated on first-party behavior and the dependency boundaries it exercises. That does not mean every line of every vendored library was manually reviewed. The complete syscall behavior of Go, Envoy, runsc, Cloud Hypervisor, virtiofsd, and a selected CSI driver cannot be established by searching Substrate's Go files. Appendix A identifies direct calls, library-mediated calls, and external-runtime mechanisms separately.
+The v1.0.0 tree has 14,019 tracked files, including 11,645 under `vendor/`. Deep inspection concentrated on first-party behavior and the dependency boundaries it exercises. That does not mean every line of every vendored library was manually reviewed. The complete syscall behavior of Go, Envoy, runsc, Cloud Hypervisor, virtiofsd, and a selected CSI driver cannot be established by searching Substrate's Go files. Appendix A identifies direct calls, library-mediated calls, and external-runtime mechanisms separately.
 
-The checkout is pre-1.0. Its future version-skew contract is valuable design material, but it is not a current blanket compatibility guarantee. Its architecture document is explicitly marked aspirational. There is no `docs/roadmap.md` in this checkout. Roadmap discussions therefore cite explicit targets, preview gates, limitations, or source TODOs, and identify additional proposals as proposals.
+The v1.0.0 revision is the first release covered by the README's compatibility commitment and by the version-skew policy, which applies from 1.0.0 and covers compatible releases only. Its architecture document no longer carries a planned status, but its targets remain targets. There is no `docs/roadmap.md` in this revision. Roadmap discussions therefore cite explicit targets, preview gates, limitations, or source TODOs, and identify additional proposals as proposals.
 
 The book contains no new performance measurements. Numbers from flags, manifests, algorithms, and configuration are implementation facts at the baseline. North-star latency and scale numbers are targets. Historical benchmark observations are identified as such when discussed. Capacity examples are worked models with stated assumptions, not claims about a measured cluster.
 
@@ -40,7 +40,7 @@ Mermaid diagrams express ordering, ownership, and boundaries. An arrow labeled w
 
 Code excerpts illustrate actual implementation decisions. Pseudocode is labeled and should not be compiled as an API example. Operational commands are tied to the repository's current tooling; environment-specific values remain placeholders. Commands shown for a runbook are instructions for a prepared environment, not a record of commands executed while writing the manuscript.
 
-The local source links are useful during code review. For a stable comparison against a later checkout, use the full baseline commit above. The manuscript is intended to make such comparison easier: changes to schema ownership, worker admission, snapshot fidelity, runtime compatibility, or identity scope should be visible as changes to a specific contract, rather than as vague changes to an architectural description.
+The source links are pinned to the `v1.0.0` tag, so they keep pointing at the same files. The companion and the reconnaissance notes are pinned to the first edition's commit, `0ddbf78d`, because their evidence was captured there. The manuscript is intended to make such comparison easier: changes to schema ownership, worker admission, snapshot fidelity, runtime compatibility, or identity scope should be visible as changes to a specific contract, rather than as vague changes to an architectural description.
 
 ## Publication and verification notes
 

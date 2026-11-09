@@ -1,16 +1,17 @@
 {
-  "baseline_commit": "0ddbf78d54bb6da2ccb01125b7e085aa14d555a6",
+  "baseline_commit": "b34fbee742906494b5eb4f1f36987176bf8770a4",
   "complete_chapter_set": null,
   "missing_files": [],
   "source_sha256": {
-    "actor-lifecycle.md": "78aa773f8b149c83ea3e0632aab4321560043c5be378678448545fc0404c8405"
+    "actor-lifecycle.md": "d678818c666ebb51185a08f835723aee824a93a5197df9019508f1783bb6adf1"
   },
   "chapters": [],
   "body_raw_words": 13339,
   "body_prose_words": 11510,
   "total_prose_words": 11510,
   "mermaid_diagrams": 19,
-  "checked_local_links": 132,
+  "checked_local_links": 13,
+  "upstream_source_links": 119,
   "errors": [],
   "warnings": [],
   "duplicate_paragraphs": [],
@@ -21,7 +22,7 @@
     "mermaid_version": "11.17.2",
     "mermaid_cli_version": "11.12.0",
     "serialization_version": 2,
-    "browser_version": "Chrome/156.0.8078.74",
+    "browser_version": "Chrome/157.0.8103.39",
     "figures": [
       {
         "id": "actor-lifecycle-01",
@@ -147,7 +148,7 @@
         "output": "lifecycle-figures/actor-lifecycle-14.svg",
         "sha256": "5a7872cb445a35f81622fa631a20114dd69b63842386f087d61fbc4061cde0d2",
         "ok": true,
-        "cached": false
+        "cached": true
       },
       {
         "id": "actor-lifecycle-15",
@@ -156,7 +157,7 @@
         "output": "lifecycle-figures/actor-lifecycle-15.svg",
         "sha256": "a7b2b955b6363be6092f67f43ff98bfb32c36abd9e7e0b09dce16dc85109dbfb",
         "ok": true,
-        "cached": false
+        "cached": true
       },
       {
         "id": "actor-lifecycle-16",
@@ -165,7 +166,7 @@
         "output": "lifecycle-figures/actor-lifecycle-16.svg",
         "sha256": "2dc03235e6d4bc6b9d3fa78e27a91a71da9e4420273b3361b9c829e0fb7c8bb0",
         "ok": true,
-        "cached": false
+        "cached": true
       },
       {
         "id": "actor-lifecycle-17",
@@ -174,7 +175,7 @@
         "output": "lifecycle-figures/actor-lifecycle-17.svg",
         "sha256": "511d68a80dfb6e9c4a187432f3d7333414ead5f5d54062e508a59eb6756a7da4",
         "ok": true,
-        "cached": false
+        "cached": true
       },
       {
         "id": "actor-lifecycle-18",
@@ -183,7 +184,7 @@
         "output": "lifecycle-figures/actor-lifecycle-18.svg",
         "sha256": "f1a7b086ecd635a4cff0f784f3dcafd4fb081ef92537fac31b4f195fd113f93c",
         "ok": true,
-        "cached": false
+        "cached": true
       },
       {
         "id": "actor-lifecycle-19",
@@ -192,13 +193,13 @@
         "output": "lifecycle-figures/actor-lifecycle-19.svg",
         "sha256": "fe79041e6d799be7d5454d5b97aa192d80002ce4dda6949d25bfd8a6b9835fbe",
         "ok": true,
-        "cached": false
+        "cached": true
       }
     ],
     "failed_figures": 0,
     "network_requests_allowed": false,
     "source_sha256": {
-      "actor-lifecycle.md": "78aa773f8b149c83ea3e0632aab4321560043c5be378678448545fc0404c8405"
+      "actor-lifecycle.md": "d678818c666ebb51185a08f835723aee824a93a5197df9019508f1783bb6adf1"
     },
     "html_checks": {
       "broken_anchors": [],
@@ -206,10 +207,10 @@
       "failed_images": 0,
       "failed_image_ids": []
     },
-    "pdf_sha256": "5fb989ff55f631d7dc6adae506065e531c45dda4300375ca91f394d8d28cbedd",
+    "pdf_sha256": "5a4afc556abf87200c413b3fb8b177bf30d72da13cee1675021c3892f46a7560",
     "pdf_pages": 59,
-    "pdf_bytes": 1220487,
-    "preview_directory": "/var/folders/y6/vqxjsq8n3bx_zq93_mmx9k7r0000gq/T/substrate-lifecycle-previews",
+    "pdf_bytes": 1210103,
+    "preview_directory": "/var/folders/g7/lnw9y1dx4x77m1z16n7bhkhw0000gn/T/substrate-lifecycle-previews",
     "changed_during_render": []
   }
 }

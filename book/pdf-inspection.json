@@ -1,10 +1,10 @@
 {
   "reader": "macOS PDFKit",
-  "pages": 298,
+  "pages": 299,
   "chapter_and_appendix_starts": [
     {
       "page": 9,
-      "title_opening": "1. Multiplexing Actors: Architecture"
+      "title_opening": "1. Multiplexing Actors: Archite"
     },
     {
       "page": 29,
@@ -24,43 +24,43 @@
     },
     {
       "page": 119,
-      "title_opening": "6. gVisor Execution and Checkpoint"
+      "title_opening": "6. gVisor Execution and Checkpo"
     },
     {
       "page": 142,
-      "title_opening": "7. MicroVM Execution with Kata and"
+      "title_opening": "7. MicroVM Execution with Kata "
     },
     {
-      "page": 164,
-      "title_opening": "8. Snapshot Persistence, Locality,"
+      "page": 165,
+      "title_opening": "8. Snapshot Persistence, Locali"
     },
     {
-      "page": 187,
-      "title_opening": "9. Actor Networking, Transparent"
+      "page": 189,
+      "title_opening": "9. Actor Networking, Transparen"
     },
     {
-      "page": 212,
-      "title_opening": "10. Identity, Authorization, and"
+      "page": 214,
+      "title_opening": "10. Identity, Authorization, an"
     },
     {
-      "page": 237,
+      "page": 240,
       "title_opening": "11. Operating and Measuring a"
     },
     {
-      "page": 259,
+      "page": 262,
       "title_opening": "12. Extension Contracts and"
     },
     {
-      "page": 280,
+      "page": 283,
       "title_opening": "Appendix A. Linux Primitive and"
     },
     {
-      "page": 289,
-      "title_opening": "Appendix B. Source Inventory and"
+      "page": 290,
+      "title_opening": "Appendix B. Source Inventory an"
     },
     {
-      "page": 295,
-      "title_opening": "Appendix C. Glossary and Reading"
+      "page": 296,
+      "title_opening": "Appendix C. Glossary and Readin"
     }
   ],
   "figure_captions": 57,

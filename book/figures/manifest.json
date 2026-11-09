@@ -74,14 +74,14 @@
     "chapter": "03-placement-consistency.md",
     "input": "figures/03-placement-consistency-01.mmd",
     "output": "figures/03-placement-consistency-01.svg",
-    "sha256": "7c10952c379dc91c2c8f54ab162ce46510a126b16f989f0e9a27e2f2e7630116"
+    "sha256": "74ea2ce7d7f6021ad695f4a797e67be36bf7dc681193a7c1644ddfcbcbbccf08"
   },
   {
     "id": "03-placement-consistency-02",
     "chapter": "03-placement-consistency.md",
     "input": "figures/03-placement-consistency-02.mmd",
     "output": "figures/03-placement-consistency-02.svg",
-    "sha256": "965a34f09fce897920bc4b617b69473a5c6c8a535d9ecf73d07901bee63fefd9"
+    "sha256": "ccc006ca8c089630f1f48437740ba6242981f03180d58da211b0cabc4f148cdf"
   },
   {
     "id": "03-placement-consistency-03",
