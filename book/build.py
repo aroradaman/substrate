@@ -280,7 +280,7 @@ figcaption { font:12px/1.4 Arial,sans-serif; text-align:center; color:var(--mute
 def build(partial=False, lifecycle=False):
     documents, missing = collect(partial, lifecycle)
     report = validate(documents, missing)
-    stem = "actor-lifecycle" if lifecycle else "substrate-internals"
+    stem = "actor-lifecycle" if lifecycle else "agent_substrate"
     figure_dir = "lifecycle-figures" if lifecycle else "figures"
     validation_file = "lifecycle-validation.json" if lifecycle else "validation.json"
     render_file = "lifecycle-render-validation.json" if lifecycle else "render-validation.json"

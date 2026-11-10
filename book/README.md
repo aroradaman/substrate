@@ -10,9 +10,9 @@ This edition contains **17 chapters, 4 appendices, 363 PDF pages, and 68 Mermaid
 
 ## Read the book
 
-- [Complete HTML edition](substrate-internals.html)
+- [Complete HTML edition](agent_substrate.html)
 - [Complete Markdown manuscript](manuscript.md)
-- [Print edition](substrate-internals.pdf)
+- [Print edition](agent_substrate.pdf)
 - [Front matter and reading guide](front-matter.md)
 - [Source audit and blueprint decisions](reconnaissance.md)
 - [Independent actor lifecycle: HTML](actor-lifecycle.html), [PDF](actor-lifecycle.pdf), [Markdown](actor-lifecycle.md)
