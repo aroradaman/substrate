@@ -1,0 +1,15 @@
+stateDiagram-v2
+    REVERTING --> SUSPENDED: durable state selected
+    RUNNING --> DELETING: DeleteActor
+    RESUMING --> CRASHED: unrecoverable<br/>activation failure
+    RUNNING --> REVERTING: RevertActor
+    SUSPENDED --> RESUMING: ResumeActor
+    CRASHED --> DELETING: DeleteActor
+    CRASHED --> REVERTING: RevertActor
+    SUSPENDED --> DELETING: DeleteActor
+    SUSPENDING --> SUSPENDED: checkpoint finalized
+    RUNNING --> SUSPENDING: SuspendActor
+    [*] --> SUSPENDED: CreateActor
+    RESUMING --> RUNNING: activation finalized
+    DELETING --> [*]: cleanup and removal
+    RUNNING --> CRASHED: execution lost

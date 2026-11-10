@@ -1,4 +1,4 @@
-# Substrate Internals
+# Agent Substrate
 
 ## Sandboxing, Scheduling, and Multiplexing AI Agents on Kubernetes
 
@@ -28,9 +28,9 @@ The book contains no new performance measurements. Numbers from flags, manifests
 
 ## What the book covers
 
-The first four chapters establish the resource model, execution topology, placement protocol, and Kubernetes reconciliation loops. Chapters 5 through 8 follow node supervision, common worker machinery, gVisor, microVMs, and persistence. Chapters 9 and 10 separate transport from authorization and credential handling. Chapters 11 and 12 cover measurement, operations, extension boundaries, and upgrades.
+Chapter 1 introduces Substrate's resource model and execution topology. Chapters 2 to 4 lay the foundation the rest of the book builds on: how containerd, runc and gVisor differ, how a Pod travels from `kubectl apply` through the API server, etcd, the scheduler and the kubelet, and how the node builds it on Linux with cgroups, namespaces, CNI, image unpacking and runc's system calls. Chapters 5 to 7 cover Substrate's control plane: its two API planes, placement and consistency in ateapi, and Kubernetes reconciliation. Chapters 8 to 11 descend to the node: node supervision, a complete trace of an actor's first start (the actor counterpart of Chapters 3 and 4), then the gVisor and microVM backends. Chapters 12 and 13 cover persistence: snapshot storage, then suspend and restore at the system-call level. Chapters 14 to 17 separate transport from authorization and credential handling, then cover measurement, operations, extension boundaries and upgrades.
 
-Each chapter has six numbered sections. Section N.6 considers the subsystem's roadmap and engineering improvements. This keeps unfinished work adjacent to the mechanism it would change. The appendices collect the kernel audit, source inventory, implementation-status matrix, and vocabulary.
+Each chapter has six numbered sections. Section N.6 considers the subsystem's roadmap and engineering improvements. This keeps unfinished work adjacent to the mechanism it would change. The appendices collect the kernel audit, source inventory, implementation-status matrix, vocabulary, and a reference explaining every Linux command and system call used in Chapters 2 to 4, 9 and 13, with who calls it.
 
 RustFS receives explicit treatment as an alternate object-store deployment through the S3 backend. The repository already includes a RustFS deployment, bucket-initialization Job, NetworkPolicy, and matching node/control plugin configuration for kind. Those files establish an integration path. Their single-replica deployment, small PVC, HTTP endpoint, and static development credentials do not establish a production availability or security design. The storage and operations chapters explain what changes when the object store shares infrastructure and failure domains with the compute fleet.
 
@@ -107,7 +107,7 @@ The identity infrastructure is also explicit. `podcertcontroller` issues the cer
 
 Snapshots cross an object-store plugin boundary. The control-plane sidecar implements whole-snapshot copy and cleanup operations; the node-side sidecar uploads and fetches snapshot files and fetches sandbox assets. The main ateapi process does not directly link the GCS or S3 storage SDKs, a rule enforced by [package-deps.sh](https://github.com/agent-substrate/substrate/blob/v1.0.0/hack/verify/package-deps.sh). This is more than packaging tidiness. It places provider credentials and provider-specific I/O in a process boundary, allowing the control plane to express storage operations through the public plugin protocol.
 
-RustFS is an existing alternative backend in the kind deployment. Both node and control-plane object-store sidecars set `ATE_STORAGE_BACKEND=s3`, point `AWS_ENDPOINT_URL` at `http://rustfs.ate-system.svc:9000`, and enable `AWS_S3_USE_PATH_STYLE`. The [RustFS manifest](https://github.com/agent-substrate/substrate/blob/v1.0.0/manifests/ate-install/kind/rustfs.yaml) provisions the service, a one-replica deployment, a 1 GiB PVC, and bucket initialization. This is a concrete S3-compatible development and CI path. Its static development credentials and single storage replica do not establish production high availability or tenant isolation. Chapter 8 follows the actual data path and failure implications.
+RustFS is an existing alternative backend in the kind deployment. Both node and control-plane object-store sidecars set `ATE_STORAGE_BACKEND=s3`, point `AWS_ENDPOINT_URL` at `http://rustfs.ate-system.svc:9000`, and enable `AWS_S3_USE_PATH_STYLE`. The [RustFS manifest](https://github.com/agent-substrate/substrate/blob/v1.0.0/manifests/ate-install/kind/rustfs.yaml) provisions the service, a one-replica deployment, a 1 GiB PVC, and bucket initialization. This is a concrete S3-compatible development and CI path. Its static development credentials and single storage replica do not establish production high availability or tenant isolation. Chapter 12 follows the actual data path and failure implications.
 
 ```mermaid
 flowchart TB
@@ -157,7 +157,7 @@ Actors also need isolation from one another inside a worker. Shared Pod networki
 Filesystem isolation follows a similar separation between shared preparation and private mutable state. An image cache can share immutable image content. A runtime asset cache can share verified executable assets by content identity. Each actor still needs distinct writable state and lifecycle cleanup. In microVMs, the writable rootfs upper is host-backed and served through virtio-fs, so its storage and page-cache effects differ from allocating equivalent data inside guest RAM. gVisor's filesystem checkpoint bundles have different mechanics. Architectural equivalence of the API does not mean identical memory accounting or snapshot layout.
 
 ```mermaid
-flowchart TB
+flowchart LR
     subgraph Pod[gVisor worker Pod]
         W[Trusted worker]
         T[atunnel]
@@ -199,7 +199,7 @@ flowchart TB
 
 The microVM boundary adds a guest kernel and virtual devices, with Cloud Hypervisor and virtiofsd mediating host resources. These diagrams describe alternative worker classes: a WorkerPool currently selects one sandbox class, and one worker image does not dynamically mix gVisor and microVM actors. Runtime-version compatibility remains a live concern within a class. A worker advertises which versions it can restore, and a snapshot records its capture runtime. That version boundary permits controlled upgrades without assuming every memory image is portable across executable revisions.
 
-Trust also crosses process boundaries outside the worker. The node object-store plugin has storage credentials that atelet does not need to hold. The egress gateway can obtain a secret that the actor does not receive as an environment variable or mounted file. The control plane verifies component identities before accepting worker reports. These separations reduce particular exposures, but they create protocols that must authenticate the actor, worker, node, and resource incarnation correctly. Chapter 10 examines those checks rather than relying on a general zero-trust label.
+Trust also crosses process boundaries outside the worker. The node object-store plugin has storage credentials that atelet does not need to hold. The egress gateway can obtain a secret that the actor does not receive as an environment variable or mounted file. The control plane verifies component identities before accepting worker reports. These separations reduce particular exposures, but they create protocols that must authenticate the actor, worker, node, and resource incarnation correctly. Chapter 15 examines those checks rather than relying on a general zero-trust label.
 
 ## 1.4 Following one actor through the system
 
@@ -246,7 +246,7 @@ The current runtime does not autonomously detect actor idleness and issue that s
 
 A subsequent resume prefers the newest state that remains usable. Locality can pin the actor to a node, avoiding an external download. If that node has no capacity, the workflow can detach the local snapshot, ensure the necessary external state is available, and retry placement elsewhere. If a required runtime version has no room, the supported fallback can restore filesystem state and cold-boot instead of restoring memory. A changed template can require VOLUMES fidelity. These transitions explain why state location, runtime compatibility, and application continuity must be considered together.
 
-Deletion is another workflow rather than a single row removal. A running sandbox must be terminated, volumes must be detached, and capacity must be released before the logical object can safely disappear. Snapshot cleanup is part of resource reclamation, with explicit error handling and remaining garbage-collection TODOs. Revert is distinct from deletion: it abandons current execution or local progress in favor of a completed durable snapshot. These operations are introduced here to make failure semantics visible; Chapter 3 treats execution consistency, and Chapter 8 treats snapshot ownership and durability.
+Deletion is another workflow rather than a single row removal. A running sandbox must be terminated, volumes must be detached, and capacity must be released before the logical object can safely disappear. Snapshot cleanup is part of resource reclamation, with explicit error handling and remaining garbage-collection TODOs. Revert is distinct from deletion: it abandons current execution or local progress in favor of a completed durable snapshot. These operations are introduced here to make failure semantics visible; Chapter 6 treats execution consistency, and Chapter 12 treats snapshot ownership and durability.
 
 ## 1.5 Reading performance and failure domains correctly
 
@@ -258,7 +258,7 @@ A useful latency decomposition starts at request arrival and ends when the actor
 
 Capacity and latency interact. The scheduler spreads work using a power-of-two-choices policy across eligible workers, but it cannot compensate for a pool whose constraints leave only one feasible destination. A snapshot's locality can concentrate demand on a node. Runtime compatibility can fragment otherwise available memory. Actor slot limits can reject an actor even when CPU is free. CPU and memory requests can leave unusable fragments after heterogeneous bookings. These are properties of the placement problem, not necessarily evidence that kube-scheduler has provisioned the wrong Pods.
 
-Request parking makes the gateway's behavior under temporary exhaustion part of the resource model. Waiting requests consume gateway state and retain clients. Limits and deadlines determine whether a burst is absorbed, delayed, or rejected. A successful response after parking may have a very different latency from an immediate activation. Operational dashboards should separate time waiting for capacity from time restoring a sandbox; otherwise storage tuning can be attempted for a problem caused by insufficient worker supply. Chapter 9 follows the parking implementation and its bounded behavior.
+Request parking makes the gateway's behavior under temporary exhaustion part of the resource model. Waiting requests consume gateway state and retain clients. Limits and deadlines determine whether a burst is absorbed, delayed, or rejected. A successful response after parking may have a very different latency from an immediate activation. Operational dashboards should separate time waiting for capacity from time restoring a sandbox; otherwise storage tuning can be attempted for a problem caused by insufficient worker supply. Chapter 14 follows the parking implementation and its bounded behavior.
 
 PostgreSQL is a central failure domain for actor state. The implementation supports multiple API replicas, but replicas sharing one database do not eliminate the database dependency. The worker cache reduces repeated fleet reads during candidate selection; it does not allow authoritative admission to proceed safely without the store. Renewable leases, row locks, unique assignment records, and versions protect different invariants. They also consume queries and transactions. Database latency under contention can dominate a path whose runtime restore is fast.
 
@@ -268,7 +268,7 @@ A worker-process restart is narrower than a node failure but still destroys exec
 
 The gateways add both policy and availability dependencies. Ingress authentication can reject a client before actor routing. Egress can deny a destination or fail credential acquisition even while the actor's processes are healthy. A timeout can occur in the HTTP transport rather than the sandbox. Because atunnel is embedded in the worker, worker restarts affect both execution and its tunnel endpoint. Because the external router is separate, it can remain healthy while every suitable worker is full. Diagnosis needs the complete request path and the relevant identity, not merely Pod phase.
 
-There is also a software-supply boundary around runtime assets. SandboxConfig records verified content identities and supported versions. Atelet prepares those assets and workers report the runtimes they can use. An installation with healthy worker Pods but missing or invalid assets is not ready capacity. Conversely, changing a default runtime should not silently reinterpret an existing memory checkpoint. The runtime-version contract is therefore part of availability engineering as well as execution security. Chapter 5 covers asset caching, and Chapter 12 covers compatibility across upgrades.
+There is also a software-supply boundary around runtime assets. SandboxConfig records verified content identities and supported versions. Atelet prepares those assets and workers report the runtimes they can use. An installation with healthy worker Pods but missing or invalid assets is not ready capacity. Conversely, changing a default runtime should not silently reinterpret an existing memory checkpoint. The runtime-version contract is therefore part of availability engineering as well as execution security. Chapter 8 covers asset caching, and Chapter 17 covers compatibility across upgrades.
 
 A practical architectural review follows ownership rather than component count. For each action, identify the durable record, the process authorized to change it, the lock or precondition protecting concurrent changes, the external side effect, and the recovery path after a lost response. Apply that test to assignment, checkpoint upload, worker registration, credential minting, and runtime selection. Where the repository has only a TODO or an assumed reentrancy property, retain that limitation in the model. A diagram should make the uncertainty discoverable instead of smoothing it away.
 
@@ -282,7 +282,7 @@ That outcome is acceptable only if the snapshot durability contract remains inta
 
 Now suppose the selected worker process restarts after its node has accepted the restore request. The Pod may retain its UID and IP while the process obtains a new epoch. A response associated with the earlier epoch cannot be treated as proof of execution under the new one. Registration and assignment reconciliation provide a way to identify that discrepancy. An operator observing only the Pod's Running phase would miss the relevant transition. The actor's assignment and worker epoch are the records that connect the logical application to the process incarnation that actually executed it.
 
-Alternatively, suppose the API replica loses its connection after the worker has successfully restored the actor but before the final RUNNING write reaches the caller. Retrying the request is not the same as starting a second actor. The workflow must recover persisted progress, honor an existing claim, and repeat only operations that are safe under their identity keys. The architecture therefore depends on contracts at both sides of the RPC, not just on the API's lease. A client deadline ending does not roll back a sandbox that another process has already created. Chapter 3 examines which state is persisted at each seam and where comments still call out reentrancy work.
+Alternatively, suppose the API replica loses its connection after the worker has successfully restored the actor but before the final RUNNING write reaches the caller. Retrying the request is not the same as starting a second actor. The workflow must recover persisted progress, honor an existing claim, and repeat only operations that are safe under their identity keys. The architecture therefore depends on contracts at both sides of the RPC, not just on the API's lease. A client deadline ending does not roll back a sandbox that another process has already created. Chapter 6 examines which state is persisted at each seam and where comments still call out reentrancy work.
 
 Finally, suppose object storage becomes unavailable after several asynchronous suspends. The workers may already have released active execution capacity while atelet retains local checkpoints and retries uploads. The cluster can appear computationally healthy while its durability exposure grows. Additional activations on the same node may remain fast, making an average latency metric look reassuring. A node loss during that period has a different consequence from a node loss after completed uploads. Operations must therefore track checkpoint publication and local retention alongside request success.
 
@@ -319,9 +319,509 @@ The rest of the book proceeds from these boundaries. Its claims are anchored to 
 - [Dependency boundary verification](https://github.com/agent-substrate/substrate/blob/v1.0.0/hack/verify/package-deps.sh): enforced separation between ateapi and object-storage SDKs.
 
 
-# 2. Two API Planes: Resources, Schemas, and Contracts
+# 2. Container Runtimes: containerd, runc, gVisor and runsc
 
-## 2.1 Infrastructure objects and workload records
+Chapter 1 described Substrate as a topology of components. Before following how those components place, start and suspend actors, this chapter and the next two establish what happens beneath an ordinary Kubernetes Pod. Every Substrate worker is such a Pod, and every actor mechanism is easiest to understand against that baseline. Chapter 3 follows one Pod from `kubectl apply` through the control plane to its node, and Chapter 4 builds it on Linux. Chapters 9 and 13 later follow an actor through first start, suspend and restore at the same level of detail, naming every component, protocol, command and Linux primitive on the way. This chapter supplies the vocabulary: the four programs that turn an OCI image and a specification into isolated execution, and how they differ.
+
+Two kinds of statement appear in these foundation chapters. Behaviour of containerd, runc, gVisor, the kubelet and the Linux kernel is described from their upstream designs and documented interfaces; this repository does not implement it and its exact details move with their releases. Behaviour of Substrate is grounded in source at the `v1.0.0` tag and linked. Where the two meet, the text says which side owns the step.
+
+## 2.1 The layered runtime stack beneath a Pod
+
+A Kubernetes node runs a stack of runtimes, each with a narrower job than the one above it.
+
+| Layer | Example program | Input it consumes | What it produces |
+|---|---|---|---|
+| Node agent | kubelet | Pod objects from the API server | CRI calls, volumes, cgroup parents, status |
+| CRI runtime | containerd with its CRI plugin | CRI gRPC requests | Images, snapshots, sandboxes, tasks |
+| Runtime shim | `containerd-shim-runc-v2`, `containerd-shim-runsc-v1` | Task API calls over ttrpc | A long-lived parent for container processes |
+| OCI runtime | `runc`, `runsc` | An OCI bundle: `config.json` plus a root filesystem | A process (or sandbox) with namespaces, cgroups and security settings |
+| Kernel | Linux | System calls | The actual isolation and resource control |
+
+The Container Runtime Interface (CRI) is a gRPC protocol that the kubelet speaks over a Unix domain socket, conventionally `/run/containerd/containerd.sock`. Its `RuntimeService` contains sandbox and container operations such as `RunPodSandbox`, `CreateContainer`, `StartContainer`, `StopPodSandbox` and `ContainerStatus`; its `ImageService` contains `PullImage`, `ImageStatus` and `RemoveImage`. The kubelet does not know how to create a namespace, unpack a layer or call `pivot_root`. It asks the CRI runtime for sandboxes and containers and supervises the answers.
+
+The Open Container Initiative (OCI) defines two contracts beneath that. The image specification describes manifests, configurations and content-addressed layers. The runtime specification describes a *bundle*: a directory holding `config.json`, which lists the process arguments, environment, user, mounts, namespaces, cgroup path, capabilities, seccomp filter, rlimits and annotations, plus a root filesystem. An OCI runtime is any program that implements `create`, `start`, `state`, `kill` and `delete` over such a bundle. runc and runsc both satisfy that contract. That is why one node can run ordinary and gVisor Pods side by side, selected through a RuntimeClass whose `handler` names a containerd runtime configuration.
+
+```mermaid
+flowchart TB
+    K[kubelet] -->|CRI gRPC over Unix socket| C[containerd CRI plugin]
+    C --> I[Image service and content store]
+    C --> S[Snapshotter such as overlayfs]
+    C -->|start shim, then ttrpc| SH[Runtime shim]
+    SH -->|exec with bundle path| R[OCI runtime: runc or runsc]
+    R -->|clone, setns, mount, seccomp| L[Linux kernel]
+```
+
+The shim deserves attention because it explains process ownership. containerd does not parent container processes. For each sandbox it starts a shim binary, which daemonizes, listens on its own ttrpc socket and becomes the parent and child subreaper of the processes the OCI runtime creates. containerd can then restart without killing workloads. The shim holds the container's stdio pipes, collects exit statuses with `wait4`, and reports task events back to containerd. For runc, one `containerd-shim-runc-v2` process typically serves every container in one Pod. For gVisor, `containerd-shim-runsc-v1` plays the same role but drives runsc.
+
+Substrate uses this stack exactly once per worker: the worker Pod itself is an ordinary Kubernetes Pod, created by the kubelet and containerd, and run by the node's default OCI runtime. Actors do not pass through the kubelet or containerd. The gVisor worker invokes runsc directly against bundles it prepares, as Chapter 9 shows. The book follows both paths so they can be compared step by step.
+
+## 2.2 containerd: images, snapshots, sandboxes and tasks
+
+containerd is a daemon with a plugin architecture. Its CRI plugin translates CRI requests into calls on internal services, and the services are useful to know by name because their state is visible on disk and through the `ctr` tool.
+
+The **content store** holds immutable blobs addressed by digest, under `/var/lib/containerd/io.containerd.content.v1.content/blobs/sha256/`. A pull resolves an image reference to a manifest or an index, chooses the platform-specific manifest, then fetches the configuration and each layer blob. Every blob is verified against its digest before it is committed. Writes use ingest files and are renamed into place only after verification.
+
+The **metadata store** is a bbolt database that records images, containers, snapshots, leases and namespaces (containerd namespaces, not Linux namespaces; the CRI plugin uses the `k8s.io` namespace). Garbage collection walks references from this database; a lease protects in-progress content from collection during a pull.
+
+The **snapshotter** turns layers into filesystems. The default `overlayfs` snapshotter stores each layer as a directory under `/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/<id>/fs`. Unpacking applies a layer's tar stream into a new *active* snapshot whose parent is the previous layer, then commits it. Committed snapshots are immutable and shared by every container that uses the layer. When a container is created, the snapshotter prepares one more active snapshot, the writable layer, and returns a *mount list* rather than mounting anything itself: typically a single `overlay` mount with `lowerdir` set to the colon-separated committed layers, `upperdir` to the new layer's `fs` directory and `workdir` to a scratch directory. Whiteout files in layers, character devices with device number 0/0, are how overlayfs represents deletions; opaque directories carry the `trusted.overlay.opaque` extended attribute.
+
+The **sandbox** concept groups a Pod's containers. For a runc Pod, the CRI plugin's sandbox controller creates a network namespace, calls CNI, and runs the *pause* container that pins the Pod's shared namespaces. For a gVisor Pod, the same requests produce a gVisor sandbox: one Sentry kernel that will host every container in the Pod.
+
+The **task** service is the live-process view. A container is metadata; a task is its running instance. `CreateContainer` in CRI becomes a container record plus a task create through the shim; `StartContainer` becomes a task start. The shim mounts the rootfs that the snapshotter described into the bundle's `rootfs` directory, writes `config.json`, and calls the OCI runtime.
+
+Operators meet these concepts through three CLIs. `crictl` speaks CRI, so it sees what the kubelet sees: Pod sandboxes, containers, images and their status. `ctr` speaks containerd's native API and exposes content, snapshots, leases and tasks. `nerdctl` offers a Docker-like interface over the same daemon. The lifecycle companion's network collector uses `crictl inspect` to obtain the node-visible PID of the worker container, which is the bridge from Kubernetes identities to `/proc` and `nsenter`.
+
+## 2.3 runc: the OCI runtime that uses the host kernel directly
+
+runc is the reference OCI runtime, built on the `libcontainer` Go library with a small C component. It configures the host kernel to isolate a process and then gets out of the way: after `execve`, the container's process makes ordinary system calls that the host kernel services directly. Namespaces limit what it can see, cgroups limit what it can consume, and capabilities, seccomp, LSM profiles and `no_new_privs` limit what it can ask the kernel to do.
+
+runc separates creation from start so that a supervisor can complete setup, such as network attachment, before user code runs.
+
+1. `runc create <id>` reads `config.json`, creates a state directory under its root (by default `/run/runc/<id>`), and opens a socket pair to communicate with the child it is about to make.
+2. It re-executes itself as `runc init`. Early in that process, a C constructor known as `nsexec` runs before the Go runtime starts threads. That timing matters: `setns` into a mount or user namespace and `unshare` of several namespace types require a single-threaded caller, which a running Go program never is.
+3. `nsexec` joins any namespaces given by path in the specification with `setns`. A Pod container joins the pause container's network, IPC and UTS namespaces this way. It then creates the remaining new namespaces with `unshare` or `clone`, using flags such as `CLONE_NEWNS`, `CLONE_NEWPID`, `CLONE_NEWCGROUP`, `CLONE_NEWUTS`, `CLONE_NEWIPC` and, when requested, `CLONE_NEWUSER`. A new PID namespace takes effect only for children, so `nsexec` forks again so that the eventual workload is PID 1 of its namespace.
+4. The parent `runc` places the child in its cgroup by writing its PID to `cgroup.procs` under the path from `linux.cgroupsPath`, through systemd when the systemd cgroup driver is used, and applies limits such as `memory.max`, `cpu.max` and `pids.max`.
+5. Inside the child, Go code prepares the root filesystem. It makes mount propagation private or slave so container mounts do not leak to the host, bind-mounts the rootfs onto itself, performs each mount from the specification (`proc`, `sysfs`, `/dev` as tmpfs, device nodes, `/dev/pts`, `/dev/shm`, `mqueue`, bind-mounted volumes), and then switches root with `pivot_root(".", ".")` followed by a lazy `umount2(".", MNT_DETACH)` of the old root. `chroot` is used only when `pivot_root` cannot be, for example on a ramfs root.
+6. It sets the hostname, applies rlimits, OOM score and sysctls, masks and makes read-only the sensitive `/proc` and `/sys` paths listed in the specification, then drops privileges: `prctl(PR_SET_NO_NEW_PRIVS)`, capability bounding set reduction, `capset`, `setgroups`, `setgid` and `setuid`, LSM profile selection through `/proc/self/attr/...`, and finally installs the seccomp filter with `seccomp(SECCOMP_SET_MODE_FILTER)`.
+7. `runc init` then blocks opening a FIFO named `exec.fifo` in the state directory. `runc create` exits, leaving a fully configured but not yet running process.
+8. `runc start <id>` opens the FIFO from the other end. The blocked init process proceeds to `execve` the user's command, replacing itself with the workload.
+
+runc also protects itself. Because the container could otherwise overwrite the runc binary through `/proc/self/exe` during `runc init`, current releases execute from a protected copy or sealed descriptor rather than the on-disk binary. The details vary with the release, but the lesson is general: an OCI runtime executes inside a boundary it is still constructing.
+
+## 2.4 gVisor and runsc: a user-space kernel behind the same interface
+
+gVisor also implements the OCI runtime contract, as `runsc`, but places a different boundary between the workload and the host. The workload does not make system calls to the host kernel. It makes them to the **Sentry**, a Linux-compatible kernel written in Go that runs as an ordinary, heavily confined host process. The Sentry implements processes, threads, signals, virtual memory, filesystems, pipes, sockets and much of `/proc` itself, and calls the host kernel only through a small, filtered set of system calls.
+
+A gVisor sandbox has several host processes.
+
+| Process | Started by | Role |
+|---|---|---|
+| `runsc` command | The caller: a containerd shim, or Substrate's worker | Executes one OCI command, such as `create`, `start`, `checkpoint` or `restore`, then exits |
+| Sentry (`runsc boot`) | `runsc create` | The application kernel; services every application syscall |
+| Gofer (`runsc gofer`) | `runsc create` | A file proxy that opens host files on the Sentry's behalf and serves mount points |
+| Application stubs | The Sentry, under the systrap platform | Host processes that provide address spaces in which application code runs |
+
+The **platform** determines how application code is executed and how its system calls reach the Sentry. Under *systrap*, the default in current releases and the platform observed in this book's live experiment, application threads run in stub processes whose seccomp filter returns `SECCOMP_RET_TRAP` for application system calls. The resulting `SIGSYS` is handled by code that hands the call to the Sentry through shared memory, and the Sentry switches contexts without `ptrace` stops on the fast path. The older *ptrace* platform used `PTRACE_SYSEMU` and is slower. The *KVM* platform runs the Sentry as a guest-mode kernel and uses hardware virtualization for address spaces. It needs `/dev/kvm`, but is not a virtual machine monitor with a guest Linux.
+
+Memory belongs to the Sentry. Application memory is backed by a single *memory file*, a host file created with `memfd_create`, from which the Sentry allocates pages and maps them into the stub address spaces with `mmap`. From the host's point of view, an application page is a page of that file. This is why gVisor can checkpoint an application's memory by writing out the populated regions of one file, without inspecting foreign host processes.
+
+Filesystems are mediated. With *directfs*, the default in current releases, the gofer opens files and donates host file descriptors to the Sentry over a Unix socket, after which the Sentry performs I/O directly with calls such as `pread` and `openat` relative to those descriptors. The Sentry itself runs `chroot`ed into an empty directory, so it cannot name host paths. Writable overlays for a container's root filesystem can be backed by memory or by a host file. Durable filesystem state can be checkpointed with the rest of the sandbox.
+
+Networking can be *sandbox*-mode, where the Sentry runs its own TCP/IP stack (netstack) and exchanges raw frames with the network namespace's interface, or *host*-mode, where it forwards socket calls to the host. In sandbox mode, the host namespace keeps the interface but the Sentry owns the addresses and routes. That is exactly why the lifecycle experiment found only loopback routes in an actor's runtime namespace after runsc took it over.
+
+`runsc` supports Kubernetes Pods by grouping containers into one sandbox. When containerd's CRI plugin creates the Pod's first container, it annotates the OCI specification with `io.kubernetes.cri.container-type: sandbox`. Subsequent containers carry `container-type: container` and an `io.kubernetes.cri.sandbox-id` naming the sandbox. runsc reads these annotations: the sandbox container boots a Sentry, and later containers are created inside that same Sentry rather than as new sandboxes. Substrate uses the same mechanism without containerd. [ShapeGVisor](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/ocispec/gvisor.go) sets `io.kubernetes.cri.container-type` to `sandbox` for the reserved `_sandbox` container and to `container` for each application, with `io.kubernetes.cri.sandbox-id` pointing at `_sandbox`. It also emits `dev.gvisor.spec.mount.<name>.*` annotations so a durable directory mounted by several containers is presented as one shared filesystem.
+
+runsc commands also go beyond the OCI minimum, and those additions are the reason Substrate uses gVisor. `runsc checkpoint` serializes a running sandbox's kernel state and memory into image files. `runsc restore` builds a new sandbox from them. `runsc fscheckpoint` saves filesystem state without memory, and `runsc wait -restore` reports when background page loading completes. Chapters 10 and 13 cover how Substrate drives them.
+
+## 2.5 Comparing runc and runsc where it matters
+
+The following comparison is about isolation and lifecycle mechanics, not marketing performance numbers.
+
+| Property | runc | runsc (gVisor) |
+|---|---|---|
+| Who services application syscalls | The host Linux kernel | The Sentry, a user-space kernel |
+| Host kernel attack surface exposed to the workload | All syscalls not blocked by the seccomp profile | The Sentry's own filtered syscall set; application syscalls never reach the host directly |
+| Process view from the host | Workload processes are host processes in new namespaces | Workload processes exist only inside the Sentry; the host sees Sentry, gofer and stub processes |
+| Root filesystem | overlayfs mount prepared by the shim, entered by `pivot_root` | Served by the gofer or directfs; the Sentry presents its own VFS |
+| Networking | Host kernel stack inside the Pod's network namespace | netstack inside the Sentry, attached to the namespace's interface, or host passthrough |
+| `/proc` and `/sys` | Host kernel views, masked and read-only where configured | Sentry-synthesized views |
+| Memory accounting | Workload pages charged to the container cgroup | Sentry memory file and Sentry overhead charged to the sandbox cgroup |
+| Checkpoint/restore | Optional, through CRIU, which uses ptrace and `/proc` to capture host processes | Native: the Sentry serializes its own state and memory file |
+| Compatibility | Native Linux behaviour | Very broad but not complete Linux ABI; some syscalls, ioctls and `/proc` files differ |
+| Typical overhead | Syscall cost close to native | Additional cost per syscall and for I/O-heavy workloads; memory overhead for the Sentry |
+| Kubernetes integration | Default runtime handler | RuntimeClass handler `runsc`, `containerd-shim-runsc-v1` |
+
+Three differences shape the rest of the book.
+
+First, **what a namespace means differs**. Under runc, the network namespace is the workload's network stack. Under gVisor in sandbox networking mode, the namespace is a plumbing point for frames, and the workload's sockets, routes and ARP state live in the Sentry. Host tools such as `ip route` and `ss` therefore show runc workloads accurately but show only the outer edge of a gVisor workload.
+
+Second, **checkpointing a runc container means checkpointing host processes from outside**. CRIU freezes the processes with the freezer cgroup or `ptrace(PTRACE_SEIZE)`, injects parasite code to dump memory, reads `/proc/<pid>/` files and page maps, and restores by recreating the processes, mappings and descriptors with ordinary syscalls. Checkpointing a gVisor sandbox means asking one program to serialize its own data structures. Substrate's design leans on the second model, and Chapter 13 does not attribute CRIU behaviour to it.
+
+Third, **who must be trusted with privilege differs**. runc needs enough privilege to create namespaces, mount filesystems and set up cgroups, which is why it normally runs as root on the node. Substrate's gVisor worker runs as an unprivileged Pod container with a fixed capability list. [workerpool_apply.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/atecontroller/internal/controllers/workerpool_apply.go) explains each entry: `SETUID`, `SETGID` and `SETFCAP` so the gofer can write a full-range identity mapping for its user namespace, `SYS_ADMIN` for mounts, `NET_ADMIN` and `NET_RAW` for actor networking, and `DAC_OVERRIDE`, `FOWNER` and `CHOWN` for rootfs ownership. It omits `SYS_PTRACE` and `SYS_CHROOT` because runsc creates an identity-mapped user namespace while directfs is on and networking is not host. The sandbox gets those capabilities inside that namespace, not from the worker.
+
+```mermaid
+sequenceDiagram
+    participant K as kubelet
+    participant C as containerd
+    participant S as Shim
+    participant R as OCI runtime
+    participant L as Linux
+    K->>C: RunPodSandbox
+    C->>L: Create network namespace, run CNI
+    C->>S: Start shim for the sandbox
+    S->>R: create sandbox bundle
+    R->>L: Namespaces, cgroup, mounts, seccomp
+    S->>R: start
+    K->>C: CreateContainer, StartContainer
+    C->>S: Task create and start
+    S->>R: create and start the container bundle
+    R->>L: For runc, execve the workload
+    Note over R,L: For runsc, the Sentry starts the workload internally
+```
+
+## 2.6 Roadmap and engineering improvements
+
+The repository-backed facts in this chapter are narrow but important. Substrate pins runsc flags in [internal_flags.json](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-gvisor/kodata/internal_flags.json). They include JSON logging, `--host-settings=ignore`, `--cpu-num-from-quota` for create and restore, `-allow-connected-on-save` at start, and `-background -detach` at restore. It shapes OCI specifications for gVisor in `ShapeGVisor` and invokes runsc through [runsc.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-gvisor/runsc.go). The worker capability list and its rationale live in the WorkerPool controller. Each of these is a compatibility surface. A runsc upgrade that changes the meaning of a flag, the CRI annotation names or the directfs user-namespace behaviour changes the worker's required privileges or the actor's behaviour.
+
+Proposals follow from that. A conformance suite could assert, per pinned runsc release, the observable facts this book relies on: platform selection, the user-namespace mapping that removes `SYS_PTRACE` from the worker, the set of checkpoint files, and sandbox-mode networking. A second proposal is to record runsc's version and platform in the actor's runtime information so an operator can correlate behaviour without reading runtime logs. A third is documentation work. A short table in the WorkerPool documentation, mapping each worker capability to the runsc behaviour that needs it, would make capability reviews faster than reading controller comments. These are editorial proposals, not current tracked work.
+
+## Source map
+
+- [ShapeGVisor](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/ocispec/gvisor.go): the CRI sandbox annotations, gVisor mount hints and cgroup leaf names Substrate writes into OCI specifications.
+- [runsc.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-gvisor/runsc.go): every runsc command the gVisor worker executes, and how argument vectors are built.
+- [internal_flags.json](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-gvisor/kodata/internal_flags.json): the pinned global and per-command runsc flags.
+- [workerpool_apply.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/atecontroller/internal/controllers/workerpool_apply.go): worker capability sets and the gVisor user-namespace rationale.
+
+
+# 3. From kubectl apply to a Pod Bound to a Node
+
+This chapter follows a single manifest, `pod.yaml`, from the operator's terminal to the moment the kubelet on one node decides to run it. It covers kubectl, the API server's request pipeline, etcd, the watch machinery that every controller depends on, the scheduler, and the kubelet's view of its assigned Pods. Chapter 4 continues on the node, from the kubelet's first CRI call to a running process. Chapters 9 and 13 then trace the equivalent journey for an actor, and the comparison tables in Chapter 9 refer back to the sections here.
+
+Everything in this chapter is upstream Kubernetes behaviour. Exact defaults change between releases. The structure described, a central API server persisting to etcd with clients reacting through watches, has been stable for many releases and is what Substrate's own control plane is contrasted with.
+
+## 3.1 kubectl turns a file into an HTTP request
+
+The example manifest is minimal:
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: web
+  namespace: default
+spec:
+  containers:
+  - name: app
+    image: registry.example/web:1.0
+    ports:
+    - containerPort: 8080
+```
+
+`kubectl apply -f pod.yaml` performs several steps before anything reaches the cluster.
+
+1. **Configuration and credentials.** kubectl reads the kubeconfig (`~/.kube/config` or `$KUBECONFIG`), selects a context, and obtains the API server URL, the cluster CA bundle and a client credential. That can be a client certificate, a bearer token, or an exec plugin that mints a short-lived token.
+2. **Discovery.** It fetches the server's API discovery documents (`/api`, `/apis`, and the aggregated discovery endpoint in current releases) and caches them under `~/.kube/cache`. Discovery maps the manifest's `apiVersion` and `kind` to a REST resource, here `pods` in the core group, and tells kubectl that Pods are namespaced.
+3. **Decoding.** The YAML is decoded to an unstructured object. Client-side validation is no longer the primary check; current kubectl asks the server to validate fields (`fieldValidation=Strict` or `Warn`).
+4. **Apply semantics.** With the default client-side apply, kubectl GETs the live object. If it does not exist, kubectl sends a `POST /api/v1/namespaces/default/pods` with the object and an annotation recording the applied configuration. If it exists, kubectl computes a three-way strategic merge patch between the last applied configuration, the live object and the new file, and sends a `PATCH`. With `--server-side`, kubectl instead sends a `PATCH` with content type `application/apply-patch+yaml`, and the server performs the merge, tracking field ownership in `metadata.managedFields`.
+
+The transport is HTTPS. kubectl verifies the server certificate against the cluster CA and negotiates HTTP/2 where available. Requests are JSON by default for kubectl. Built-in controllers use the more compact protobuf encoding (`application/vnd.kubernetes.protobuf`). Every later component in this chapter talks to the API server, and only the API server talks to etcd.
+
+## 3.2 Inside the API server: authentication to persistence
+
+The kube-apiserver processes every request through a fixed chain of handlers. The order explains many operational behaviours.
+
+| Stage | What happens | Typical failure |
+|---|---|---|
+| TLS and HTTP | Terminate TLS, apply request timeouts and max in-flight limits | Connection refused, 429 |
+| Authentication | Client certificate CN/O, bearer token, service account JWT, OIDC or webhook produce a user, groups and extra fields | 401 Unauthorized |
+| Audit | Record request metadata according to policy | None for the client |
+| API Priority and Fairness | Classify the request into a flow schema and priority level, queue fairly | 429 Too Many Requests |
+| Authorization | RBAC, Node authorizer, webhook: may this user `create` `pods` in `default`? | 403 Forbidden |
+| Decoding and defaulting | Convert to the internal version, apply defaults such as `restartPolicy: Always` and `dnsPolicy: ClusterFirst` | 400 Bad Request |
+| Mutating admission | Built-in plugins (for example ServiceAccount injection, DefaultStorageClass) then mutating webhooks | Webhook rejection |
+| Validation | Field validation for the object and its subresources | 422 Unprocessable Entity |
+| Validating admission | Built-in plugins, ValidatingAdmissionPolicy (CEL), validating webhooks, Pod Security admission | 403 or 422 |
+| Storage | Encode as protobuf, write to etcd | 409 Conflict, 500 |
+
+For the example Pod, the ServiceAccount admission plugin sets `spec.serviceAccountName: default` and adds a projected volume containing a bound service-account token, the cluster CA and the namespace. The API server also fills `metadata.uid`, `metadata.creationTimestamp` and the initial `status.phase: Pending`.
+
+The storage layer writes to etcd through the etcd v3 gRPC API over mutually authenticated TLS. A create is a transaction: *if* the key `/registry/pods/default/web` has never been modified, *then* put the encoded object. An update is guarded by the object's previous modification revision. This compare-and-swap is the source of Kubernetes optimistic concurrency. Every object's `metadata.resourceVersion` is the etcd revision at which it was last written, and a client update carrying a stale `resourceVersion` fails with 409 Conflict.
+
+etcd itself replicates the write through Raft. The leader appends the entry to its log, replicates it to followers, and acknowledges once a majority has persisted it, which includes an `fdatasync` of the write-ahead log on each of those members. Only then does the API server return `201 Created` to kubectl. At this point the Pod exists, but nothing has happened on any node.
+
+## 3.3 Watches, the cacher and informers
+
+Kubernetes components do not poll for new objects. They *watch*. Understanding the watch path is necessary to answer the question this book keeps asking: who tells whom, and how.
+
+etcd exposes a gRPC `Watch` stream that delivers every change to a key range after a given revision. The API server opens these streams itself, one per resource type, and feeds them into an in-memory **watch cache**, the *cacher*. Clients never watch etcd directly. When a client sends `GET /api/v1/pods?watch=1&resourceVersion=N`, the API server serves the stream from the cacher. It keeps the HTTP response open and writes one JSON or protobuf frame per event (`ADDED`, `MODIFIED`, `DELETED`, `BOOKMARK`), using chunked transfer encoding on HTTP/1.1 or a long-lived stream on HTTP/2. Field and label selectors, such as `spec.nodeName=node-a`, are evaluated in the cacher so each client receives only relevant events.
+
+Client libraries wrap this in the **informer** pattern from `client-go`.
+
+1. A *reflector* performs `ListAndWatch`. It lists the resource to obtain the current objects and a collection `resourceVersion`, then watches from that version. In current releases it can instead request a streaming list, which delivers the initial state as watch events followed by a bookmark.
+2. Events go into a *DeltaFIFO*, which records sequences of changes per object key.
+3. A *shared informer* pops deltas, updates a thread-safe *indexer* (the local cache, with indexes such as by namespace or by node), and invokes registered event handlers.
+4. Controllers' handlers do not do work directly. They enqueue object keys into a rate-limited *workqueue*, and worker goroutines reconcile each key by reading from the local cache and writing desired changes back through the API server.
+5. If a watch breaks, the reflector resumes from the last seen `resourceVersion`. If that version has been compacted out of etcd or the cacher (`410 Gone`), it relists.
+6. Periodic *resync* redelivers cached objects to handlers so level-based controllers can repair drift without new events.
+
+```mermaid
+sequenceDiagram
+    participant E as etcd
+    participant A as API server cacher
+    participant R as Reflector
+    participant Q as DeltaFIFO and indexer
+    participant H as Controller workqueue
+    A->>E: gRPC Watch per resource prefix
+    R->>A: LIST pods, then WATCH from resourceVersion
+    E-->>A: Put event for /registry/pods/default/web
+    A-->>R: ADDED event on the open HTTP stream
+    R->>Q: Push delta, update local cache
+    Q->>H: Handler enqueues namespace/name
+    H->>A: Reconcile writes go back through the API server
+```
+
+The important property is that state flows through one place. The scheduler, the kubelet and every controller observe the same object history through the API server, and each writes its decisions back as object updates. No component sends the kubelet an imperative "start this Pod" call. The kubelet discovers that a Pod has been assigned to it by watching.
+
+## 3.4 The scheduler chooses a node and writes a binding
+
+kube-scheduler runs informers for Pods, Nodes, PersistentVolumes, PersistentVolumeClaims, CSI nodes, storage classes and other objects it needs to evaluate placement. Its Pod informer delivers the new Pod because its `spec.nodeName` is empty and its `spec.schedulerName` is `default-scheduler`.
+
+The Pod enters the scheduling queue. The queue has three parts: an *active* heap ordered by priority and enqueue time, a *backoff* queue for Pods that recently failed, and an *unschedulable* set of Pods that wait for a cluster event, such as a new node or a freed resource, that might make them schedulable. A scheduling cycle pops one Pod and runs the scheduling framework's extension points.
+
+| Extension point | Purpose | Examples |
+|---|---|---|
+| PreEnqueue, QueueSort | Gate and order Pods | Scheduling gates, priority sort |
+| PreFilter, Filter | Remove infeasible nodes | NodeResourcesFit, NodeAffinity, TaintToleration, VolumeBinding, PodTopologySpread |
+| PostFilter | React when no node fits | DefaultPreemption chooses victims to evict |
+| PreScore, Score, NormalizeScore | Rank feasible nodes | NodeResourcesBalancedAllocation, ImageLocality, InterPodAffinity |
+| Reserve | Claim resources in the scheduler's own cache | VolumeBinding reserves volumes |
+| Permit | Approve, deny or delay | Gang scheduling plugins |
+| PreBind, Bind, PostBind | Persist the decision | VolumeBinding binds claims; DefaultBinder posts the binding |
+
+For large clusters, Filter stops after finding enough feasible nodes (`percentageOfNodesToScore`), so the scheduler does not necessarily evaluate every node. After Score, the scheduler *assumes* the Pod onto the chosen node in its cache. The next Pod can then be scheduled immediately, with that capacity already consumed, while binding proceeds asynchronously in a separate binding cycle.
+
+Binding is an API write: `POST /api/v1/namespaces/default/pods/web/binding` with a `Binding` object naming the target node. The API server's binding subresource sets `spec.nodeName` on the Pod and records the `PodScheduled` condition. If binding fails, the scheduler forgets the assumed Pod and requeues it. The scheduler never contacts the node.
+
+## 3.5 The kubelet learns about its Pod and starts work
+
+Each kubelet runs a Pod config source that watches the API server for Pods with `spec.nodeName` equal to its node name. Its credentials are restricted by the Node authorizer and the NodeRestriction admission plugin, so it can read only objects related to its own Pods and update only its own Node and Pod statuses. Static Pods from a manifest directory or URL are merged into the same configuration stream.
+
+When the bound Pod arrives, the kubelet's main sync loop dispatches it to a per-Pod *pod worker*, a goroutine that serializes all lifecycle work for that Pod UID. The pod worker calls `SyncPod`, which performs the node-local steps in Chapter 4: admission checks (resources, node conditions, and, for RuntimeClass Pods, handler availability), creation of the Pod's cgroup, volume attachment and mounting through the volume manager, image pulls, and CRI calls to create the sandbox and containers.
+
+The whole journey from the terminal to the node can now be drawn as one sequence. Every arrow into or out of the API server is either an HTTPS request or an event on a watch stream the receiver opened earlier. The scheduler and kubelet never call each other.
+
+```mermaid
+sequenceDiagram
+    participant U as kubectl
+    participant A as kube-apiserver
+    participant E as etcd
+    participant S as kube-scheduler
+    participant K as kubelet
+    participant C as containerd
+    U->>A: POST pods (HTTPS)
+    A->>A: Authn, authz, admission, validation
+    A->>E: Txn create /registry/pods/default/web
+    E-->>A: Committed at revision R
+    A-->>U: 201 Created
+    A-->>S: Watch event ADDED, nodeName empty
+    S->>S: Queue, Filter, Score, assume
+    S->>A: POST pods/web/binding
+    A->>E: Txn update with nodeName
+    A-->>K: Watch event for spec.nodeName match
+    K->>C: CRI RunPodSandbox, PullImage, CreateContainer, StartContainer
+    K->>A: PATCH pods/web/status Running
+```
+
+Several kubelet subsystems keep running after start.
+
+- The **pod lifecycle event generator** (PLEG) detects container state changes. The generic PLEG relists containers through CRI periodically; the evented PLEG subscribes to CRI container events. Either one triggers a new `SyncPod` when something changes.
+- The **status manager** computes Pod status (phase, conditions, container statuses, IPs) and writes it to the API server with `PATCH` on the `status` subresource.
+- The **probe manager** runs startup, liveness and readiness probes, and readiness feeds the `Ready` condition that EndpointSlice controllers watch.
+- The **eviction manager** watches memory, disk and PID pressure and may evict Pods.
+
+## 3.6 Roadmap and engineering improvements
+
+The protocols in this chapter are worth summarizing in one place, because Chapter 9 compares them directly with Substrate's actor path.
+
+| From | To | Protocol | Pattern |
+|---|---|---|---|
+| kubectl | kube-apiserver | HTTPS REST (JSON), HTTP/2 | Request/response |
+| kube-apiserver | etcd | gRPC over mTLS (etcd v3 KV, Watch, Lease) | Transactions and watch streams |
+| Controllers, scheduler, kubelet | kube-apiserver | HTTPS REST (protobuf), long-lived watch responses | List-and-watch informers; writes as PATCH/POST/PUT |
+| kube-scheduler | kube-apiserver | `POST pods/binding` | Decision persisted as an object write |
+| kubelet | containerd | CRI gRPC over a Unix domain socket | Request/response; optional event stream |
+| containerd | Shim | ttrpc over a Unix socket | Task API |
+| Shim | runc or runsc | `fork`/`exec` of the runtime binary with arguments | Process exit status |
+| containerd | CNI plugin | `exec` with environment variables and JSON on stdin | Result JSON on stdout |
+| kube-apiserver | Admission webhooks | HTTPS POST of AdmissionReview | Synchronous call in the write path |
+
+The Kubernetes Pod path is a reference design, not Substrate's roadmap, and no Substrate work item changes it. The useful engineering proposal is for this book: Chapter 9 maps each row to its actor equivalent. That shows where Substrate keeps Kubernetes's patterns (a single authoritative store, reconcilers, and level-triggered retry) and where it deliberately does not (no watch stream drives node work, and activation is an imperative gRPC call chain with a database-backed lease). Readers evaluating Substrate against a Kubernetes-native design should start with that comparison rather than assume that actors are Pods with a different name.
+
+## Source map
+
+This chapter describes upstream Kubernetes components, not code in this repository. The Substrate files that interact with them are:
+
+- [workerpool_apply.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/atecontroller/internal/controllers/workerpool_apply.go): the Deployment and Pod template that the API server, scheduler and kubelet turn into worker Pods.
+- [syncer.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/atecontroller/internal/workersync/syncer.go): a client-go informer and workqueue consumer of worker Pods, an example of the pattern in 3.3.
+
+
+# 4. Building a Pod Sandbox on Linux
+
+Chapter 3 ended with a kubelet holding a bound Pod. This chapter follows the kubelet's work on the node until the container's command is running. Each step names the program that performs it and the Linux primitives it uses. Appendix D has a paragraph on each primitive; here the emphasis is on order and ownership. The reference configuration is a cgroup v2 node running containerd with the runc shim and a bridge-style CNI plugin, which is what most clusters and kind use. Section 4.5 then shows what changes when the Pod's RuntimeClass selects gVisor.
+
+## 4.1 The kubelet prepares cgroups, volumes and images
+
+`SyncPod` begins with work that does not involve the container runtime.
+
+**The Pod cgroup.** The kubelet maintains a cgroup hierarchy by QoS class. On a systemd node with cgroup v2, it looks like `/sys/fs/cgroup/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-pod<uid>.slice`. Guaranteed Pods sit directly under `kubepods.slice` and BestEffort Pods under `kubepods-besteffort.slice`. Under the systemd cgroup driver, the kubelet asks systemd over D-Bus to create the slice. Under the `cgroupfs` driver, it creates directories itself with `mkdir` and writes control files. It sets the Pod-level limits computed from container requests and limits: `cpu.weight` from requests, `cpu.max` from limits, `memory.max` from memory limits, and `pids.max` if Pod PID limits are configured. This book's live experiment observed exactly this shape for the Substrate worker Pod: `kubelet-kubepods-burstable-pod<uid>.slice` with `memory.max` of 1 GiB and `cpu.max` of `100000 100000`.
+
+**Volumes.** The volume manager attaches and mounts volumes before containers can start. For the service-account token volume, a *projected* volume, the kubelet requests a bound token through the `TokenRequest` API, then writes the token, CA bundle and namespace into a tmpfs directory under `/var/lib/kubelet/pods/<uid>/volumes/kubernetes.io~projected/`. It uses `mount("tmpfs", ...)` and writes the files with an atomic directory swap: a timestamped directory plus a `..data` symlink replaced by `rename`. Persistent volumes involve CSI calls such as `NodeStageVolume` and `NodePublishVolume` over gRPC to the CSI node plugin, which issue the actual `mount` calls.
+
+**Images.** The kubelet's image manager checks `imagePullPolicy` and asks the runtime with `ImageStatus`. If needed, it calls `PullImage` through CRI, passing registry credentials that came from image pull Secrets or a credential provider plugin. The pull itself is containerd's work and is described in 4.3.
+
+**Ordering.** The kubelet computes the actions needed by comparing the desired Pod with the runtime's state (`computePodActions`). For a new Pod, the plan is: create the sandbox, then start init containers one at a time to completion, then start regular containers (with sidecar-style restartable init containers started first in current releases).
+
+## 4.2 RunPodSandbox: the network namespace, CNI and the pause container
+
+The kubelet calls `RunPodSandbox` with a `PodSandboxConfig` that includes the Pod's metadata, hostname, DNS configuration, port mappings, cgroup parent and Linux security options, plus the RuntimeClass handler. containerd's CRI plugin then performs the following steps.
+
+**1. Pull the pause image.** The sandbox image (for example `registry.k8s.io/pause:3.10`) is pulled if absent, like any image.
+
+**2. Create a network namespace.** For a Pod without `hostNetwork`, containerd creates a new, empty network namespace and gives it a stable name so it can outlive any process. The technique is the same one `ip netns add` uses. A thread locked to its OS thread calls `unshare(CLONE_NEWNET)`, which moves only that thread into a new namespace. containerd then creates an empty file such as `/var/run/netns/cni-<uuid>` and bind-mounts `/proc/self/task/<tid>/ns/net` onto it with `mount(..., MS_BIND)`. The bind mount holds a reference, so the namespace persists when the thread exits. The new namespace contains only a `lo` interface, which is down.
+
+**3. Configure networking through CNI.** containerd loads the CNI configuration from `/etc/cni/net.d/` and executes each plugin binary in `/opt/cni/bin/`. The interface is a process execution, not a socket:
+
+| CNI input | Example value |
+|---|---|
+| `CNI_COMMAND` environment variable | `ADD` (later `CHECK`, `DEL`, `STATUS`, `GC`) |
+| `CNI_CONTAINERID` | The sandbox ID |
+| `CNI_NETNS` | `/var/run/netns/cni-<uuid>` |
+| `CNI_IFNAME` | `eth0` |
+| `CNI_ARGS` | `K8S_POD_NAMESPACE=default;K8S_POD_NAME=web;...` |
+| stdin | The network configuration JSON, including the IPAM section |
+| stdout | A result JSON with interfaces, IPs, routes and DNS |
+
+A bridge plugin performs these operations with rtnetlink messages, which are the same messages the `ip` command sends.
+
+1. Ensure a Linux bridge, conventionally `cni0`, exists on the host and is up (`RTM_NEWLINK` with kind `bridge`; `ip link add cni0 type bridge`).
+2. Create a veth pair (`RTM_NEWLINK` with kind `veth` and a peer; `ip link add vethXXXX type veth peer name eth0`). Create the container end directly in the target namespace, or create it on the host and move it with `IFLA_NET_NS_FD` (`ip link set eth0 netns cni-<uuid>`).
+3. Attach the host end to the bridge (`ip link set vethXXXX master cni0`) and bring it up.
+4. Call the IPAM plugin, itself another executable. `host-local` allocates the next free address from the node's Pod CIDR and records it as a file under `/var/lib/cni/networks/<network>/`, using a file lock to serialize allocators.
+5. Inside the namespace, entered with `setns` on a locked thread, add the address (`RTM_NEWADDR`; `ip addr add 10.244.0.25/24 dev eth0`), set the link up, add the default route via the bridge address (`RTM_NEWROUTE`; `ip route add default via 10.244.0.1`), and bring up `lo`.
+6. Optionally set sysctls in the namespace, such as `net.ipv4.conf.eth0.arp_notify`, and send a gratuitous ARP.
+7. On the host, configure masquerading for off-node traffic with iptables or nftables (`ipMasq`), and enable `net.ipv4.ip_forward`.
+
+Chained plugins can follow, such as `portmap` for `hostPort` (DNAT rules), `bandwidth` (tc qdiscs) or `tuning` (sysctls). Other CNI plugins use different topologies. kind's kindnet uses point-to-point veths with host routes rather than a bridge, and overlay plugins add VXLAN or eBPF. The contract is the same: by the end of `ADD`, the namespace has an `eth0` with the Pod IP and a route out. containerd records the result and later returns the IP through `PodSandboxStatus`, and the kubelet publishes it as `status.podIP`.
+
+**4. Start the pause container.** containerd starts a shim for the sandbox and asks runc to create and start the pause container. The container's specification lists the network namespace by path (`{"type": "network", "path": "/var/run/netns/cni-<uuid>"}`) and asks for new IPC and UTS namespaces, a new mount namespace, and, when the Pod sets `shareProcessNamespace`, a new PID namespace that later containers will join. The pause program is a few dozen lines of C. It installs handlers for `SIGINT` and `SIGTERM` that exit, installs a `SIGCHLD` handler that reaps zombies with `waitpid` in a loop, and then calls `pause()` forever.
+
+**Why the pause container exists.** Namespaces are reference-counted kernel objects. They live while a process is a member or a file descriptor or bind mount refers to them. A Pod's containers come and go: they crash, restart and run in sequence for init containers. Without a stable member, the Pod's IPC and UTS namespaces, and its PID namespace when shared, would be destroyed when the last application container exited, and a restarted container would get different ones. The pause process is a cheap, never-exiting member that pins them. When processes are shared, it is also PID 1 of the Pod's PID namespace, so it adopts and reaps orphaned processes from other containers. The network namespace is pinned by containerd's bind mount as well, but pause remains the conventional anchor that every application container joins.
+
+```mermaid
+sequenceDiagram
+    participant K as kubelet
+    participant C as containerd CRI
+    participant N as CNI plugins
+    participant S as runc shim
+    participant L as Linux
+    K->>C: RunPodSandbox
+    C->>L: unshare CLONE_NEWNET on a locked thread
+    C->>L: Bind-mount ns/net to /var/run/netns/cni-id
+    C->>N: exec bridge with CNI_COMMAND=ADD
+    N->>L: rtnetlink: veth, bridge, address, routes
+    N-->>C: Result JSON with Pod IP
+    C->>S: Start shim, create pause task
+    S->>L: runc: join netns, new IPC, UTS and mount ns
+    S-->>C: pause running
+    C-->>K: Sandbox ID
+```
+
+## 4.3 Pulling and unpacking an image into a root filesystem
+
+`PullImage` for `registry.example/web:1.0` makes containerd act as an HTTP client of an OCI distribution registry.
+
+1. **Resolve.** `GET /v2/web/manifests/1.0` with `Accept` headers for OCI and Docker manifest and index media types. A `401` response with a `WWW-Authenticate` challenge leads to a token request to the registry's auth service, using the credentials passed by the kubelet. The response is either an image *index*, a list of manifests per platform from which containerd selects the node's OS and architecture, or a manifest directly.
+2. **Fetch the configuration.** The manifest names a config blob by digest. The config carries the default command, environment, working directory, user, exposed ports and the `rootfs.diff_ids` list of uncompressed layer digests.
+3. **Fetch layers.** Each layer is a compressed tar (`gzip` or `zstd`). Blobs are downloaded with `GET /v2/web/blobs/<digest>`, often in parallel, written to the content store's ingest area, and committed only after the SHA-256 of the received bytes matches the digest. A lease protects the partially written content from garbage collection.
+4. **Unpack.** For each layer in order, the snapshotter prepares a new active snapshot on top of the previous committed one, and containerd's differ applies the tar stream into it. Applying a layer means creating files, directories, symlinks, hard links and device nodes with `openat`, `mkdirat`, `symlinkat`, `linkat` and `mknodat`, and setting ownership, modes, timestamps and extended attributes with `fchownat`, `fchmodat`, `utimensat` and `lsetxattr`. Deletions are translated to overlayfs whiteouts: `.wh.<name>` entries become 0/0 character devices, and `.wh..wh..opq` marks an opaque directory with the `trusted.overlay.opaque` xattr. The extracted content's digest is checked against the config's `diff_id`. The snapshot is then committed under a chain ID derived from the layer digests, so identical layer stacks are shared.
+5. **Record.** The image name is recorded in the metadata store and labelled as unpacked for the snapshotter.
+
+When `CreateContainer` runs later, the snapshotter's `Prepare` creates the writable layer and returns a mount description such as:
+
+```text
+overlay  overlay  lowerdir=/var/lib/containerd/.../snapshots/12/fs:.../snapshots/11/fs,
+                  upperdir=/var/lib/containerd/.../snapshots/57/fs,
+                  workdir=/var/lib/containerd/.../snapshots/57/work
+```
+
+The shim performs that mount onto the bundle's `rootfs` directory, `/run/containerd/io.containerd.runtime.v2.task/k8s.io/<id>/rootfs`, with `mount("overlay", rootfs, "overlay", 0, options)` before invoking runc. overlayfs then presents a merged view: lookups search the upper directory and then each lower directory in order, and a write to a lower file triggers *copy-up* of that file into the upper directory.
+
+Substrate's image cache performs the same composition for actors without containerd. It mounts an overlay of cached layers plus a per-actor upper directory with the descriptor-based mount API (`fsopen("overlay")`, `fsconfig` for each option, `fsmount`, then `move_mount` onto the target), as shown in [bundle_linux.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/imagecache/bundle_linux.go). Chapter 9 returns to that.
+
+## 4.4 CreateContainer and StartContainer: runc builds the process
+
+For each application container, the kubelet first calls `CreateContainer` with the image, command, environment, mounts, resources and security context, and then `StartContainer`. containerd generates the OCI specification and writes it as `config.json` in the bundle directory. The specification combines the image config's defaults, the Pod spec's overrides and the CRI plugin's defaults: the default capability set, default masked paths and the runtime's default seccomp profile when `RuntimeDefault` is selected. Its `linux.namespaces` list says which namespaces to join and which to create:
+
+```json
+"namespaces": [
+  {"type": "pid"},
+  {"type": "ipc",     "path": "/proc/<pause-pid>/ns/ipc"},
+  {"type": "uts",     "path": "/proc/<pause-pid>/ns/uts"},
+  {"type": "mount"},
+  {"type": "network", "path": "/var/run/netns/cni-<uuid>"},
+  {"type": "cgroup"}
+]
+```
+
+A namespace entry with a `path` is joined. One without a path is created. The PID entry carries the pause container's path only when the Pod shares its process namespace. Here, each container gets its own PID and mount namespaces but shares the network, IPC and UTS namespaces with pause. That is why containers in a Pod reach each other on `localhost`, can share System V IPC and see the same hostname, but cannot see each other's processes or root filesystems.
+
+The shim then runs `runc create --bundle <dir> --pid-file <file> <id>` and, on `StartContainer`, `runc start <id>`. Section 2.3 described the steps in prose. The table below lists the kernel calls in order and who makes them. The *runc parent* is the `runc create` process. *nsexec* is the C code at the start of `runc init`. *runc init* is the Go code that follows it in the child.
+
+| Step | Caller | Linux primitive | Effect |
+|---|---|---|---|
+| Re-exec self | runc parent | `clone`/`execve` of `/proc/self/exe init`, socket pair | Start the child that becomes the container |
+| Join Pod namespaces | nsexec | `open` of namespace paths, `setns` | Enter the pause container's network, IPC and UTS namespaces |
+| New namespaces | nsexec | `unshare(CLONE_NEWNS \| CLONE_NEWPID \| CLONE_NEWCGROUP ...)`, then `clone` | Private mount table, new PID namespace (child becomes PID 1), cgroup namespace |
+| Join cgroup | runc parent | `mkdir` and write of the PID to `cgroup.procs`, or a systemd scope over D-Bus | Place the process under `kubepods-...-pod<uid>.slice/cri-containerd-<id>.scope` |
+| Set limits | runc parent | Writes to `memory.max`, `cpu.max`, `cpu.weight`, `pids.max`, `io.max` | Enforce container resources |
+| Mount propagation | runc init | `mount(NULL, "/", NULL, MS_REC \| MS_SLAVE or MS_PRIVATE)` | Container mounts do not propagate to the host |
+| Root bind | runc init | `mount(rootfs, rootfs, MS_BIND \| MS_REC)` | Make the rootfs a mount point, as `pivot_root` requires |
+| Specification mounts | runc init | `mount` of `proc`, `sysfs`, `tmpfs` for `/dev`, `devpts`, `mqueue`, `shm`; bind mounts for volumes | Build the container's filesystem view |
+| Devices | runc init | `mknod` or bind-mount device nodes, symlinks for `/dev/fd` and `/dev/stdin` | Provide the minimal device set |
+| Switch root | runc init | `pivot_root(".", ".")`, `umount2(".", MNT_DETACH)`, `chdir("/")` | Make the rootfs `/` and detach the host's root |
+| Mask paths | runc init | Bind `/dev/null` over masked files, read-only remounts | Hide `/proc/kcore`, `/proc/sys` writes and similar |
+| Identity | runc init | `sethostname` (only if the UTS namespace is new), `setrlimit`, write `/proc/self/oom_score_adj` | Apply the remaining process properties |
+| Privilege drop | runc init | `prctl(PR_SET_NO_NEW_PRIVS)`, `prctl(PR_CAPBSET_DROP)`, `capset`, `setgroups`, `setresgid`, `setresuid` | Least privilege |
+| LSM | runc init | Write of `/proc/self/attr/apparmor/exec` or the SELinux exec context | Confinement takes effect at exec |
+| Seccomp | runc init | `seccomp(SECCOMP_SET_MODE_FILTER)` with the BPF program | Restrict future syscalls |
+| Wait for start | runc init | `open` of `exec.fifo` (blocks) | Pause between create and start |
+| Start | runc start | `open` of `exec.fifo` for reading | Unblock init |
+| Run workload | runc init | `execve(argv[0], argv, envp)` | The application replaces init as PID 1 of its namespace |
+
+After `execve`, the shim, which is the subreaper, holds the container's stdio pipes. The container's process makes ordinary system calls to the host kernel. When it exits, the shim's `wait4` collects the status and containerd emits a task-exit event, which the kubelet's PLEG observes and acts on according to `restartPolicy`. Teardown runs in reverse. `StopContainer` sends `SIGTERM`, waits the grace period, then sends `SIGKILL`, and the shim calls `runc delete`, which removes the cgroup. `StopPodSandbox` calls CNI `DEL`, which deletes the veth and releases the IPAM file. `RemovePodSandbox` unmounts and deletes the namespace bind mount and stops pause.
+
+## 4.5 The same Pod under gVisor
+
+Setting `runtimeClassName: gvisor` on the Pod changes only the handler that containerd uses. The kubelet's work is unchanged. containerd still creates the network namespace and calls CNI exactly as above, and still pulls images and prepares overlay mounts. The differences begin at the shim, `containerd-shim-runsc-v1`.
+
+**The sandbox container boots a kernel.** For the sandbox container, `runsc create` starts two long-lived host processes. The **Sentry** (`runsc boot`) joins the Pod network namespace and new IPC, UTS, PID and mount namespaces. It applies its own seccomp filter, which allows only the host calls the Sentry needs, `chroot`s itself into an empty directory, and drops capabilities. The **gofer** (`runsc gofer`) gets a mount namespace in which it can reach the container's root filesystem, `pivot_root`s or `chroot`s into it, and serves file access for the Sentry. With directfs, it hands the Sentry host file descriptors over a Unix socket. When directfs is on and networking is not host-mode, runsc places these processes in an identity-mapped user namespace, which supplies capabilities such as `CAP_SYS_CHROOT` inside it.
+
+**Networking moves into the Sentry.** In sandbox networking mode, the Sentry reads the addresses and routes CNI configured on `eth0` inside the namespace, recreates them in its own netstack, and exchanges frames with the interface through a packet socket. The host kernel no longer terminates the Pod's TCP connections. The Pod IP is unchanged and the CNI configuration is unchanged; the stack that owns them is different.
+
+**Application containers are started by the Sentry, not exec'd by runc.** For each application container, the shim calls `runsc create` and `runsc start` with the CRI annotations described in 2.4. runsc sends the request to the running Sentry over its control socket. The Sentry creates a new task inside its own kernel, with that container's mounts served by the gofer and the container's command loaded by the Sentry's ELF loader, and schedules it. There is no host `execve` of the workload binary. The application's `open`, `read`, `socket`, `clone` and `mmap` calls are trapped by the platform and implemented by the Sentry. Only the Sentry's own filtered host calls reach Linux.
+
+**Resources are charged to the sandbox.** The Pod cgroup still bounds everything, but what is charged is the Sentry's memory file, its own heap and the stub processes. An application's resident set is therefore not directly visible as host process RSS. `kubectl top` and cgroup files report the sandbox's total.
+
+```mermaid
+flowchart TB
+    P[Pod cgroup] --> SB[Sentry process]
+    P --> G[Gofer process]
+    P --> ST[Systrap stub processes]
+    SB --> M[memfd memory file backing app pages]
+    SB --> NS[netstack using eth0 in the Pod netns]
+    G --> FS[Container rootfs overlay on the host]
+    ST --> SB
+```
+
+## 4.6 Roadmap and engineering improvements
+
+The Pod path in this chapter is upstream behaviour. What Substrate adds is a second, independent use of the same primitives inside an already-running worker Pod: network namespaces created with `unshare(CLONE_NEWNET)` and pinned by bind mounts, veth pairs programmed through rtnetlink, overlayfs composed from cached layers, and runsc sandboxes created directly. Chapter 9 follows that path, and the comparison is deliberate. An actor's activation repeats the expensive parts of Pod creation (image unpacking, namespace and network plumbing, kernel boot) only where it must, and restores memory instead of booting where it can.
+
+Two proposals follow from reading the two paths together. First, operational runbooks for workers should state which namespace each diagnostic command observes. `crictl inspect` and `/var/run/netns` show the worker Pod's namespaces created by containerd. Actor namespaces are named bind mounts inside the worker's mount namespace, reachable through `/proc/<worker-pid>/root/run/netns/`, as the lifecycle companion's collector does. Second, the Substrate documentation could include the exact CNI-equivalent `ip` and `nft` commands that the worker's network setup corresponds to, generated from the same constants as [sandbox.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/ateworker/actornet/sandbox.go), so operators can reproduce an actor's namespace layout manually during debugging. Both are proposals, not tracked work.
+
+## Source map
+
+The Pod creation path is implemented by the kubelet, containerd, CNI plugins and runc, outside this repository. The Substrate code that reuses the same Linux mechanisms is:
+
+- [bundle_linux.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/imagecache/bundle_linux.go): overlayfs composition of cached layers using `fsopen`, `fsconfig`, `fsmount` and `move_mount`.
+- [netns.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/netns/netns.go): creating, pinning and entering network namespaces on locked OS threads, the same technique containerd uses for Pods.
+- [sandbox.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/ateworker/actornet/sandbox.go): the veth, address, route and nftables programming that plays the role of CNI for actors.
+- [cgroup.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/ateworker/cgroup/cgroup.go): delegation of the worker container's cgroup subtree created by the kubelet and runc.
+
+
+# 5. Two API Planes: Resources, Schemas, and Contracts
+
+## 5.1 Infrastructure objects and workload records
 
 Substrate has two public resource systems with different persistence and reconciliation paths. Kubernetes stores the infrastructure objects: WorkerPool, SandboxConfig, and CSIDriverConfig. PostgreSQL stores the workload and control records exposed by the Substrate gRPC API. Both systems use familiar concepts such as names, versions, desired configuration, and observed state, but they do not share an API server, storage implementation, or authorization path. Understanding that separation prevents several common mistakes, including treating an actor as a CRD or expecting Kubernetes admission to validate an ActorTemplate.
 
@@ -369,13 +869,13 @@ A template selector and an actor selector are combined by the scheduler. The act
 
 Worker records describe the actual execution fleet to the Substrate control plane. The worker synchronizer names a Worker by its Kubernetes Pod UID. The record includes infrastructure identity, labels, runtime information, capacity, allocation, and process-epoch state. The Pod name is useful for operators, but it is not the stable key used by the API. Reusing a Pod name after deletion must not cause a new process to inherit assignments belonging to an earlier Pod incarnation.
 
-Two similarly named structures require particular care. `WorkerAssignment`, embedded in ActorStatus, is the actor's view of its hosting worker. `ActorAssignment`, stored under a Worker, is the worker's reservation for an actor. The former carries denormalized routing and runtime information; the latter records the actor identity and resources booked against capacity. They are not redundant copies that can be freely substituted. Chapter 3 follows the interval in which a reservation exists before the actor's state write completes, and shows why recovery must understand both views.
+Two similarly named structures require particular care. `WorkerAssignment`, embedded in ActorStatus, is the actor's view of its hosting worker. `ActorAssignment`, stored under a Worker, is the worker's reservation for an actor. The former carries denormalized routing and runtime information; the latter records the actor identity and resources booked against capacity. They are not redundant copies that can be freely substituted. Chapter 6 follows the interval in which a reservation exists before the actor's state write completes, and shows why recovery must understand both views.
 
-Tags provide another relation that is more specific than an arbitrary label. A tag identifies retained snapshot content and has its own resource identity, status, and publication scope. An actor created from a tag can borrow that snapshot rather than immediately copying its files. The `source_tag` field is immutable provenance, while the actor's later snapshots evolve independently. Storage ownership and retention belong to Chapter 8, but the API shape already tells a client that changing a tag's metadata is different from changing the snapshot to which it is fixed.
+Tags provide another relation that is more specific than an arbitrary label. A tag identifies retained snapshot content and has its own resource identity, status, and publication scope. An actor created from a tag can borrow that snapshot rather than immediately copying its files. The `source_tag` field is immutable provenance, while the actor's later snapshots evolve independently. Storage ownership and retention belong to Chapter 12, but the API shape already tells a client that changing a tag's metadata is different from changing the snapshot to which it is fixed.
 
 A useful rule when reading an API call is to ask which resource owns the addressed data. `GetWorker` takes a global Worker reference. An actor policy operation addresses an Actor parent plus its singleton policy. A list operation scoped to an atespace enumerates workload records, not Kubernetes objects. Deletion must honor those relationships: a child policy cannot outlive its actor, and an atespace cannot simply be removed while dependent resources require it. The database schema makes some of these constraints relationally explicit, while workflows enforce additional lifecycle obligations.
 
-## 2.2 Identity, versions, and observable lifecycle state
+## 5.2 Identity, versions, and observable lifecycle state
 
 `ResourceMetadata` carries atespace, name, UID, version, and creation, update, and deletion timestamps. These fields look familiar to Kubernetes contributors, but their semantics are implemented by Substrate's store and handlers. A name identifies an address within its scope. A UID identifies one incarnation at that address. A version changes on mutation. Timestamps describe recorded events; they do not replace concurrency preconditions. A correct client preserves the distinctions when retrying a write or acting on an earlier observation.
 
@@ -389,20 +889,20 @@ ActorState contains RESUMING, RUNNING, SUSPENDING, SUSPENDED, CRASHED, DELETING,
 
 ```mermaid
 stateDiagram-v2
-    [*] --> SUSPENDED: CreateActor
-    SUSPENDED --> RESUMING: ResumeActor
-    RESUMING --> RUNNING: activation finalized
-    RUNNING --> SUSPENDING: SuspendActor
-    SUSPENDING --> SUSPENDED: checkpoint finalized
-    RUNNING --> CRASHED: execution lost
-    RESUMING --> CRASHED: unrecoverable activation failure
-    RUNNING --> REVERTING: RevertActor
-    CRASHED --> REVERTING: RevertActor
     REVERTING --> SUSPENDED: durable state selected
-    SUSPENDED --> DELETING: DeleteActor
     RUNNING --> DELETING: DeleteActor
+    RESUMING --> CRASHED: unrecoverable<br/>activation failure
+    RUNNING --> REVERTING: RevertActor
+    SUSPENDED --> RESUMING: ResumeActor
     CRASHED --> DELETING: DeleteActor
+    CRASHED --> REVERTING: RevertActor
+    SUSPENDED --> DELETING: DeleteActor
+    SUSPENDING --> SUSPENDED: checkpoint finalized
+    RUNNING --> SUSPENDING: SuspendActor
+    [*] --> SUSPENDED: CreateActor
+    RESUMING --> RUNNING: activation finalized
     DELETING --> [*]: cleanup and removal
+    RUNNING --> CRASHED: execution lost
 ```
 
 The diagram is an explanatory selection of important transitions rather than a complete admission table for every interrupted state. The workflow implementations validate the exact edge they are about to take. Re-entry can continue a transitional operation from persisted state, and deletion can need to clean up partial work. The key point is that the state machine is public observation backed by concrete workflow logic, not a promise that each RPC completes in one transaction.
@@ -433,7 +933,7 @@ After the reference changes, a subsequent resume cannot assume that the old proc
 
 There remains a non-atomicity boundary between resolving a referenced template and later using it. The source explicitly notes that resume resolves it again and fails cleanly if it has disappeared. The API does not hold a database transaction open across all future use of the reference. A robust integration treats the existence check as validation of current intent and still handles later lifecycle failures. Referential design, lifecycle serialization, and eventual cleanup each address part of the problem; none makes a referenced resource immortal.
 
-## 2.3 CRDs that describe executable infrastructure
+## 5.3 CRDs that describe executable infrastructure
 
 WorkerPool is the bridge from declared capacity to worker Pods. Its spec requires a replica count, worker image, and sandbox class list. The list is currently constrained to exactly one entry, and the class name is immutable. The schema exposes a list because the representation may evolve, but the current admission contract does not permit a mixed-class pool. Code and diagrams should follow that cardinality instead of interpreting the plural field name as existing multi-runtime composition.
 
@@ -459,7 +959,7 @@ flowchart TB
     Worker --> Placement[Actor placement and restore compatibility]
 ```
 
-A failed config update is not necessarily a reason to discard the last working runtime. The controller's resolution code can retain the previously resolved config while reporting why the new desired configuration cannot be used. That behavior needs careful reading: the spec expresses intent, status identifies confirmed use, and a condition describes the disagreement. Operators should inspect all three before assuming that a newly applied config name is already active on every worker. Chapter 4 examines the switch protocol and cache-versus-live-read choices.
+A failed config update is not necessarily a reason to discard the last working runtime. The controller's resolution code can retain the previously resolved config while reporting why the new desired configuration cannot be used. That behavior needs careful reading: the spec expresses intent, status identifies confirmed use, and a condition describes the disagreement. Operators should inspect all three before assuming that a newly applied config name is already active on every worker. Chapter 7 examines the switch protocol and cache-versus-live-read choices.
 
 CSIDriverConfig describes how Substrate reaches a CSI driver's controller and node services. It includes the standard driver name, a controller endpoint, an optional node socket override, and TLS configuration. The node default follows kubelet's plugin-socket convention. This resource does not convert actors into Pods with PVC mounts. Instead, Substrate's volume interfaces invoke the appropriate CSI operations while coordinating actor lifecycle and node-local publication.
 
@@ -469,11 +969,11 @@ The CRDs are generated from the Go types, but the generated YAML is what the API
 
 These infrastructure objects also establish administrative authority boundaries. A Substrate application caller may be allowed to create actors without being allowed to choose host capabilities or replace hypervisor binaries. Kubernetes authorization governs changes to WorkerPool and SandboxConfig. Substrate authorization governs the workload API. The split permits different operators to own runtime supply and application lifecycle, but it does not automatically impose a particular organizational policy. Installations must grant each API's privileges deliberately and understand which changes affect all tenants using a pool.
 
-## 2.4 Public RPCs, component RPCs, and plugin contracts
+## 5.4 Public RPCs, component RPCs, and plugin contracts
 
 The public `Control` service combines resource operations with lifecycle verbs. Create, get, list, update, and delete methods manage records where supported. ResumeActor, SuspendActor, RevertActor, DrainWorker, and worker availability methods express operations whose effects span several records or external processes. The distinction is visible in handler structure: a simple read delegates to the store, while a lifecycle operation enters a workflow with leases, preconditions, and node communication. A resource-oriented API does not imply that every method is a single CRUD transaction.
 
-`WorkerService` is also declared in the public API proto, but its callers and authorization are component-specific. It provides worker epoch acquisition, registration, runtime updates, actor certificate and JWT minting, actor-initiated suspend plumbing, snapshot reports, and crash reports. An arbitrary API client must not gain those powers simply by possessing a generated stub. The service authenticates the atelet identity and checks that the named worker and actor belong to the caller's node and hosting relationship. Chapter 10 follows those checks in detail.
+`WorkerService` is also declared in the public API proto, but its callers and authorization are component-specific. It provides worker epoch acquisition, registration, runtime updates, actor certificate and JWT minting, actor-initiated suspend plumbing, snapshot reports, and crash reports. An arbitrary API client must not gain those powers simply by possessing a generated stub. The service authenticates the atelet identity and checks that the named worker and actor belong to the caller's node and hosting relationship. Chapter 15 follows those checks in detail.
 
 The internal atelet protocol has two directions. `Atelet` exposes downward lifecycle operations such as Run, Restore, Checkpoint, PromoteSnapshot, DetachActor, and Terminate. `WorkerSupport` exposes upward worker needs such as registration, runtime updates, identity minting, policy lookup, crash reporting, and suspend requests. These directions help explain why the same node supervisor acts as both client and server across an operation. A worker asking for suspension can cause the control plane to call back down into that worker to checkpoint it.
 
@@ -502,13 +1002,13 @@ The credential-provider API is narrower still. `CredentialProvider.FetchSecret` 
 
 The repository includes other protos that are not interchangeable with these contracts. `pkg/proto/ateconfigpb/apiconfig.proto` describes API server configuration. `internal/proto/objectstoreexchangepb/exchange.proto` supports an internal credential-exchange path. `internal/proto/ateenv/v1alpha/guest.proto` is a pinned copy of another repository's guest process and filesystem API used by benchmarks. Kata agent definitions are vendored under the microVM worker's third-party directory. Their presence in the clone does not make them all public Substrate extension APIs.
 
-Schema duplication across boundaries can be justified when it protects independent ownership, but it requires conversion code. The control plane converts public workload descriptions into atelet requests; atelet converts its protocol to worker requests. Runtime identity and resource fields must survive those conversions with their intended units and defaults. A new public field that is validated but omitted from a conversion can be silently ineffective. A new internal field that assumes a particular runtime can violate the common-worker boundary. Chapter 12 treats those propagation obligations as part of extension design.
+Schema duplication across boundaries can be justified when it protects independent ownership, but it requires conversion code. The control plane converts public workload descriptions into atelet requests; atelet converts its protocol to worker requests. Runtime identity and resource fields must survive those conversions with their intended units and defaults. A new public field that is validated but omitted from a conversion can be silently ineffective. A new internal field that assumes a particular runtime can violate the common-worker boundary. Chapter 17 treats those propagation obligations as part of extension design.
 
 Error semantics are also part of the contract. Resource exhaustion indicates that placement or another bounded resource cannot currently admit the request. Failed precondition indicates that the requested operation is not valid for the observed state or configuration. Aborted can indicate a conflict requiring a fresh attempt. Not found can mean either absence or an intentional nondisclosure under component authorization. A caller should not retry all non-success codes blindly. The worker suspend helper, for example, distinguishes transient availability/backpressure/conflict from decisions that another attempt will not resolve.
 
 Deadlines and cancellation cross process boundaries but do not create distributed rollback. If a client times out after a worker started the sandbox, the side effect may exist even though the caller received no result. Internal requests therefore need identity keys and repeatable semantics, and workflows need persisted postconditions. Protocol review should ask what a repeated request means after each possible lost response. That question is more useful than treating gRPC delivery as exactly once or assuming that a canceled context proves the remote process did nothing.
 
-## 2.5 Validation, generation, and client behavior
+## 5.5 Validation, generation, and client behavior
 
 Substrate reuses Kubernetes declarative validation tooling for protobuf-backed APIs. Comments in the proto are copied into generated Go code, and validation-gen reads those annotations to emit validators. [apivalidation/doc.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateapi/internal/apivalidation/doc.go) points the generator at `api/ateapi/v1` and request types. The arrangement lets the public schema carry requiredness, bounds, immutability, list semantics, and feature-gate conditions while producing Go validation used by the API handlers.
 
@@ -562,7 +1062,7 @@ The reverse distinction matters too. Runtime failure is not a reason to accept a
 
 This separation guides tests. Schema tests should demonstrate rejection and normalization at the API boundary, including update and preview contexts. Workflow tests should demonstrate behavior after valid input meets a changing fleet, failed storage, or a restarted worker. Testing only generated validators leaves the distributed contract unexamined; testing only successful end-to-end execution leaves malformed and concurrent client behavior unexamined.
 
-## 2.6 Roadmap and engineering improvements
+## 5.6 Roadmap and engineering improvements
 
 Several future directions are recorded directly in the schema and implementation. Actor currently references ActorTemplate; the proto asks whether an actor should eventually contain a full specification. That choice would change more than serialization. It would affect template deletion, actor provenance, update semantics, defaulting, snapshot compatibility, and the amount of information copied into every actor record. A self-contained actor can reduce dependency on a template lookup, but it creates a separate specification lifecycle that must be reconciled with shared golden snapshots.
 
@@ -578,7 +1078,7 @@ Another proposal is a clearer client-facing account of continuity. The API recor
 
 A future workload watch API would require explicit consistency and retention semantics. The internal worker outbox already demonstrates that event delivery needs recovery after trimming, crashes, and missed polls. A public API would additionally need tenant filtering and stable resume tokens. It should state whether a list followed by a watch can avoid gaps, how clients recover after retention loss, and whether events carry complete resources or deltas. Those are design questions suggested by the implementation, not a claim that such a watch is currently planned or served.
 
-Finally, compatibility should be read in release context. The README states that Agent Substrate has reached 1.0 and commits to compatibility of the public API, CLI, and configuration formats. [CONTRIBUTING.md](https://github.com/agent-substrate/substrate/blob/v1.0.0/CONTRIBUTING.md) defines that commitment for reviewers: existing RPCs and fields must not be removed or changed incompatibly, and preview-gated APIs are excluded. Public package placement signals intended external use, but the stability policy decides which surfaces a client can rely on. Chapter 12 examines how protobuf, database, runtime, and node-sharing contracts interact during upgrades. For the present API model, the discipline is simpler: use the current schema, distinguish server state from caller intent, preserve resource incarnation in writes, and validate assumptions at every API boundary.
+Finally, compatibility should be read in release context. The README states that Agent Substrate has reached 1.0 and commits to compatibility of the public API, CLI, and configuration formats. [CONTRIBUTING.md](https://github.com/agent-substrate/substrate/blob/v1.0.0/CONTRIBUTING.md) defines that commitment for reviewers: existing RPCs and fields must not be removed or changed incompatibly, and preview-gated APIs are excluded. Public package placement signals intended external use, but the stability policy decides which surfaces a client can rely on. Chapter 17 examines how protobuf, database, runtime, and node-sharing contracts interact during upgrades. For the present API model, the discipline is simpler: use the current schema, distinguish server state from caller intent, preserve resource incarnation in writes, and validate assumptions at every API boundary.
 
 ## Source map
 
@@ -591,9 +1091,9 @@ Finally, compatibility should be read in release context. The README states that
 - [Object-store API](https://github.com/agent-substrate/substrate/blob/v1.0.0/api/objectstore/v1/objectstore.proto) and [credential-provider API](https://github.com/agent-substrate/substrate/blob/v1.0.0/api/credprovider/v1/credprovider.proto): public plugin surfaces.
 
 
-# 3. Placement and Consistency in ateapi
+# 6. Placement and Consistency in ateapi
 
-## 3.1 The control plane's authoritative state
+## 6.1 The control plane's authoritative state
 
 The actor activation path is a distributed state transition coordinated by ateapi. It changes PostgreSQL records, obtains capacity in a worker, prepares state on a node, and starts an execution environment in another process. No transaction spans all of those actions. The implementation instead combines several narrower mechanisms: resource versions, renewable leases, a unique assignment table, row-locked capacity admission, worker-process epochs, and workflows that derive progress from persisted state. Each mechanism protects a different invariant.
 
@@ -607,7 +1107,7 @@ The bind is one transaction. `BindActorToWorker` locks the Worker row, runs admi
 
 The store's update methods apply UID and version preconditions. An update reads the resource, checks the caller's conditions, applies the mutation, and writes with a predicate that still names the expected incarnation and version. If another writer wins, the operation reports a conflict instead of overwriting the newer state. A mutation closure can be retried, so it must not itself emit an irreversible external side effect or a misleading success log. [workflow.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateapi/internal/controlapi/workflow.go) explicitly logs actor state changes from the committed record after the update returns.
 
-The database also stores authorization data used by the embedded OpenFGA integration. Resource policy mutations and authorization tuple updates can share a PostgreSQL transaction through the transaction-aware datastore adapter. This avoids treating authorization policy as an unrelated eventually updated side database. The details belong to Chapter 10, but the consistency implication is relevant here: the store's transaction boundary can include both a resource mutation and the access relationships that make it visible to callers.
+The database also stores authorization data used by the embedded OpenFGA integration. Resource policy mutations and authorization tuple updates can share a PostgreSQL transaction through the transaction-aware datastore adapter. This avoids treating authorization policy as an unrelated eventually updated side database. The details belong to Chapter 15, but the consistency implication is relevant here: the store's transaction boundary can include both a resource mutation and the access relationships that make it visible to callers.
 
 Database connections are partitioned by purpose. `Persistence` has the main read/write pool, a watch pool, an owner pool for migrations and outbox maintenance, and a separate readiness-probe pool. The configured watch pool has capacity for polling, maintenance, and headroom; the owner pool accounts for migration locking and work. Separating a probe connection prevents ordinary request traffic from consuming every connection the readiness check needs. It does not make the database independent of request load, but it removes one avoidable queueing dependency.
 
@@ -629,7 +1129,7 @@ flowchart TB
 
 The arrows identify dependency. Only the bind is one transaction. Failure between any two later boxes leaves a particular recoverable state. The implementation's quality depends on whether that state is understood by the next request or reconciliation pass. The following sections examine those interruptions in the order that an activation encounters them.
 
-## 3.2 Renewable leases and re-entered workflows
+## 6.2 Renewable leases and re-entered workflows
 
 An actor lease serializes lifecycle operations for one logical actor address. `actorLeaseKey` constructs the key from atespace and name. `AcquireLease` in [lease.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateapi/internal/store/atepg/lease.go) generates an ownership token and inserts a lease row with an expiration calculated by PostgreSQL's `clock_timestamp()`. On conflict, it can replace the owner only if the previous lease is expired. If no row is returned, the caller receives `ErrLeaseConflict` rather than assuming it may proceed.
 
@@ -669,7 +1169,7 @@ sequenceDiagram
 
 The diagram exposes a requirement rather than granting an unconditional guarantee: the repeated atelet request must have safe semantics for the same actor and worker identities. The comment on `ensureAteletRestored` calls this the reentrancy seam and references continuing work on node-side idempotency. A reader should inspect both ends of that contract before declaring the workflow exactly once. Persisted ensure steps make recovery possible, but an external operation that is not repeatable remains a material limitation.
 
-Suspend follows the same general method. It acquires the actor lease, reads current state, marks SUSPENDING, asks atelet to checkpoint, detaches external volumes, and finalizes SUSPENDED. An actor already SUSPENDED returns as it is. The synchronous versus asynchronous durability choice changes when upload completes, not the need to serialize the execution transition. Snapshot state and retention are covered in Chapter 8; here the important point is that releasing execution capacity follows a successful sequence of recorded and external steps.
+Suspend follows the same general method. It acquires the actor lease, reads current state, marks SUSPENDING, asks atelet to checkpoint, detaches external volumes, and finalizes SUSPENDED. An actor already SUSPENDED returns as it is. The synchronous versus asynchronous durability choice changes when upload completes, not the need to serialize the execution transition. Snapshot state and retention are covered in Chapter 12; here the important point is that releasing execution capacity follows a successful sequence of recorded and external steps.
 
 Delete and revert introduce different cleanup obligations. Delete must terminate execution and detach volumes before releasing a reservation that could otherwise still represent a live sandbox. The workflow can collect errors and continue safe cleanup where possible, but it deliberately avoids releasing capacity if required termination or detachment failed. Revert preserves a completed durable recovery point while abandoning active or local progress. These are not equivalent to clearing ActorStatus and relying on a future controller to discover the orphaned processes.
 
@@ -699,7 +1199,7 @@ The most useful review artifact is an operation ledger with one row per side eff
 
 A ledger also distinguishes safe over-retention from unsafe early release. Retaining an uncertain assignment can temporarily reduce capacity but prevents that capacity from being allocated while execution might still exist. Releasing it early can admit another actor into resources still in use. The implementation often favors conservative retention until termination or reconciliation supplies evidence. That choice requires eventual cleanup to preserve liveness. A system that never releases uncertain state is safe against one class of overlap but can exhaust itself after repeated failures; recovery must complete the argument.
 
-## 3.3 Candidate selection and authoritative admission
+## 6.3 Candidate selection and authoritative admission
 
 The scheduler has a deliberately small interface: `Schedule`, `Applies`, and `HasRoom`. `Schedule` chooses a worker from a `WorkerSource`. `Applies` checks non-capacity constraints, allowing an existing assignment to be assessed without counting itself as a reason for ineligibility. `HasRoom` evaluates the resources needed for one more actor. This split permits the workflow to reuse an existing claim and to repeat admission against a fresh database record without duplicating policy in the store.
 
@@ -746,7 +1246,7 @@ Locality can further constrain this process. A suspended actor whose latest snap
 
 Runtime fallback is also a policy decision in the workflow, not a relaxation of all constraints. A memory image captured under an unavailable runtime may be restored at ROOTFS fidelity under the worker's default runtime. A changed template can force VOLUMES fidelity. Sandbox class remains fixed for snapshot interpretation. These decisions preserve supported state while changing process continuity. The scheduler supplies feasible destinations; the workflow determines what can be restored there and stamps the assignment accordingly.
 
-## 3.4 The transactional worker outbox and cache recovery
+## 6.4 The transactional worker outbox and cache recovery
 
 The scheduler needs a fleet view without reading every Worker from PostgreSQL for every placement. `workercache.Cache` maintains that view from `store.Interface.WatchWorkers`. The implementation is neither Kubernetes watch storage nor PostgreSQL LISTEN/NOTIFY. It is an application outbox whose events are written in the same transaction as the Worker mutation and then polled by each API replica. This choice gives the cache a recoverable change stream while keeping the primary Worker rows authoritative.
 
@@ -796,7 +1296,7 @@ The cache's handlers run on the goroutine applying changes and must not block. T
 
 Operationally, outbox health should be evaluated with database transaction age, poll failures, cache readiness, relist activity, and maintenance latency. A high rate of authoritative admission conflicts can indicate cache lag, but it can also reflect legitimate contention for a small feasible pool. A low event rate can mean a quiet fleet or a stalled xmin fence. Diagnosis requires distinguishing those cases. The source has an explicit TODO for cache metrics, so some of this visibility remains an improvement rather than a complete existing dashboard contract.
 
-## 3.5 Worker epochs, crashes, and interrupted activation
+## 6.5 Worker epochs, crashes, and interrupted activation
 
 Kubernetes Pod identity does not identify a worker process incarnation. A container process can restart inside the same Pod, retaining its Pod UID and network identity while losing all sandboxes it managed. Substrate uses worker epochs to distinguish those executions. `issued_epoch` counts epochs handed out, `registered_epoch` identifies the process whose registration is active, and `observed_epoch` records how far assignment recovery has reconciled the consequences of replacement.
 
@@ -843,13 +1343,13 @@ A useful failure matrix separates the remaining interruption points. Before the 
 
 This matrix is also a test design. A test that kills an API replica at an arbitrary time may repeatedly hit only one row. To exercise the contract, failure injection must identify the specific committed boundary and assert both actor state and worker allocation afterward. Tests should check for leaked assignments as well as duplicate execution, because a system can avoid duplication by conservatively retaining every failed reservation and still become unusable over time.
 
-Node loss introduces snapshot questions beyond worker epoch recovery. A worker process restart loses active execution; a node loss can also remove local checkpoints. The actor's assigned node and snapshot locality determine whether the newest state can be recovered elsewhere. A durable older snapshot may support revert, while a missing newest checkpoint can cause crash handling. Chapter 8 traces those state choices. Here the key distinction is that worker epoch is evidence about process replacement, not a proof of snapshot durability.
+Node loss introduces snapshot questions beyond worker epoch recovery. A worker process restart loses active execution; a node loss can also remove local checkpoints. The actor's assigned node and snapshot locality determine whether the newest state can be recovered elsewhere. A durable older snapshot may support revert, while a missing newest checkpoint can cause crash handling. Chapter 12 traces those state choices. Here the key distinction is that worker epoch is evidence about process replacement, not a proof of snapshot durability.
 
 The actor lease and worker-assignment lease form a hierarchy of operation scopes rather than a single global mutex. Recovery holds the worker-scoped lease while attempting actor-scoped leases; ordinary actor operations hold their actor lease while changing assignments. Correctness depends on avoiding indefinite waits and on using conflict/retry behavior where operations meet. The implementation treats a busy actor as retryable work instead of blocking the whole sweep while holding the worker lease indefinitely. This makes the lock structure visible in the control flow.
 
 Crash records are public operational evidence. They preserve a reason and time in ActorStatus and are cleared when revert returns the actor to a suspended recovery point. An operator must distinguish a sandbox that deliberately exited, a worker process replacement, a lost local snapshot, and a failed activation. These may share a CRASHED state but require different remediation. The source's structured lifecycle events and phase spans are the route to that distinction; a generic Kubernetes restart count cannot reconstruct it.
 
-## 3.6 Roadmap and engineering improvements
+## 6.6 Roadmap and engineering improvements
 
 The first repository-backed improvement is the placement of recovery controllers. `worker_assignment_reconciler.go` explicitly notes that every API replica queues every worker and relies on a per-worker lease to avoid duplicate sweeps. It suggests a single elected leader or moving controller loops into their own Deployment. Such a change could reduce duplicate database traffic, but it would also create a leadership and availability contract. The current design trades redundant enqueueing for simple replica-local operation and lease-based serialization.
 
@@ -867,7 +1367,7 @@ A broader proposal is to publish a small set of executable invariants with the c
 
 Another proposal concerns scheduling policy and autoscaling. Power-of-two choices spreads demand, while scale-down benefits from consolidation. Local snapshots favor retaining capacity near state, while cross-node redistribution can improve utilization. A future policy should state its objective and the cost of changing locality rather than layering an unrelated bin-packing heuristic onto the existing selector. Experiments should include heterogeneous actor sizes, runtime-version fragmentation, burst correlation, and background snapshot I/O. Uniform tiny actors in a permanently warm fleet exercise only a narrow part of the problem.
 
-Finally, database evolution is part of production consistency. Goose migrations use a PostgreSQL session advisory lock, and repository verification requires sequential, transactional Up migrations without editing already merged files. The schema policy and future version-skew contract constrain how fields and tables can evolve while old binaries still run. The database may retain serialized protobuf data longer than any individual API process. Changes to validation, defaults, and stored messages must therefore be evaluated together with migration and rollback behavior. Chapter 12 returns to that cross-version contract.
+Finally, database evolution is part of production consistency. Goose migrations use a PostgreSQL session advisory lock, and repository verification requires sequential, transactional Up migrations without editing already merged files. The schema policy and future version-skew contract constrain how fields and tables can evolve while old binaries still run. The database may retain serialized protobuf data longer than any individual API process. Changes to validation, defaults, and stored messages must therefore be evaluated together with migration and rollback behavior. Chapter 17 returns to that cross-version contract.
 
 ## Source map
 
@@ -881,9 +1381,9 @@ Finally, database evolution is part of production consistency. Goose migrations 
 - [PostgreSQL schema evolution](https://github.com/agent-substrate/substrate/blob/v1.0.0/docs/dev/postgresql-schema-evolution.md): migrations and compatibility constraints.
 
 
-# 4. Reconciling Kubernetes Infrastructure
+# 7. Reconciling Kubernetes Infrastructure
 
-## 4.1 What atecontroller owns
+## 7.1 What atecontroller owns
 
 `atecontroller` maintains the Kubernetes infrastructure that makes actor execution possible. Its principal objects are WorkerPool and SandboxConfig, with generated Deployments, worker ServiceAccounts, NetworkPolicies, and an egress trust bundle. It also synchronizes worker Pod observations into the Substrate API. It does not implement the actor scheduler, does not store Actor records in Kubernetes, and does not own every reconciliation loop in the repository. Golden snapshot creation and worker-epoch recovery run inside ateapi.
 
@@ -920,7 +1420,7 @@ Controller-runtime does not automatically make all operations transactional. App
 
 For a Kubernetes core contributor, the productive reading strategy is to follow those intermediate states. A pool can have an existing Deployment while its newly requested config is unresolved. A terminating config can remain valid because a pool still holds it. A Pod can be Ready while its worker process has not yet reported runtime information. A worker can be DRAINING while the Pod still exists. None of those combinations is necessarily a bug; each expresses progress at a different layer.
 
-## 4.2 Building and maintaining worker Deployments
+## 7.2 Building and maintaining worker Deployments
 
 `WorkerPoolReconciler.Reconcile` reads the pool, treats NotFound as completed deletion, and stops ordinary reconciliation when deletion has begun. The main work is in `reconcileWorkerPool`. It first discovers whether a Deployment already exists. An existing Deployment is applied before SandboxConfig resolution, because the Pod template does not embed the SandboxConfig's runtime asset contents. A configuration error must not prevent an operator from scaling existing capacity down or otherwise applying the pool's current infrastructure shape.
 
@@ -956,11 +1456,11 @@ flowchart TB
 
 The generated toleration for a sandbox-class taint allows pools to use nodes reserved for that class. It is additive to user-supplied tolerations. The device request constrains where a microVM worker can fit; the toleration controls whether it may enter a tainted node. Those mechanisms are complementary. Neither causes the actor scheduler to select a worker directly; they shape the fleet that later reports capacity to ateapi.
 
-WorkerPool status copies Deployment replica and ready-replica counts and selector information, together with sandbox-class resolution state. The controller avoids a status update when the desired status is semantically equal. Replica readiness remains a Kubernetes observation. Actor-placement readiness additionally requires the worker's registered epoch and runtime report, as Chapter 3 describes. A ready-replica gauge is therefore useful for infrastructure health but cannot alone prove that a particular snapshot has a feasible restore destination.
+WorkerPool status copies Deployment replica and ready-replica counts and selector information, together with sandbox-class resolution state. The controller avoids a status update when the desired status is semantically equal. Replica readiness remains a Kubernetes observation. Actor-placement readiness additionally requires the worker's registered epoch and runtime report, as Chapter 6 describes. A ready-replica gauge is therefore useful for infrastructure health but cannot alone prove that a particular snapshot has a feasible restore destination.
 
 Rollouts change more than container binaries in a multiplexed system. One worker can host several actors, so terminating it can affect multiple application executions. The generated termination grace and worker drain behavior give the runtime an opportunity to shut down, while WorkerPoolSyncer marks terminating Pods DRAINING to stop new assignments. The controller does not perform a live migration of every actor simply because Deployment rolling update exists. Operators must combine rollout settings with actor recovery and snapshot durability requirements.
 
-## 4.3 Resolving and protecting SandboxConfig
+## 7.3 Resolving and protecting SandboxConfig
 
 SandboxConfig selection is a stateful protocol because configuration deletion can race pool adoption. A pool can specify a config name explicitly. Otherwise, `resolveLatestSandboxConfig` chooses the newest nondeleting config of the required class marked as the class default. Equal creation timestamps are broken deterministically by name. An explicit reference is checked for existence, class match, and deletion state. Failure produces a condition explaining whether the config is missing, mismatched, or being deleted.
 
@@ -1006,11 +1506,11 @@ The pool controller emits events after successful status writes. A changed refer
 
 Status writes themselves can conflict if a reconcile started from an older pool version. That conflict is part of the protocol rather than an exceptional corruption case. The controller requeues and reevaluates current desired and observed state. It does not continue to emit a switch event after a failed status write. This preserves the relation between reported transitions and committed state, analogous to the actor workflow's practice of logging only after a successful store update.
 
-A config's protection concerns WorkerPool references, not every snapshot ever captured under one of its runtime versions. Snapshot runtime compatibility and runtime-asset retention have additional mechanisms in atelet and the workers. Deleting or disabling a runtime version can therefore affect restoration even if a pool has moved to a new default. The finalizer protocol should not be overinterpreted as a universal retention system for all historical runtime binaries. Chapter 5 covers asset retention, and Chapter 12 covers runtime upgrade compatibility.
+A config's protection concerns WorkerPool references, not every snapshot ever captured under one of its runtime versions. Snapshot runtime compatibility and runtime-asset retention have additional mechanisms in atelet and the workers. Deleting or disabling a runtime version can therefore affect restoration even if a pool has moved to a new default. The finalizer protocol should not be overinterpreted as a universal retention system for all historical runtime binaries. Chapter 8 covers asset retention, and Chapter 17 covers runtime upgrade compatibility.
 
 The practical diagnostic sequence follows the protocol's records. Inspect the desired pool reference, the active and pending status references, the Resolved condition, the config's deletion timestamp and finalizers, and the controller's recent events. A pool that retains an older config while warning about a missing new one may be behaving correctly. A config stuck Terminating may still be referenced by a pending claim. Deleting either field manually can hide the evidence needed to understand the state and should not be treated as a routine repair.
 
-## 4.4 Synchronizing worker Pods with the Substrate registry
+## 7.4 Synchronizing worker Pods with the Substrate registry
 
 `WorkerPoolSyncer` maintains a cross-API projection from Kubernetes worker Pods to Substrate Worker records. Its queue key contains namespace, Pod name, and Pod UID. Namespace/name locates the current object in the informer; UID identifies the incarnation being reconciled. The Worker name is the UID. This lets one queue contain cleanup for a deleted Pod and registration for a same-named replacement without confusing the two.
 
@@ -1069,7 +1569,7 @@ During diagnosis, collect identities before comparing timestamps. Match Worker n
 
 The rollout is complete at different layers under different definitions. Deployment availability answers whether the desired worker infrastructure is established. Configuration resolution answers which protected runtime source the pool has adopted. Runtime reports answer which versions the current processes can execute. Actor state and snapshots answer what happened to the workloads affected by retirement. Treating one of those conditions as proof of all the others hides precisely the boundaries where recovery is required. A production rollout procedure can wait for each relevant condition while preserving this separation of authority.
 
-## 4.5 Policy, trust, and controllers outside atecontroller
+## 7.5 Policy, trust, and controllers outside atecontroller
 
 The per-pool NetworkPolicy controller constructs an ingress policy selecting worker Pods by the pool label. It permits traffic from router Pods in the configured system namespace. The generated rule allows the router across ports; actor-specific transport and authorization remain in the tunnel and gateway layers. The controller does not currently manage pool egress through Kubernetes NetworkPolicy. Egress policy can require application-aware decisions that are enforced elsewhere in the stack.
 
@@ -1099,13 +1599,13 @@ Golden construction is particularly useful for comparing the systems. The tempor
 
 The controller observes the golden actor's current state and takes the next required action. A suspended actor without a completed checkpoint is resumed. A running actor waits until its recorded snapshot deadline. If the process died after resume but before recording the deadline, the reconciler restarts the warmup clock because elapsed warmup is unknowable. A SUSPENDING actor re-enters suspend. A completed durable snapshot can be tagged even if the earlier pass failed before recording that progress in template status.
 
-Golden suspend explicitly requests synchronous durability and verifies that a completed external snapshot exists. The controller creates a published tag, deletes the temporary actor, and only then records the golden tag as terminal success. This ordering means a retry can rediscover the durable tag if actor deletion or the final status write failed. It also avoids declaring success while leaving an untracked temporary actor consuming resources. The exact snapshot-copy and retention mechanics belong to Chapter 8; the reconciliation pattern is level-triggered observation of durable facts.
+Golden suspend explicitly requests synchronous durability and verifies that a completed external snapshot exists. The controller creates a published tag, deletes the temporary actor, and only then records the golden tag as terminal success. This ordering means a retry can rediscover the durable tag if actor deletion or the final status write failed. It also avoids declaring success while leaving an untracked temporary actor consuming resources. The exact snapshot-copy and retention mechanics belong to Chapter 12; the reconciliation pattern is level-triggered observation of durable facts.
 
 A crashed golden actor or an unexpected deleting/reverting state can produce a terminal error with a bounded message. Invalid template input is not retried forever. Temporary transport or lifecycle errors go back through the queue. The distinction between terminal specification failure and retryable infrastructure failure appears in both the Kubernetes worker synchronizer and this SQL-backed controller, even though their object stores and event sources differ.
 
 The shared client-go workqueue supplies per-key processing and rate limiting. Its dirty and processing sets avoid concurrently processing the same key within one queue while ensuring a change observed during processing can cause another pass. The default typed controller limiter combines exponential per-item delay with an overall token bucket. These are in-process coordination tools; SQL leases or Kubernetes optimistic concurrency still protect work across replicas. A queue's single-key behavior cannot be used as evidence that only one process in the cluster is reconciling a resource.
 
-## 4.6 Roadmap and engineering improvements
+## 7.6 Roadmap and engineering improvements
 
 The Deployment builder contains an explicit TODO about hardcoded sandbox-class Pod requirements. Today microVM device access and placement are selected by branching on the class. A future generic mechanism could allow a sandbox class to declare devices, mounts, and placement requirements. That change would affect the administrative trust boundary: admitting a new runtime description could become equivalent to granting host device and filesystem access. Any declarative extension would need validation and authority constraints at least as explicit as the current compiled builder.
 
@@ -1134,9 +1634,9 @@ A final proposal is to make generated-infrastructure changes easier to review as
 - [Golden-template controller](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateapi/internal/controlapi/template_reconciler.go): the SQL-backed reconciliation loop that runs inside ateapi.
 
 
-# 5. Node Supervision and Shared Worker Machinery
+# 8. Node Supervision and Shared Worker Machinery
 
-## 5.1 The node supervisor is an execution boundary
+## 8.1 The node supervisor is an execution boundary
 
 The control plane assigns an actor to physical capacity, but it does not construct the actor's execution environment. That work crosses a second boundary: `atelet` prepares node-local resources and asks a worker to perform a runtime operation. The distinction is visible in the two internal protocols, [atelet.proto](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/proto/ateletpb/atelet.proto) and [ateworker.proto](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/proto/ateworkerpb/ateworker.proto). The first describes operations on a node. The second describes operations supported by an already running worker process. Neither protocol is CRI. Substrate is deliberately operating beneath the lifetime of a Kubernetes workload object while continuing to use pods as its physical allocation units.
 
@@ -1166,7 +1666,7 @@ The `Run` method shows the ordering discipline. It validates the request and res
 
 This is a useful distinction between idempotence and harmless repetition. Calling `Run` twice is not equivalent to checking whether a process exists. The request may need to replace partially prepared state, and some state, especially external volume publication, must survive retries. `ResetActorDirsKeepingVolumes` leaves external volume mountpoints in place because an earlier attempt may have published a volume successfully. Repeating publication can then be a no-op at the driver boundary. Blindly deleting the entire actor tree would turn a retry into data destruction or invalidate a still-mounted path.
 
-The actor lock in `Atelet` is local serialization, implemented through [internal/actorlock](https://github.com/agent-substrate/substrate/tree/v1.0.0/internal/actorlock). It answers a narrower question than the renewable SQL lease described in Chapter 3: may two goroutines in this atelet manipulate this actor's node-local state at once? The lock cannot prove that another node is not acting on stale control-plane state. Conversely, a database lease cannot make two local filesystem operations atomic. Both mechanisms are required because they protect different resources and have different failure domains.
+The actor lock in `Atelet` is local serialization, implemented through [internal/actorlock](https://github.com/agent-substrate/substrate/tree/v1.0.0/internal/actorlock). It answers a narrower question than the renewable SQL lease described in Chapter 6: may two goroutines in this atelet manipulate this actor's node-local state at once? The lock cannot prove that another node is not acting on stale control-plane state. Conversely, a database lease cannot make two local filesystem operations atomic. Both mechanisms are required because they protect different resources and have different failure domains.
 
 After assets and volumes are ready, `prepareOCIBundles` creates the application bundles. The worker workload specification includes the actor identity, template attribution, resource requirements, and egress gateway configuration. `RunWorkload` is the point at which the supervisor hands execution responsibility to the selected backend. The response includes the worker epoch, linking this successful local operation to the particular worker process incarnation. The returned value is not merely an address: it is evidence about which process accepted the operation.
 
@@ -1176,7 +1676,7 @@ Node supervision also includes shutdown. The main process uses signal-aware cont
 
 The ordering also limits the damage of invalid input. Resolving the requested runtime before resetting directories keeps a stale or unsupported runtime name from destroying reusable local state. Staging assets before publication keeps a partial download from masquerading as an installed runtime. Recording the installed asset set lets later operations identify the concrete binaries used for that activation. These checks move inexpensive validation ahead of mutation and give recovery a stable description of completed preparation. The same pattern should govern future node-local resources added to `ActorDirs`: validate authority and compatibility, stage incomplete work separately, then publish only the paths the worker may consume.
 
-## 5.2 Registration, epochs, and runtime advertisement
+## 8.2 Registration, epochs, and runtime advertisement
 
 A worker's pod identity is necessary but insufficient for scheduling. The control plane also needs to know that a particular worker process has initialized, what capacity it offers, and which sandbox runtimes it can restore. [internal/ateworker/register/register.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/ateworker/register/register.go) implements this shared registration machinery. `Epoch` represents the process incarnation admitted by the control plane. `Report` coordinates registration and runtime reporting. `ReportConfig` provides the class, runtime metadata location, reserved memory, and other information that makes the protocol backend-independent.
 
@@ -1223,9 +1723,9 @@ Epochs and runtime reports also separate failure cases that look similar from ou
 
 For a concrete review, follow one field through all three layers. The pod's IP list is parsed by `ParsePodIPs`, sent during registration, forwarded under certificate-derived worker identity, and stored by the control plane. The worker cannot select another worker's record by changing that list. Nevertheless, the list itself is data that the service validates, and its usefulness depends on the network being ready. A successful authenticated registration is therefore one prerequisite for routing, not a replacement for sandbox activation and wakeup-probe success.
 
-## 5.3 Admission and resource enforcement inside a worker
+## 8.3 Admission and resource enforcement inside a worker
 
-The placement transaction in Chapter 3 establishes an authoritative actor assignment. The worker still maintains local hosted-actor state. [gVisor hosted.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-gvisor/hosted.go) and [microVM hosted.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-microvm/hosted.go) implement `admitActor`, `hostActor`, and `unhostActor`. These methods protect actor-slot capacity during execution and teardown. The local map is not a second independent scheduler; it is the runtime's record of resources that have been claimed or are still draining.
+The placement transaction in Chapter 6 establishes an authoritative actor assignment. The worker still maintains local hosted-actor state. [gVisor hosted.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-gvisor/hosted.go) and [microVM hosted.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-microvm/hosted.go) implement `admitActor`, `hostActor`, and `unhostActor`. These methods protect actor-slot capacity during execution and teardown. The local map is not a second independent scheduler; it is the runtime's record of resources that have been claimed or are still draining.
 
 `admitActor` takes the actor map lock before creating networking. If the actor already exists, the old activation is canceled and its network is returned for explicit cleanup. If it is a new actor, the method checks hosted actors plus draining actors against the maximum. Reserving before setup avoids a race in which several requests all observe a free slot and then each build namespaces and processes. Retaining a draining count prevents the reverse race: a slot cannot become available merely because an actor was removed from the lookup map while its resources remain in teardown.
 
@@ -1244,14 +1744,14 @@ flowchart TB
     P --> C[Temporary checkpoint leaf]
     A --> AP[Actor host processes]
     B --> BP[Actor host processes]
-    A -. gVisor checkpoint moves sentry .-> C
+    A -. gVisor checkpoint<br/>moves sentry .-> C
     L[Memory borrowing ledger] -. bounds writeback loans .-> C
     L -. delays conflicting activations .-> B
 ```
 
 For microVMs, `OpenActorLeaf` creates a cgroup for the VMM and virtiofsd. `cpu.max` derives from the actor's millicore limit; the period is fixed and the quota is bounded to the kernel's minimum accepted value. The opened cgroup descriptor is passed through `syscall.SysProcAttr{UseCgroupFD: true, CgroupFD: ...}` so that children start in the leaf. The important property is atomic placement at process creation. Starting outside the leaf and moving afterward would leave a period in which memory and CPU work are charged to the wrong scope.
 
-The gVisor backend applies cgroup settings through its shaped OCI specification and runsc, then adjusts memory handling around runtime creation and checkpoint. Its host resource usage is principally the Sentry backing the actor. A container's cgroup inside the Sentry's model is not automatically equivalent to a host process cgroup for that container. Chapter 6 examines that consequence for per-container limits and usage attribution. Shared machinery should expose these differences instead of pretending both backends have identical accounting inputs.
+The gVisor backend applies cgroup settings through its shaped OCI specification and runsc, then adjusts memory handling around runtime creation and checkpoint. Its host resource usage is principally the Sentry backing the actor. A container's cgroup inside the Sentry's model is not automatically equivalent to a host process cgroup for that container. Chapter 10 examines that consequence for per-container limits and usage attribution. Shared machinery should expose these differences instead of pretending both backends have identical accounting inputs.
 
 Memory isolation requires more care than setting a hard limit on each leaf. The implementation uses `memory.high` with a userspace `MemoryGuard` when cgroup PSI is available. The kernel applies reclaim and allocation throttling at `memory.high` rather than directly invoking the OOM killer there. The guard observes whether an actor remains stuck near its booking and can terminate that actor's cgroup deliberately. This reduces the chance that the pod-wide hard limit turns one actor's allocation burst into a worker restart affecting all hosted actors.
 
@@ -1275,7 +1775,7 @@ Returning a loan before the kernel releases its writeback charge would create fi
 
 New actor placement can wait behind outstanding loans because admitting another long-lived workload during that transient interval could invalidate the headroom calculation. This does not make the worker a general preemptive scheduler. It is a local admission barrier around an identified source of temporary memory growth. The control plane still owns assignment, and the runtime still owns the concrete sandbox. Separating these roles prevents a local optimization from silently becoming a second authority over actor placement.
 
-## 5.4 OCI images and sandbox assets are different caches
+## 8.4 OCI images and sandbox assets are different caches
 
 Two node-local caches appear on the activation path before any snapshot bytes are considered. The OCI image cache holds unpacked application-image layers. The sandbox asset cache holds executable and boot artifacts such as runsc, Cloud Hypervisor, virtiofsd, the Kata kernel, and its guest image. They share a desire to avoid repeated downloads but have different keys, publication rules, consumers, and retention roots. Conflating them under “image cache” hides both correctness and performance questions.
 
@@ -1312,15 +1812,15 @@ The collector also accounts for in-flight pulls and freshness. Cache-hit and fin
 
 [cmd/atelet/imagegc.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/atelet/imagegc.go) measures filesystem pressure with `statfs` and combines volume thresholds with a cache-size budget. The reclaim target is capped by the cache's own size because the cache may share a volume with unrelated data. Even with that cap, foreign disk pressure can repeatedly evict all eligible cache entries without solving the volume's shortage. An operator must distinguish “cache exceeds its budget” from “another tenant filled the disk.” The dry-run path is useful for understanding the policy's decisions before changing retention in a production fleet.
 
-Sandbox assets follow a simpler content model but a more security-sensitive supply chain. A `SandboxConfig` names an asset URL and SHA-256. Atelet first asks `AssetProvider` in the object-store sidecar to fetch it. The plugin stages bytes where atelet cannot read them and only releases verified contents. Atelet verifies the digest again before use. Anonymous GCS fallback exists for eligible public `gs://` artifacts; it does not give atelet ambient snapshot credentials. Chapter 8 explains why the plugin refuses asset URLs under snapshot locations.
+Sandbox assets follow a simpler content model but a more security-sensitive supply chain. A `SandboxConfig` names an asset URL and SHA-256. Atelet first asks `AssetProvider` in the object-store sidecar to fetch it. The plugin stages bytes where atelet cannot read them and only releases verified contents. Atelet verifies the digest again before use. Anonymous GCS fallback exists for eligible public `gs://` artifacts; it does not give atelet ambient snapshot credentials. Chapter 12 explains why the plugin refuses asset URLs under snapshot locations.
 
 The generic [filecache.Store](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/atelet/internal/filecache/getfileto.go) publishes immutable files or trees and serves consumers with hard links. A file consumer keeps a valid inode even if the cache later removes its own directory entry. Link counts therefore become retention evidence. Fetches are singleflight by key, detached from individual callers but bounded by a fetch timeout. One canceled actor must not abort a shared runtime download still needed by several other actors. Failed fetches are not negatively cached, allowing a later retry to recover after a transient registry or storage failure.
 
-Hard links impose a concrete filesystem constraint. The destination must be on the same mounted filesystem as the cache; being on the same physical disk is insufficient. The cache reports `EXDEV` rather than silently changing an immutable shared-file contract into a copy contract. Some higher-level consumers choose explicit copy behavior where needed, but that choice belongs to the caller. The distinction becomes especially important for writable microVM restore staging in Chapter 8.
+Hard links impose a concrete filesystem constraint. The destination must be on the same mounted filesystem as the cache; being on the same physical disk is insufficient. The cache reports `EXDEV` rather than silently changing an immutable shared-file contract into a copy contract. Some higher-level consumers choose explicit copy behavior where needed, but that choice belongs to the caller. The distinction becomes especially important for writable microVM restore staging in Chapter 12.
 
 Read-only file mode protects ordinary consumers from accidental writes to shared bytes, but it is not a complete adversarial boundary against a sufficiently privileged process. The worker's capabilities and mounted paths still determine what a compromised runtime could modify. For production reasoning, distinguish immutable-by-contract, read-only mounts, and cryptographic revalidation. Each protects a different stage of the asset lifetime, and a cache hit may intentionally avoid repeating an expensive whole-file hash.
 
-## 5.5 Process lifetime, filesystem lifetime, and hardware devices
+## 8.5 Process lifetime, filesystem lifetime, and hardware devices
 
 The binary starts through `RunIfPID1`, which turns the PID 1 invocation into a small init shim and re-executes the real worker as its child. [internal/ateworker/pid1/pid1.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/ateworker/pid1/pid1.go) keeps orphan reaping separate from the worker's ordinary `os/exec` waits. A `wait4(-1)` loop inside the real worker could otherwise consume the exit status of a child that `os/exec` was waiting for. The shim forwards selected signals, reaps adopted descendants, and exits with the real worker's status. It also calls `PR_SET_CHILD_SUBREAPER`, which is redundant at PID 1 but allows the same supervision behavior in tests outside that position. Without reaping, repeated actor activations could accumulate zombies; without signal forwarding, the worker would not receive the shutdown sequence expected by its backend.
 
@@ -1354,9 +1854,9 @@ The source's startup checks also provide a useful order for failure analysis. A 
 
 Cache state should be interpreted with the same care. An OCI blob present on disk does not prove that its unpacked layer is valid; the content checks and publication step establish that. A published immutable layer does not prove that an overlay is mounted; the worker owns that operation. A runtime asset in cache does not prove that a worker advertises its compatibility version. Each transition produces a different piece of evidence. Exposing those phases in traces gives an operator a causal explanation instead of a list of coincidental filesystem observations.
 
-## 5.6 Roadmap and engineering improvements
+## 8.6 Roadmap and engineering improvements
 
-Several future directions follow directly from constraints recorded in the source. The first is runtime independence. The repository wants atelet and worker runtimes to remain opaque to one another so they can eventually roll independently. The version-skew policy from 1.0.0 already allows atelet to run one release ahead of the workers on its node, which is the direction that goal needs. The reverse order is not supported. The policy's rules rest on the wire schema, on-disk metadata, resource advertisement, and runtime assets staying compatible across that one-release window. Chapter 12 treats those rules in detail.
+Several future directions follow directly from constraints recorded in the source. The first is runtime independence. The repository wants atelet and worker runtimes to remain opaque to one another so they can eventually roll independently. The version-skew policy from 1.0.0 already allows atelet to run one release ahead of the workers on its node, which is the direction that goal needs. The reverse order is not supported. The policy's rules rest on the wire schema, on-disk metadata, resource advertisement, and runtime assets staying compatible across that one-release window. Chapter 17 treats those rules in detail.
 
 The second direction is generic sandbox requirements. `maybeApplyMicroVMPodShape` in [workerpool_apply.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/atecontroller/internal/controllers/workerpool_apply.go) contains a TODO about declaring devices, mounts, and placement requirements through sandbox configuration rather than branching on one backend in the controller. That would reduce the changes required to add another runtime. It also introduces an authorization problem: allowing a runtime definition to request arbitrary host devices or capabilities effectively gives that configuration authority over worker privileges. A generic schema should therefore be reviewed as a security API, not only as code reuse.
 
@@ -1381,9 +1881,187 @@ Finally, node-local correctness should be tested through interruption matrices. 
 - [internal/deviceplugin/deviceplugin.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/deviceplugin/deviceplugin.go), [actordirs.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/atelet/internal/actordirs/actordirs.go), and [atelet.yaml](https://github.com/agent-substrate/substrate/blob/v1.0.0/manifests/ate-install/atelet.yaml): device grants, safe filesystem cleanup, and actual node permissions.
 
 
-# 6. gVisor Execution and Checkpoint Internals
+# 9. From CreateActor to a Running Actor
 
-## 6.1 The worker controls a user-space kernel
+An actor's journey begins where a Pod's ends. Everything in Chapters 3 and 4 has already happened once, for the *worker* Pod. That Pod is running, has an IP from CNI, its own cgroup and namespaces, and a trusted worker process that can create sandboxes. An actor activation adds no Pod, no kubelet work, no CNI call and no containerd task. It is a chain of gRPC calls and database transactions that ends with runsc creating a gVisor sandbox inside the existing worker Pod, or restoring one from a snapshot. This chapter traces that chain and names each Linux primitive used on the node. Chapter 13 continues with suspend and restore.
+
+The running example is the counter actor from the lifecycle companion: one application container with a DurableDir, a `/readyz` wakeup probe and MEMORY fidelity.
+
+## 9.1 The precondition: a registered worker Pod
+
+A WorkerPool is a Kubernetes custom resource. `atecontroller` reconciles it into a Deployment with controller-runtime, and from there the path is exactly Chapter 3: the Deployment controller creates a ReplicaSet, the ReplicaSet controller creates Pods, the scheduler binds them, and each kubelet runs Chapter 4's sequence with the node's ordinary runtime. The Pod template comes from [workerpool_apply.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/atecontroller/internal/controllers/workerpool_apply.go). For gVisor workers, it grants the fixed capability list discussed in 2.5, runs with seccomp and AppArmor Unconfined at the Pod level (the inner sandbox supplies its own confinement), and mounts the node paths that atelet and the worker share.
+
+When the worker container starts, three things happen that have no Pod-path equivalent.
+
+1. **A PID 1 shim.** The container's first process is a small init, [pid1.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/ateworker/pid1/pid1.go). It calls `prctl(PR_SET_CHILD_SUBREAPER)` so orphaned runsc helpers are reparented to it, reaps them with `wait4`, forwards termination signals, and starts the worker daemon as a child. It plays the role that pause and the shim play for a Pod.
+2. **cgroup delegation.** The worker's container cgroup, created by runc as `cri-containerd-<id>.scope` under the Pod slice, becomes the root of a subtree the worker manages. [cgroup.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/ateworker/cgroup/cgroup.go) remounts the delegated hierarchy writable inside the container, moves the worker's own processes into a `worker` leaf, and writes `+cpu +memory +pids` style controller lists to `cgroup.subtree_control`. cgroup v2 forbids processes in a non-root cgroup that delegates controllers, so moving them into a leaf is required before actor leaves can be created as siblings.
+3. **Registration.** The worker connects to atelet's `WorkerSupport` gRPC service over a TLS-protected Unix socket on the node ([workersupport.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/atelet/workersupport.go)). It calls `AcquireWorkerEpoch`, which atelet forwards to ateapi with the Pod's authenticated identity, then `RegisterWorker` with its epoch, IPs and capacity, and `SetWorkerSandboxRuntimes` with the runsc versions it can execute. Separately, `atecontroller`'s worker synchronizer, a client-go informer and workqueue over worker Pods ([syncer.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/atecontroller/internal/workersync/syncer.go)), projects each Pod into a Worker record. A Worker becomes schedulable only when both views agree.
+
+From this point the Kubernetes control plane is out of the actor path. It keeps the worker Pod running, but it is not consulted when an actor starts, suspends or resumes.
+
+## 9.2 Who talks to whom: the actor communication map
+
+The Pod path is driven by watches: every component observes the API server and writes decisions back as objects. The actor path is driven by imperative calls under database-backed leases. The table lists every hop used by actor creation, activation and suspension, mirroring 3.6.
+
+| From | To | Transport | Calls | Pattern |
+|---|---|---|---|---|
+| `kubectl ate`, SDKs | ateapi | gRPC over TLS, `Control` service in [ateapi.proto](https://github.com/agent-substrate/substrate/blob/v1.0.0/api/ateapi/v1/ateapi.proto) | `CreateActor`, `ResumeActor`, `SuspendActor`, `GetActor` | Request/response; long operations run synchronously within the call |
+| Ingress router | ateapi | gRPC | `ResumeActor` with retry and singleflight per actor ([resumer.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/atenet/internal/router/ingress/resumer.go)) | Request-driven activation |
+| ateapi | PostgreSQL | PostgreSQL wire protocol over TCP | Leases, row locks, assignment inserts, outbox appends | Transactions; no watch stream |
+| ateapi replicas | PostgreSQL outbox | Polling query ordered by transaction ID ([outbox.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateapi/internal/store/atepg/outbox.go)) | Worker change events | Feeds each replica's worker cache ([workercache.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateapi/internal/workercache/workercache.go)) |
+| ateapi | atelet on the assigned node | gRPC over mutual TLS, `Atelet` service in [atelet.proto](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/proto/ateletpb/atelet.proto) | `Run`, `Restore`, `Checkpoint`, `Terminate`, `DetachActor`, `PromoteSnapshot` | Imperative, idempotent by snapshot identity |
+| atelet | Worker in a specific Pod | gRPC over a per-Pod-UID Unix socket, `Worker` service in [ateworker.proto](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/proto/ateworkerpb/ateworker.proto) | `RunWorkload`, `RestoreWorkload`, `CheckpointWorkload`, `TerminateWorkload` | Local RPC; filesystem permissions bound the socket |
+| Worker | atelet | gRPC over TLS on the `WorkerSupport` Unix socket | `AcquireWorkerEpoch`, `RegisterWorker`, `ReportActorCrashed`, `MintActorCertificate` | Upward reports and credentials |
+| atelet | ateapi | gRPC over mutual TLS | Worker registration, durable snapshot reports | Retried reports with persisted obligations |
+| atelet | Object-store plugin | gRPC over a Unix socket | `UploadSnapshot`, fetch manifest and files | Local RPC to a credentialed sidecar |
+| Worker | runsc | `fork`/`exec` of the runsc binary | `create`, `start`, `restore`, `checkpoint`, `wait`, `kill`, `delete` | Process exit status ([runsc.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-gvisor/runsc.go)) |
+| ateapi template reconciler | Its own API | In-process calls driven by a periodic list of ActorTemplates ([template_reconciler.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateapi/internal/controlapi/template_reconciler.go)) | Create, resume and suspend the golden actor | Level-triggered reconciliation without watches |
+
+Three contrasts with Kubernetes matter. First, there is no etcd and no watch fan-out: PostgreSQL is the authoritative store, and the only event stream is the transactional worker outbox that keeps scheduling caches warm. Second, the scheduler is not a separate process that writes a binding for a node agent to discover. It is a library inside ateapi that selects a worker and then *calls* that worker's atelet. Third, node work is synchronous with the API call. A `ResumeActor` that returns success has seen the worker report readiness and has committed RUNNING. A Pod `create` that returns success has only persisted an object.
+
+```mermaid
+sequenceDiagram
+    participant U as Client or router
+    participant A as ateapi
+    participant D as PostgreSQL
+    participant L as atelet
+    participant W as Worker
+    participant R as runsc
+    U->>A: ResumeActor (gRPC)
+    A->>D: Lease, select worker, lock row, insert assignment
+    A->>D: Record RESUMING
+    A->>L: Restore or Run (gRPC, mTLS)
+    L->>W: RestoreWorkload or RunWorkload (gRPC, Unix socket)
+    W->>R: exec runsc create, start or restore
+    R-->>W: Sandbox running
+    W-->>L: Ready, worker epoch
+    L-->>A: Result
+    A->>D: Validate epoch, commit RUNNING
+    A-->>U: Assignment
+```
+
+## 9.3 Templates, golden snapshots and CreateActor
+
+An ActorTemplate is a PostgreSQL record that describes containers, images, resources, volumes, wakeup probes and snapshot policy. It is not a Kubernetes object. Creating one does not start anything directly. The golden-template controller inside ateapi notices it on its next periodic list and decides whether a *golden snapshot* is needed.
+
+A golden snapshot is the template's application already booted and initialized, captured once so that every actor created from the template can restore it instead of cold-starting. The controller builds it with the ordinary actor lifecycle.
+
+1. It creates a temporary golden actor named from the template UID, in the template's atespace.
+2. It resumes that actor. With no source snapshot, the activation takes the cold `RunWorkload` path described in 9.5: images unpacked, sandbox booted, application started, wakeup probe passed.
+3. It waits until the template's configured snapshot deadline, giving the application time to warm caches, load models or populate state.
+4. It suspends the golden actor with synchronous durability (`--mode=sync` semantics), so the snapshot is uploaded and `CommitDurable` has completed before the call returns, and verifies that a completed external snapshot exists.
+5. It creates a published *tag* that owns a copy of that snapshot, deletes the temporary actor, and records the golden reference on the template.
+
+```mermaid
+sequenceDiagram
+    participant T as Template reconciler
+    participant A as Actor workflows
+    participant D as PostgreSQL
+    participant N as atelet and worker
+    participant O as Object storage
+    T->>D: Periodic list finds template without golden tag
+    T->>A: Create temporary golden actor
+    T->>A: ResumeActor
+    A->>N: Run: cold start, unpack images, boot sandbox
+    N-->>A: Ready
+    T->>T: Wait until snapshot deadline
+    T->>A: SuspendActor with sync durability
+    A->>N: Checkpoint MEMORY
+    N->>O: Upload files, then manifest
+    T->>D: Create published tag, delete golden actor
+    T->>D: Record golden reference on template
+```
+
+`CreateActor` then only writes a row. The new actor gets a UID, a reference to its template, a source snapshot (the template's golden tag, if one exists) and the initial state SUSPENDED. No worker is chosen and no node is touched. An actor can exist for months without consuming any execution capacity, which is the point of the design.
+
+## 9.4 First activation: lease, placement and node preparation
+
+The first request for the actor reaches the ingress router with an `ate-target-actor` header. The router calls `ResumeActor`. ateapi's resume workflow ([workflow_resume.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateapi/internal/controlapi/workflow_resume.go)) proceeds as follows.
+
+1. **Lease.** It acquires a renewable SQL lease on the actor, which serializes lifecycle operations on that actor across API replicas, and rereads the authoritative row.
+2. **Candidate selection.** It filters cached Workers by registration state, sandbox class, runtime compatibility, selectors, locality and free capacity, and uses power-of-two choices on utilization ([scheduling.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateapi/internal/scheduling/scheduling.go)). This is the analogue of kube-scheduler's Filter and Score, run in-process against a cache maintained from the outbox.
+3. **Admission.** It locks the chosen Worker's row, rechecks capacity, inserts the unique assignment and books CPU and memory ([worker_assignment.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateapi/internal/store/atepg/worker_assignment.go)). This is the analogue of the binding write, but it is a database transaction rather than an object update another component must observe.
+4. **RESUMING.** It records the actor as RESUMING with its assignment.
+5. **Node call.** It calls atelet's `Restore`, because a golden snapshot exists, or `Run` for an actor with no snapshot.
+
+atelet, in [main.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/atelet/main.go), takes an actor-local lock and prepares everything the worker will need, so the worker can stay runtime-focused.
+
+- **Runtime assets.** It ensures the runsc binary pinned by the SandboxConfig is present, verified by digest and published atomically. Where supported, it uses `renameat2(RENAME_EXCHANGE)` ([exchange_linux.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/pkg/assetfetch/exchange_linux.go)).
+- **Images.** Its image cache pulls and unpacks OCI layers into node-shared directories, the actor equivalent of 4.3, using its own registry client rather than containerd. Layers are shared across actors.
+- **OCI bundles.** It writes each application container's bundle directory under the actor's directories.
+- **Snapshot files.** For `Restore`, it resolves the snapshot manifest, from a local capture or the golden tag's node cache, or by fetching from object storage through the node object-store plugin ([snapshot_transfer.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/atelet/snapshot_transfer.go)). It then materializes the files the requested fidelity needs. Shared golden files can be hard links to the node cache, so a thousand actors from one template need not download the golden image a thousand times.
+
+atelet then dials the worker by Pod UID over its Unix socket and calls `RestoreWorkload` or `RunWorkload`.
+
+## 9.5 Inside the worker: runsc builds the sandbox
+
+The gVisor worker's [RunWorkload](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-gvisor/main.go) performs a fixed sequence. Restore follows the same shape with `runsc restore` in place of start, as Chapter 13 explains.
+
+1. **Validate and lock.** Check the request and the current worker epoch, validate the runsc path, and take the actor's RPC lock.
+2. **Reset stale state.** Remove leftover runsc state and PID-file directories, and remove a stale sandbox cgroup leaf from a previous incarnation.
+3. **Prepare egress.** Ask the embedded atunnel to prepare egress for this actor and gateway.
+4. **Host the actor.** Create the actor's network namespaces and cgroup leaves and publish attribution, so startup resource use is charged to the actor.
+5. **Wait for memory loans.** Block if checkpoint memory borrowed from this worker has not yet been returned (Chapter 13).
+6. **Activate egress** before the application starts, because initialization may call out.
+7. **Create and start `_sandbox`.** Write the sandbox's OCI specification with `ShapeGVisor`, then run `runsc create -no-root-container -bundle <dir> -pid-file <file> _sandbox` and `runsc start _sandbox`.
+8. **Each application container.** Compose its rootfs, run `runsc create` and `runsc start` for the container name, and pipe its output to an actor-attributed log stream.
+9. **Wakeup probes.** Dial each probe-enabled container's port through the actor's namespace until it returns HTTP 200.
+10. **Activate ingress** so atunnel accepts routed connections for this actor.
+11. **Return the worker epoch.** ateapi will check that epoch before committing RUNNING.
+
+The table lists the Linux-level work in that sequence and who performs it. As in 4.4, *runsc* means the pinned gVisor runtime acting on the worker's behalf; its internal call sequence belongs to its release.
+
+| Step | Performed by | Primitive or command | Purpose |
+|---|---|---|---|
+| Name network namespaces | Worker, [netns.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/netns/netns.go) | `runtime.LockOSThread`, `unshare(CLONE_NEWNET)`, bind-mount `/proc/self/task/<tid>/ns/net` to `/run/netns/worker-actor:<uid>` and `...-at` | Create the runtime and gateway namespaces and pin them, the same technique as `ip netns add` |
+| Enter a namespace | Worker | `setns(fd, CLONE_NEWNET)` on a locked thread, then back | Configure or open sockets inside an actor namespace |
+| Namespace sysctls | Worker, [sysctl.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/netns/sysctl.go) | Writes under `/proc/sys/net/...` inside the namespace | Forwarding and per-namespace network behaviour |
+| veth pair, addresses, routes | Worker, [sandbox.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/ateworker/actornet/sandbox.go) | rtnetlink `RTM_NEWLINK` (veth), `IFLA_NET_NS_FD`, `RTM_NEWADDR` (`169.254.17.1/30` on `atside`), `RTM_NEWROUTE` | Connect the runtime namespace's `eth0` to the gateway namespace, the role CNI plays for a Pod |
+| Egress interception | Worker | nftables tables `worker-actor` and `worker-actor-v6`: NAT `redirect to :15001`, link-local rejects, default-drop forward | Force actor TCP through atunnel; block bypass |
+| Original destination | atunnel, [original_dst_linux.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/linuxsys/original_dst_linux.go) | `getsockopt(SO_ORIGINAL_DST)` | Recover the pre-NAT destination of a redirected connection |
+| Namespace-bound sockets | atunnel and DNS relay, [dial.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/netns/dial.go) | `socket` created after `setns` | Listeners and dialers that stay in the actor namespace after the thread returns |
+| Actor cgroup leaves | Worker ([actor.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/ateworker/cgroup/actor.go)), then runsc and the worker again ([memlimit.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-gvisor/memlimit.go)) | `mkdir` of the actor leaf with `cpu.max` and `memory.high`; runsc creates the `_sandbox` leaf named by `linux.cgroupsPath` and sets `memory.max`; the worker swaps that `memory.max` for `memory.high` | Account and limit the actor beneath the worker container scope, throttling instead of OOM-killing at the limit |
+| Root filesystem | Worker, via [bundle_linux.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/imagecache/bundle_linux.go) | `fsopen("overlay")`, `fsconfig`, `fsmount`, `move_mount`; bind mounts | Overlay of shared cached layers plus the actor's private upper |
+| Create sandbox | runsc | `runsc create`: starts Sentry and gofer; `clone` with new namespaces, identity-mapped user namespace, `pivot_root`/`chroot`, seccomp filters | Boot the user-space kernel inside the worker Pod |
+| Start containers | runsc and Sentry | `runsc start`; Sentry creates tasks internally | Run application processes inside the Sentry |
+| Track Sentry | Worker, [pidfd.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/pidfd/pidfd.go) | `pidfd_open`, `poll` on the pidfd | Detect exit of this Sentry incarnation without PID-reuse races |
+| Core scheduling | Worker, then runsc | `prctl(PR_SCHED_CORE, PR_SCHED_CORE_GET)` probe, `--enable-core-tags` | Keep untrusted sandboxes off sibling SMT threads where supported |
+| Memory supervision | Worker, [memguard.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/ateworker/cgroup/memguard.go), [memwatch.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/ateworker/cgroup/memwatch.go) | `memory.high`, PSI `memory.pressure`, `memory.events.local`, `cgroup.kill` | Throttle and, if needed, kill an actor under sustained pressure |
+
+```mermaid
+flowchart TB
+    W[Worker process] --> NS1[Runtime netns worker-actor:uid]
+    W --> NS2[Gateway netns worker-actor:uid-at]
+    NS1 --> V1[eth0 veth end used by netstack]
+    NS2 --> V2[atside 169.254.17.1/30]
+    V1 --> V2
+    NS2 --> NF[nftables redirect to atunnel port 15001]
+    W --> RS[runsc create and start]
+    RS --> SE[Sentry in actor _sandbox cgroup leaf]
+    SE --> V1
+```
+
+Placed beside Chapter 4, the correspondence is direct. The worker's namespace code does what containerd does for a Pod network namespace, its veth and nftables programming does what a CNI plugin does, the image cache does what containerd's snapshotter does, and `runsc create`/`start` does what the runc shim does. What disappears is the Kubernetes machinery around it: no object write, no scheduler watch, no kubelet sync, no CRI call. What is added is a database-backed lease and admission check, and a direct readiness answer to the caller.
+
+## 9.6 Roadmap and engineering improvements
+
+The repository records several directions that touch this path. The resume workflow notes that complete Run/Restore re-entrancy is unfinished: a lost reply leaves the caller without an outcome even though a sandbox may be running. Automatic idle suspension has upward RPCs (`RequestActorSuspend`) but no production detector at this baseline. Template reconciliation runs on every API replica with a sharding TODO. Chapters 6, 7 and 12 discuss each of these.
+
+Two editorial proposals come from the Pod comparison. First, Substrate could publish an actor *event* stream, for example from the same outbox that feeds worker caches, so external tooling can observe actor state transitions the way Kubernetes clients watch Pods, without polling `GetActor`. Second, the worker's sequence in 9.5 has natural phase boundaries (namespaces, egress, sandbox create, container start, probes, ingress). Exporting them as one structured activation trace, correlated by actor UID and worker epoch, would make cold-start and restore latency explainable in the same way kubelet's Pod startup latency tracker explains Pod start. Both are proposals.
+
+## Source map
+
+- [workflow_resume.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateapi/internal/controlapi/workflow_resume.go): lease, placement, RESUMING and the node call.
+- [template_reconciler.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateapi/internal/controlapi/template_reconciler.go): how golden snapshots are produced with the ordinary actor lifecycle.
+- [atelet main.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/atelet/main.go): node-side preparation and dialing of workers by Pod UID.
+- [ateworker-gvisor main.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-gvisor/main.go): the RunWorkload and RestoreWorkload sequences.
+- [netns.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/netns/netns.go) and [sandbox.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/ateworker/actornet/sandbox.go): actor network namespaces, veths and nftables.
+- [atelet.proto](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/proto/ateletpb/atelet.proto) and [ateworker.proto](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/proto/ateworkerpb/ateworker.proto): the node-side gRPC contracts.
+
+
+# 10. gVisor Execution and Checkpoint Internals
+
+## 10.1 The worker controls a user-space kernel
 
 The gVisor backend is a long-lived Go service that drives a versioned runsc executable. It does not embed gVisor's Sentry in its address space, implement CRI, or ask kubelet to create an actor container. [AteWorkerService](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-gvisor/main.go) implements the worker protobuf service and invokes runsc for creation, start, checkpoint, filesystem checkpoint, restore, wait, state, kill, and deletion. Its unit of lifecycle management is an actor sandbox containing one or more application containers. Kubernetes continues to manage the outer worker pod.
 
@@ -1422,13 +2100,13 @@ The outer worker security context remains significant. [workerpool_apply.go](htt
 
 Global and subcommand flags occupy different positions in `buildArgs`. A per-command global option is placed before the command name, while subcommand options follow it. Treating the JSON as an unordered collection of interchangeable switches would therefore change command interpretation. The wrapper preserves both ordering and command scope explicitly. This is a consequential integration contract when a runtime feature is enabled only for checkpoint or restore: moving the option into a top-level list could affect every runsc invocation, including probes and cleanup. Configuration review must consider those additional commands because a change that succeeds during activation may still break deletion or recovery.
 
-## 6.2 Building and starting a multi-container actor
+## 10.2 Building and starting a multi-container actor
 
 `RunWorkload` begins with validation, registration-epoch availability, and validation of the runsc path for the supplied actor directories. It then takes the actor lifecycle lock and registers the operation with the worker's in-flight machinery. The order matters. A request naming an invalid executable path should fail before creating network namespaces or deleting stale state. A worker that has not completed registration should not accept an activation and only later discover that it cannot report the relevant epoch.
 
 The method resets runsc state and PID-file directories and removes a stale sandbox cgroup before creating the replacement. [memlimit.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-gvisor/memlimit.go) explains why the cgroup cleanup is more than tidiness. During normal operation the worker may replace the sandbox's `memory.max` with `memory.high`. If a later runsc create reuses that leftover leaf unchanged, runsc can infer an inappropriate total memory value from an unlimited hard limit. A stale control file can therefore change the application-visible machine size, not merely leave an unused directory behind.
 
-Networking is deactivated before a new activation is prepared. The worker asks atunnel to prepare egress state, reserves the actor locally, and creates its sandbox network. The gVisor path requests a veth pair between runtime and gateway namespaces. The runtime-side address and route are what gVisor imports into its own network stack; the gateway namespace hosts the actor-specific forwarding path through atunnel. Chapter 9 covers those transport details. Here, the key lifecycle rule is that no old forwarding state should survive into the new actor activation merely because its UID is unchanged.
+Networking is deactivated before a new activation is prepared. The worker asks atunnel to prepare egress state, reserves the actor locally, and creates its sandbox network. The gVisor path requests a veth pair between runtime and gateway namespaces. The runtime-side address and route are what gVisor imports into its own network stack; the gateway namespace hosts the actor-specific forwarding path through atunnel. Chapter 14 covers those transport details. Here, the key lifecycle rule is that no old forwarding state should survive into the new actor activation merely because its UID is unchanged.
 
 The actor is published to local attribution machinery before boot so resource samples can include startup cost. That does not immediately make it reachable by ingress. The worker waits for any outstanding snapshot-memory loans that conflict with the new booking, then enables egress before starting the sandbox. An application may need outbound service calls during initialization. Ingress activation waits until the enabled wakeup probes have succeeded. Separating these gates lets startup dependencies work without routing arbitrary user requests to an incompletely initialized application.
 
@@ -1473,13 +2151,13 @@ Once ingress is activated, the worker stores a `workloadSession` containing the 
 
 There are three distinct views of success in this trace. Runsc can successfully create a Sentry. All application containers can successfully start. The actor can successfully pass its wakeup probes and become routable. A latency investigation must select which boundary it is measuring. Reporting only the runsc command duration as “resume time” omits network preparation, image composition, per-container work, and readiness. Reporting the outer API latency without phase data loses the information needed to explain why it grew.
 
-## 6.3 Checkpoint fidelity and the filesystem split
+## 10.3 Checkpoint fidelity and the filesystem split
 
 The gVisor worker supports three cumulative snapshot fidelities: `VOLUMES`, `ROOTFS`, and `MEMORY`. Their implementation is visible in the switch inside `CheckpointWorkload`, not only in the public API description. `VOLUMES` saves declared durable-directory filesystems. `ROOTFS` adds the application containers' writable rootfs state. `MEMORY` adds the process and user-space kernel state. These are different recovery contracts. Only the last attempts to continue the previously executing process tree.
 
 [fscheckpoint.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-gvisor/fscheckpoint.go) constructs the filesystem checkpoint targets. Rootfs targets are grouped under `rootfs/`, while durable-directory volumes are grouped under `fs/`. Each target identifies the container and mounted path from which runsc should capture state. A durable volume shared by multiple mounts can appear in several target specifications; runsc deduplicates the underlying shared filesystem. Substrate preserves the explicit mount relationships instead of assuming that one volume name maps to exactly one container path.
 
-`ShapeGVisor` declares durable volumes as shared tmpfs mounts in the sandbox's runtime model. The resulting contents are not simply files in an ordinary host directory that atelet can archive to obtain equivalent state. The Sentry owns the filesystem objects and their runtime representation. `runsc fscheckpoint` is therefore the mechanism used for volume-only and rootfs snapshots. This differs fundamentally from the microVM host-backed upper and tar path in Chapter 7, even though the public fidelity enum is shared.
+`ShapeGVisor` declares durable volumes as shared tmpfs mounts in the sandbox's runtime model. The resulting contents are not simply files in an ordinary host directory that atelet can archive to obtain equivalent state. The Sentry owns the filesystem objects and their runtime representation. `runsc fscheckpoint` is therefore the mechanism used for volume-only and rootfs snapshots. This differs fundamentally from the microVM host-backed upper and tar path in Chapter 11, even though the public fidelity enum is shared.
 
 For `MEMORY`, the worker invokes `runsc checkpoint` once for `_sandbox`, supplying filesystem checkpoint paths so the rootfs and durable-volume bundles are split from the process checkpoint. The sandbox is the state-sharing unit: its application containers execute under one Sentry, and their state belongs in one coherent checkpoint operation. There is no loop that independently checkpoints each application container and then declares the resulting collection atomic.
 
@@ -1529,7 +2207,7 @@ The distinction also clarifies rollback behavior. A memory snapshot can preserve
 
 Finally, the connected-socket save flag should not be read as an end-to-end network-session guarantee. It permits a runtime checkpoint operation that would otherwise reject connected sockets under the relevant conditions. Remote peers, proxies, timeout policies, and reconstructed networking have their own state. The worker's transparent-resume path is designed to make an actor available for traffic after activation; it does not prove that every arbitrary connection initiated before suspension remains valid forever. Applications that rely on remote sessions still need to tolerate the recovery semantics of those external systems.
 
-## 6.4 Checkpoint memory pressure and restore page lifetime
+## 10.4 Checkpoint memory pressure and restore page lifetime
 
 A checkpoint writes memory that was previously represented by the live sandbox into a host file. During that transition, the old memory and the newly dirtied page cache can coexist. At high density, that overlap can be as important as the time spent serializing state. A system that frees actor capacity immediately but ignores dirty snapshot cache can admit new actors into memory that has not actually become available.
 
@@ -1574,11 +2252,11 @@ Restore reconstructs more than memory. The worker resets stale runtime state, pr
 
 `fsRestoreArgs` requires the rootfs bundle for `ROOTFS` and `MEMORY`. It includes the durable bundle when present. `fsRestoreContainers` identifies which containers have corresponding filesystem-restore wait entries. For volume-only restore, this depends on the first container that owns the shared volume's master mount; waiting on every container indiscriminately would be incorrect. The metadata relationship between shared mounts and runtime wait maps is a concrete example of why multi-container checkpointing cannot be reduced to a loop over filenames.
 
-A useful analytical model separates the latency boundary from the memory-release boundary. Let the actor become routable at time `t_ready`, background source loading complete at `t_loaded`, and cache reclamation converge at `t_reclaimed`. The implementation permits `t_ready < t_loaded <= t_reclaimed`. The intervals are not interchangeable. A benchmark reporting only request readiness can miss a long memory overlap that limits sustainable activation rate, while a benchmark waiting for complete cache reclamation can overstate user-visible latency. Chapter 11 discusses measuring both without calling one a substitute for the other.
+A useful analytical model separates the latency boundary from the memory-release boundary. Let the actor become routable at time `t_ready`, background source loading complete at `t_loaded`, and cache reclamation converge at `t_reclaimed`. The implementation permits `t_ready < t_loaded <= t_reclaimed`. The intervals are not interchangeable. A benchmark reporting only request readiness can miss a long memory overlap that limits sustainable activation rate, while a benchmark waiting for complete cache reclamation can overstate user-visible latency. Chapter 16 discusses measuring both without calling one a substitute for the other.
 
 No constant in this code proves a sub-100ms activation distribution. A cache hit can remove downloads and extraction, but host scheduling, per-container command startup, page faults, probe behavior, and concurrent checkpoint writeback remain. The correct way to evaluate a proposed optimization is to identify which phase and resource overlap it changes, then measure under a representative distribution of actor sizes and resume locality. The phase log gives the necessary decomposition; it does not itself provide the benchmark result.
 
-## 6.5 Accounting, crash detection, and termination
+## 10.5 Accounting, crash detection, and termination
 
 The gVisor worker's statistics deliberately measure the sandbox. [stats.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-gvisor/stats.go) reads the sandbox leaf identified by `GVisorCgroupLeaf(actorUID, SandboxID)`. One Sentry backs the actor's application containers, so their host cgroup markers do not each contain an independent application process tree. Summing those empty marker leaves would undercount the actual actor cost. The relevant host resource consumption includes the Sentry's own heap, page tables, networking state, and supporting filesystem processes.
 
@@ -1602,7 +2280,7 @@ Termination itself stops application containers before deleting their runsc reco
 
 The deletion context is detached from caller cancellation because a deadline in the middle of runtime record deletion can leave a live container without the metadata needed to manage it. The cleanup remains time-bounded. Afterwards, runsc state/PID directories are reset, overlay mounts are detached, and the actor is unhosted. Errors are joined so that a failure in one cleanup stage does not prevent attempting other necessary stages. This does not mean every failure is harmless; it means the worker makes the remaining cleanup progress visible rather than stopping after the first error.
 
-An important operational distinction is whether a failed checkpoint preserved a running actor, left a reusable completed local checkpoint, or ended the actor without a valid new checkpoint. The runtime path, node snapshot tracker, and control-plane workflow together determine the answer. The worker cannot simply return “failed” and let the caller assume no state changed. Phase logs, completion markers, actor stopping state, and durable snapshot references provide the evidence needed for recovery. Chapter 8 follows that evidence across the storage boundary.
+An important operational distinction is whether a failed checkpoint preserved a running actor, left a reusable completed local checkpoint, or ended the actor without a valid new checkpoint. The runtime path, node snapshot tracker, and control-plane workflow together determine the answer. The worker cannot simply return “failed” and let the caller assume no state changed. Phase logs, completion markers, actor stopping state, and durable snapshot references provide the evidence needed for recovery. Chapter 12 follows that evidence across the storage boundary.
 
 For engineering review, consider a three-container actor whose second application restore fails. The sandbox and first application may already exist, the second creation may be partial, and the third has not begun. The deferred failure path must remove every attempted object, including the sandbox, detach overlays already mounted, and release the network reservation only after cleanup. At the same time, the immutable source snapshot must remain available for a retry or revert. The code's explicit attempted-container list and `PreserveRestoreDir` handling make those obligations inspectable.
 
@@ -1618,7 +2296,7 @@ The distinction between `NotFound` and a leaf that is not yet ready is useful to
 
 Termination must similarly preserve evidence until the relevant layer is gone. Runsc application deletion, sandbox deletion, process reaping, cgroup removal, network teardown, and overlay cleanup are separate operations with possible partial failure. The worker joins errors and uses bounded cleanup contexts so the first failed step does not prevent every remaining independent cleanup attempt. That does not make cleanup infallible; it makes leftover state diagnosable and subsequent recovery more likely to converge. A response that reported only the first error while abandoning the rest would leave more ambiguity for the next activation.
 
-## 6.6 Roadmap and engineering improvements
+## 10.6 Roadmap and engineering improvements
 
 Runtime compatibility is the most immediate repository-backed concern. [version-skew-policy.md](https://github.com/agent-substrate/substrate/blob/v1.0.0/docs/reference/version-skew-policy.md) explains that a memory restore stays on a compatible runtime, while a cold restore of filesystem state may use the worker's default runsc. It also records that Substrate does not currently check whether one runsc version can read filesystem checkpoint bundles written by another. A failed restore can crash the actor. This gap is narrower and more actionable than saying “snapshots are not portable”: it identifies the artifact type, version transition, and failure consequence that need a contract.
 
@@ -1645,13 +2323,13 @@ Finally, the architecture's performance target remains a target. The pinned runs
 - [sandboxconfig-gvisor.yaml](https://github.com/agent-substrate/substrate/blob/v1.0.0/manifests/ate-install/sandboxconfig-gvisor.yaml) and [version-skew-policy.md](https://github.com/agent-substrate/substrate/blob/v1.0.0/docs/reference/version-skew-policy.md): pinned assets and the limits of cross-version restore guarantees.
 
 
-# 7. MicroVM Execution with Kata and Cloud Hypervisor
+# 11. MicroVM Execution with Kata and Cloud Hypervisor
 
-## 7.1 One actor, one guest kernel, several application containers
+## 11.1 One actor, one guest kernel, several application containers
 
 The microVM backend runs each actor in a Cloud Hypervisor virtual machine containing a Kata guest kernel and agent. All application containers belonging to that actor share the VM. The worker starts and owns the VMM and virtiofsd processes directly, constructs Cloud Hypervisor's configuration, and calls the Kata agent through ttrpc. This is a narrower integration than running a complete Kata containerd shim stack inside the worker. The implementation is visible in [run.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-microvm/run.go), [internal/ch](https://github.com/agent-substrate/substrate/tree/v1.0.0/cmd/ateworker-microvm/internal/ch), and [internal/kata](https://github.com/agent-substrate/substrate/tree/v1.0.0/cmd/ateworker-microvm/internal/kata).
 
-The host-versus-guest boundary is the central difference from Chapter 6. Application system calls execute against a guest Linux kernel. KVM provides hardware-assisted execution through the host's `/dev/kvm`, and Cloud Hypervisor implements the VM's userspace device and control model. The worker itself remains a trusted host process inside a Kubernetes pod. Virtiofsd is another host process exposed to guest filesystem requests. A guest boundary does not remove the need to inspect those host-side attack surfaces or the worker's outer capabilities.
+The host-versus-guest boundary is the central difference from Chapter 10. Application system calls execute against a guest Linux kernel. KVM provides hardware-assisted execution through the host's `/dev/kvm`, and Cloud Hypervisor implements the VM's userspace device and control model. The worker itself remains a trusted host process inside a Kubernetes pod. Virtiofsd is another host process exposed to guest filesystem requests. A guest boundary does not remove the need to inspect those host-side attack surfaces or the worker's outer capabilities.
 
 `runningActor` records the physical state of one activation: the Cloud Hypervisor child process, virtiofsd child process, API socket, stopping state, resource booking, memory guard, retained Kata-agent connection, and guest workload IDs. It also records the restore lineage and memory-source lifetime. Those last fields are essential for snapshots: `baseID`, `restoreSourceDir`, `preserveRestoreSource`, and `snapshotIsSelfContained` distinguish the identities and files that must survive different restore modes.
 
@@ -1688,7 +2366,7 @@ Likewise, the 128-MiB minimum is an implementation admission threshold for the s
 
 Host backing remains important even at these small sizes. Shared guest memory and the immutable pmem boot image serve different purposes: one holds mutable guest RAM, while the other supplies boot filesystem content whose writes are discarded. A memory checkpoint must capture the former and retain compatible identity for the latter. Treating both as interchangeable files would obscure why snapshot compatibility depends on the selected Kata image as well as the VMM executable.
 
-## 7.2 Cold boot and the host-backed filesystem
+## 11.2 Cold boot and the host-backed filesystem
 
 `RunWorkload` validates the request, requires a registered worker epoch, takes the actor lifecycle lock, and reserves the actor's hosted state. It passes an `actorBootParams` value into the cold-boot machinery. That structure contains the actor/template identity, directories, containers, runtime assets, egress gateway, sandbox size, and an optional source for restored rootfs uppers. The same boot path can therefore start a pristine actor or cold-boot an actor whose filesystem state came from a `ROOTFS` snapshot.
 
@@ -1702,19 +2380,19 @@ The snapshot consequence is equally important. Guest memory alone no longer cont
 
 ```mermaid
 flowchart TB
-    L[OCI lower] --> M[Host overlay]
-    U[Actor upper] --> M
+    I["Read-only image + sysinfo"] --> S
     WK[Scratch workdir] --> M
     M --> S[Shared tree]
-    D["Durable + CSI volumes"] --> S
-    I["Read-only image + sysinfo"] --> S
-    S --> V[virtiofsd]
-    V --> G[Guest mount]
     G --> R[Container binds]
+    D["Durable + CSI volumes"] --> S
+    V --> G[Guest mount]
+    U[Actor upper] --> M
+    L[OCI lower] --> M[Host overlay]
+    S --> V[virtiofsd]
     U -->|checkpoint| TAR[Upper tar]
 ```
 
-`StageMergedRootfs` creates the overlay with explicit options and recreates the work directory rather than archiving it. The work directory is scratch space, not user state. The mount uses volatile behavior because local upper durability is not the persistence contract; the upper is captured into the snapshot when appropriate. That choice removes unnecessary filesystem writeback obligations from ordinary overlay operations, but it also means local storage surviving a crash cannot be treated as a guaranteed checkpoint. Chapter 8 distinguishes retained local files from durable external snapshots.
+`StageMergedRootfs` creates the overlay with explicit options and recreates the work directory rather than archiving it. The work directory is scratch space, not user state. The mount uses volatile behavior because local upper durability is not the persistence contract; the upper is captured into the snapshot when appropriate. That choice removes unnecessary filesystem writeback obligations from ordinary overlay operations, but it also means local storage surviving a crash cannot be treated as a guaranteed checkpoint. Chapter 12 distinguishes retained local files from durable external snapshots.
 
 Host mounts receive `nosuid` and `nodev` attributes where appropriate. These attributes protect the host's interpretation of the exposed tree; the guest sees filesystem contents through virtio-fs under its own mount and execution rules. The backend must not execute an actor-provided setuid file on the host merely because the guest needs to preserve its mode for container semantics. Recursive read-only handling is used for image and system-information paths that should not be writable through the share.
 
@@ -1734,7 +2412,7 @@ Cold-boot retry is deliberately narrow. `coldBootActorRetrying` retries when the
 
 After application containers start, wakeup probes gate ingress activation. Egress is available during cold boot so initialization can contact dependencies. The worker records the running VM, retained agent connection, workload IDs, and runtime state for later statistics and shutdown. A successful response means the current worker epoch accepted and prepared the actor through this sequence. It does not mean the Kubernetes pod was recreated or that a generic VM-management controller observed a desired-state object.
 
-## 7.3 Capturing a complete snapshot from several state domains
+## 11.3 Capturing a complete snapshot from several state domains
 
 MicroVM state spans guest RAM, virtual device state, host rootfs uppers, durable directories, external volumes, and runtime-local sockets and mounts. A correct snapshot cannot simply copy the VMM's memory file and assume those other domains are represented. `CheckpointWorkload` in [checkpoint.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-microvm/checkpoint.go) coordinates capture around a paused guest, then tears down the live execution resources. The returned snapshot file list is the boundary handed to atelet for locality and external persistence.
 
@@ -1791,9 +2469,9 @@ The private-base optimization preserves retryability by leaving the base address
 
 A preserved or shared source follows the copying path. That extra I/O is the cost of maintaining another consumer's immutable view. A hardlink is not a copy-on-write clone; writing through one name changes the same inode observed through every other name. The snapshot cache therefore materializes private microVM copies, and the merge still checks its preconditions rather than trusting how the file was supposedly obtained. Defense at both the staging and merge layers protects against future callers that use a different materialization strategy.
 
-These operations can leave partial local files after a host failure because they intentionally avoid forcing the full image to stable storage on the checkpoint critical path. Chapter 8's boot-ID rule closes that recovery boundary by invalidating uncertain local snapshots after reboot. Within the same boot, completion markers and tracker state distinguish a published capture from scratch output. Across boots, external durability is the authoritative recovery tier. The sparse merge algorithm and the node tracker are therefore parts of one correctness story even though they reside in different processes.
+These operations can leave partial local files after a host failure because they intentionally avoid forcing the full image to stable storage on the checkpoint critical path. Chapter 12's boot-ID rule closes that recovery boundary by invalidating uncertain local snapshots after reboot. Within the same boot, completion markers and tracker state distinguish a published capture from scratch output. Across boots, external durability is the authoritative recovery tier. The sparse merge algorithm and the node tracker are therefore parts of one correctness story even though they reside in different processes.
 
-## 7.4 Restore mode, namespace reconstruction, and page demand
+## 11.4 Restore mode, namespace reconstruction, and page demand
 
 The microVM restore path must be described conditionally. [restoreMemMode](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-microvm/restore.go) asks the VMM what version it is and selects a memory mode using [PrefaultsUnconditionally](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-microvm/internal/ch/prefault.go). The audited default Cloud Hypervisor version is `v53.0`, which the implementation treats as affected by unconditional background prefaulting. For that version, and for an unrecognized version, it selects eager `Copy`. The existence of `userfaultfd` support does not mean the default deployment currently uses demand paging.
 
@@ -1838,7 +2516,7 @@ The final phase includes agent connection, entropy reseeding, wakeup probes, and
 
 The density model also depends on mode. With OnDemand, an idle restored VM can initially occupy a smaller working set but retains the base file and may fault later. With Copy, activation reads the populated image eagerly and memory residency rises earlier, while the later source lifetime and checkpoint algorithm simplify. The implementation's version workaround chooses between those actual costs. A production capacity model should use the active mode reported by the worker, not a product-level description that assumes all microVM snapshots are lazy.
 
-## 7.5 Entropy, clocks, statistics, and failure cleanup
+## 11.5 Entropy, clocks, statistics, and failure cleanup
 
 A memory snapshot includes guest kernel state beyond application pages. Randomness and time are two examples where restoring bytes is not sufficient to restore correct behavior in a new activation. Cloning the same frozen kernel random-number generator state can make different actors emit correlated or identical values before fresh entropy is mixed in. A restored guest clock can lag wall time and affect TLS, token expiry, timers, and application logic. These are semantic restore requirements, not optional polish after a successful VMM operation.
 
@@ -1876,7 +2554,7 @@ Filesystem limits cross another pair of boundaries. A guest process can dirty it
 
 The source's phase records make these distinctions testable without assuming a particular performance result. A restore that spends most time extracting an upper needs a different investigation from one stalled in VMM readiness, guest-agent connection, or probes. A checkpoint delayed by write-slot admission differs from one delayed by sparse merge or tar creation. Recording the active memory mode and runtime asset identity alongside those phases is essential because a version change can deliberately switch the whole source-lifetime strategy. Comparing traces without those attributes can mistake a compatibility workaround for an unexplained regression.
 
-## 7.6 Roadmap and engineering improvements
+## 11.6 Roadmap and engineering improvements
 
 The most immediate repository-backed improvement is removing the eager-restore workaround when Cloud Hypervisor exposes suitable behavior. `prefaultingUntil` is intentionally open-ended in [prefault.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-microvm/internal/ch/prefault.go). A future release that stops unconditional prefaulting or lets the caller decline it can close that range and restore OnDemand selection. The correct change is tied to verified VMM behavior and tests of repeated restore/snapshot cycles. Merely increasing a version constant because a new release exists would risk reintroducing the stalled-probe failure.
 
@@ -1903,15 +2581,15 @@ Finally, runtime extension should retain the shared worker contract without forc
 - [microvm.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ate-setup/internal/steps/microvm.go), [sandboxconfig-microvm.yaml.tmpl](https://github.com/agent-substrate/substrate/blob/v1.0.0/manifests/ate-install/sandboxconfig-microvm.yaml.tmpl), and [PROVENANCE.md](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-microvm/internal/third_party/kata/PROVENANCE.md): runtime asset pins and protocol provenance.
 
 
-# 8. Snapshot Persistence, Locality, and Storage Backends
+# 12. Snapshot Persistence, Locality, and Storage Backends
 
-## 8.1 A snapshot has an owner, a fidelity, and several locations
+## 12.1 A snapshot has an owner, a fidelity, and several locations
 
 A worker checkpoint does not by itself make an actor recoverable on another node. It produces a collection of local files with a particular fidelity. Atelet must associate those files with an actor generation, retain them while they remain useful, transfer them to object storage when required, and tell the control plane which locations are valid. Those are separate transitions. Collapsing them into a single suspended flag would lose the distinction between an actor whose latest memory image exists only on one node and an actor that can be restored after that node disappears.
 
 The split is visible in [snapshottracker/tracker.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/atelet/internal/snapshottracker/tracker.go). `Tracker` keeps both `LatestLocal` and `LatestDurable`; its comments define how the two advance across checkpoint, upload, promotion, restore, and detach. A newer local checkpoint can coexist with an older durable checkpoint. Upload success does not delete the local checkpoint. A local checkpoint can therefore provide the next same-node activation while the durable copy provides a different recovery option. Neither field alone describes the actor's complete recovery position.
 
-Fidelity belongs to another axis. The worker implementations distinguish volume, root filesystem, and memory checkpoint behavior. A volume checkpoint preserves the selected durable filesystem contents while application processes restart. A root filesystem checkpoint adds the container's writable filesystem state, still without preserving its process execution. A memory checkpoint captures the runtime's process or VM state together with the filesystem state required to interpret it. Chapters 6 and 7 explain how the two runtimes materialize those promises differently. The storage layer transfers the resulting file set; it does not manufacture a higher fidelity from a lower one.
+Fidelity belongs to another axis. The worker implementations distinguish volume, root filesystem, and memory checkpoint behavior. A volume checkpoint preserves the selected durable filesystem contents while application processes restart. A root filesystem checkpoint adds the container's writable filesystem state, still without preserving its process execution. A memory checkpoint captures the runtime's process or VM state together with the filesystem state required to interpret it. Chapters 10 and 11 explain how the two runtimes materialize those promises differently. The storage layer transfers the resulting file set; it does not manufacture a higher fidelity from a lower one.
 
 This yields a useful four-part identity: owner, snapshot identifier, fidelity, and generation. Ownership answers who may collect the objects. The snapshot identifier distinguishes immutable captures. Fidelity answers what execution state a restore can reconstruct. Generation determines whether a result may advance the actor's current state. Locality then describes where that particular capture is available. A generation check cannot substitute for ownership, and an object-store URI cannot substitute for a statement about fidelity.
 
@@ -1943,7 +2621,7 @@ The S3 adapter in [internal/objectstore/s3.go](https://github.com/agent-substrat
 
 An external snapshot is therefore a small distributed commit built from ordinary objects. Data files are written before the manifest that identifies the completed file set. The manifest is the observable completion point used by the transfer protocol, rather than the mere existence of any one large memory object. This does not create an object-store transaction across arbitrary keys. It gives the application a recognizable terminal record and a retryable naming scheme, which are the mechanisms the code actually uses.
 
-## 8.2 Local durability is a node state machine
+## 12.2 Local durability is a node state machine
 
 The tracker separates fast lifecycle calls from slower persistence work without allowing the latter to race through an actor's active filesystem. Its lifecycle methods are called under atelet's per-actor serialization. `BeginCheckpoint`, `BeginPromote`, `BeginStart`, and the corresponding commit operations establish points at which background work can safely inspect or change state. [lifecycle.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/atelet/internal/snapshottracker/lifecycle.go) implements these transitions; [background.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/atelet/internal/snapshottracker/background.go) supplies the work queues.
 
@@ -1980,7 +2658,7 @@ Detach means making the latest state independent of this node before removing it
 
 `BeginStart` is the transition that protects a resumed actor from a previously scheduled detach. It waits for an active detach, marks the actor started, clears the detach deadline, and persists that state before the runtime is allowed to start. If the save fails, the start cannot proceed safely: after an atelet restart, the old detach schedule could otherwise be replayed against a running actor. A failed runtime start does not automatically reschedule detach because the supervisor may not have sufficient evidence that no execution survived. A later checkpoint or explicit termination establishes the next safe cleanup decision.
 
-This is a case where conservative state can cost disk space while preserving correctness. Keeping a failed-start actor's files longer than necessary is recoverable. Deleting files beneath a partially started runtime may corrupt the actor or remove the only recent snapshot. The same principle appears in the external-volume removal code described in Chapter 5: filesystem cleanup must prove that it is operating on disposable local state before recursively deleting anything.
+This is a case where conservative state can cost disk space while preserving correctness. Keeping a failed-start actor's files longer than necessary is recoverable. Deleting files beneath a partially started runtime may corrupt the actor or remove the only recent snapshot. The same principle appears in the external-volume removal code described in Chapter 8: filesystem cleanup must prove that it is operating on disposable local state before recursively deleting anything.
 
 Durability reports are another independent queue. A background upload can finish after the original API request has gone away, so its new `LatestDurable` cannot depend on that request returning a response. State changes save `ReportDueSince`; report workers spread saved work across startup and retry with actor-specific and queue-wide backoff. If another relevant state change occurs while a report is in flight, the tracker schedules another report. Reporting an older state once does not clear a newer obligation.
 
@@ -1994,11 +2672,11 @@ Process restart and node reboot are deliberately different recovery events. Loca
 
 This policy narrows the meaning of local durability. It is a fast recovery tier within the current node boot, with explicit lifetime tracking. Object-store completion is the tier used for independence from that node. A deployment that wants stronger local persistence could add synchronization and validate its crash behavior, but that would change the latency and writeback tradeoff. The implementation must be read as it stands: it chooses to invalidate uncertain local files instead of silently treating them as sound after reboot.
 
-## 8.3 The transfer pipeline preserves sparsity and bounds upload memory
+## 12.3 The transfer pipeline preserves sparsity and bounds upload memory
 
 The object-store plugin is a process boundary between the node supervisor and cloud-specific storage behavior. [api/objectstore/v1/objectstore.proto](https://github.com/agent-substrate/substrate/blob/v1.0.0/api/objectstore/v1/objectstore.proto) defines node, control, and asset services; [cmd/objectstore-plugin/main.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/objectstore-plugin/main.go) wires the implementations. Node-side transfer runs beside atelet, while control-side name operations run beside ateapi. Unix-domain RPC carries requests and local paths. Large snapshot payloads move between the plugin and object storage, not through ateapi's ordinary API handlers.
 
-Two similarly named Go packages serve different purposes. `pkg/objectstorage.ObjectStorage`, defined in [objects.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/pkg/objectstorage/objects.go), contains only `GetObject` and `PutObject`. It streams snapshot content. `internal/objectstore.Store` contains `List`, `Delete`, and server-side `Copy`, as described in Section 8.1. Treating the former as a generic CRUD interface would obscure the architectural decision to keep byte movement away from the control plane. Some helper names still contain GCS even when their selected client is S3; the interface and URI parsing determine the behavior, not the historical helper name.
+Two similarly named Go packages serve different purposes. `pkg/objectstorage.ObjectStorage`, defined in [objects.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/pkg/objectstorage/objects.go), contains only `GetObject` and `PutObject`. It streams snapshot content. `internal/objectstore.Store` contains `List`, `Delete`, and server-side `Copy`, as described in Section 12.1. Treating the former as a generic CRUD interface would obscure the architectural decision to keep byte movement away from the control plane. Some helper names still contain GCS even when their selected client is S3; the interface and URI parsing determine the behavior, not the historical helper name.
 
 The node provider validates a snapshot URI, the allowed local write root, and every requested filename before transferring data. [internal/objectstoreplugin/node.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/objectstoreplugin/node.go) uses `os.Root` to confine filesystem operations beneath an approved tree and checks that upload sources are regular files. Those checks matter because the plugin possesses storage credentials and can write files on behalf of a privileged node component. A malformed relative filename must not turn a snapshot download into an arbitrary host-path write.
 
@@ -2030,7 +2708,7 @@ Streaming alone does not imply small memory use. Compression workers retain inpu
 
 The planner accounts for backend differences. The S3 uploader uses 32-MiB parts with four upload workers. A casual multiplication suggests 128 MiB, but the budget also accounts for a producer part, making the multipart reservation larger. Compression input, output queues, and encoder state add further costs. Reducing concurrency or chunk planning lets a large file proceed within the budget; the entire logical memory image does not have to fit in process memory. Per-actor GCS clients created through `WithClient` share the same uploader budget rather than each receiving a fresh independent allowance.
 
-That budget is specifically an upload-pipeline bound. It is not a promise that the plugin's total RSS stays below 512 MiB. Download buffers, SDK connections, Go garbage awaiting collection, asset transfers, and other process state exist outside the reservation. Nor does it bound the worker's checkpoint page cache, which is handled by the runtime mechanisms in Chapters 5 through 7. Capacity planning must include those simultaneous domains instead of assigning the same bytes to a single all-purpose memory limit.
+That budget is specifically an upload-pipeline bound. It is not a promise that the plugin's total RSS stays below 512 MiB. Download buffers, SDK connections, Go garbage awaiting collection, asset transfers, and other process state exist outside the reservation. Nor does it bound the worker's checkpoint page cache, which is handled by the runtime mechanisms in Chapters 8, 10 and 11. Capacity planning must include those simultaneous domains instead of assigning the same bytes to a single all-purpose memory limit.
 
 Large downloads use range requests in [rangedget.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/pkg/objectstorage/rangedget.go), [s3ranged.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/pkg/objectstorage/s3ranged.go), and [gcsranged.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/pkg/objectstorage/gcsranged.go). The default planning uses 16-MiB chunks and eight concurrent reads, a substantial buffer allowance for each large object. Completed ranges are reassembled in order before decompression, so the persistent format does not change when parallel download is enabled. The first range response supplies the whole-object size through response metadata; a separate metadata request is not required merely to discover the length.
 
@@ -2038,7 +2716,7 @@ The implementation also considers services that ignore a range request and retur
 
 Storage errors retain a useful distinction between missing data and inaccessible data. `ErrObjectNotFound` represents absence, while `ServiceError` exposes only status details the backend considers safe to log. The S3 path does not indiscriminately print arbitrary SDK error content containing request URIs or credentials. The transfer layer must produce enough evidence to diagnose a failed snapshot without turning telemetry into a second copy of credential-bearing requests.
 
-## 8.4 Shared snapshots need cache policy and credential policy
+## 12.4 Shared snapshots need cache policy and credential policy
 
 The snapshot cache is separate from both the OCI layer cache and the runtime asset cache. OCI layers share container image content; runtime assets share a selected runsc binary or VM boot bundle; snapshot files share a captured actor state. Those populations have different mutability and lifetime rules. [cmd/atelet/snapshotcache.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/atelet/snapshotcache.go) makes the snapshot cache conditional on an explicit control-plane declaration that the snapshot is shared. Atelet does not infer immutability merely because two requests contain the same URI.
 
@@ -2066,7 +2744,7 @@ The asset provider has another deliberately separate policy. Runtime assets can 
 
 When diagnosing a restore, these layers provide distinct questions. Was the snapshot declared shared? Did the node find a published cached entry? Did the runtime receive an independent or shared inode as intended? Did a cache miss reach the node plugin? Did its credentials authorize the snapshot owner and any borrowed source? Did the storage backend return an absent object or a permission error? Answering them separately avoids treating all failed restores as generic object-store unavailability.
 
-## 8.5 RustFS as the repository's S3-compatible alternate
+## 12.5 RustFS as the repository's S3-compatible alternate
 
 The local kind installation already contains a concrete alternate to GCS. [manifests/ate-install/kind/rustfs.yaml](https://github.com/agent-substrate/substrate/blob/v1.0.0/manifests/ate-install/kind/rustfs.yaml) deploys RustFS and initializes an `ate-snapshots` bucket. This is integrated with the same object-store plugin interfaces used by the cloud backend. RustFS does not introduce a separate checkpoint format, a new worker runtime, or a second snapshot tracker. It changes the service implementing object get, put, list, delete, range reads, and copy operations beneath the existing S3 adapters.
 
@@ -2095,7 +2773,7 @@ The bucket-init Job is part of the dependency chain. It uses a pinned AWS CLI im
 
 The networking policy is narrower than the Service port list. The kind base denies ingress to pods in `ate-system`; the RustFS policy admits its API port from pods labeled as atelet or ate-api-server and from the bucket-init Job. It does not admit the console merely because port 9001 appears on the Service. The manifest directs console access through port forwarding. Actor sandboxes are not direct storage clients; the allowlist selects the atelet and API infrastructure pods and the initialization Job. Workers provide snapshot files to the node machinery and the plugin reaches RustFS on their behalf.
 
-That restriction reduces direct exposure but does not create per-actor S3 credentials. The checked-in server and clients use the static `rustfsadmin` development credentials. The S3 plugin path described in Section 8.4 uses those ambient credentials for its requests. A compromise of that plugin identity therefore has the storage authority granted to the key, not the narrower GCS exchange authority of one actor. Replacing literal keys with a secret delivery mechanism would improve credential handling, but it would not by itself implement actor-scoped authorization. The two changes solve different problems.
+That restriction reduces direct exposure but does not create per-actor S3 credentials. The checked-in server and clients use the static `rustfsadmin` development credentials. The S3 plugin path described in Section 12.4 uses those ambient credentials for its requests. A compromise of that plugin identity therefore has the storage authority granted to the key, not the narrower GCS exchange authority of one actor. Replacing literal keys with a secret delivery mechanism would improve credential handling, but it would not by itself implement actor-scoped authorization. The two changes solve different problems.
 
 The same distinction applies to transport. The manifest uses HTTP inside the cluster. NetworkPolicy restricts which selected pods can initiate admitted traffic, but it does not encrypt that traffic or authenticate an object-store server certificate. A production deployment choosing a different endpoint and TLS policy must configure and validate that path independently. The source does not demonstrate a production TLS termination topology for RustFS, and the development configuration should not be presented as proof that one exists.
 
@@ -2129,11 +2807,11 @@ The same reasoning applies to restoring the development cluster from backup. Rec
 
 The development endpoint is consequently a useful integration boundary to test explicitly. A service health check establishes process availability; a complete actor checkpoint, detach, cross-node restore, tag copy, and owner deletion exercise progressively more of Substrate's storage contract. Each should report its own failure instead of collapsing the sequence into one backend-health Boolean.
 
-## 8.6 Roadmap and engineering improvements
+## 12.6 Roadmap and engineering improvements
 
 The repository's architecture goals describe faster activation, greater density, and richer storage tiers. The current implementation already has distinct local checkpoint retention, durable object storage, a shared snapshot file cache, and runtime-specific demand-loading behavior. These are real tiers with different lifetimes, but they do not yet constitute an arbitrary distributed memory hierarchy. A remote object store is not directly mapped into guest memory by the Go transfer code; it first reconstructs files used by the runtime.
 
-Incremental snapshots also require precise terminology. The microVM worker can merge an on-demand restore base with a new sparse delta, as Chapter 7 explains. The result is a complete snapshot suitable for independent persistence. The object-store layer does not maintain a long parent chain of dirty-page deltas and resolve it during every restore. Sparse transfer avoids reading holes; compression reduces bytes; delta merging preserves a complete state. Each is useful, but none alone proves a distributed incremental snapshot protocol.
+Incremental snapshots also require precise terminology. The microVM worker can merge an on-demand restore base with a new sparse delta, as Chapter 11 explains. The result is a complete snapshot suitable for independent persistence. The object-store layer does not maintain a long parent chain of dirty-page deltas and resolve it during every restore. Sparse transfer avoids reading holes; compression reduces bytes; delta merging preserves a complete state. Each is useful, but none alone proves a distributed incremental snapshot protocol.
 
 A future incremental object format would need ownership and garbage-collection rules for shared ancestors, atomic publication of dependency graphs, bounded chain depth, corruption detection, and compatibility across runtime upgrades. Tag copy would need either to copy the transitive closure or explicitly retain shared parents. Actor deletion could no longer collect an apparently private prefix without checking references from other snapshots. These are editorial design requirements derived from the existing ownership model, not features implemented by the current `Store` interface.
 
@@ -2149,7 +2827,7 @@ Observability should preserve the implementation's distinct byte counts and stat
 
 Failure validation should follow the commit boundaries. A targeted test matrix would interrupt a node plugin before and after manifest publication, restart atelet with an active upload, reboot a node containing only local state, lose report responses after a durable commit, fill the RustFS volume, and deny control-plugin copy while leaving node-plugin get and put available. Existing unit tests cover many local state and transfer behaviors, but this manuscript does not claim to have executed a cluster fault campaign. Such experiments are the evidence needed to turn the source's intended recovery rules into deployment-specific operational guarantees.
 
-Format evolution deserves the same discipline as API evolution. The sparse encoding has an explicit version; runtime snapshots carry additional compatibility constraints described in Chapters 6 and 7. A storage backend migration must preserve those bytes and manifests, not merely copy a convenient subset of objects. A successful list operation says little about whether restored state remains compatible with the selected runsc or Cloud Hypervisor assets. Storage migration, runtime rollout, and tag retention therefore intersect at snapshot compatibility and should be validated together.
+Format evolution deserves the same discipline as API evolution. The sparse encoding has an explicit version; runtime snapshots carry additional compatibility constraints described in Chapters 10 and 11. A storage backend migration must preserve those bytes and manifests, not merely copy a convenient subset of objects. A successful list operation says little about whether restored state remains compatible with the selected runsc or Cloud Hypervisor assets. Storage migration, runtime rollout, and tag retention therefore intersect at snapshot compatibility and should be validated together.
 
 Finally, a production RustFS deployment must define the recovery domain it intends to provide. The repository contributes an operationally useful S3 integration and a reproducible development manifest. Capacity, redundancy, credential management, transport security, backup, restore testing, and endpoint availability remain properties of the chosen deployment. Keeping those responsibilities explicit allows the same Substrate snapshot protocol to serve local development and a more resilient installation without pretending that the two configurations provide identical guarantees.
 
@@ -2163,13 +2841,137 @@ Finally, a production RustFS deployment must define the recovery domain it inten
 - [RustFS manifest](https://github.com/agent-substrate/substrate/blob/v1.0.0/manifests/ate-install/kind/rustfs.yaml), [backend environment](https://github.com/agent-substrate/substrate/blob/v1.0.0/pkg/objectstorage/env.go), and [microVM asset staging](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ate-setup/internal/steps/microvm.go): the S3-compatible alternate and its concrete development deployment.
 
 
-# 9. Actor Networking, Transparent Resume, and Backpressure
+# 13. Suspend and Restore at the System-Call Level
+
+A Kubernetes Pod has no suspend operation. It can be deleted and recreated, losing memory and the writable layer, or it can stay resident and keep consuming capacity. An actor can be suspended: its execution is captured, its capacity on the worker is released, and a later request restores it, possibly on another node. This chapter follows that cycle from the API call to the kernel. It separates three things that are easy to conflate: the control-plane protocol that makes suspension safe, the runtime operation that captures a sandbox, and the host primitives that move bytes between memory, page cache, disk and object storage. Chapter 10 covered gVisor checkpoint fidelity in depth, and the lifecycle companion (L.10 to L.12) has an observed walkthrough. This chapter concentrates on mechanism.
+
+## 13.1 The suspend protocol from API to worker
+
+`kubectl ate suspend actor counter -a demo --mode=sync` calls ateapi's `SuspendActor`. The workflow ([workflow_suspend.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateapi/internal/controlapi/workflow_suspend.go)) acquires the actor's lease and records intent *before* touching the node.
+
+1. It persists SUSPENDING with a new snapshot UUID, the requested fidelity, the runtime association and the pending durable destination, and advances the generation. A retry reuses this recorded identity instead of minting a new one.
+2. It calls atelet's `Checkpoint` with that identity and the durability mode.
+3. atelet takes the actor lock and asks its snapshot tracker whether this snapshot already completed. If so, it returns the recorded result. Otherwise it calls the worker's `CheckpointWorkload`.
+4. When atelet returns, ateapi detaches external volumes if any, releases the worker assignment and its booked capacity, and records SUSPENDED in a separate update.
+
+The worker side, in the gVisor worker's `CheckpointWorkload` in [main.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-gvisor/main.go), runs in a context that a disappearing caller cannot cancel, because a half-written checkpoint is worse than a slow one. It validates fidelity and the runsc path, and can reuse a completed capture marked with the node's boot ID. It then deactivates the actor's tunnel so no new connections arrive, clears any partial checkpoint directory, computes the filesystem checkpoint targets, and invokes runsc.
+
+| Fidelity | runsc command | What is captured | Sandbox afterwards |
+|---|---|---|---|
+| MEMORY | `runsc checkpoint -image-path <dir> -fs-checkpoint-paths <targets> _sandbox` | Kernel state, application memory, rootfs and durable-directory filesystems | Stopped by the checkpoint |
+| ROOTFS | `runsc fscheckpoint -image-path <dir> -path rootfs/=<c>:/ ...` | Writable rootfs and durable directories | Terminated by the worker |
+| VOLUMES | `runsc fscheckpoint -image-path <dir> -path fs/=<c>:<mount> ...` | Durable directories only | Terminated by the worker |
+
+The argument construction is in [runsc.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-gvisor/runsc.go) (`checkpointArgs`, `fsCheckpointArgs`), and the targets come from [fscheckpoint.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-gvisor/fscheckpoint.go).
+
+## 13.2 What a gVisor checkpoint does inside the sandbox
+
+This section describes upstream gVisor's design. Substrate invokes it but does not implement it, and its file layout and internal sequence belong to the pinned runsc release.
+
+`runsc checkpoint` is a short-lived command. It connects to the running Sentry's control socket, a Unix domain socket in the sandbox's state directory under the `-root` that Substrate sets per actor, and sends a save request. The work happens inside the Sentry.
+
+**Stop the world.** The Sentry pauses every task, its equivalent of threads, at a safe point, much as a kernel would freeze processes. Because application threads only ever run on the Sentry's behalf through the platform, there is no foreign process to interrupt. Under systrap, each stub thread is parked waiting for the Sentry instead of being resumed into application code. In-flight application system calls are completed or restarted according to Linux semantics, so the saved state is a consistent kernel image.
+
+**Serialize kernel state.** The Sentry's kernel objects (tasks, thread groups, signal state, file descriptions, mounts, pipes, futexes, timers, sockets in netstack and more) are Go structures annotated for gVisor's `state` package. The checkpoint walks the object graph from the kernel root and encodes every reachable object once, with pointers turned into object IDs. The result is written to the state file in the image directory. Host file descriptors cannot be serialized as numbers, so file objects record enough to reopen their host files, and the gofer or directfs reconnects them on restore.
+
+**Save memory.** All application memory lives in the Sentry's memory file, a `memfd_create` file mapped into stub address spaces (2.4). The Sentry knows which ranges of that file are allocated and which pages are populated. Saving memory therefore means reading those ranges and writing them sequentially to page files in the image directory. Reads are plain memory accesses through the Sentry's own `mmap` of the memory file. The output files are created in the image directory by the runsc command and handed to the Sentry over the control socket as file descriptors, and the Sentry writes through those descriptors. Unpopulated ranges are not written. The page data and the metadata that locates it are separate files in current releases. That is one reason Substrate enumerates the files runsc actually wrote rather than assuming a single `checkpoint.img`.
+
+**Save filesystems.** With `-fs-checkpoint-paths`, writable filesystem state that lives in the sandbox, such as a container's rootfs overlay upper layer and the shared tmpfs used for a durable directory, is serialized into separate filesystem images beside the state file. That is what makes ROOTFS and MEMORY captures self-contained without a host overlay upper directory surviving.
+
+**Connected sockets.** By default gVisor refuses to save a sandbox with connected TCP sockets, because a restored connection cannot continue with a peer that has moved on. Substrate starts sandboxes with `-allow-connected-on-save`. Such sockets are saved, and after restore the application observes them as reset or broken and must reconnect.
+
+**Exit.** Unless asked to leave the sandbox running, the Sentry exits after the save completes. The gofer and stubs exit with it. The worker observes the Sentry's exit through the pidfd it opened at start ([pidfd.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/pidfd/pidfd.go), [sandboxexit.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-gvisor/sandboxexit.go)). Polling a pidfd becomes readable when that exact process exits, which avoids confusing a recycled PID with the Sentry.
+
+This differs from CRIU-based checkpointing of runc containers. CRIU attaches to each host process with `ptrace(PTRACE_SEIZE)`, freezes the process tree, injects parasite code to dump memory through `vmsplice` into pipes, reads `/proc/<pid>/maps`, `/proc/<pid>/pagemap`, `/proc/<pid>/fdinfo` and many other files, and on restore recreates processes, mappings, descriptors and namespaces with `clone`, `mmap`, `open`, `prctl(PR_SET_MM_*)` and the rest. gVisor needs none of that because the "processes" are the Sentry's own data. Substrate's gVisor path does not use CRIU.
+
+```mermaid
+sequenceDiagram
+    participant L as atelet
+    participant W as Worker
+    participant C as runsc checkpoint
+    participant S as Sentry
+    participant F as Image directory
+    L->>W: CheckpointWorkload
+    W->>W: Deactivate tunnel, move Sentry to _ckpt cgroup
+    W->>C: exec runsc checkpoint
+    C->>S: Save request on control socket
+    S->>S: Stop all tasks at safe points
+    S->>F: State file, page files, filesystem images
+    S-->>C: Done, Sentry exits
+    W->>W: pidfd reports exit, tear down namespaces
+    W-->>L: Exact snapshot file list
+```
+
+## 13.3 Host memory during capture: cgroups and page cache
+
+A checkpoint writes roughly as many bytes as the actor's populated memory. On Linux, those writes first land in the *page cache*, and page-cache pages are charged to the memory cgroup of the process that dirtied them. If the Sentry did that inside the actor's leaf, the actor's `memory.high` would throttle the checkpoint, or the pages would push the worker container toward its `memory.max`. Substrate's worker handles this explicitly in [ckptcgroup.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-gvisor/ckptcgroup.go).
+
+1. **Borrow memory.** Before capture, the worker acquires a checkpoint slot and a memory *loan* from unused worker capacity, and limits concurrent checkpoint writers. A new activation that would need the same bytes waits for the loan (step 5 of 9.5).
+2. **Isolate the charge.** It creates a sibling cgroup, `<actor-uid>-_ckpt`, beside `<actor-uid>-_sandbox`, sets its `memory.max` to `max`, copies the sandbox's `cpu.max`, and sets `memory.high` to the loan size. It moves the Sentry by writing its PID to the sibling's `cgroup.procs`. New page-cache pages written by the checkpoint are charged there.
+3. **Restore placement.** After the checkpoint, the Sentry has exited. If it had not, an `ESRCH` from moving it back would show that it was gone. Removing the empty `_ckpt` cgroup with `rmdir` reparents any remaining charges to the parent.
+4. **Return the loan only when pages are reclaimable.** A dirty page cannot be dropped until written. [snapshotcache.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/snapshotcache/snapshotcache.go) starts writeback with `sync_file_range(SYNC_FILE_RANGE_WRITE)` on the checkpoint files, polls their dirty and writeback page counts with `cachestat`, finishes with a waiting `sync_file_range`, and then uses `posix_fadvise(POSIX_FADV_DONTNEED)` to evict clean pages that will not be read again soon. Only then is the borrowed memory considered returned.
+
+These calls manage *memory*, not durability. `sync_file_range` does not flush filesystem metadata or the disk's volatile cache. The durability contract is the object-store manifest commit in 13.4, or for deferred mode the local commit plus a later upload.
+
+## 13.4 Publishing the capture: local commit, sparse files and object storage
+
+The worker returns the exact list of regular files runsc wrote, plus the subset that represents durable data. atelet turns it into a manifest and publishes it according to the durability mode ([main.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/atelet/main.go)).
+
+- **Deferred** (CLI `--mode=async`): `rename` the capture into local snapshot storage, record `CommitLocal` in the persisted tracker ([tracker.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/atelet/internal/snapshottracker/tracker.go)), schedule a background upload and return. The newest state depends on this node until the upload commits.
+- **Immediate** (`--mode=sync`): upload every data file, then upload the manifest last, record `CommitDurable`, then try to retain a local copy. The manifest's existence defines a committed snapshot, so a crash mid-upload leaves objects that no reader will treat as a snapshot.
+
+Memory images are sparse. A process with a 4 GiB address space may have populated only part of it, and files that represent it should not allocate or transfer zero-filled blocks. atelet's sparse-file helpers ([sparsefile.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/atelet/internal/sparsefile/sparsefile.go)) walk files with `lseek(fd, off, SEEK_DATA)` and `lseek(fd, off, SEEK_HOLE)` to find populated extents, and copy them with `copy_file_range`, which lets the filesystem move or reflink data without passing it through user space. The object-store layer compresses data and preserves the sparse layout, so a reconstructed file has holes where the capture had them rather than allocated zero blocks. Logical size, populated bytes, compressed bytes and allocated blocks are four different numbers, and capacity planning has to use the right one.
+
+## 13.5 Restore: building a sandbox from an image
+
+Resume follows 9.4 until atelet's `Restore`. atelet prepares the same bundles and assets as a cold start, plus the snapshot files: hard links from a local capture or the golden node cache, or files downloaded and reconstructed from object storage. The worker's `RestoreWorkload` then rebuilds networking and egress exactly as for a cold start, because namespaces, veths and nftables rules are host objects that were destroyed at suspend, and invokes runsc.
+
+1. `runsc create -no-root-container ... _sandbox` with filesystem-restore arguments, which creates a fresh Sentry and gofer just as at first start.
+2. At MEMORY fidelity, `runsc restore -bundle <dir> -image-path <dir> -pid-file <file> -background -detach _sandbox`, using the flags pinned in [internal_flags.json](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-gvisor/kodata/internal_flags.json). Then `runsc restore` for each application container against the same image.
+3. At ROOTFS or VOLUMES fidelity, `runsc start` for each container with the saved filesystem images applied. The applications cold-start on top of their preserved files.
+
+Inside the Sentry, restore is the inverse of save. The state file is decoded and the object graph rebuilt: tasks, file descriptions, mounts and sockets. Host file descriptors are reopened through the gofer or directfs, and the memory file is recreated with `memfd_create`. Memory is loaded from the page files into it. With `-background`, the Sentry does not wait for every page before letting tasks run. It starts loading pages asynchronously and makes any task that touches a page not yet loaded wait for that page. `-detach` lets the `runsc restore` command return while the sandbox continues. The worker can then run wakeup probes against a restored application while the remaining pages stream in, and `runsc wait -restore` (`cmdWaitRestore`) reports when background loading has finished. `runsc wait -fsrestore` does the same for filesystem images.
+
+The application does not boot. Its threads resume where the checkpoint stopped them, with the same heap, the same initialized readiness flag and the same in-memory caches. That is why a golden snapshot turns a cold start of many seconds into a restore dominated by file preparation and page loading. Connections it held before suspension are broken; listening sockets are restored.
+
+**Freeing the image after restore.** Once pages are loaded, the image files are redundant, and their page cache would otherwise sit beside the restored anonymous memory. `dropActorCheckpointCacheAsync` in [ckptcgroup.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-gvisor/ckptcgroup.go) handles three cases. If the restore files are not preserved and have no other hard links, it unlinks them immediately; the Sentry's open descriptors keep the inodes alive until it closes them. If they are preserved, or hard-linked from the golden cache, it waits for background restore to finish, then evicts their clean pages with `posix_fadvise(DONTNEED)`, and unlinks only what is not preserved. Unlinking a name, dropping cached pages and freeing an inode are three separate events. With a shared golden file, unlinking one actor's name frees nothing, because the cache still holds a link.
+
+**The microVM contrast.** The microVM worker drives Cloud Hypervisor instead of runsc (Chapter 11). Cloud Hypervisor pauses the guest, writes guest RAM, device state and configuration, and on restore either copies the memory file eagerly into guest memory or, in its OnDemand mode, maps guest memory empty and registers it with `userfaultfd`. In OnDemand mode, guest page faults arrive as messages on the userfaultfd descriptor, and the VMM resolves each with `UFFDIO_COPY` from the snapshot file. A guest that has touched only some pages leaves a sparse image on its next snapshot, which Substrate merges with the base ([merge.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-microvm/internal/ch/merge.go)). Substrate selects eager Copy for current Cloud Hypervisor versions, as Chapter 11 explains, so the demand-paging path is conditional.
+
+```mermaid
+flowchart TB
+    R[ResumeActor] --> P[atelet prepares bundles, assets and snapshot files]
+    P --> N[Worker rebuilds namespaces, veth, nftables and egress]
+    N --> C[runsc create _sandbox with fs restore arguments]
+    C --> M[runsc restore -background -detach]
+    M --> A[Tasks resume and fault in pages as they load]
+    A --> W[Wakeup probe then ingress activation]
+    W --> D[Background load completes and image pages are dropped]
+```
+
+## 13.6 Roadmap and engineering improvements
+
+The repository is explicit about the hard edges of this path. Immediate-mode upload failure after a completed MEMORY capture can leave the actor CRASHED, because the sandbox has already stopped and there is no universal transparent rollback. Checkpoint failure classification is incomplete in cases where execution survived. Run/Restore re-entrancy after lost replies is unfinished. Automatic idle suspension is not wired into production. Each is discussed with its source in Chapters 10, 12 and 16, and in L.13.
+
+Mechanism-level proposals follow. First, the memory loan in 13.3 assumes page cache becomes reclaimable after writeback. Writing checkpoint pages with `O_DIRECT`, or with a file opened under a dedicated cgroup from the start, could remove the need to migrate the Sentry between cgroups. That requires runsc support and measurement. Second, background restore makes first-request latency depend on the order in which pages load. Recording which pages the application touched first after a restore, and storing that order with the golden snapshot, would let the loader fetch the working set first. This is a prefetch technique, and its benefit would have to be measured, not assumed. Third, an operator-facing view of the four sizes in 13.4 per snapshot would make capacity and cost planning concrete. All three are proposals, not tracked work.
+
+## Source map
+
+- [workflow_suspend.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateapi/internal/controlapi/workflow_suspend.go): intent recording, the atelet call and finalization.
+- [ateworker-gvisor main.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-gvisor/main.go): CheckpointWorkload and RestoreWorkload.
+- [runsc.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-gvisor/runsc.go) and [fscheckpoint.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-gvisor/fscheckpoint.go): runsc checkpoint, fscheckpoint, restore and wait argument vectors and targets.
+- [ckptcgroup.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-gvisor/ckptcgroup.go) and [snapshotcache.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/snapshotcache/snapshotcache.go): checkpoint cgroup isolation, memory loans, writeback and cache eviction.
+- [sparsefile.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/atelet/internal/sparsefile/sparsefile.go) and [tracker.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/atelet/internal/snapshottracker/tracker.go): sparse transfer and local/durable commit state.
+- [merge.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateworker-microvm/internal/ch/merge.go): the microVM sparse-delta merge after OnDemand restores.
+
+
+# 14. Actor Networking, Transparent Resume, and Backpressure
 
 A request to an actor is a request to a logical identity whose execution location can change between successive HTTP messages. A worker Pod IP is an implementation detail of the current assignment. It is not the actor's address, and retaining it beyond the assignment's lifetime is unsafe. Substrate therefore resolves placement at a transport boundary, waits for a usable execution environment when necessary, and forwards through a worker endpoint that verifies the actor is currently active.
 
-This chapter follows that path from the external listener to the actor's network stack and back out through the egress gateway. It covers the mechanisms that make multiplexing observable to the infrastructure while keeping ordinary application HTTP usable: explicit actor addressing, request-level resolution, private network namespaces, bounded parking, and authenticated tunnels. Authorization policy is developed in Chapter 10. The distinction matters because a transport that reaches the correct worker can still carry an unauthorized request, while a correctly authorized request can still exhaust a queue or arrive after its assignment has disappeared.
+This chapter follows that path from the external listener to the actor's network stack and back out through the egress gateway. It covers the mechanisms that make multiplexing observable to the infrastructure while keeping ordinary application HTTP usable: explicit actor addressing, request-level resolution, private network namespaces, bounded parking, and authenticated tunnels. Authorization policy is developed in Chapter 15. The distinction matters because a transport that reaches the correct worker can still carry an unauthorized request, while a correctly authorized request can still exhaust a queue or arrive after its assignment has disappeared.
 
-## 9.1 Routing a logical actor to a current execution location
+## 14.1 Routing a logical actor to a current execution location
 
 The production networking topology has fewer binaries than its deployment names suggest. The source command is [cmd/atenet](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/atenet/main.go). Its router implementation is shared by ingress and egress roles, with configuration selecting the listeners and processing behavior. The deployments named `atenet-router` and `atenet-egress` combine this control logic with a dataplane. Envoy is the default dataplane. AgentGateway is an alternative with a materially different ingress integration. The worker-side `atunnel` is a library linked into the worker process, under [internal/atunnel](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/atunnel/tunnel.go). There is no separate production atunnel Pod for each actor.
 
@@ -2222,14 +3024,14 @@ This observation changes how to interpret a latency target. A 100ms activation t
 
 The direction mux in [extproc/dispatch.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/atenet/internal/router/extproc/dispatch.go) keeps ingress and egress handlers separate. Direction comes from the dataplane's configured filter-chain attributes, not a request header selected by the caller. Ingress treats incoming headers as untrusted request input. Egress obtains actor identity from the authenticated transport and uses trusted metadata on inner legs. Combining those trust models into a generic handler with a caller-selectable direction would undermine the boundary the package layout currently makes visible.
 
-## 9.2 Network namespaces, interception, and worker tunnel lifetimes
+## 14.2 Network namespaces, interception, and worker tunnel lifetimes
 
 The worker Pod has a Kubernetes network identity, but actors do not simply share that identity's network stack. [SetupSandboxNetwork](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/ateworker/actornet/sandbox.go) creates actor-specific namespaces and connects the runtime to a private gateway. The network design differs between runtime backends because gVisor takes ownership of the interfaces in its runtime namespace, whereas a microVM uses a host TAP interface associated with its guest network device.
 
 For gVisor, `SandboxNetwork` carries separate `RuntimeNetNS` and `GatewayNetNS` handles. A veth pair crosses those namespaces. The actor side has a fixed private address and a route to its gateway; the gateway side hosts atunnel's egress listener and DNS relay. For microVM, the runtime and gateway can share one host namespace because the guest attaches through TAP rather than claiming all host interfaces. The fixed addressing is safe because each actor has its own network namespace. Reusing addresses across namespaces avoids consuming a cluster-wide unique Pod address for every suspended or active actor.
 
 ```mermaid
-flowchart TB
+flowchart LR
     T[Worker process with atunnel]
     I[mTLS ingress socket]
     T --- I
@@ -2251,7 +3053,7 @@ flowchart TB
 The microVM path uses a different host namespace arrangement:
 
 ```mermaid
-flowchart TB
+flowchart LR
     T[Worker process with atunnel]
     I[mTLS ingress socket]
     T --- I
@@ -2278,7 +3080,7 @@ The actor cannot use a string in an HTTP header to change the kernel destination
 
 The [sandbox sysctl list](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/ateworker/actornet/sandbox.go) also closes less obvious namespace inheritance problems. A newly created namespace can inherit defaults influenced by host CNI or kube-proxy configuration. Substrate explicitly disables source-route acceptance, ICMP redirects, and routing of loopback destinations received from the actor side. It enables reverse-path filtering and prevents actor packets from claiming a local gateway source. The order of writes matters because disabling forwarding can change redirect settings. The code writes them in a defined sequence before adding interfaces so link-specific defaults are copied from the desired values.
 
-`net.ipv4.ip_unprivileged_port_start` is set to zero within the private namespace so atunnel can bind DNS port 53 without retaining `CAP_NET_BIND_SERVICE`. This setting does not grant a privilege outside that namespace. Conversely, the worker needs privileges to create namespaces, configure links, and install nftables rules. The worker's outer container policy is part of Chapter 10's isolation analysis; the network path should not be described as an unprivileged application simply opening a proxy socket.
+`net.ipv4.ip_unprivileged_port_start` is set to zero within the private namespace so atunnel can bind DNS port 53 without retaining `CAP_NET_BIND_SERVICE`. This setting does not grant a privilege outside that namespace. Conversely, the worker needs privileges to create namespaces, configure links, and install nftables rules. The worker's outer container policy is part of Chapter 15's isolation analysis; the network path should not be described as an unprivileged application simply opening a proxy socket.
 
 ### Activating and deactivating a tunnel endpoint
 
@@ -2290,7 +3092,7 @@ Consider actor A and actor B sharing one physical worker at different times. A h
 
 The network lifecycle must also tolerate failed startup. A namespace can be created before asset preparation, runtime execution, or readiness fails. Setup functions use cleanup on error, and actor UID-derived names allow a later incarnation to remove leftover namespace names. Removing a stale name does not destroy a still-referenced namespace immediately, which is why name cleanup and reference cleanup are distinct. When debugging leaks, listing names alone is insufficient evidence that all actor network resources have disappeared.
 
-## 9.3 HTTP CONNECT, protocol preservation, and egress transport
+## 14.3 HTTP CONNECT, protocol preservation, and egress transport
 
 Substrate uses CONNECT in two different places. At the external ingress boundary, a client can request a non-default actor port by sending CONNECT to the router's dedicated listener. At the worker boundary, the router can use CONNECT to carry ordinary actor traffic to atunnel. Both create tunnels, but they have different responsibilities and should not be collapsed into one box labelled TCP proxy.
 
@@ -2344,7 +3146,7 @@ The Envoy dynamic module participates at this inner listener transition. `Egress
 
 The hash is an indexing optimization, not an authorization proof. [policy_store_filter.rs](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/dataplane/envoy/dynamic-modules/egress-policy/src/policy_store_filter.rs) compares an existing policy with the newly parsed policy and rejects a mismatch on collision. The equality check prevents a hash collision from silently reusing a different policy; collision probability alone is not the correctness argument.
 
-DNS completes the outbound path. [dns.Relay](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/atunnel/dns/relay.go) obtains upstream resolver information outside the actor namespace and serves actor queries through sockets inside its gateway namespace. The implementation supports UDP and TCP, pending-request tracking, bounded admission, and failover. The policy evaluator decides which names may be queried; Chapter 10 examines that decision. Operationally, a DNS denial and an egress connection denial can look similar to an application, but they occur before and after different pieces of infrastructure. Their traces should be distinguished.
+DNS completes the outbound path. [dns.Relay](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/atunnel/dns/relay.go) obtains upstream resolver information outside the actor namespace and serves actor queries through sockets inside its gateway namespace. The implementation supports UDP and TCP, pending-request tracking, bounded admission, and failover. The policy evaluator decides which names may be queried; Chapter 15 examines that decision. Operationally, a DNS denial and an egress connection denial can look similar to an application, but they occur before and after different pieces of infrastructure. Their traces should be distinguished.
 
 There is no direct actor-to-actor flat network hidden underneath these tunnels. Actor addresses are private, reused, and isolated. Applications that need to reach another actor must use an authenticated higher-level path that identifies that actor and causes resolution. A future actor-to-actor feature must therefore integrate addressing, policy, and activation rather than merely expose the private subnet through CNI.
 
@@ -2366,7 +3168,7 @@ Locally synthesized errors and upstream replies can both write to the actor stre
 
 DNS lifetime is detached from the activation RPC but explicitly owned by the actor's running tunnel. `newServer` derives a cancelable context from `context.WithoutCancel`; successful activation must not lose DNS when the initiating RPC ends. `Server.Stop` cancels that context before closing sockets and waiting for serving goroutines. Cancellation matters because a policy fetch may be in progress without currently blocking on those sockets. Merely closing the listener would stop new work while leaving that fetch and its goroutine alive. The shutdown ordering is the DNS analogue of the broader tunnel lifecycle: detach from the initiating request, then attach to an explicit resource owner.
 
-## 9.4 Parking, shared resume flights, and overload control
+## 14.4 Parking, shared resume flights, and overload control
 
 Oversubscription means there can be more runnable demand than available worker capacity. Failing every request at the first `ResourceExhausted` response would turn a brief capacity overlap into immediate user-visible failure. Waiting without a bound would move the resource-exhaustion problem from workers into the router. Request parking is the implementation between those outcomes.
 
@@ -2426,7 +3228,7 @@ The timeout chain should be reviewed as a set of nested purposes, not a collecti
 
 Cancellation tests should assert both the departing caller's result and the surviving system state. A test that only sees a canceled HTTP request cannot establish that the shared resume continued, that another waiter received its result, or that the parking slot was released. Conversely, an actor that eventually reaches RUNNING does not prove that every abandoned waiter released its stream. These are separate assertions because the implementation intentionally gives callers and flights different lifetimes. The same principle applies when the gateway itself terminates: observe caller cleanup, in-flight API behavior, and actor state independently.
 
-## 9.5 Draining, failure cases, and evidence for the dataplane
+## 14.5 Draining, failure cases, and evidence for the dataplane
 
 A router rollout is a transport lifecycle operation. Kubernetes removes endpoints eventually, but it does not coordinate Envoy's active streams with a Go ext_proc server that is about to stop. [drain.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/atenet/internal/router/drain.go) and [envoydrain.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/atenet/internal/router/envoydrain.go) implement an ordered shutdown: withdraw readiness, allow endpoint changes to propagate, ask Envoy to drain, allow ext_proc streams to finish, and signal the sidecar through a shared marker. The Pod's termination grace period must accommodate that sequence.
 
@@ -2473,7 +3275,7 @@ The same reasoning guides packet capture. A capture in the worker Pod namespace 
 
 For repeatable debugging, pair transport observations with actor attribution and lifecycle timing. If the actor stopped between route resolution and worker admission, a stale-assignment rejection is evidence that the boundary held. If a request reached the actor before a connection reset, replay policy becomes an application concern. If no tunnel attempt occurred because parking exhausted, packet inspection at the worker will correctly show nothing. Starting with these hypotheses narrows the required evidence and avoids generating large captures that cannot answer the actual question.
 
-## 9.6 Roadmap and engineering improvements
+## 14.6 Roadmap and engineering improvements
 
 Repository-backed work includes the TODO to choose the worker IP family that matches the dataplane, the desire to let gVisor use the same single-namespace shape as microVM once runsc can consume a selected interface, and timeout consolidation referenced in `xds.go`. Gateway extensibility documents planned ingress augmentation and replacement. Actor-to-actor authorization is explicitly future work in the security documentation. These capabilities remain unfinished in the audited implementation.
 
@@ -2495,7 +3297,7 @@ Finally, transport-specific idle state should remain separate from suspension po
 - [Installer overlay composition](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ate-setup/internal/steps/overlay.go), [AgentGateway mTLS configuration](https://github.com/agent-substrate/substrate/blob/v1.0.0/manifests/ate-install/components/agentgateway-static-mtls/configmap.yaml), [request-parking guide](https://github.com/agent-substrate/substrate/blob/v1.0.0/docs/concepts/request-parking.md), and [dataplane benchmark](https://github.com/agent-substrate/substrate/blob/v1.0.0/benchmarking/atunnel/README.md): effective deployment and validation context.
 
 
-# 10. Identity, Authorization, and Credential Brokering
+# 15. Identity, Authorization, and Credential Brokering
 
 Substrate shares infrastructure processes among actors that need not trust one another. The security question is therefore not simply whether a container has a certificate or a namespace. It is whether every operation that crosses a shared boundary carries the right authority for the current actor, whether that authority survives relocation correctly, and whether its lifetime ends when the assignment ends.
 
@@ -2503,7 +3305,7 @@ The implementation uses several identities for different purposes. Kubernetes co
 
 This chapter follows those differences through the source. It also distinguishes containment from policy. A sandbox boundary limits what hostile code can execute against the host. A policy boundary limits what a correctly identified caller is allowed to request. Both can be necessary for one operation, but neither proves the other is correct.
 
-## 10.1 Trust boundaries and the actual containment model
+## 15.1 Trust boundaries and the actual containment model
 
 The actor is the unit of untrusted execution. The worker process, atelet, runtime, network gateway, database, and object-store plugin are infrastructure with access that actors do not receive directly. A worker can host several actors, and a node can retain local snapshots for actors that are no longer executing. The trust model must cover live process memory, persistent files, reusable transport state, and infrastructure credentials, not only the currently running application.
 
@@ -2535,7 +3337,7 @@ flowchart TB
 
 This trust-boundary diagram is deliberately not a privilege lattice. A gateway may hold credential-provider access that a worker lacks, while a worker holds host-facing runtime privileges that the gateway lacks. A compromise of one component must be evaluated against its own capabilities and credentials. The phrase zero trust describes an architectural direction, not proof that all component compromises have the same bounded effect.
 
-The private network setup from Chapter 9 removes ordinary lateral connectivity between actors. It also prevents an actor from reaching metadata and control-plane services by taking the worker Pod's normal network path. Outbound TCP reaches atunnel and then a gateway that authenticates an actor certificate. DNS is filtered, and unsupported outbound protocols are rejected. Those controls are meaningful only if the actor cannot bypass the sandbox and reconfigure the host namespace; that is where runtime containment and network policy meet.
+The private network setup from Chapter 14 removes ordinary lateral connectivity between actors. It also prevents an actor from reaching metadata and control-plane services by taking the worker Pod's normal network path. Outbound TCP reaches atunnel and then a gateway that authenticates an actor certificate. DNS is filtered, and unsupported outbound protocols are rejected. Those controls are meaningful only if the actor cannot bypass the sandbox and reconfigure the host namespace; that is where runtime containment and network policy meet.
 
 Kubernetes NetworkPolicy provides an additional boundary around system Pods and worker pools. [ate-system-networkpolicies.yaml](https://github.com/agent-substrate/substrate/blob/v1.0.0/manifests/ate-install/ate-system-networkpolicies.yaml) defaults system ingress to deny and admits required flows. The WorkerPool controller reconciles per-pool policies. These are Kubernetes network identities and deployment relationships, not a replacement for actor-level policy inside shared workers. A policy allowing a worker Pod to reach the egress service says nothing by itself about which actor may call which external hostname.
 
@@ -2551,7 +3353,7 @@ Tags add another persistence boundary. A tag is a durable copy of an actor's sta
 
 An authoritative threat analysis must name these residual capabilities. It should also distinguish an untrusted actor from a malicious installation administrator. A person able to replace the worker image, rewrite the signer trust roots, or grant broad Kubernetes access can change the trusted computing base. The useful production question is which administrative roles are intentionally trusted and which routine application roles can operate without that power.
 
-## 10.2 Component certificates, actor certificates, and JWTs
+## 15.2 Component certificates, actor certificates, and JWTs
 
 `podcertificate-controller` implements component certificate issuance through Kubernetes PodCertificateRequests and ClusterTrustBundles. The [main program](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/podcertcontroller/main.go) instantiates separate signers for pod identity, service DNS, and PostgreSQL usage. The shared [signer controller](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/podcertcontroller/internal/signercontroller/signercontroller.go) uses an informer and workqueue, with a `SignerImpl` interface for certificate creation and desired trust bundles. It is a controller, but it is not a controller-runtime reconciler.
 
@@ -2614,7 +3416,7 @@ The current gateway does not use every field available in the certificate extens
 
 Certificate rotation has similar boundaries. Issuer availability is needed for new credentials and renewals, while an already established TLS connection can continue without repeating the handshake. Trust-bundle projection, file reload, minting, and handshake happen on different schedules. A rotation exercise should therefore examine a newly activated actor, an actor opening a new outbound connection, and an actor using an existing connection. Successful traffic in the third case cannot prove the first two work. Conversely, a mint outage during a restore wave can prevent new activations even while existing actors continue communicating, producing an availability pattern that resembles exhausted worker capacity unless mint failures are observed separately.
 
-## 10.3 API authentication and relationship-based authorization
+## 15.3 API authentication and relationship-based authorization
 
 The public API authenticates requests before applying resource permissions. [apiauthn](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ateapi/internal/apiauthn/apiauthn.go) uses transport mTLS identity when a client presents a certificate; otherwise it requires a bearer JWT from configured providers. A request with no usable credentials is rejected. The actor egress identity and a human or automation principal managing actor records are different categories, even when both eventually appear as strings in an authorization system.
 
@@ -2649,13 +3451,13 @@ Node-scoped minting is more restrictive than a shared ServiceAccount identity al
 
 ### Authorization at request time and state changes after it
 
-An authorization check observes state at a moment. A lifecycle workflow may continue after the initiating client disconnects or after a policy is changed. Substrate separates request authorization from durable workflow correctness; Chapter 3 covers the latter. An operator should not assume that revoking a user's editor role cancels all work that was already authorized and committed. Similarly, deleting an actor record, deactivating a worker endpoint, and invalidating every already-issued credential are separate operations with different propagation.
+An authorization check observes state at a moment. A lifecycle workflow may continue after the initiating client disconnects or after a policy is changed. Substrate separates request authorization from durable workflow correctness; Chapter 6 covers the latter. An operator should not assume that revoking a user's editor role cancels all work that was already authorized and committed. Similarly, deleting an actor record, deactivating a worker endpoint, and invalidating every already-issued credential are separate operations with different propagation.
 
 This distinction affects incident response. Revoking the principal prevents future management calls. Changing egress policy affects network decisions after caches refresh. Suspending or terminating the actor changes execution and tunnel admission. Rotating an issuer key affects token verification. These mechanisms overlap but do not have identical latency or blast radius. A response procedure should select the boundary that matches the unwanted behavior and then verify that boundary's observable state.
 
 The static ingress SPIFFE allowlist is also separate from API permissions. A caller on that allowlist can reach actors through the gateway; it does not gain arbitrary API editing rights. Conversely, a user able to create an actor through the API does not automatically have a usable ingress client certificate. The higher-level application is expected to decide which human may invoke which actor. Until per-actor ingress authorization exists, the allowlist should be understood as trust in an upstream application or gateway, not as fine-grained tenant policy.
 
-## 10.4 Egress policy, TLS interception, and credential injection
+## 15.4 Egress policy, TLS interception, and credential injection
 
 The egress gateway authenticates the worker-for-actor certificate before accepting a CONNECT. It then verifies that the referenced actor exists in a placement-compatible state and obtains the actor's EgressPolicy. An actor with no policy or no effective rules is denied. The [policy cache](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/atenet/internal/router/egress/policycache.go) caches both valid policy and absence, with a default ten-second TTL. A newly created allow rule may therefore take time to replace a cached denial, and a removed allow rule may remain usable until the relevant cached view expires.
 
@@ -2733,7 +3535,7 @@ The DNS protocol handler returns policy denial as `NXDOMAIN` with a zero-duratio
 
 A security test for revocation should separate successful refresh from refresh outage. Remove a hostname grant while atelet remains reachable and observe when new queries stop. Repeat with refresh unavailable and confirm that the previous policy remains in use as designed. Then restore the supervisor path and confirm convergence to the removed grant. These are proposed test scenarios derived from the implemented cache behavior, not measurements from a running cluster. They make the availability-versus-revocation tradeoff explicit and avoid asserting a fixed revocation deadline that the stale-cache path cannot provide.
 
-## 10.5 Storage authority, RustFS, and the limits of zero ambient credentials
+## 15.5 Storage authority, RustFS, and the limits of zero ambient credentials
 
 Snapshot storage is outside the actor sandbox. Atelet calls a node-side object-store plugin over a Unix socket to fetch or upload named files. The API server calls a control-side plugin to copy or delete snapshots. The plugin processes hold the backend configuration and credentials. This arrangement keeps object-store credentials out of the main atelet and API processes for snapshot I/O and out of actor execution, but it does not imply that every backend uses the same credential scope.
 
@@ -2742,7 +3544,7 @@ The [object-store API](https://github.com/agent-substrate/substrate/blob/v1.0.0/
 The in-tree GCS path implements credential exchange. [exchange.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/objectstore-plugin/exchange.go) and the corresponding internal exchange API coordinate short-lived storage access based on actor context. The S3 path currently uses the plugin's ambient AWS credentials. RustFS is reached through that S3-compatible implementation, so it inherits the same current credential model. It must not be described as having GCS-style per-actor token exchange unless an implementation is added and verified.
 
 ```mermaid
-flowchart TB
+flowchart LR
     A[Actor sandbox] -. no storage credentials .-> L[atelet]
     L -->|Unix RPC plus actor JWT| N[Node object-store plugin]
     API[ate-api-server] -->|Copy or cleanup RPC| C[Control object-store plugin]
@@ -2790,7 +3592,7 @@ A cloned tag makes the distinction especially concrete. Revoking the source acto
 
 Logs used during such a response must preserve the same distinctions without exposing sensitive material. Record actor attribution, the relevant operation, destination, provider identity, and denial category where the implementation supplies them. Avoid treating a token string as a convenient correlation key. The credential protobuf marks returned bytes for redaction, and storage-transfer JWTs are also redacted fields. Custom log statements, application echoes, and external collectors remain separate exposure paths. Useful incident evidence identifies which authority was exercised without turning the evidence store into another repository of reusable credentials.
 
-## 10.6 Roadmap and engineering improvements
+## 15.6 Roadmap and engineering improvements
 
 The repository identifies several security capabilities as unfinished. Per-actor encryption and stronger restore authorization remain future work. Node blast-radius containment is in progress. Atespace network policies and quotas are not completed simply because API ReBAC exists. Actor-to-actor authorization and comprehensive anti-DoS controls are explicitly future capabilities. Snapshot tainting is also future work. These classifications in [security.md](https://github.com/agent-substrate/substrate/blob/v1.0.0/docs/security/security.md) should be read alongside code rather than flattened into a single claim that the security architecture is complete.
 
@@ -2814,13 +3616,13 @@ Finally, production security evidence should preserve the difference between cod
 - [Object-store protocol](https://github.com/agent-substrate/substrate/blob/v1.0.0/api/objectstore/v1/objectstore.proto), [exchange implementation](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/objectstore-plugin/exchange.go), [backend selection](https://github.com/agent-substrate/substrate/blob/v1.0.0/pkg/objectstorage/env.go), and [RustFS example](https://github.com/agent-substrate/substrate/blob/v1.0.0/manifests/ate-install/kind/rustfs.yaml): storage authority and backend differences.
 
 
-# 11. Operating and Measuring a Multiplexed Fleet
+# 16. Operating and Measuring a Multiplexed Fleet
 
 A healthy Kubernetes Deployment is necessary but insufficient evidence that a Substrate fleet is healthy. Workers can be Ready while the API cannot assign them. Actors can be RUNNING while their gateway cannot reach them. A successful asynchronous suspend can leave the newest checkpoint only on one node. A metric can improve because failed requests were excluded from its latency distribution. Operating the system requires following logical actor state, physical capacity, storage durability, and request delivery as separate but connected surfaces.
 
 The repository contains installation tooling, deployment manifests, telemetry contracts, functional tests, end-to-end suites, and several benchmark rigs. These are not peripheral to the implementation. They define how the system is assembled, which failure modes are visible, and what a performance claim can actually establish. This chapter turns those artifacts into an operating model while preserving their limits. No benchmark or cluster test was run to produce this manuscript.
 
-## 11.1 Establishing the effective installation and its failure domains
+## 16.1 Establishing the effective installation and its failure domains
 
 The installation entry point is [ate-setup](https://github.com/agent-substrate/substrate/blob/v1.0.0/cmd/ate-setup/README.md). Its configuration, rendering, image resolution, and deployment steps live under `cmd/ate-setup/internal`. Kubernetes YAML lives in [manifests/ate-install](https://github.com/agent-substrate/substrate/blob/v1.0.0/manifests/ate-install/base/kustomization.yaml). The rendered result depends on the selected environment, dataplane, storage backend, preview gates, and optional components. Reading one base YAML file is therefore not enough to establish the effective deployment.
 
@@ -2873,7 +3675,7 @@ Kubernetes readiness is a component-local statement. For an API server it includ
 
 Operational checks should follow a representative actor journey: create or locate an actor, resume it, reach its application through the real router, exercise permitted egress if required, suspend it with the intended durability mode, and restore it from the intended locality. That journey should use a disposable test actor and explicit expected behavior. It is stronger than a liveness probe, but it is also more expensive and can consume capacity or storage; it belongs in a deliberately sized synthetic check, not an unbounded health loop.
 
-## 11.2 Telemetry contracts, attribution, and missing evidence
+## 16.2 Telemetry contracts, attribution, and missing evidence
 
 [internal/serverboot](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/serverboot/serverboot.go) centralizes logging, metrics, tracing, health endpoints, and exporter configuration. The implementation can export OpenTelemetry signals, expose Prometheus metrics, and bridge controller-runtime's registry into the telemetry pipeline. Worker signals can traverse a relay rather than requiring every worker to hold direct external telemetry configuration. Shared initialization keeps component behavior consistent, but operators still need to inspect enabled exporters and destinations.
 
@@ -2883,17 +3685,17 @@ Actor identity belongs in structured logs and traces where it can be sampled, in
 
 ```mermaid
 flowchart TB
-    A[Actor stdout and stderr] --> W[Worker log handling]
-    W --> L[Attributed structured records]
     CP[Component slog and OTel] --> L
-    CP --> M[Bounded metric dimensions]
     CP --> T[Sampled request traces]
-    L --> C[Collector or logging backend]
+    A[Actor stdout and stderr] --> W[Worker log handling]
     M --> C
-    T --> C
-    C --> O[Operator queries and alerts]
-    R[Weaver registry and local rules] -. schema .-> M
     R -. schema .-> L
+    R[Weaver registry and local rules] -. schema .-> M
+    CP --> M[Bounded metric dimensions]
+    C --> O[Operator queries and alerts]
+    W --> L[Attributed structured records]
+    L --> C[Collector or logging backend]
+    T --> C
 ```
 
 An actor's own output cannot automatically receive the trace identity of the request that caused each line. A forwarder sees a container-wide byte stream, not the application's request context. If the application emits trace fields, they can pass through; infrastructure-generated events can use their own known context. The observability guide explicitly identifies actor telemetry relay work as the path toward stronger per-line correlation. Inferring a trace from whichever request happened to be active would produce misleading evidence under concurrency.
@@ -2916,7 +3718,7 @@ The collector can also be the bottleneck. [benchmarking/telemetry](https://githu
 
 The registry check validates the registry, not every instrument emitted by Go code. The observability guide proposes generation and live checking to close that gap. Until such checks exist, a successful schema validation does not prove all emitted telemetry matches the documented contract. The end-to-end metric suite is a separate evidence source, and it still needs to be run against the relevant configuration.
 
-## 11.3 Benchmark design and interpreting latency without hiding work
+## 16.3 Benchmark design and interpreting latency without hiding work
 
 The repository has several benchmark layers because no single rig isolates every cost. The Locust suite drives actor lifecycle and workload scenarios. Go boomer workers supply workloads where Python client overhead would otherwise dominate. Nighthawk measures network dataplane capacity. Fake atelet and worker-sync components isolate API/database behavior. The atunnel rig measures the embedded worker tunnel with real namespaces and nftables but simplified surrounding services. Each answers a different question.
 
@@ -2987,11 +3789,11 @@ A rate experiment also needs a stop rule. Once the client, collector, or backend
 
 Finally, compare the host's resource evidence with phase movement. Increasing restore time alongside memory pressure and page faults suggests a different cause from increasing restore time with idle workers and rising database wait. PSI and cgroup working-set observations in the Locust server telemetry provide useful context, but they are correlated evidence rather than proof of causality. Vary one resource constraint or workload property and repeat. A targeted perturbation is stronger evidence than assigning blame to whichever graph rose first.
 
-## 11.4 Storage operations with GCS, S3, and RustFS
+## 16.4 Storage operations with GCS, S3, and RustFS
 
 Object storage sits on the durability path, but local snapshot retention can keep it off some immediate resume paths. An asynchronous suspend returns after a local checkpoint and schedules upload later. A synchronous suspend waits for durable upload. Locality allows a later resume on the same node to use local files; detachment requires ensuring the checkpoint is durable before removing the local copy. Operators must distinguish completion of the API request from completion of remote durability.
 
-A dashboard showing many successful asynchronous suspends can coexist with a failing object store. For a time, local resumes may continue working and hide the backend outage. The risk appears when the node fails, a checkpoint must detach, or the actor needs placement elsewhere. Alerting should therefore consider pending durable snapshots, upload failures, and age, not just suspend success. The precise data model and ordering are covered in Chapter 8; here the operational consequence is that storage failure can be deferred rather than absent.
+A dashboard showing many successful asynchronous suspends can coexist with a failing object store. For a time, local resumes may continue working and hide the backend outage. The risk appears when the node fails, a checkpoint must detach, or the actor needs placement elsewhere. Alerting should therefore consider pending durable snapshots, upload failures, and age, not just suspend success. The precise data model and ordering are covered in Chapter 12; here the operational consequence is that storage failure can be deferred rather than absent.
 
 The S3 implementation streams compressed data through the AWS upload manager. [s3.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/pkg/objectstorage/s3.go) configures 32MiB parts and concurrency four. Its comment describes 128MiB for active parts, but the reservation calculation in [upload.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/pkg/objectstorage/upload.go) includes a fifth producer buffer: 160MiB before compression buffers. The uploader shares a 512MiB default reservation budget across concurrent uploads, so another transfer can wait for memory instead of allocating its full pipeline immediately. That budget does not cap total plugin RSS; downloads, other process state, and memory awaiting garbage collection remain outside it. An operator increasing throughput must account for these distinct charges as well as runtime memory. Network saturation is not the only possible limit.
 
@@ -3017,7 +3819,7 @@ A production adaptation needs an explicit failure-domain decision. If the RustFS
 
 Back up PostgreSQL and snapshot storage as a coordinated system. A database backup can contain references to snapshots that a later cleanup removed, while a bucket copy can contain data whose owning records are absent in the database backup. A recovery procedure must define how it chooses a consistent point or tolerates such mismatch. Merely taking a PVC snapshot of RustFS and a `pg_dump` at unrelated times is not evidence that every actor can restore. Validate recovery with representative actors and tags, including snapshots that were pending at the backup boundary.
 
-For the in-tree RustFS example, treat the static access key and secret as disposable development values. A production deployment should distribute credentials through an appropriate secret mechanism, scope backend permissions, and define rotation. This is an operational proposal, not a statement that changing two environment references supplies per-actor authorization. As Chapter 10 explains, the S3 plugin currently uses ambient infrastructure credentials. Rotating them requires both RustFS and every relevant plugin client to converge on accepted credentials without stranding transfers.
+For the in-tree RustFS example, treat the static access key and secret as disposable development values. A production deployment should distribute credentials through an appropriate secret mechanism, scope backend permissions, and define rotation. This is an operational proposal, not a statement that changing two environment references supplies per-actor authorization. As Chapter 15 explains, the S3 plugin currently uses ambient infrastructure credentials. Rotating them requires both RustFS and every relevant plugin client to converge on accepted credentials without stranding transfers.
 
 The example uses HTTP inside the cluster. If a production endpoint requires TLS, configure the endpoint, certificate trust, and network path consistently with the AWS client. Do not assume the actor mTLS tunnel also protects plugin-to-object-store traffic; they are separate connections. Similarly, NetworkPolicy admitting the S3 API limits which Pods can connect but does not authenticate an S3 request. Backend credentials and transport security retain their own roles.
 
@@ -3051,11 +3853,11 @@ A restore drill should include a durable actor snapshot, a tag cloned into anoth
 
 Credential rotation belongs in the same operational evidence set. The S3 plugins read ambient AWS configuration, while the development RustFS manifest embeds static values. Replacing the development values with Secret references changes distribution but still requires a coordinated acceptance window at the backend and rollout of node and control plugins. A successful node upload after rotation does not prove that API-side copies or cleanup use the new key. Verify each role's required operations and remove old credentials only after that evidence exists. This procedure also tests whether the chosen backend policy grants the intended minimum operations rather than unrestricted bucket administration.
 
-## 11.5 Rollouts, recovery, and validation discipline
+## 16.5 Rollouts, recovery, and validation discipline
 
 The upgrade runbook is a dependency-ordered procedure, not a single apply of the entire installation. Its rules come from the version-skew policy, which applies from 1.0.0 and covers only compatible release pairs. Before adopting a runbook between releases, confirm that the pair is supported. A patch example in documentation is not permission to skip an incompatible minor or carry an old snapshot through an unsupported schema transition.
 
-The documented forward order begins with the certificate controller, then atelet, then workers, then API and IDP, CRDs and controller, networking, SandboxConfig, and the remaining system bundle. The reason is directional skew. A newer worker must not run under an older atelet, and a newer API may rely on behavior that workers must already understand. Chapter 12 examines the contract; operationally, the order means an all-at-once deployment can create unsupported intermediate combinations even if its final state is correct.
+The documented forward order begins with the certificate controller, then atelet, then workers, then API and IDP, CRDs and controller, networking, SandboxConfig, and the remaining system bundle. The reason is directional skew. A newer worker must not run under an older atelet, and a newer API may rely on behavior that workers must already understand. Chapter 17 examines the contract; operationally, the order means an all-at-once deployment can create unsupported intermediate combinations even if its final state is correct.
 
 Worker image changes belong on WorkerPool. The controller reconciles the Deployment, so editing the Deployment image directly is temporary and can be reverted. The source-of-truth manifest in Git or another deployment system must change as well, or its next reconciliation can roll workers back unexpectedly. A paused Deployment is a documented special case the controller leaves in place; it should be tracked as an explicit operational state, not forgotten after an incident.
 
@@ -3099,7 +3901,7 @@ For an operational change, select validation that reaches the changed boundary. 
 
 The demos provide useful fixtures but are not production workload specifications. Counter demonstrates preserved state; parking demonstrates oversubscription behavior; egress demonstrates policies and protocols; Jupyter and sandbox demos exercise interactive applications. Some README notes describe historical workarounds. Use the current implementation and tests to establish behavior, and keep any demo-specific assumptions out of general capacity or security claims.
 
-## 11.6 Roadmap and engineering improvements
+## 16.6 Roadmap and engineering improvements
 
 The repository already identifies observability work that would improve operations: store and worker-cache instrumentation, actor population metrics, image-cache eviction cost, certificate and IDP visibility, golden-template timing, drain outcomes, and short-activation CPU accounting. Weaver code generation and live telemetry checking are proposed in the observability guide. These are concrete gaps in evidence, not simply requests for more dashboards.
 
@@ -3122,13 +3924,13 @@ Finally, improve runbooks by naming the authority for every action. WorkerPool c
 - [Upgrade runbook](https://github.com/agent-substrate/substrate/blob/v1.0.0/docs/guides/upgrade.md), [version-skew policy](https://github.com/agent-substrate/substrate/blob/v1.0.0/docs/reference/version-skew-policy.md), [migration contract](https://github.com/agent-substrate/substrate/blob/v1.0.0/docs/dev/postgresql-schema-evolution.md), and [CI workflow](https://github.com/agent-substrate/substrate/blob/v1.0.0/.github/workflows/pr-workflow.yaml): rollout and validation constraints.
 
 
-# 12. Extension Contracts and Upgrade Compatibility
+# 17. Extension Contracts and Upgrade Compatibility
 
 An extension is useful only if it preserves the invariants on both sides of its boundary. A storage plugin that uploads bytes but changes commit ordering can make snapshots appear complete before they are restorable. A credential provider that returns the right secret without authenticating its caller can turn an identity field into an impersonation interface. A new runtime that boots an application but cannot clean up a failed restore can leak resources across actors. The extension surface is therefore a set of behavioral contracts, not merely a collection of protobuf methods.
 
 Substrate exposes public control and plugin APIs while retaining internal protocols between its supervisors and workers. It also has extension mechanisms through Envoy processing, Kubernetes infrastructure resources, and separately versioned runtime assets. This chapter explains where those boundaries are deliberate, where they remain provisional, and how an implementation change can cross several compatibility domains at once. The audited revision is v1.0.0, the first release covered by the README's compatibility commitment and the version-skew policy. The rules below apply to it and to later compatible releases, not to earlier revisions.
 
-## 12.1 Choosing the correct boundary for an extension
+## 17.1 Choosing the correct boundary for an extension
 
 The repository layout encodes intended consumers. [api/ateapi/v1](https://github.com/agent-substrate/substrate/blob/v1.0.0/api/ateapi/v1/ateapi.proto) is the public control-plane protocol. [api/credprovider/v1](https://github.com/agent-substrate/substrate/blob/v1.0.0/api/credprovider/v1/credprovider.proto) and [api/objectstore/v1](https://github.com/agent-substrate/substrate/blob/v1.0.0/api/objectstore/v1/objectstore.proto) are public plugin protocols. Kubernetes infrastructure types live under [api/infra/k8s/ate/v1](https://github.com/agent-substrate/substrate/blob/v1.0.0/api/infra/k8s/ate/v1/workerpool_types.go). Shared externally importable helpers live under `pkg`; shared implementation libraries live under `internal`; binary-specific code lives under `cmd/<binary>/internal`.
 
@@ -3166,7 +3968,7 @@ A new component adds a place where requests can wait, fail, or return ambiguous 
 
 Consider a remote credential service that times out after reading a secret. Retrying the read may be harmless, but a provider that mints single-use credentials or creates external sessions has different side effects. The public protocol returns bytes and does not supply a generic transaction identifier for arbitrary external mutations. Such a provider must either make its implementation safe under the caller's retries or expose a separate workflow outside this interface. The narrow contract protects core from having to understand every backend's transaction model.
 
-## 12.2 Implementing credential and object-store plugins
+## 17.2 Implementing credential and object-store plugins
 
 `CredentialProvider` has one RPC, `FetchSecret`. Its request contains the URI and actor SPIFFE identity asserted by the gateway; its response contains redacted opaque bytes. The URI's provider tail is backend-defined. This is deliberately smaller than a general secret-management API: Substrate does not create, rotate, enumerate, or administer every backend secret through the plugin protocol.
 
@@ -3235,7 +4037,7 @@ Credential-provider conformance must test authority independently from lookup co
 
 These tests can live outside core while targeting the published plugin protocols. That separation lets a backend implementation evolve its storage SDK, authentication integration, or compression without coupling a conformance test to private helpers. They also make claimed compatibility reviewable: the result describes behavior at the contract boundary, including failures, rather than merely proving that a generated gRPC client can call the service. The shared suite remains an engineering proposal in this checkout; the contract obligations it tests are already present in the API comments. A plugin's health endpoint is a separate contract from these behavioral tests. A responsive gRPC health check can establish that the process is serving while its backend denies all uploads or its configured bucket has disappeared. Operators need both process health and a deliberately scoped backend exercise. The latter must use disposable data and account for cleanup, because repeatedly testing upload and copy against production prefixes would itself create retention and authorization risks. Backend validation should preserve the same public-path semantics used by real callers.
 
-## 12.3 Runtime integration and the supervisor-worker boundary
+## 17.3 Runtime integration and the supervisor-worker boundary
 
 The worker protocol under [internal/proto/ateworkerpb](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/proto/ateworkerpb/ateworker.proto) is an internal contract between atelet and runtime-specific worker processes. It includes run, checkpoint, restore, termination, and statistics operations. The repository's contributor rules require atelet and workers to remain opaque to one another except for this protocol and the paths in [internal/nodepath](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/nodepath/nodepath.go). Shared libraries are allowed; reaching into the other side's implementation is not.
 
@@ -3277,7 +4079,7 @@ A runtime extension can require KVM, TAP, userfaultfd, namespaces, cgroups, or m
 
 The outer worker security context also needs review. Adding a capability or changing seccomp behavior affects the shared infrastructure boundary, not just one application. A backend's own sandbox can fail to initialize if the outer profile rejects required syscalls, but disabling all outer restrictions without understanding the backend is not a compatibility design. The current code makes explicit choices for gVisor and microVM; a new class needs equally explicit rationale and tests.
 
-## 12.4 Gateway augmentation, policy boundaries, and preview features
+## 17.4 Gateway augmentation, policy boundaries, and preview features
 
 Gateway augmentation and gateway replacement have different obligations. An additional egress ext_proc service, enabled with `--experimental-additional-egress-extproc-service`, runs after Substrate authenticates the actor and applies its EgressPolicy. It receives headers and actor context and can deny or add headers. The current mechanism is experimental and header-only. It does not receive arbitrary body content merely because Envoy's general ext_proc API can support body processing.
 
@@ -3310,7 +4112,7 @@ Preview is not equivalent to version negotiation. It expresses operator and clie
 
 Testing must include gates off and on, and requests with and without opt-in. The CI matrix does this for end-to-end lanes. A feature test that skips when its gate is disabled is appropriate only if another lane deliberately enables it and the test runner proves that lane ran. The repository's fail-closed CI conventions exist to prevent a configuration mistake from turning every test into a successful skip.
 
-## 12.5 Compatibility across RPCs, database state, node files, and snapshots
+## 17.5 Compatibility across RPCs, database state, node files, and snapshots
 
 Compatibility is not one binary property. The [version-skew policy](https://github.com/agent-substrate/substrate/blob/v1.0.0/docs/reference/version-skew-policy.md) defines a directed order: certificate controller, atelet, workers, API server, Kubernetes controller, networking, then clients. A component can be one compatible release ahead of components later in that order, but not ahead of dependencies earlier in it. API and IDP move together. Within a rollout, replicas of one component can be split across two adjacent releases.
 
@@ -3361,7 +4163,7 @@ A mixed-version exercise should preserve objects written at each stage of the ro
 
 The same discipline applies to generated clients. A read-modify-write test should retain a field unknown to the older client when the newer server still accepts it. A create test using that unknown field against an older server should be rejected according to the policy. Those outcomes can appear contradictory until their ownership is explicit: the client preserves data it does not own, while the server refuses new requests it cannot validate. Testing both directions prevents an apparently helpful normalizer from stripping newer state during routine updates.
 
-## 12.6 Roadmap and engineering improvements
+## 17.6 Roadmap and engineering improvements
 
 The repository's documented extension roadmap includes generalized ingress augmentation and replacement, a fuller egress replacement path than the partial one the extensibility guide describes, and additional backend plugins outside core. Runtime independence is a design objective reflected in the atelet-worker boundary and future skew policy. It is not yet a universal promise that arbitrary worker releases or external runtimes can mix with any API version.
 
@@ -3562,59 +4364,204 @@ Terms here follow the v1.0.0 implementation. Capitalized resource names identify
 
 | Term | Meaning and boundary | Read next |
 |---|---|---|
-| Actor | Logical workload identity and lifecycle record in Substrate's API store. It can exist without an active sandbox. | Chapters 1–3 |
-| ActorAssignment | Capacity claim relating an actor to a worker, with identity/incarnation information needed by admission and recovery. | Chapter 3 |
-| ActorTemplate | Immutable client-facing workload definition stored through the Substrate API. Changing an actor's template reference is different from modifying the template. | Chapters 2, 8 |
-| Atespace | Substrate workload/authorization scope. It is not a Kubernetes namespace alias, even when operators use similar names. | Chapters 2, 10 |
-| Worker | API record representing a worker Pod and the execution capacity it advertises. Several actors may be active on it. | Chapters 1, 3 |
-| WorkerPool | Kubernetes CRD that controls a worker fleet and its sandbox-class/configuration selection. | Chapters 2, 4 |
-| SandboxConfig | Cluster-scoped CRD containing runtime versions and digest-addressed assets for a sandbox class. | Chapters 2, 5, 12 |
-| CSIDriverConfig | Cluster-scoped configuration connecting Substrate volume handling to a CSI implementation. | Chapters 2, 5, 8 |
-| ateapi / ate-api-server | Go command and deployment role implementing the actor control plane, PostgreSQL workflows, scheduling and associated controllers. | Chapter 3 |
-| atecontroller | Kubernetes infrastructure reconciliation and Pod-to-Worker synchronization process. | Chapter 4 |
-| atelet | Node supervisor that prepares local state and invokes the worker protocol, with support and storage coordination services. | Chapter 5 |
-| ateworker | A runtime-specific worker process implementing Run/Checkpoint/Restore/Terminate and statistics. The v1.0.0 revision has gVisor and microVM implementations. | Chapters 5–7 |
-| atenet-router | Ingress deployment role that resolves actor destinations and triggers resume, using the selected dataplane. | Chapter 9 |
-| atenet-egress | Shared outbound gateway role performing identity, policy and credential handling outside actor sandboxes. | Chapters 9–10 |
-| atunnel | Library embedded in the worker for per-actor ingress/egress transport and DNS behavior. | Chapter 9 |
-| Lease | Renewable SQL ownership record used to serialize a workflow. It is not interchangeable with a row lock, assignment uniqueness, or worker epoch. | Chapter 3 |
-| Worker epoch | Worker process incarnation used to reject/reconcile stale work across restarts. | Chapters 3, 5 |
-| Authoritative admission | Capacity revalidation and booking inside the store transaction. Candidate selection alone is advisory. | Chapter 3 |
-| Golden snapshot | Prepared starting state associated with a template's golden workflow, when configured. It is not implied for every possible cold start. | Chapters 3, 8 |
-| Tag | A named retention/reference construct backed by its own copied external snapshot, with sharing and lifecycle semantics. | Chapters 2, 8, 10 |
-| Fidelity | The state layers retained by a snapshot: VOLUMES, ROOTFS, or MEMORY. | Chapter 8 |
-| VOLUMES | Snapshot fidelity retaining DurableDir contents, without promising process-memory continuation or all rootfs writes. | Chapter 8 |
-| ROOTFS | Fidelity adding container writable-rootfs state to the durable-directory layer; processes cold-boot on restore. | Chapters 6–8 |
-| MEMORY | Fidelity adding the execution image. It carries runtime compatibility constraints beyond filesystem recovery. | Chapters 6–8 |
-| Locality | Retained node-local state that can constrain placement and avoid remote transfer. It is not itself an object-store durability guarantee. | Chapters 3, 8 |
-| Durable snapshot | Completed external snapshot state tracked by the control plane, whose physical resilience depends on the configured storage backend. | Chapter 8 |
-| Detach | Locality-release operation that may require upload before removing a local copy and allowing placement elsewhere. | Chapter 8 |
-| Revert | Lifecycle operation returning an actor to its completed durable state while discarding current execution/local progress as defined by the workflow. | Chapters 3, 8 |
-| OnDemand | Cloud Hypervisor restore mode that faults memory pages as needed. It is conditional in this revision and not the default staged CH v53 path. | Chapter 7 |
-| Copy | Eager guest-memory restoration mode selected by the current version policy for affected or unknown CH versions. | Chapter 7 |
-| Sentry | gVisor userspace kernel hosting the actor's application execution abstraction. It is distinct from host Linux. | Chapter 6 |
-| virtiofsd | Host process serving a filesystem tree to the guest over virtio-fs. Its memory and permissions are part of the microVM boundary. | Chapter 7 |
-| Runtime asset cache | Node-local immutable binary/kernel/image cache, pinned by workers and actors according to use. | Chapter 5 |
-| Snapshot file cache | Cache for shared restore files. Its identity, mutability and eviction rules differ from runtime assets and OCI layers. | Chapter 8 |
-| RustFS | Existing S3-compatible alternative object-store deployment in the kind manifests. Its backend credentials and failure domains remain explicit operational concerns. | Chapters 8, 11 |
-| Request parking | Bounded retention/retry of requests through eligible transient resume failures, with per-actor flight sharing. | Chapter 9 |
-| SPIFFE identity | URI-based workload identity carried in certificates and used by specific authentication/authorization checks. It is not by itself an authorization policy. | Chapter 10 |
-| Actor JWT | Signed token asserting an actor or worker-for-actor role. Relying parties verify it through the issuer's OpenID Connect discovery document and the key set, which lists every key in the signing pool. | Chapter 10 |
-| EgressPolicy | Actor-related outbound policy evaluated outside the sandbox, including permitted requests and credential effects. | Chapter 10 |
-| AccessPolicy | Substrate API authorization configuration using global/atespace scopes and the embedded relation model. | Chapter 10 |
-| ext_proc | Envoy's external processing protocol. The operation being delegated and trusted metadata available depend on the filter chain. | Chapters 9–10 |
-| Preview gate | Explicit opt-in for behavior whose availability should not be inferred merely from a schema field or implementation package. | Chapters 2, 12 |
+| Actor | Logical workload identity and lifecycle record in Substrate's API store. It can exist without an active sandbox. | Chapters 1, 5 and 6 |
+| ActorAssignment | Capacity claim relating an actor to a worker, with identity/incarnation information needed by admission and recovery. | Chapter 6 |
+| ActorTemplate | Immutable client-facing workload definition stored through the Substrate API. Changing an actor's template reference is different from modifying the template. | Chapters 5, 12 |
+| Atespace | Substrate workload/authorization scope. It is not a Kubernetes namespace alias, even when operators use similar names. | Chapters 5, 15 |
+| Worker | API record representing a worker Pod and the execution capacity it advertises. Several actors may be active on it. | Chapters 1, 6 |
+| WorkerPool | Kubernetes CRD that controls a worker fleet and its sandbox-class/configuration selection. | Chapters 5, 7 |
+| SandboxConfig | Cluster-scoped CRD containing runtime versions and digest-addressed assets for a sandbox class. | Chapters 5, 8, 17 |
+| CSIDriverConfig | Cluster-scoped configuration connecting Substrate volume handling to a CSI implementation. | Chapters 5, 8, 12 |
+| ateapi / ate-api-server | Go command and deployment role implementing the actor control plane, PostgreSQL workflows, scheduling and associated controllers. | Chapter 6 |
+| atecontroller | Kubernetes infrastructure reconciliation and Pod-to-Worker synchronization process. | Chapter 7 |
+| atelet | Node supervisor that prepares local state and invokes the worker protocol, with support and storage coordination services. | Chapter 8 |
+| ateworker | A runtime-specific worker process implementing Run/Checkpoint/Restore/Terminate and statistics. The v1.0.0 revision has gVisor and microVM implementations. | Chapters 8, 10 and 11 |
+| atenet-router | Ingress deployment role that resolves actor destinations and triggers resume, using the selected dataplane. | Chapter 14 |
+| atenet-egress | Shared outbound gateway role performing identity, policy and credential handling outside actor sandboxes. | Chapters 14 and 15 |
+| atunnel | Library embedded in the worker for per-actor ingress/egress transport and DNS behavior. | Chapter 14 |
+| Lease | Renewable SQL ownership record used to serialize a workflow. It is not interchangeable with a row lock, assignment uniqueness, or worker epoch. | Chapter 6 |
+| Worker epoch | Worker process incarnation used to reject/reconcile stale work across restarts. | Chapters 6, 8 |
+| Authoritative admission | Capacity revalidation and booking inside the store transaction. Candidate selection alone is advisory. | Chapter 6 |
+| Golden snapshot | Prepared starting state associated with a template's golden workflow, when configured. It is not implied for every possible cold start. | Chapters 6, 12 |
+| Tag | A named retention/reference construct backed by its own copied external snapshot, with sharing and lifecycle semantics. | Chapters 5, 12, 15 |
+| Fidelity | The state layers retained by a snapshot: VOLUMES, ROOTFS, or MEMORY. | Chapter 12 |
+| VOLUMES | Snapshot fidelity retaining DurableDir contents, without promising process-memory continuation or all rootfs writes. | Chapter 12 |
+| ROOTFS | Fidelity adding container writable-rootfs state to the durable-directory layer; processes cold-boot on restore. | Chapters 10, 11 and 12 |
+| MEMORY | Fidelity adding the execution image. It carries runtime compatibility constraints beyond filesystem recovery. | Chapters 10, 11 and 12 |
+| Locality | Retained node-local state that can constrain placement and avoid remote transfer. It is not itself an object-store durability guarantee. | Chapters 6, 12 |
+| Durable snapshot | Completed external snapshot state tracked by the control plane, whose physical resilience depends on the configured storage backend. | Chapter 12 |
+| Detach | Locality-release operation that may require upload before removing a local copy and allowing placement elsewhere. | Chapter 12 |
+| Revert | Lifecycle operation returning an actor to its completed durable state while discarding current execution/local progress as defined by the workflow. | Chapters 6, 12 |
+| OnDemand | Cloud Hypervisor restore mode that faults memory pages as needed. It is conditional in this revision and not the default staged CH v53 path. | Chapter 11 |
+| Copy | Eager guest-memory restoration mode selected by the current version policy for affected or unknown CH versions. | Chapter 11 |
+| Sentry | gVisor userspace kernel hosting the actor's application execution abstraction. It is distinct from host Linux. | Chapter 10 |
+| virtiofsd | Host process serving a filesystem tree to the guest over virtio-fs. Its memory and permissions are part of the microVM boundary. | Chapter 11 |
+| Runtime asset cache | Node-local immutable binary/kernel/image cache, pinned by workers and actors according to use. | Chapter 8 |
+| Snapshot file cache | Cache for shared restore files. Its identity, mutability and eviction rules differ from runtime assets and OCI layers. | Chapter 12 |
+| RustFS | Existing S3-compatible alternative object-store deployment in the kind manifests. Its backend credentials and failure domains remain explicit operational concerns. | Chapters 12, 16 |
+| Request parking | Bounded retention/retry of requests through eligible transient resume failures, with per-actor flight sharing. | Chapter 14 |
+| SPIFFE identity | URI-based workload identity carried in certificates and used by specific authentication/authorization checks. It is not by itself an authorization policy. | Chapter 15 |
+| Actor JWT | Signed token asserting an actor or worker-for-actor role. Relying parties verify it through the issuer's OpenID Connect discovery document and the key set, which lists every key in the signing pool. | Chapter 15 |
+| EgressPolicy | Actor-related outbound policy evaluated outside the sandbox, including permitted requests and credential effects. | Chapter 15 |
+| AccessPolicy | Substrate API authorization configuration using global/atespace scopes and the embedded relation model. | Chapter 15 |
+| ext_proc | Envoy's external processing protocol. The operation being delegated and trusted metadata available depend on the filter chain. | Chapters 14 and 15 |
+| Preview gate | Explicit opt-in for behavior whose availability should not be inferred merely from a schema field or implementation package. | Chapters 5, 17 |
+| CRI | Container Runtime Interface: the gRPC protocol the kubelet speaks over a Unix socket to containerd for sandboxes, containers and images. Actors do not use it. | Chapters 2, 3 |
+| OCI bundle | A directory with `config.json` and a root filesystem, consumed by an OCI runtime such as runc or runsc. Substrate's worker writes bundles for actors itself. | Chapters 2, 9 |
+| Runtime shim | Long-lived parent of a Pod's container processes, started by containerd and driving runc or runsc. Substrate's PID 1 shim plays a similar role inside the worker. | Chapters 2, 4 |
+| Pause container | Minimal process that pins a Pod's shared namespaces and reaps zombies. Actors have no pause container; named namespace bind mounts pin their network namespaces. | Chapter 4 |
+| CNI | Container Network Interface: plugins executed by containerd that give a Pod's network namespace an interface, IP and routes. The worker programs actor networking itself. | Chapters 4, 9 |
+| Gofer | gVisor helper process that opens host files for the Sentry and serves mounts, in an identity-mapped user namespace under Substrate's flags. | Chapters 2, 10 |
+| Systrap | gVisor platform that traps application system calls with seccomp `SECCOMP_RET_TRAP` in stub processes and hands them to the Sentry. | Chapters 2, 4 |
+| Golden snapshot | A template's application booted once and captured, so actors created from the template restore it instead of cold-starting. | Chapters 7, 9 |
 
 ## Follow a problem through the book
 
-**A resume is slow.** Start with Chapter 11's end-to-end measurement boundary. Use Chapter 9 to distinguish parking and proxy work, Chapter 3 for admission/lease/store contention, Chapter 8 for locality and download, and Chapter 6 or 7 for the actual restore and readiness path. A runtime phase measurement cannot explain an earlier wait for capacity.
+**A resume is slow.** Start with Chapter 16's end-to-end measurement boundary. Use Chapter 14 to distinguish parking and proxy work, Chapter 6 for admission/lease/store contention, Chapter 12 for locality and download, and Chapter 10 or 11 for the actual restore and readiness path. A runtime phase measurement cannot explain an earlier wait for capacity.
 
-**A worker restarts while hosting actors.** Read Chapter 5's process/registration lifecycle, then Chapter 3's epoch and assignment reconciliation. Chapter 8 explains which local and external snapshot states remain usable. The existence of a checkpoint file is not sufficient evidence that the corresponding actor record should advertise it as durable.
+**A worker restarts while hosting actors.** Read Chapter 8's process/registration lifecycle, then Chapter 6's epoch and assignment reconciliation. Chapter 12 explains which local and external snapshot states remain usable. The existence of a checkpoint file is not sufficient evidence that the corresponding actor record should advertise it as durable.
 
-**Memory use grows after many restores.** Separate actor bookings from host charges using Chapter 5. Read the backend-specific cgroup and memory discussion in Chapter 6 or 7, then snapshot cache/writeback behavior in Chapter 8. Include virtiofsd, host page cache, upload buffers, and concurrent checkpoint loans before concluding that the application leaked memory.
+**Memory use grows after many restores.** Separate actor bookings from host charges using Chapter 8. Read the backend-specific cgroup and memory discussion in Chapter 10 or 11, then snapshot cache/writeback behavior in Chapter 12. Include virtiofsd, host page cache, upload buffers, and concurrent checkpoint loans before concluding that the application leaked memory.
 
-**An actor can reach an unexpected endpoint.** Follow the network namespace and NAT path in Chapter 9, then identity/policy/DNS and TLS interception in Chapter 10. Inspect the rendered dataplane configuration and active policy cache rather than reasoning from a single base manifest. An ingress allowlist and an egress allow rule protect different traffic directions.
+**An actor can reach an unexpected endpoint.** Follow the network namespace and NAT path in Chapter 14, then identity/policy/DNS and TLS interception in Chapter 15. Inspect the rendered dataplane configuration and active policy cache rather than reasoning from a single base manifest. An ingress allowlist and an egress allow rule protect different traffic directions.
 
-**A RustFS deployment is unavailable.** Chapter 8 identifies node/control plugin operations that need it and what local locality can still satisfy. Chapter 11 treats object-store recovery, bucket access, credentials, endpoints, PVC persistence and shared infrastructure failure domains. A cache hit may conceal an outage for one actor while another actor cannot resume.
+**A RustFS deployment is unavailable.** Chapter 12 identifies node/control plugin operations that need it and what local locality can still satisfy. Chapter 16 treats object-store recovery, bucket access, credentials, endpoints, PVC persistence and shared infrastructure failure domains. A cache hit may conceal an outage for one actor while another actor cannot resume.
 
-**A new runtime version is introduced.** Start with Chapter 12's compatibility contract and Chapter 4's SandboxConfig selection/protection. Chapter 5 explains asset publication and worker advertisement. Chapter 3 determines compatible placement; Chapters 6–8 determine which state can be reused or downgraded. A new worker image and a new sandbox binary are separate rollout events.
+**A new runtime version is introduced.** Start with Chapter 17's compatibility contract and Chapter 7's SandboxConfig selection/protection. Chapter 8 explains asset publication and worker advertisement. Chapter 6 determines compatible placement; Chapters 10, 11 and 12 determine which state can be reused or downgraded. A new worker image and a new sandbox binary are separate rollout events.
+
+
+# Appendix D. Linux Commands and System Calls, Explained
+
+This appendix gives a short explanation of every Linux command and system call that appears in Chapters 2, 3, 4, 9 and 13. It also says who invokes each one on the Pod path and on the actor path. *Pod* means the ordinary Kubernetes path through the kubelet, containerd, CNI and runc. *Actor* means Substrate's path through atelet, the worker and runsc. Where an entry says "runsc", the pinned gVisor runtime performs it on Substrate's behalf, and the exact sequence belongs to that release. Appendix A audits Substrate's kernel interfaces by source file; this appendix is organized by primitive, for readers who want to know what each name means.
+
+## Namespaces and process creation
+
+**`clone` / `clone3`** create a new process or thread. Flags decide what the child shares with its parent and which new namespaces it gets: `CLONE_NEWNS` (mount), `CLONE_NEWPID`, `CLONE_NEWNET`, `CLONE_NEWUTS`, `CLONE_NEWIPC`, `CLONE_NEWUSER` and `CLONE_NEWCGROUP`. `clone3` can also place the child directly into a cgroup with `CLONE_INTO_CGROUP` and return a pidfd. *Pod:* runc's `nsexec` and Go runtime use it to create `runc init` and the container's PID 1. *Actor:* runsc uses it to create the Sentry, gofer and stub processes in new namespaces; the worker uses it, through Go's `os/exec`, to run runsc.
+
+**`unshare` (system call)** moves the *calling* thread or process into new namespaces without creating a child. For a PID namespace it affects only future children. *Pod:* containerd calls `unshare(CLONE_NEWNET)` on a locked thread to create a Pod's network namespace, and runc's `nsexec` uses it for the container's namespaces. *Actor:* the worker's [netns.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/netns/netns.go) uses it to create each actor's runtime and gateway network namespaces.
+
+**`unshare` (command)** is the util-linux command that runs a program in new namespaces, for example `unshare --net --mount --pid --fork bash`. It is a manual tool for experimenting with what runc and runsc automate; neither path runs the command.
+
+**`setns`** moves the calling thread into an existing namespace given a file descriptor, from `/proc/<pid>/ns/<type>` or a bind-mounted namespace file. Mount and user namespaces require a single-threaded caller. *Pod:* runc's `nsexec` joins the pause container's network, IPC and UTS namespaces; CNI plugins enter the Pod namespace to configure `eth0`. *Actor:* the worker enters actor namespaces on locked OS threads to program interfaces and create namespace-bound sockets.
+
+**`nsenter`** is the command-line wrapper around `setns`: `nsenter --target <pid> --net ip addr` runs `ip addr` inside the network namespace of `<pid>`. It is an operator tool. The lifecycle experiment's collectors use it with `--net=<path>` to inspect actor namespaces.
+
+**`ip netns`** manages *named* network namespaces. `ip netns add x` performs `unshare(CLONE_NEWNET)` and bind-mounts the namespace onto `/run/netns/x` so it persists without a process; `ip netns exec x cmd` performs `setns` and runs a command. containerd and Substrate's worker implement the same technique in Go, so their namespaces appear as files under `/var/run/netns` (Pods, node view) or `/run/netns` inside the worker's mount namespace (actors).
+
+**Namespace files and bind mounts.** Every namespace is visible as a magic link under `/proc/<pid>/ns/`. Bind-mounting it to an ordinary file keeps the namespace alive after all member processes exit, because the mount holds a reference. Removing the mount (`umount`) and closing all descriptors destroys it. This is how both containerd and the worker give network namespaces lifetimes independent of processes.
+
+**PID namespace.** A process tree with its own PID numbering; the first process is PID 1, receives orphans and must reap them, and its exit kills the namespace. *Pod:* each container normally has its own, or the Pod shares pause's when `shareProcessNamespace` is set. *Actor:* runsc puts the Sentry in its own PID namespace on the host; the application's PIDs exist only inside the Sentry.
+
+**Mount namespace.** A private copy of the mount table, so mounts made inside are invisible outside, subject to propagation settings. Each runc container and each runsc process gets one. The worker's own mount namespace is where actor network namespace files and bundle mounts live, which is why operators reach them through `/proc/<worker-pid>/root/`.
+
+**UTS and IPC namespaces** isolate hostname/domainname and System V IPC plus POSIX message queues. Pod containers share pause's, which is why containers in a Pod see the same hostname.
+
+**User namespace** maps user and group IDs. A process can be root with full capabilities *inside* while unprivileged outside. Writing `uid_map`/`gid_map` that maps ID 0 requires `CAP_SETFCAP` in the parent namespace since Linux 5.12. *Actor:* runsc places the gofer and systrap processes in an identity-mapped user namespace when directfs is on, which is why the worker Pod needs `SETUID`, `SETGID` and `SETFCAP` but not `SYS_PTRACE` or `SYS_CHROOT`.
+
+**cgroup namespace** virtualizes the view of `/proc/self/cgroup` and the cgroup filesystem root, so a container sees its own cgroup as `/`. This explains why `/sys/fs/cgroup` inside the worker is not the node's cgroup root.
+
+## Filesystems and mounts
+
+**`mount`** attaches a filesystem or bind-mounts a directory. Flags such as `MS_BIND`, `MS_REC`, `MS_RDONLY` and `MS_REMOUNT`, and the propagation flags `MS_PRIVATE`, `MS_SLAVE` and `MS_SHARED`, select the operation. *Pod:* the kubelet mounts tmpfs for projected volumes, the shim mounts the overlay rootfs, and runc mounts `proc`, `sysfs`, `/dev` and volumes. *Actor:* the worker bind-mounts namespace files and prepared paths, and runsc's gofer sets up the container filesystem view.
+
+**Mount propagation.** Shared mounts replicate mount events to peers, slave mounts receive but do not send, and private mounts do neither. runc makes the container root private or slave (`mount --make-rprivate /`) so container mounts never leak into the host.
+
+**`umount2`** detaches a mount; with `MNT_DETACH` it is lazy, removing the mount from the namespace immediately and finishing when it is no longer busy. runc detaches the old root after `pivot_root`. Substrate's image cache detaches actor bundle mounts before deleting directories ([mountinfo.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/imagecache/mountinfo.go)).
+
+**`pivot_root`** swaps the process's root mount with another mount point and moves the old root beneath it. Unlike `chroot`, it changes the mount namespace's root, so the old root can be fully detached and is unreachable. runc calls `pivot_root(".", ".")` from inside the new rootfs; runsc's gofer uses it to confine itself to the container root.
+
+**`chroot`** changes only the calling process's root directory for path resolution. Escapes exist for privileged processes, so containers prefer `pivot_root`. The gVisor Sentry `chroot`s into an empty directory so it cannot name any host path at all.
+
+**overlayfs** merges read-only lower directories with a writable upper directory. It uses a `workdir` for atomic copy-up, whiteout device nodes for deletions and the `trusted.overlay.opaque` xattr for replaced directories. *Pod:* containerd's overlayfs snapshotter builds every container rootfs this way. *Actor:* Substrate's image cache composes cached layers plus an actor-private upper.
+
+**`fsopen`, `fsconfig`, `fsmount`, `move_mount`** form the descriptor-based mount API added in Linux 5.2. `fsopen("overlay")` returns a filesystem context, `fsconfig` sets each option (`lowerdir`, `upperdir`, `workdir`) separately, avoiding the page-size limit of a single option string, `fsmount` creates a detached mount object, and `move_mount` attaches it. *Actor:* [bundle_linux.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/imagecache/bundle_linux.go) uses this sequence for actor root filesystems.
+
+**`mount` (command) and `findmnt`** show and change mounts from a shell; `/proc/self/mountinfo` is the authoritative per-namespace mount table that both commands read.
+
+**Hard links, `rename`, `renameat2(RENAME_EXCHANGE)`, `unlink`.** A hard link is another name for the same inode, and the inode is freed when the last name and the last open descriptor are gone. `rename` atomically replaces one name. `RENAME_EXCHANGE` atomically swaps two names. Substrate uses hard links to share golden snapshot and asset files, and `RENAME_EXCHANGE` to publish a fetched asset ([exchange_linux.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/pkg/assetfetch/exchange_linux.go)). containerd's content store uses rename to commit verified blobs.
+
+## cgroups
+
+**cgroup v2 filesystem.** Resource control is a hierarchy of directories under `/sys/fs/cgroup`. `mkdir` creates a cgroup and `rmdir` removes an empty one, reparenting its charges. Writing a PID to `cgroup.procs` moves a process, and writing to `cgroup.subtree_control` enables controllers for children. *Pod:* the kubelet (directly or through systemd) creates QoS and Pod slices, and runc creates the container scope. *Actor:* the worker delegates the worker container's scope and creates `worker`, `<uid>-_sandbox` and transient `<uid>-_ckpt` leaves; runsc uses the sandbox leaf named in the OCI specification.
+
+**`cpu.max`, `cpu.weight`** set a quota per period (for example `100000 100000` = one CPU) and a proportional share. **`memory.max`** is a hard limit that triggers reclaim and then the OOM killer. **`memory.high`** is a throttling threshold that applies heavy reclaim pressure but does not kill; Substrate swaps the sandbox's `memory.max` for `memory.high` so an actor at its limit slows down instead of dying. **`pids.max`** limits task count.
+
+**PSI (`memory.pressure`, `cpu.pressure`, `io.pressure`)** reports the share of time tasks were stalled on a resource. The worker's memory watcher uses memory pressure, together with **`memory.events.local`** (counts of high, max and OOM events in this cgroup only), to decide when to intervene.
+
+**`cgroup.kill`** kills every process in a cgroup atomically by writing `1`. The worker's memory guard uses it to terminate an actor whose sandbox stays over its memory threshold.
+
+**systemd scopes and slices.** With the systemd cgroup driver, the kubelet and runc ask systemd over D-Bus to create `.slice` and `.scope` units instead of creating directories directly; the names `kubepods-burstable-pod<uid>.slice` and `cri-containerd-<id>.scope` come from this.
+
+## Security and privilege
+
+**Capabilities and `capset`.** Root's powers are split into about forty capabilities. A process has permitted, effective, inheritable, bounding and ambient sets. `capset` changes the first three, and `prctl(PR_CAPBSET_DROP)` removes entries from the bounding set permanently. runc applies the container's capability set this way. Substrate's worker Pods receive an explicit capability list from the WorkerPool controller instead of privileged mode.
+
+**`prctl(PR_SET_NO_NEW_PRIVS)`** guarantees that `execve` can never grant more privileges, so set-UID binaries and file capabilities stop working. It is required for unprivileged seccomp filters. runc sets it for containers; the Sentry and gofer report `NoNewPrivs: 1`.
+
+**`seccomp` / `prctl(PR_SET_SECCOMP)`** installs a BPF program that inspects every system call's number and arguments and returns allow, `ERRNO`, `KILL`, `TRAP` (deliver `SIGSYS`) or `USER_NOTIF`. *Pod:* runc installs the runtime's default profile when `RuntimeDefault` is selected. *Actor:* runsc installs filters on the Sentry and gofer limiting them to the host calls they need, and systrap uses `SECCOMP_RET_TRAP` in stub processes to divert application syscalls to the Sentry. The worker Pod itself runs with seccomp Unconfined.
+
+**AppArmor and SELinux** are Linux Security Modules that confine programs by profile or label. runc selects the profile by writing to `/proc/self/attr/apparmor/exec` before `execve`. Substrate's worker Pods run AppArmor Unconfined; the inner sandbox's confinement comes from gVisor.
+
+**`setuid`, `setgid`, `setgroups`, `setresuid`** change the process's user and group identity. runc calls them last, after operations that needed root, so the workload runs as the image or Pod user.
+
+**`prctl(PR_SET_CHILD_SUBREAPER)`** makes a process adopt orphaned descendants instead of PID 1 of the namespace. containerd shims use it to collect exit statuses. Substrate's worker PID 1 ([pid1.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/ateworker/pid1/pid1.go)) uses it to reap runsc helpers.
+
+**`prctl(PR_SCHED_CORE)`** manages core scheduling cookies so tasks from different trust domains do not run simultaneously on sibling hyperthreads. The worker queries support and enables runsc core tags when available.
+
+## Processes and signals
+
+**`execve`** replaces the calling process's program with a new one, keeping its PID, namespaces, cgroup and descriptors not marked close-on-exec. It is the last step of runc's init. Under gVisor, application programs are loaded by the Sentry's own ELF loader; the host `execve` runs only runtime binaries.
+
+**`wait4` / `waitid`** collect a child's exit status and release its zombie entry. The pause container, containerd shims and Substrate's PID 1 all reap with these calls.
+
+**`kill`, `tgkill`, signals.** `SIGTERM` requests graceful shutdown and `SIGKILL` forces it. The kubelet's grace period is implemented by the shim sending one and then the other. `runsc kill` delivers signals to tasks inside the Sentry rather than to host processes.
+
+**`pidfd_open`, `pidfd_send_signal`, `poll` on a pidfd.** A pidfd is a file descriptor that refers to one specific process. It becomes readable when that process exits and can be used to signal it without the risk of hitting a recycled PID. The worker opens a pidfd for each Sentry ([pidfd.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/pidfd/pidfd.go)).
+
+**`pause()`** suspends the caller until a signal arrives. The pause container's main loop is a call to `pause()` in an infinite loop.
+
+## Networking
+
+**rtnetlink** is the socket-based kernel interface (`AF_NETLINK`, `NETLINK_ROUTE`) for links, addresses, routes and neighbours. `RTM_NEWLINK` creates interfaces such as `veth` and `bridge`, or changes them: up/down, master, namespace through `IFLA_NET_NS_FD`. `RTM_NEWADDR` assigns addresses and `RTM_NEWROUTE` adds routes. The `ip` command is a client of rtnetlink. *Pod:* CNI plugins. *Actor:* the worker's [sandbox.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/ateworker/actornet/sandbox.go).
+
+**`ip link`, `ip addr`, `ip route`** are the commands for the same operations: `ip link add a type veth peer name b`, `ip link set b netns X`, `ip addr add 10.0.0.2/24 dev b`, `ip route add default via 10.0.0.1`. They are the manual equivalent of what a CNI plugin or the worker does programmatically.
+
+**veth pair** is two virtual Ethernet devices joined back to back, so a frame sent into one comes out of the other. With the ends in different namespaces, it is the standard way to connect a namespace to the outside. Pods use one end as `eth0`. Each actor uses a pair between its runtime namespace (`eth0`) and its gateway namespace (`atside`).
+
+**Linux bridge** is an in-kernel layer-2 switch. Bridge-style CNI plugins attach each Pod's host-side veth to a node bridge such as `cni0`. Actors do not use a bridge; their gateway namespace terminates traffic in atunnel.
+
+**iptables / nftables** are the kernel's packet-filtering and NAT frameworks; nftables is the newer one, programmed with the `nft` command or netlink. Kubernetes uses them for Services (kube-proxy) and for CNI masquerading. Substrate's worker installs per-actor nftables tables that drop forwarding, reject link-local and non-TCP traffic, and `redirect` TCP to atunnel's port 15001.
+
+**conntrack and `SO_ORIGINAL_DST`.** NAT state is kept in the connection-tracking table. A program that accepts a redirected connection can call `getsockopt(SOL_IP, SO_ORIGINAL_DST)` to learn the destination the client originally dialled. atunnel uses this to route actor egress ([original_dst_linux.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/linuxsys/original_dst_linux.go)).
+
+**`sysctl` and `/proc/sys/net`.** Many network settings, such as `ip_forward`, `arp_notify` and `rp_filter`, are per network namespace and are set by writing files under `/proc/sys/net` while inside the namespace. CNI plugins and the worker both do this.
+
+**Packet sockets (`AF_PACKET`).** These send and receive raw frames on an interface. gVisor's netstack, in sandbox networking mode, uses the namespace's interface this way, so the TCP/IP state lives in the Sentry rather than in the host kernel.
+
+**Unix domain sockets** carry local RPC between processes on one host: the CRI socket, containerd shims' ttrpc sockets, atelet's worker sockets per Pod UID, `WorkerSupport` and the object-store plugin. They also carry file descriptors between processes (`SCM_RIGHTS`), which is how the gVisor gofer donates host files to the Sentry.
+
+## Memory and files
+
+**`mmap` / `munmap`** map files or anonymous memory into an address space. The Sentry maps its memory file into stub address spaces; restore maps image data back into it.
+
+**`memfd_create`** creates an anonymous, memory-backed file with no path. gVisor uses one as the memory file that backs all application memory, which is what makes memory checkpointing a matter of saving one file's populated ranges.
+
+**`fallocate` and `madvise`** reserve or punch holes in file space, and advise the kernel about memory usage (for example `MADV_DONTNEED` to release pages). A user-space kernel uses calls of this kind to manage its memory file. The exact set belongs to the runsc release.
+
+**`userfaultfd` and `UFFDIO_COPY`.** These let a user-space handler service page faults for a registered memory region: faults arrive as messages on a file descriptor, and the handler supplies the page contents with `UFFDIO_COPY`. Cloud Hypervisor's OnDemand restore uses this to load guest memory lazily. Substrate's microVM path selects it only conditionally; its gVisor path does not use it.
+
+**`sync_file_range`** starts or waits for writeback of a file range without flushing metadata or disk caches. The worker uses it to make checkpoint pages clean, and therefore reclaimable, quickly ([snapshotcache.go](https://github.com/agent-substrate/substrate/blob/v1.0.0/internal/snapshotcache/snapshotcache.go)).
+
+**`fsync` / `fdatasync`** flush a file's data (and, for `fsync`, its metadata) to stable storage. etcd and PostgreSQL rely on them for commit durability. They are the durability primitives; `sync_file_range` is not.
+
+**`cachestat`** reports how many of a file's pages are cached, dirty, under writeback, evicted or recently evicted. It was added in Linux 6.5. The worker polls it to know when checkpoint files no longer occupy dirty memory.
+
+**`posix_fadvise(POSIX_FADV_DONTNEED)`** asks the kernel to drop clean cached pages of a file range. The worker uses it after checkpoint writeback and after background restore to avoid keeping redundant image pages.
+
+**`lseek(SEEK_DATA / SEEK_HOLE)`** finds the next populated region or hole in a sparse file. atelet's sparse helpers use it to transfer only populated extents of memory images.
+
+**`copy_file_range`** copies bytes between two files inside the kernel, letting filesystems share extents (reflink) or avoid copying through user space. atelet uses it when materializing sparse captures.
+
+## Operator commands used in these chapters
+
+**`kubectl`** is the Kubernetes API client; **`kubectl ate`** is Substrate's plugin speaking ateapi's gRPC API. **`crictl`** speaks CRI to containerd and shows Pod sandboxes, containers and images as the kubelet sees them. **`ctr`** speaks containerd's native API and shows content, snapshots and tasks. **`runc`** and **`runsc`** are the OCI runtimes. Running `runsc --root <dir> list` with the worker's per-actor state root lists the containers of one actor. **`nsenter`**, **`ip`**, **`nft`**, **`ss`** and **`findmnt`** inspect namespaces, networking, sockets and mounts. Under gVisor, `ss` and `ip route` see only the host side, because the actor's sockets live in the Sentry.

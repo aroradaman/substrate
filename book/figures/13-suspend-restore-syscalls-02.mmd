@@ -1,0 +1,8 @@
+flowchart TB
+    R[ResumeActor] --> P[atelet prepares bundles, assets and snapshot files]
+    P --> N[Worker rebuilds namespaces, veth, nftables and egress]
+    N --> C[runsc create _sandbox with fs restore arguments]
+    C --> M[runsc restore -background -detach]
+    M --> A[Tasks resume and fault in pages as they load]
+    A --> W[Wakeup probe then ingress activation]
+    W --> D[Background load completes and image pages are dropped]

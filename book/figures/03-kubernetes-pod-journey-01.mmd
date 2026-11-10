@@ -1,0 +1,13 @@
+sequenceDiagram
+    participant E as etcd
+    participant A as API server cacher
+    participant R as Reflector
+    participant Q as DeltaFIFO and indexer
+    participant H as Controller workqueue
+    A->>E: gRPC Watch per resource prefix
+    R->>A: LIST pods, then WATCH from resourceVersion
+    E-->>A: Put event for /registry/pods/default/web
+    A-->>R: ADDED event on the open HTTP stream
+    R->>Q: Push delta, update local cache
+    Q->>H: Handler enqueues namespace/name
+    H->>A: Reconcile writes go back through the API server

@@ -1,4 +1,4 @@
-# Substrate Internals
+# Agent Substrate
 
 ## Sandboxing, Scheduling, and Multiplexing AI Agents on Kubernetes
 
@@ -28,9 +28,9 @@ The book contains no new performance measurements. Numbers from flags, manifests
 
 ## What the book covers
 
-The first four chapters establish the resource model, execution topology, placement protocol, and Kubernetes reconciliation loops. Chapters 5 through 8 follow node supervision, common worker machinery, gVisor, microVMs, and persistence. Chapters 9 and 10 separate transport from authorization and credential handling. Chapters 11 and 12 cover measurement, operations, extension boundaries, and upgrades.
+Chapter 1 introduces Substrate's resource model and execution topology. Chapters 2 to 4 lay the foundation the rest of the book builds on: how containerd, runc and gVisor differ, how a Pod travels from `kubectl apply` through the API server, etcd, the scheduler and the kubelet, and how the node builds it on Linux with cgroups, namespaces, CNI, image unpacking and runc's system calls. Chapters 5 to 7 cover Substrate's control plane: its two API planes, placement and consistency in ateapi, and Kubernetes reconciliation. Chapters 8 to 11 descend to the node: node supervision, a complete trace of an actor's first start (the actor counterpart of Chapters 3 and 4), then the gVisor and microVM backends. Chapters 12 and 13 cover persistence: snapshot storage, then suspend and restore at the system-call level. Chapters 14 to 17 separate transport from authorization and credential handling, then cover measurement, operations, extension boundaries and upgrades.
 
-Each chapter has six numbered sections. Section N.6 considers the subsystem's roadmap and engineering improvements. This keeps unfinished work adjacent to the mechanism it would change. The appendices collect the kernel audit, source inventory, implementation-status matrix, and vocabulary.
+Each chapter has six numbered sections. Section N.6 considers the subsystem's roadmap and engineering improvements. This keeps unfinished work adjacent to the mechanism it would change. The appendices collect the kernel audit, source inventory, implementation-status matrix, vocabulary, and a reference explaining every Linux command and system call used in Chapters 2 to 4, 9 and 13, with who calls it.
 
 RustFS receives explicit treatment as an alternate object-store deployment through the S3 backend. The repository already includes a RustFS deployment, bucket-initialization Job, NetworkPolicy, and matching node/control plugin configuration for kind. Those files establish an integration path. Their single-replica deployment, small PVC, HTTP endpoint, and static development credentials do not establish a production availability or security design. The storage and operations chapters explain what changes when the object store shares infrastructure and failure domains with the compute fleet.
 

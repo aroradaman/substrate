@@ -43,6 +43,27 @@ function printLabels(source) {
     return `${id}["\`${label}\`"]`;
   });
 }
+// Sequence messages wrap to short lines so each label stays narrower than the gap between lifelines.
+function wrapText(text, max = 14) {
+  if (text.includes('<br')) return text;
+  const lines = [];
+  let current = '';
+  for (const word of text.split(' ')) {
+    const candidate = current ? current + ' ' + word : word;
+    if (candidate.length <= max || !current) current = candidate;
+    else { lines.push(current); current = word; }
+  }
+  lines.push(current);
+  return lines.join('<br/>');
+}
+function wrapSequence(source) {
+  if (!/^\s*sequenceDiagram\b/.test(source)) return source;
+  return source.split('\n').map(line => {
+    const match = line.match(/^(\s*(?:\w+\s*)?(?:-->>|->>|-->|->|--x|-x|--\)|-\))\s*\w+\s*:\s*)(.+)$/);
+    return match ? match[1] + wrapText(match[2]) : line;
+  }).join('\n');
+}
+
 let browser;
 try {
   browser = await puppeteer.launch({
@@ -76,7 +97,7 @@ try {
     const previous = known.get(figure.id);
     const output = path.join(book, figure.output);
     const exists = await fs.access(output).then(() => true, () => false);
-    if (previous?.sha256 === figure.sha256 && previous.ok && exists && old.mermaid_version === mermaidVersion && old.serialization_version === 2) {
+    if (previous?.sha256 === figure.sha256 && previous.ok && exists && old.mermaid_version === mermaidVersion && old.serialization_version === 4) {
       results.push({ ...figure, ok: true, cached: true });
       continue;
     }
@@ -86,9 +107,32 @@ try {
         await mermaid.parse(source);
         const result = await mermaid.render('figure-' + id, layoutSource);
         const holder = document.createElement('div');
-        holder.innerHTML = result.svg;
-        return new XMLSerializer().serializeToString(holder.querySelector('svg'));
-      }, { id: figure.id, source, layoutSource: printLabels(source) });
+      holder.style.cssText = 'position:absolute;left:0;top:0;visibility:hidden';
+      holder.innerHTML = result.svg;
+      document.body.appendChild(holder);
+      const svgEl = holder.querySelector('svg');
+      // Sequence labels get a white knockout so lifelines stop at the label instead of running through it.
+      // Notes are left alone: their opaque box already covers the lifelines.
+      if (svgEl.getAttribute('aria-roledescription') === 'sequence') {
+        const ns = 'http://www.w3.org/2000/svg';
+        const labels = [...svgEl.querySelectorAll('text.messageText, text.loopText, text.sectionTitle')];
+        labels.forEach(t => {
+          const b = t.getBBox();
+          const r = document.createElementNS(ns, 'rect');
+          r.setAttribute('class', 'label-knockout');
+          r.setAttribute('x', b.x - 3); r.setAttribute('y', b.y - 2);
+          r.setAttribute('width', b.width + 6); r.setAttribute('height', b.height + 4);
+          r.setAttribute('fill', '#ffffff');
+          t.parentNode.insertBefore(r, t);
+        });
+        // Paint every label after every knockout, so a later line's knockout cannot clip
+        // the descenders of the line above it in a wrapped label.
+        labels.forEach(t => t.parentNode.appendChild(t));
+      }
+      const out = new XMLSerializer().serializeToString(svgEl);
+      holder.remove();
+      return out;
+      }, { id: figure.id, source, layoutSource: wrapSequence(printLabels(source)) });
       await fs.writeFile(output, svg);
       results.push({ ...figure, ok: true, cached: false });
     } catch (error) {
@@ -97,7 +141,7 @@ try {
     }
     if (results.length % 5 === 0) console.log(`Rendered ${results.length}/${manifest.length} figures`);
   }
-  const report = { mermaid_version: mermaidVersion, mermaid_cli_version: cliVersion, serialization_version: 2,
+  const report = { mermaid_version: mermaidVersion, mermaid_cli_version: cliVersion, serialization_version: 4,
     browser_version: await browser.version(), figures: results,
     failed_figures: results.filter(f => !f.ok).length, network_requests_allowed: false };
   await fs.writeFile(path.join(book, renderFile), JSON.stringify(report, null, 2) + '\n');
@@ -135,7 +179,7 @@ try {
       preferCSSPageSize: true,
       displayHeaderFooter: true,
       headerTemplate: '<div></div>',
-      footerTemplate: '<div style="width:100%;font-family:Arial;font-size:8px;color:#64707a;padding:0 44px;display:flex;justify-content:space-between"><span>Substrate Internals</span><span class="pageNumber"></span></div>',
+      footerTemplate: '<div style="width:100%;font-family:Arial;font-size:8px;color:#64707a;padding:0 44px;display:flex;justify-content:space-between"><span>Agent Substrate</span><span class="pageNumber"></span></div>',
       timeout: 60000,
       tagged: true,
       outline: true,

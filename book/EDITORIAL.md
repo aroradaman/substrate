@@ -1,6 +1,6 @@
 # Manuscript contract
 
-Title: **Substrate Internals: Sandboxing, Scheduling, and Multiplexing AI Agents on Kubernetes**.
+Title: **Agent Substrate: Sandboxing, Scheduling, and Multiplexing AI Agents on Kubernetes**.
 
 The user authorized writing the complete book after the repository reconnaissance, explicitly requested whole-clone coverage, and asked to include RustFS as an alternative object store. This edition is grounded in the `v1.0.0` tag, commit `b34fbee742906494b5eb4f1f36987176bf8770a4` (2026-11-05). The first edition was grounded in `0ddbf78d54bb6da2ccb01125b7e085aa14d555a6` (2026-10-31). Existing source code must not be changed.
 
@@ -15,19 +15,26 @@ Targets: about 84,600 words across 282 body pages at a planning density of 300 w
 | Chapter | File | Pages | Words |
 |---|---|---:|---:|
 | 1. Multiplexing Actors: Architecture and Execution Boundaries | 01-architecture.md | 20 | 6000 |
-| 2. Two API Planes: Resources, Schemas, and Contracts | 02-api-planes.md | 22 | 6600 |
-| 3. Placement and Consistency in ateapi | 03-placement-consistency.md | 25 | 7500 |
-| 4. Reconciling Kubernetes Infrastructure | 04-kubernetes-reconciliation.md | 22 | 6600 |
-| 5. Node Supervision and Shared Worker Machinery | 05-node-supervision.md | 24 | 7200 |
-| 6. gVisor Execution and Checkpoint Internals | 06-gvisor.md | 24 | 7200 |
-| 7. MicroVM Execution with Kata and Cloud Hypervisor | 07-microvm.md | 25 | 7500 |
-| 8. Snapshot Persistence, Locality, and Storage Backends | 08-snapshots-storage.md | 25 | 7500 |
-| 9. Actor Networking, Transparent Resume, and Backpressure | 09-networking.md | 25 | 7500 |
-| 10. Identity, Authorization, and Credential Brokering | 10-security-identity.md | 25 | 7500 |
-| 11. Operating and Measuring a Multiplexed Fleet | 11-operations.md | 24 | 7200 |
-| 12. Extension Contracts and Upgrade Compatibility | 12-extension-contracts.md | 21 | 6300 |
+| 2. Container Runtimes: containerd, runc, gVisor and runsc | 02-container-runtimes.md | 11 | 3300 |
+| 3. From kubectl apply to a Pod Bound to a Node | 03-kubernetes-pod-journey.md | 9 | 2500 |
+| 4. Building a Pod Sandbox on Linux | 04-pod-sandbox-linux.md | 11 | 3300 |
+| 5. Two API Planes: Resources, Schemas, and Contracts | 05-api-planes.md | 22 | 6600 |
+| 6. Placement and Consistency in ateapi | 06-placement-consistency.md | 25 | 7500 |
+| 7. Reconciling Kubernetes Infrastructure | 07-kubernetes-reconciliation.md | 22 | 6600 |
+| 8. Node Supervision and Shared Worker Machinery | 08-node-supervision.md | 24 | 7200 |
+| 9. From CreateActor to a Running Actor | 09-actor-boot.md | 10 | 2900 |
+| 10. gVisor Execution and Checkpoint Internals | 10-gvisor.md | 24 | 7200 |
+| 11. MicroVM Execution with Kata and Cloud Hypervisor | 11-microvm.md | 25 | 7500 |
+| 12. Snapshot Persistence, Locality, and Storage Backends | 12-snapshots-storage.md | 25 | 7500 |
+| 13. Suspend and Restore at the System-Call Level | 13-suspend-restore-syscalls.md | 9 | 2700 |
+| 14. Actor Networking, Transparent Resume, and Backpressure | 14-networking.md | 25 | 7500 |
+| 15. Identity, Authorization, and Credential Brokering | 15-security-identity.md | 25 | 7500 |
+| 16. Operating and Measuring a Multiplexed Fleet | 16-operations.md | 24 | 7200 |
+| 17. Extension Contracts and Upgrade Compatibility | 17-extension-contracts.md | 21 | 6300 |
 
-Cross-chapter boundaries: 3 owns leases/CAS/outbox/epochs/scheduling and execution state; 8 owns snapshot state, tags, fidelity, durability, snapshot cache and backend I/O. 5 owns image/runtime asset caches and common worker machinery; 6/7 own backend-specific mechanics. 9 owns transport/routing/parking/DNS transport; 10 owns identity/policy/DNS enforcement/credential injection. 11 owns operational rollout execution; 12 owns compatibility and extension contracts.
+Chapters 2, 3, 4, 9 and 13 and Appendix D were added at the reader's request to cover foundations the original audience statement excluded: container runtimes, the complete Kubernetes Pod creation path, and the actor path at system-call level. They are placed where a reader first needs them: Pod foundations after the architecture overview, the actor first-start trace before the gVisor and microVM backends, and suspend/restore mechanics after snapshot storage. These chapters may teach Kubernetes and Linux basics. They must mark upstream runtime, Kubernetes and kernel behaviour as background, and ground Substrate behaviour in linked `v1.0.0` source. Chapter 10 remains the owner of gVisor checkpoint fidelity; Chapters 9 and 13 own the end-to-end, primitive-by-primitive narrative.
+
+Cross-chapter boundaries: 2 to 4 own upstream runtime and Kubernetes Pod background; 6 owns leases/CAS/outbox/epochs/scheduling and execution state; 12 owns snapshot state, tags, fidelity, durability, snapshot cache and backend I/O. 8 owns image/runtime asset caches and common worker machinery; 9 owns the end-to-end activation trace; 10/11 own backend-specific mechanics; 13 owns the syscall-level suspend/restore narrative. 14 owns transport/routing/parking/DNS transport; 15 owns identity/policy/DNS enforcement/credential injection. 16 owns operational rollout execution; 17 owns compatibility and extension contracts.
 
 Critical audit constraints:
 

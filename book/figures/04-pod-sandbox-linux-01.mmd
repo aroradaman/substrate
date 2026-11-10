@@ -1,0 +1,16 @@
+sequenceDiagram
+    participant K as kubelet
+    participant C as containerd CRI
+    participant N as CNI plugins
+    participant S as runc shim
+    participant L as Linux
+    K->>C: RunPodSandbox
+    C->>L: unshare CLONE_NEWNET on a locked thread
+    C->>L: Bind-mount ns/net to /var/run/netns/cni-id
+    C->>N: exec bridge with CNI_COMMAND=ADD
+    N->>L: rtnetlink: veth, bridge, address, routes
+    N-->>C: Result JSON with Pod IP
+    C->>S: Start shim, create pause task
+    S->>L: runc: join netns, new IPC, UTS and mount ns
+    S-->>C: pause running
+    C-->>K: Sandbox ID

@@ -1,0 +1,15 @@
+sequenceDiagram
+    participant L as atelet
+    participant W as Worker
+    participant C as runsc checkpoint
+    participant S as Sentry
+    participant F as Image directory
+    L->>W: CheckpointWorkload
+    W->>W: Deactivate tunnel, move Sentry to _ckpt cgroup
+    W->>C: exec runsc checkpoint
+    C->>S: Save request on control socket
+    S->>S: Stop all tasks at safe points
+    S->>F: State file, page files, filesystem images
+    S-->>C: Done, Sentry exits
+    W->>W: pidfd reports exit, tear down namespaces
+    W-->>L: Exact snapshot file list

@@ -1,0 +1,18 @@
+sequenceDiagram
+    participant U as Client or router
+    participant A as ateapi
+    participant D as PostgreSQL
+    participant L as atelet
+    participant W as Worker
+    participant R as runsc
+    U->>A: ResumeActor (gRPC)
+    A->>D: Lease, select worker, lock row, insert assignment
+    A->>D: Record RESUMING
+    A->>L: Restore or Run (gRPC, mTLS)
+    L->>W: RestoreWorkload or RunWorkload (gRPC, Unix socket)
+    W->>R: exec runsc create, start or restore
+    R-->>W: Sandbox running
+    W-->>L: Ready, worker epoch
+    L-->>A: Result
+    A->>D: Validate epoch, commit RUNNING
+    A-->>U: Assignment

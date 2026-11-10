@@ -1,0 +1,11 @@
+flowchart TB
+    I["Read-only image + sysinfo"] --> S
+    WK[Scratch workdir] --> M
+    M --> S[Shared tree]
+    G --> R[Container binds]
+    D["Durable + CSI volumes"] --> S
+    V --> G[Guest mount]
+    U[Actor upper] --> M
+    L[OCI lower] --> M[Host overlay]
+    S --> V[virtiofsd]
+    U -->|checkpoint| TAR[Upper tar]

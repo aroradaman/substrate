@@ -1,0 +1,19 @@
+sequenceDiagram
+    participant U as kubectl
+    participant A as kube-apiserver
+    participant E as etcd
+    participant S as kube-scheduler
+    participant K as kubelet
+    participant C as containerd
+    U->>A: POST pods (HTTPS)
+    A->>A: Authn, authz, admission, validation
+    A->>E: Txn create /registry/pods/default/web
+    E-->>A: Committed at revision R
+    A-->>U: 201 Created
+    A-->>S: Watch event ADDED, nodeName empty
+    S->>S: Queue, Filter, Score, assume
+    S->>A: POST pods/web/binding
+    A->>E: Txn update with nodeName
+    A-->>K: Watch event for spec.nodeName match
+    K->>C: CRI RunPodSandbox, PullImage, CreateContainer, StartContainer
+    K->>A: PATCH pods/web/status Running

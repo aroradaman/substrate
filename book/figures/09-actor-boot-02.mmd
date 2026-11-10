@@ -1,0 +1,17 @@
+sequenceDiagram
+    participant T as Template reconciler
+    participant A as Actor workflows
+    participant D as PostgreSQL
+    participant N as atelet and worker
+    participant O as Object storage
+    T->>D: Periodic list finds template without golden tag
+    T->>A: Create temporary golden actor
+    T->>A: ResumeActor
+    A->>N: Run: cold start, unpack images, boot sandbox
+    N-->>A: Ready
+    T->>T: Wait until snapshot deadline
+    T->>A: SuspendActor with sync durability
+    A->>N: Checkpoint MEMORY
+    N->>O: Upload files, then manifest
+    T->>D: Create published tag, delete golden actor
+    T->>D: Record golden reference on template

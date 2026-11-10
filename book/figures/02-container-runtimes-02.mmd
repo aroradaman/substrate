@@ -1,0 +1,17 @@
+sequenceDiagram
+    participant K as kubelet
+    participant C as containerd
+    participant S as Shim
+    participant R as OCI runtime
+    participant L as Linux
+    K->>C: RunPodSandbox
+    C->>L: Create network namespace, run CNI
+    C->>S: Start shim for the sandbox
+    S->>R: create sandbox bundle
+    R->>L: Namespaces, cgroup, mounts, seccomp
+    S->>R: start
+    K->>C: CreateContainer, StartContainer
+    C->>S: Task create and start
+    S->>R: create and start the container bundle
+    R->>L: For runc, execve the workload
+    Note over R,L: For runsc, the Sentry starts the workload internally

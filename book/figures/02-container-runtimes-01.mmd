@@ -1,0 +1,7 @@
+flowchart TB
+    K[kubelet] -->|CRI gRPC over Unix socket| C[containerd CRI plugin]
+    C --> I[Image service and content store]
+    C --> S[Snapshotter such as overlayfs]
+    C -->|start shim, then ttrpc| SH[Runtime shim]
+    SH -->|exec with bundle path| R[OCI runtime: runc or runsc]
+    R -->|clone, setns, mount, seccomp| L[Linux kernel]

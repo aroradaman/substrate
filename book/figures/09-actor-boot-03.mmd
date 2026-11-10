@@ -1,0 +1,10 @@
+flowchart TB
+    W[Worker process] --> NS1[Runtime netns worker-actor:uid]
+    W --> NS2[Gateway netns worker-actor:uid-at]
+    NS1 --> V1[eth0 veth end used by netstack]
+    NS2 --> V2[atside 169.254.17.1/30]
+    V1 --> V2
+    NS2 --> NF[nftables redirect to atunnel port 15001]
+    W --> RS[runsc create and start]
+    RS --> SE[Sentry in actor _sandbox cgroup leaf]
+    SE --> V1

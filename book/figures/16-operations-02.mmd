@@ -1,0 +1,12 @@
+flowchart TB
+    CP[Component slog and OTel] --> L
+    CP --> T[Sampled request traces]
+    A[Actor stdout and stderr] --> W[Worker log handling]
+    M --> C
+    R -. schema .-> L
+    R[Weaver registry and local rules] -. schema .-> M
+    CP --> M[Bounded metric dimensions]
+    C --> O[Operator queries and alerts]
+    W --> L[Attributed structured records]
+    L --> C[Collector or logging backend]
+    T --> C

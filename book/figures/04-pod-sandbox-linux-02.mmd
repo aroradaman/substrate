@@ -1,0 +1,8 @@
+flowchart TB
+    P[Pod cgroup] --> SB[Sentry process]
+    P --> G[Gofer process]
+    P --> ST[Systrap stub processes]
+    SB --> M[memfd memory file backing app pages]
+    SB --> NS[netstack using eth0 in the Pod netns]
+    G --> FS[Container rootfs overlay on the host]
+    ST --> SB

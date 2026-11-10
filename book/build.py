@@ -29,22 +29,27 @@ BASELINE = "b34fbee742906494b5eb4f1f36987176bf8770a4"
 REPO_URL = "https://github.com/agent-substrate/substrate"
 TAG = "v1.0.0"
 UPSTREAM_LINK = re.compile(rf"^{re.escape(REPO_URL)}/(blob|tree)/([^/]+)/([^#]+)(#.*)?$")
-TITLE = "Substrate Internals: Sandboxing, Scheduling, and Multiplexing AI Agents on Kubernetes"
+TITLE = "Agent Substrate: Sandboxing, Scheduling, and Multiplexing AI Agents on Kubernetes"
 CHAPTERS = [
     ("01-architecture.md", 6000),
-    ("02-api-planes.md", 6600),
-    ("03-placement-consistency.md", 7500),
-    ("04-kubernetes-reconciliation.md", 6600),
-    ("05-node-supervision.md", 7200),
-    ("06-gvisor.md", 7200),
-    ("07-microvm.md", 7500),
-    ("08-snapshots-storage.md", 7500),
-    ("09-networking.md", 7500),
-    ("10-security-identity.md", 7500),
-    ("11-operations.md", 7200),
-    ("12-extension-contracts.md", 6300),
+    ("02-container-runtimes.md", 3300),
+    ("03-kubernetes-pod-journey.md", 2500),
+    ("04-pod-sandbox-linux.md", 3300),
+    ("05-api-planes.md", 6600),
+    ("06-placement-consistency.md", 7500),
+    ("07-kubernetes-reconciliation.md", 6600),
+    ("08-node-supervision.md", 7200),
+    ("09-actor-boot.md", 2900),
+    ("10-gvisor.md", 7200),
+    ("11-microvm.md", 7500),
+    ("12-snapshots-storage.md", 7500),
+    ("13-suspend-restore-syscalls.md", 2700),
+    ("14-networking.md", 7500),
+    ("15-security-identity.md", 7500),
+    ("16-operations.md", 7200),
+    ("17-extension-contracts.md", 6300),
 ]
-APPENDICES = ["appendix-a-kernel-audit.md", "appendix-b-source-inventory.md", "appendix-c-glossary.md"]
+APPENDICES = ["appendix-a-kernel-audit.md", "appendix-b-source-inventory.md", "appendix-c-glossary.md", "appendix-d-linux-primitives.md"]
 FENCE = re.compile(r"^```([^\n]*)\n(.*?)^```[ \t]*$", re.M | re.S)
 LINK = re.compile(r"(?<!!)\[([^\]\n]+)\]\(([^\s)]+)\)")
 
@@ -208,7 +213,6 @@ CSS = """
 html { scroll-behavior:smooth; }
 body { margin:0; color:var(--ink); background:#f2f5f7; font-family:Georgia,'Times New Roman',serif; font-size:18px; line-height:1.65; }
 .cover { background:#142c38; color:#f2faf9; padding:5rem 3rem; border-bottom:8px solid #6cd0be; }
-.cover .eyebrow { font-family:Arial,sans-serif; text-transform:uppercase; letter-spacing:.15em; font-size:.8rem; color:#a7dbd0; }
 .cover h1 { margin:.7rem 0; font-size:3.6rem; line-height:1.08; max-width:900px; color:inherit; }
 .cover p { max-width:850px; font-size:1.2rem; color:#d7e6e9; }
 .layout { display:grid; grid-template-columns:280px minmax(0,1020px); gap:30px; max-width:1400px; margin:auto; padding:30px 20px; align-items:start; }
@@ -247,7 +251,6 @@ figcaption { font:12px/1.4 Arial,sans-serif; text-align:center; color:var(--mute
   .cover { height:8.5in; padding:1.25in .2in 0; background:white; color:#173443; border:none; break-after:page; }
   .cover h1 {font-size:34pt;}
   .cover p {color:#34515d;font-size:17pt;}
-  .cover .eyebrow {color:#376875;}
   .layout {display:block;padding:0;max-width:none;}
   nav {display:none;}
   main {padding:0;box-shadow:none;}
@@ -282,7 +285,7 @@ def build(partial=False, lifecycle=False):
     validation_file = "lifecycle-validation.json" if lifecycle else "validation.json"
     render_file = "lifecycle-render-validation.json" if lifecycle else "render-validation.json"
     title = "An Actor's Complete Lifecycle: Deployment, gVisor, Snapshots, Suspend and Resume" if lifecycle else TITLE
-    cover_title = "An Actor's<br>Complete Lifecycle" if lifecycle else "Substrate<br>Internals"
+    cover_title = "An Actor's<br>Complete Lifecycle" if lifecycle else "Agent<br>Substrate"
     subtitle = "Deployment, gVisor, Snapshots,<br>Suspend and Resume" if lifecycle else "Sandboxing, Scheduling, and Multiplexing<br>AI Agents on Kubernetes"
     if lifecycle:
         report["document_kind"] = "standalone lifecycle section"
@@ -303,8 +306,8 @@ def build(partial=False, lifecycle=False):
     body = md.convert(render_source)
     page = f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{html.escape(title)}</title><meta name="author" content="Substrate Internals manuscript"><style>{CSS}</style></head>
-<body><header class="cover"><div class="eyebrow">Source-grounded systems engineering</div><h1>{cover_title}</h1>
+<title>{html.escape(title)}</title><meta name="author" content="Agent Substrate manuscript"><style>{CSS}</style></head>
+<body><header class="cover"><h1>{cover_title}</h1>
 <p>{subtitle}</p>
 <p class="meta">Implementation baseline v1.0.0, {BASELINE[:12]}<br>November 9, 2026</p></header>
 <div class="layout"><nav aria-label="Table of contents">{md.toc}</nav><main>

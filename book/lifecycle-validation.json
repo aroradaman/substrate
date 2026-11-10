@@ -21,8 +21,8 @@
   "render_validation": {
     "mermaid_version": "11.17.2",
     "mermaid_cli_version": "11.12.0",
-    "serialization_version": 2,
-    "browser_version": "Chrome/157.0.8103.39",
+    "serialization_version": 4,
+    "browser_version": "Chrome/157.0.8103.50",
     "figures": [
       {
         "id": "actor-lifecycle-01",
@@ -207,9 +207,9 @@
       "failed_images": 0,
       "failed_image_ids": []
     },
-    "pdf_sha256": "5a4afc556abf87200c413b3fb8b177bf30d72da13cee1675021c3892f46a7560",
+    "pdf_sha256": "a35d418b53efb8bf6169fa436cdec1e83d61608d07abf52271c80f70ec2ca0c4",
     "pdf_pages": 59,
-    "pdf_bytes": 1210103,
+    "pdf_bytes": 1201804,
     "preview_directory": "/var/folders/g7/lnw9y1dx4x77m1z16n7bhkhw0000gn/T/substrate-lifecycle-previews",
     "changed_during_render": []
   }

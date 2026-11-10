@@ -1,9 +1,0 @@
-flowchart TB
-    A[Actor sandbox] -. no storage credentials .-> L[atelet]
-    L -->|Unix RPC plus actor JWT| N[Node object-store plugin]
-    API[ate-api-server] -->|Copy or cleanup RPC| C[Control object-store plugin]
-    N -->|GCS per-actor exchange path| G[GCS]
-    N -->|Ambient plugin AWS credentials| S[S3-compatible service]
-    C --> G
-    C --> S
-    S --> R[RustFS in kind example]
